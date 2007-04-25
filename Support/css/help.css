@@ -1,0 +1,115 @@
+/* general stuff.. */
+body {
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+	font-size: 12px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+#tm_webpreview_header {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+
+	color: #FFFFFF;
+	font-size: 200%;
+}
+
+#tm_webpreview_header #gradient {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 2.6em;
+}
+
+#tm_webpreview_header #teaser {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	z-index: 2;
+
+	margin: 0;
+	padding: 0;
+	height: 2.4em;
+	width: 2.4em;
+}
+
+
+#tm_webpreview_header .headline {
+	position: relative;
+	z-index: 3;
+	margin: 0;
+
+	padding-left: 1em;
+	padding-top: 1.5ex;
+}
+
+#tm_webpreview_content {
+	padding: 0.5em 2em 0.5em 2em;
+	margin-top: 6em;
+}
+
+
+h1 {
+	font-size: 165%;
+	border-bottom: 3px solid #ccc;
+	padding-bottom: 4px;
+	margin-bottom: 2px;
+	color: #222;
+}
+
+h2,h3,h4,h5,h6 {
+	font-size: 135%;
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 4px;
+	margin-top: 26px;
+	color: #333;
+}
+
+/* formating the definition lists.. */
+dt {
+	font-weight: bold;
+	margin-top: 8px;
+	margin-bottom: 2px;
+	font-size: 115%;
+	border-top: 1px dashed #ccc;
+	padding-top: 10px;
+	color: #333;
+}
+/* no top-border for the first thing, so it looks
+	like there is a hr between all. */
+dl > dt:first-child {
+	border-top: 0;
+	padding-top: 0;
+}
+
+dd {
+	margin-left: 0px;
+	margin-top: 5px;
+}
+/* info fields: */
+div.target:before {
+	font-weight: bold;
+	content: "Target: ";
+}
+
+div.description {
+	margin-top: 4px;
+}
+
+div.keys:before {
+	font-weight: bold;
+	content: "Key Equivalent: ";
+}
+
+div.default:before {
+	font-weight: bold;
+	content: "Default: ";
+}
+

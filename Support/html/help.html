@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+	<head>
+		<title>ActionScript 3 &amp; Flex Help</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="../css/help.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<script src="../js/swfobject.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/help.js" type="text/javascript" charset="utf-8"></script>
+   	</head>
+
+   	<body>
+		<div id="tm_webpreview_header">
+			<img id="gradient" src="file:///Applications/TextMate.app/Contents/SharedSupport/Support/themes/default/images/header.png" alt="header">
+	    	<p class="headline">ActionScript 3 &amp; Flex Help</p>
+	    	<img id="teaser" src="file:///Applications/TextMate.app/Contents/SharedSupport/Support/themes/default/images/teaser.png" alt="teaser">
+		</div>
+		<div id="tm_webpreview_content">
+	  	<p>This document describes the commands of the TextMate ActionScript 3 &amp; Flex Help bundle, how to <a href="javascript:goTo(&quot;goto_installation&quot;);">install</a> the tools it uses, and how you can <a href="javascript:goTo(&quot;goto_conf&quot;);">configure</a> their behavior.
+		For general ActionScript 3 and Flex help and tutorials, you should consult the <a title="Adobe Developer Center"  <a href="javascript:TextMate.system('open http://www.adobe.com/devnet/', null);">Adobe developer website</a>.</p>
+		<h2>Table of contents</h2>
+		<p>
+			<ul style='list-style: none'>
+			<li>1 <a href="javascript:goTo(&quot;goto_installation&quot;);">Installation</a></li>
+			<li>2 <a href="javascript:goTo(&quot;goto_commands&quot;);">Commands</a></li>
+			<li>3 <a href="javascript:goTo(&quot;goto_conf&quot;);">Configuration Options</a></li>
+			<li>4 <a href="javascript:goTo(&quot;goto_known_issues&quot;);">Known Issues</a></li>
+			<li>5 <a href="javascript:goTo(&quot;goto_todo&quot;);">Todo</a></li>						
+			<li>6 <a href="javascript:goTo(&quot;goto_authors&quot;);">Author</a></li>
+			<li>6 <a href="javascript:goTo(&quot;goto_contributors&quot;);">Contributors</a></li>
+			</ul>
+		</p>
+		
+		<div id="goto_installation"/>		
+		<h2><a name="installation">Installation</a></h2>
+		
+		<p>To begin working with the bundle it is necessary to download and install the Flex SDK or Flex Builder from <a href="http://www.adobe.com/cfusion/tdrc/index.cfm?product=flex&loc=en%5Fus" title="Adobe Flex website">here</a> (the download is free but registration is required). If you do not place the Flex SDK in one of <a href="javascript:goTo(&quot;goto_tm_flex_path&quot;);" title="Flex install path directory list">these</a> directories then you need to set the TextMate shell variable <a href="javascript:goTo(&quot;goto_tm_flex_path&quot;);" title="Flex install path directory list">TM_FLEX_PATH</a> to your chosen directory.</p>
+		<p>Documentation is available <a href="http://www.adobe.com/support/documentation/en/flex/" title="Adobe Flex Documentation">here</a>, or a zip file containing all documentation can be <a title="Flex Documentation zip (48 MB)" href="http://www.adobe.com/go/flex_documentation_zip">downloaded here</a>. Once downloaded please rename the unzipped directory 'docs' and place it in your Flex SDK directory.</p>
+		<p>To dramatically speed up compilation you can use <a href="http://labs.adobe.com/wiki/index.php/Flex_Compiler_Shell" title="Adobe Flex Compiler Shell">fcsh</a> and <a href="http://iterm.sourceforge.net" title="SourceForge iTerm">iTerm</a>. The fcsh binary needs to be copied to your Flex SDK bin directory.</p>
+		<p>A full archive of flash players can be found <a href="http://www.adobe.com/cfusion/knowledgebase/index.cfm?id=tn_14266" title="Adobe Flash Player Archive">here</a>, please note that debugger versions of the player are needed to trace output and display runtime errors. <div id="flashversion">You do not have the Flash plugin installed.</div></p>
+		<script type="text/javascript">
+			writeVersionToElement('flashversion');
+		</script>
+		<p>Apollo build, package, and template bundle items are in progress. The Apollo SDK can be downloaded from Adobe labs <a href="http://www.adobe.com/cfusion/entitlement/index.cfm?e=labs_apollo" title="Adobe Labs - Apollo">here</a>. Once downloaded the simplest install solution is to merge the unzipped Apollo SDK directory with your Flex SDK. There are only two files with the same name when I did this - Version.as, and mxmlc.jar. In both instances use the newer files from the Apollo SDK. Or you can follow this... <a href="http://labs.adobe.com/wiki/index.php/Apollo:Documentation:Setting_up_your_development_environment" title="Adobe Setting up your Apollo development environment">Setting_up_your_development_environment</a></p>
+		
+		<div id="goto_commands"/>
+		<h2><a name="commands">Commands</a></h2>
+
+		<dl>
+
+			<dt><a name="auto_comp_fun">Auto Complete Function</a></dt>
+			<dd>
+				<div class="target">current word</div>
+				<div class="keys">&#x2325;&#x238B;</div>
+				<div class="description">
+                   Attempts to auto complete the function you have partially typed.
+				</div>
+			 </dd>
+	
+			 <dt><a name="checkout_as3_libs">Checkout AS3 Libs</a></dt>
+			 <dd>
+				<div class="description">
+					A svn utility to which will check out open source AS3 Libraries available from adobe. The command will target
+					<a href="javascript:goTo(&quot;goto_tm_as3_lib_path&quot;);">$TM_AS3_LIB_PATH</a>. The following libraries are checked out:
+				</div>
+			 </dd>
+			<p>
+				<ul>
+					<li><a href="http://code.google.com/p/as3corelib/">corelib</a> - General Utility classes and APIs</li>										
+					<li><a href="http://code.google.com/p/as3ebaylib/">Ebay</a> - Ebay API</a></li>
+					<li><a href="http://code.google.com/p/flexlib/">FlexLib</a> - Open Source Flex 2 Component Library.</li>
+					<li><a href="http://code.google.com/p/as3flexunitlib/">FlexUnit</a> - Flex and ActionScript 3 Unit Testing framework.</li>
+					<li><a href="http://code.google.com/p/as3flickrlib/">Flickr</a> - Flickr API</li>
+					<li><a href="http://code.google.com/p/as3mapprlib/">Mappr</a> - Mappr API</li>
+					<li><a href="http://code.google.com/p/as3odeolib/">Odeo</a> - Odeo Podcast API</li>
+					<li><a href="http://www.osflash.org/papervision3d/">PaperVision3D</a></li>
+					<li><a href="http://code.google.com/p/as3syndicationlib/">RSS and Atom Libraries</a> -  RSS and Atom Parsing APIs</li>
+					<li><a href="http://code.google.com/p/as3youtubelib/">YouTube</a> - YouTube Video API</li>
+				</ul>
+			</p>			
+
+			 <dt><a name="complie">Compile Current Class</a></dt>
+			 <dd>
+				<div class="target">selected file or the active file if it doesn't belong to a project</div>
+				<div class="keys">&#x21E7;F12</div>
+				<div class="description">
+					Compiles using mxmlc.
+				</div>
+			 </dd>
+
+			 <dt><a name="build">Build</a></dt>
+			 <dd>
+				<div class="target">active project</div>
+				<div class="keys">&#x21E7;F12 or &#x2318;B</div>
+				<div class="description">
+					Builds the currently active project. The project needs to be correctly configured for success. See the <a href="javascript:goTo(&quot;goto_conf&quot;);">configuration options</a> below.
+				</div>
+			 </dd>
+
+			<dt><a name="bundle_help">Bundle Help</a></dt>
+			<dd>
+				<div class="target">none</div>
+				<div class="keys">Help</div>
+				<div class="description">
+					Shows this help message.
+				</div>
+			</dd>
+
+			<dt><a name="get_set">Getter Setter</a></dt>
+			<dd>
+				<div class="target">Current Word</div>
+				<div class="keys">&#x2303; &#x2325; G</div>
+				<div class="description">
+					Creates a getter setter function from the selected word.
+				</div>
+			</dd>
+
+			<dt><a name="language_help">Help</a></dt>
+			<dd>
+   				<div class="target">Current Word</div>
+   				<div class="keys">&#x2303;H</div>
+   				<div class="description">
+					Searches the help files for the selected word. <a href="javascript:goTo(&quot;goto_tm_flex_path&quot;);">$TM_FLEX_PATH</a> may need to be specified.
+   				</div>
+			</dd>
+
+			<dt><a name="run_project">Run Project</a></dt>
+			<dd>
+				<div class="target">Current Project</div>
+				<div class="keys">&#x2318;&#x21A9;</div>
+				<div class="description">
+					See the <a href="javascript:goTo(&quot;goto_conf&quot;);">configuration options</a> below.
+				</div>
+			</dd>
+			
+		</dl>
+		
+		<div id="goto_conf"/>
+		<h2><a name="conf">Configuration Options</a></h2>
+		
+		<p>These environment variables allow you to define or customise the behavior of certain commands. For help on setting them up please see the <a href="help:anchor='environment_variables'%20bookID='TextMate%20Help'">TextMate manual</a>.</p>
+
+		<dl>
+			<div id="goto_tm_flex_path"/>
+			<dt><a name="tm_flex_path">$TM_FLEX_PATH</a></dt>
+			<dd>
+			   	<div class="description">
+					the path to your Flex SDK installation directory. There is no default, however the following directories are searched if the variable is not specified (the first match is used):
+				<ul style='list-style: none'>
+					<li><code>/Applications/flex_sdk_2</code></li>
+					<li><code>/Applications/FlexSDK2</code></li>
+					<li><code>/Applications/Flex</code></li>
+					<li><code>/Applications/FlexSDK2.0.1</code></li>
+					<li><code>/Applications/Adobe Flex Builder 2/Flex SDK 2</code></li>
+					<li><code>~/Flex</code></li>
+					<li><code>~/flex_sdk_2</code></li>
+					<li><code>/Developer/SDKs/flex_sdk_2</code></li>
+					<li><code>/Developer/SDKs/Flex</code></li>
+					<li><code>/Developer/SDKs/FlexSDK2</code></li>
+					<li><code>/Developer/Applications/Flex</code></li>
+					<li><code>/Developer/Applications/flex_sdk_2</code></li>
+					<li><code>/Developer/Applications/FlexSDK2</code></li>
+					<li><code>/Developer/Applications/Adobe Flex Builder 2/Flex SDK 2</code></li>
+				</ul>
+				Please note:<br>
+				If you have added <code>[flex_sdk]/bin</code> to your <a href="http://en.wikipedia.org/wiki/Environment_variable#Examples_of_UNIX_environment_variables" title="Wikipedia: Unix PATH">PATH</a> manually via the shell profile only a limited number of bundle commands can make use of it.</div>
+			</dd>
+			
+			<div id="goto_tm_flex_file_specs"/>
+			<dt><a name="tm_flex_file_specs">$TM_FLEX_FILE_SPECS</a></dt>
+			<dd>
+				<div class="default">None</div>
+				<div class="description">the project directory relative path to the file to compile. Ideally this should be a <a href="help:anchor='project_dependent_variables'%20bookID='TextMate%20Help'">Project Dependent Variable</a>.</div>
+			</dd>
+			
+			<div id="goto_tm_flex_output"/>
+			<dt><a name="tm_flex_output">$TM_FLEX_OUTPUT</a></dt>
+			<dd>
+				<div class="default"><code>main.swf</code></div>
+				<div class="description">the project directory relative path to the file to create when you compile. Ideally this should be a <a href="help:anchor='project_dependent_variables'%20bookID='TextMate%20Help'">Project Dependent Variable</a>.</div>
+			</dd>
+			
+			<div id="goto_tm_as3_lib_path"/>
+			<dt><a name="tm_as3_lib_path">$TM_AS3_LIB_PATH</a></dt>
+			<dd>
+			   <div class="default"><code>/Users/Shared/AS3Lib</code></div>
+			   <div class="description">the root path to your central ActionScript library.</div>
+			</dd>
+			
+			<div id="goto_tm_organization_name"/>
+			<dt><a name="goto_tm_organization_name">$TM_ORGANIZATION_NAME</a></dt>
+			<dd>
+			   <div class="default">None</div>
+			   <div class="description">Name used in copyright notices in most templates.</div>
+			</dd>
+
+		</dl>
+		
+		<div id="goto_known_issues"/>
+		<h2><a name="known_issues">Known issues</a></h2>
+		<ul>
+			<li>fsch doesn't accept escaped or quoted directory names properly, if they have space it fails. The only solution is to use paths that don't contain spaces.</li>
+			<li>Certain Bundle items won't work with Leopard as it doesn't support niutil.</li>
+		</ul>
+		
+		<div id="goto_todo"/>
+		<h2><a name="todo">TODO</a></h2>
+		<ul>
+			<li>asdoc generation</li>
+			<li>scope improvements to define autocompletion - functions and imports</li>
+			<li>cairngorm project template</li>
+			<li>integrate apollo - almost there...</li>
+			<li>swc compilation</li>
+			<li>expand <a href="javascript:goTo(&quot;goto_tm_as3_lib_path&quot;);">TM_AS3_LIB_PATH</a> to include multiple paths</li>
+			<li>add <a href="javascript:goTo(&quot;goto_tm_as3_lib_path&quot;);">TM_AS3_LIB_PATH</a> to the drop import command</li>
+			<li>merge the drop commands include and import and determine behavior depending on file contents.</li>
+			<li>improve asdoc newline to recognise which side of the doc block the cursor is and behave accordingly.</li>
+		</ul>
+		
+		<div id="goto_authors"/>
+		<h2><a name="authors">Author</a></h2>
+		<ul>
+		   <li title="email &gt; simon at helvector org">Simon Gregory</li>
+		</ul>
+		
+		<div id="goto_contributors"/>
+		<h2><a name="contributors">Contributors</a></h2>
+		Whether they know it or not...
+		<ul>
+			<li>Chris Jenkins</li>
+			<li><a href="http://blog.danielparnell.com/?p=22" title="blog.danielparnell.com" >Daniel Parnell</a></li>
+			<li><a href="http://blog.iconara.net/2007/02/23/textmate-flex-tips/" title="blog.iconara.net">Theo Hultberg</a></li>
+			<li><a href="http://www.dirtystylus.com/blog/" title="www.dirtystylus.com" >Mark Llobrera</a></li>
+		</ul>		
+		
+		<script type="text/javascript" charset="utf-8">
+			setup_external_links();
+		</script>
+
+   </body>
+</html>

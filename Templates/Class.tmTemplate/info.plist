@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>command</key>
+	<string>if test \! -e "$TM_NEW_FILE"; then
+	TM_YEAR=`date "+%Y"` \
+	TM_DATE=`date "+%d.%m.%Y"` \
+	TM_USERNAME=`niutil -readprop / /users/\$USER realname` \
+	a=`echo ${TM_NEW_FILE#$TM_PROJECT_DIRECTORY/src/}` \
+	b=`echo ${a%/$TM_NEW_FILE_BASENAME.as}` \
+	c=`echo ${b#/}` \
+	TM_CLASS_PATH=`echo $c | tr '/' '.'` \
+	perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' \
+      &lt; class.as &gt; "$TM_NEW_FILE";
+fi</string>
+	<key>extension</key>
+	<string>as</string>
+	<key>name</key>
+	<string>Class</string>
+	<key>uuid</key>
+	<string>CCC61EFE-DF2E-402A-936A-D155713B0D1A</string>
+</dict>
+</plist>

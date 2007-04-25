@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>command</key>
+	<string>echo "[Embed(source='$TM_DROPPED_FILE'\${1:, symbol='\${2:LinkageID}'})]"</string>
+	<key>documentExtensions</key>
+	<array>
+		<string>html</string>
+		<string>htm</string>
+		<string>rhtml</string>
+		<string>shtml</string>
+		<string>phtml</string>
+		<string>php</string>
+		<string>php3</string>
+		<string>php4</string>
+		<string>php5</string>
+		<string>inc</string>
+		<string>cfm</string>
+		<string>cfml</string>
+		<string>dbm</string>
+		<string>dbml</string>
+	</array>
+	<key>draggedFileExtensions</key>
+	<array>
+		<string>swf</string>
+	</array>
+	<key>name</key>
+	<string>[Embed]</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>uuid</key>
+	<string>2BF1AB42-B9E6-442C-A49F-B75D48376891</string>
+</dict>
+</plist>

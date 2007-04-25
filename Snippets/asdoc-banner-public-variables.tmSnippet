@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>//--------------------------------------
+//  PUBLIC VARIABLES
+//--------------------------------------</string>
+	<key>name</key>
+	<string>asdoc-banner-public-variables</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>tabTrigger</key>
+	<string>ban</string>
+	<key>uuid</key>
+	<string>1BEEBD59-C99E-4826-9208-26236CD0FC75</string>
+</dict>
+</plist>

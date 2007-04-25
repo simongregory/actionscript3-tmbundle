@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionScriptProperties mainApplicationPath="%{TM_NEW_FILE_BASENAME}.as" version="1">
+	<compiler 
+		additionalCompilerArguments="" 
+		copyDependentFiles="false" 
+		generateAccessible="false" 
+		htmlExpressInstall="true" 
+		htmlGenerate="true" 
+		htmlHistoryManagement="true" 
+		htmlPlayerVersion="9.0.0" 
+		htmlPlayerVersionCheck="true" 
+		outputFolderPath="deploy" 
+		sourceFolderPath="src" 
+		strict="true" 
+		warn="true">
+		<compilerSourcePath/>
+		<libraryPath>
+			<libraryPathEntry kind="3" linkType="2" path="${FRAMEWORKS}/libs/playerglobal.swc"/>
+			<libraryPathEntry kind="3" linkType="1" path="${FRAMEWORKS}/libs/utilities.swc"/>
+			<libraryPathEntry kind="3" linkType="1" path="${FRAMEWORKS}/libs/flex.swc" sourcepath="${FRAMEWORKS}/source"/>
+		</libraryPath>
+		<sourceAttachmentPath>
+			<sourceAttachmentPathEntry kind="3" linkType="1" path="${FRAMEWORKS}/libs/flex.swc" sourcepath="${FRAMEWORKS}/source"/>
+		</sourceAttachmentPath>
+	</compiler>
+	<applications>
+		<application path="%{TM_NEW_FILE_BASENAME}.as"/>
+	</applications>
+</actionScriptProperties>

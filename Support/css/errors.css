@@ -1,0 +1,32 @@
+body, p {
+	padding : 0px;
+	font-family: "Lucida Grande", sans-serif;
+	font-size: 10px;
+}
+
+a {
+	color: #00F;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #00F;
+	text-decoration: underline;
+}
+
+code {
+	font-family : "Monaco";
+	font-size: 10px;
+}
+
+div#err {
+	padding: 10px;
+	background-color: #FFCCCC;
+	border: 1px solid #999;
+}
+
+div#end {
+	padding: 10px;
+	background-color: #CCFFCC;
+	border: 1px solid #999;
+}

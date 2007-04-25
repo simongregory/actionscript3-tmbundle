@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>private function get ${1:name}($2) : ${3:void} {
+	$0${3/void$|(.+)/(?1:\treturn null;)/}
+}</string>
+	<key>name</key>
+	<string>private function get</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>tabTrigger</key>
+	<string>private</string>
+	<key>uuid</key>
+	<string>8D1D527C-511B-409A-87EE-E05801B2480D</string>
+</dict>
+</plist>

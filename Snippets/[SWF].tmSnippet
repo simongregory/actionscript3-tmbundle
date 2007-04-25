@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>${1://The [SWF] metadata tag can only be used in the main class of your project, after inital import statements.
+}[SWF(width='${2:550}', height='${3:400}', backgroundColor='#${4:FFFFFF}', frameRate='${5:60}')]</string>
+	<key>name</key>
+	<string>[SWF]</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>tabTrigger</key>
+	<string>swf</string>
+	<key>uuid</key>
+	<string>DDDD7C35-5E23-4EF1-91C2-19889C2E49E9</string>
+</dict>
+</plist>

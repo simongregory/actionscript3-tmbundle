@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh"
+
+require_cmd "ant"
+
+cd_to_tmproj_root;
+try_to_add_flex_bin_to_PATH;
+
+if [ -d "$TM_PROJECT_DIR/build/" ]; then
+	cd "$TM_PROJECT_DIR/build/"
+fi
+
+ant -find build.xml | pre
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>@b</string>
+	<key>name</key>
+	<string>Build (ant)</string>
+	<key>output</key>
+	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.mxml, source.actionscript3</string>
+	<key>uuid</key>
+	<string>424AF1F7-45B9-495D-8C87-77E96DF237A7</string>
+</dict>
+</plist>

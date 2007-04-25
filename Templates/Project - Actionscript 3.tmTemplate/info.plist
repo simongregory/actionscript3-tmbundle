@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>command</key>
+	<string>"./_create_as3_project.sh"</string>
+	<key>extension</key>
+	<string>as</string>
+	<key>name</key>
+	<string>Project - Actionscript 3</string>
+	<key>uuid</key>
+	<string>3D7C2305-CB80-4334-91E1-68FCF290B5EC</string>
+</dict>
+</plist>

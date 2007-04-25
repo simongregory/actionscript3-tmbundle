@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>command</key>
+	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh";
+
+CLASS=`basename "$TM_DROPPED_FILE" ".as"`
+FILE_PATH=`dirname "$TM_DROPPED_FILEPATH"`
+CLASS_PATH=`echo ${FILE_PATH#$TM_PROJECT_DIRECTORY/src/}`
+
+if [[ "$CLASS_PATH" == "$FILE_PATH" ]]; then
+	CLASS_PATH=`echo ${FILE_PATH#$TM_AS3_LIB_PATH/}`
+fi
+
+if [[ "$CLASS_PATH" == "$FILE_PATH" ]]; then
+	set_TM_FLEX_PATH
+	if [ "$?" == "0" ]; then
+		CLASS_PATH=`echo ${FILE_PATH#$TM_FLEX_PATH/frameworks/source/}`
+	fi
+fi
+
+CLASS_PATH=`echo "$CLASS_PATH" | tr '/' '.'`;
+echo "import $CLASS_PATH.$CLASS;"</string>
+	<key>documentExtensions</key>
+	<array>
+		<string>html</string>
+		<string>htm</string>
+		<string>rhtml</string>
+		<string>shtml</string>
+		<string>phtml</string>
+		<string>php</string>
+		<string>php3</string>
+		<string>php4</string>
+		<string>php5</string>
+		<string>inc</string>
+		<string>cfm</string>
+		<string>cfml</string>
+		<string>dbm</string>
+		<string>dbml</string>
+	</array>
+	<key>draggedFileExtensions</key>
+	<array>
+		<string>as</string>
+	</array>
+	<key>name</key>
+	<string>import</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>uuid</key>
+	<string>03D8DAA6-525C-45B3-98BD-CFB9A1AE6719</string>
+</dict>
+</plist>

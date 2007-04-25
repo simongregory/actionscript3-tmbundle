@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -wKU
+
+SUPPORT = ENV['TM_SUPPORT_PATH']
+DIALOG = SUPPORT + '/bin/tm_dialog'
+
+require SUPPORT + '/lib/escape'
+require SUPPORT + '/lib/exit_codes'
+require SUPPORT + '/lib/osx/plist'
+
+words = `grep "^$TM_CURRENT_WORD" "$TM_BUNDLE_PATH/support/data/as3_completions.txt"`.split("\n")
+TextMate.exit_show_tool_tip "No completion available" if words.empty?
+
+words = words.collect { |e| { 'title' =&gt; e } }
+plist = { 'menuItems' =&gt; words }.to_plist
+
+res = PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
+abort unless res.has_key? 'selectedMenuItem'
+
+snip = res['selectedMenuItem']['title'][ENV['TM_CURRENT_WORD'].length..-1]
+
+i=0
+print snip.gsub( /([a-zA-Z0-9\:\.]+?)([,\)])/ ) {
+	"${" + String(i+=1) + ":" + $1 + "}" + $2
+}</string>
+	<key>fallbackInput</key>
+	<string>word</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>~</string>
+	<key>name</key>
+	<string>Auto Complete Function</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>uuid</key>
+	<string>6B04E224-64D5-489F-B84A-2CCC416A0A82</string>
+</dict>
+</plist>

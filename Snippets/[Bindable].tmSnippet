@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>[Bindable${1:(event="${2:eventName}")}]</string>
+	<key>name</key>
+	<string>[Bindable]</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>tabTrigger</key>
+	<string>bindable</string>
+	<key>uuid</key>
+	<string>06CC1E94-E590-4A28-9501-C96D4AB36A7D</string>
+</dict>
+</plist>

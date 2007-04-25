@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>saveModifiedFiles</string>
+	<key>command</key>
+	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh";
+
+set_flex_path;
+
+redirect "tm-file://$TM_FLEX_PATH/docs/langref/index.html";</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string></string>
+	<key>name</key>
+	<string>Open AS3 Language Reference</string>
+	<key>output</key>
+	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.actionscript3, source.mxml</string>
+	<key>uuid</key>
+	<string>6300AF48-32A0-44F5-AB5F-CCD829BBBDBD</string>
+</dict>
+</plist>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#
+# See: http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&amp;file=security2_117_44.html
+#
+# START_UP_DISK=`exec osascript &lt;&lt;EOF
+# 	tell app "SystemUIServer"
+# 	   	activate	    
+# 		set startUpDisk to path to startup disk as string
+# 	end tell
+# EOF`
+#
+# TraceOutputFileName=${START_UP_DISK}Users:Shared:flashlog.txt
+
+echo "ErrorReportingEnable=1 
+TraceOutputFileEnable=1 
+MaxWarnings=0" &gt;"/Library/Application Support/Macromedia/mm.cfg"
+
+open -a "TextMate.app" "/Library/Application Support/Macromedia/mm.cfg"</string>
+	<key>input</key>
+	<string>none</string>
+	<key>name</key>
+	<string>Install mm.cfg</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>source.actionscript3, source.mxml</string>
+	<key>uuid</key>
+	<string>33712CB3-7897-4B93-821E-F35F8FD13BA2</string>
+</dict>
+</plist>

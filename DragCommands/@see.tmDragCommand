@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>command</key>
+	<string>CLASS=`basename "$TM_DROPPED_FILE" ".as"`
+FILE_PATH=`dirname "$TM_DROPPED_FILEPATH"`
+CLASS_PATH=`echo ${FILE_PATH#$TM_PROJECT_DIRECTORY/src/}`
+CLASS_PATH=`echo "$CLASS_PATH" | tr '/' '.'`;
+echo "@see $CLASS_PATH.$CLASS;\$0"</string>
+	<key>documentExtensions</key>
+	<array>
+		<string>html</string>
+		<string>htm</string>
+		<string>rhtml</string>
+		<string>shtml</string>
+		<string>phtml</string>
+		<string>php</string>
+		<string>php3</string>
+		<string>php4</string>
+		<string>php5</string>
+		<string>inc</string>
+		<string>cfm</string>
+		<string>cfml</string>
+		<string>dbm</string>
+		<string>dbml</string>
+	</array>
+	<key>draggedFileExtensions</key>
+	<array>
+		<string>as</string>
+		<string>mxml</string>
+	</array>
+	<key>name</key>
+	<string>@see</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
+	<key>scope</key>
+	<string>comment.block.actionscript3</string>
+	<key>uuid</key>
+	<string>DC4087FD-DA78-430E-A9F1-27FABDD521BF</string>
+</dict>
+</plist>

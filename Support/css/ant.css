@@ -1,0 +1,14 @@
+body {
+   font-family: "Lucida Grande", sans-serif;
+   font-size: 10px;
+}
+
+a {
+    color: #00F;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00F;
+    text-decoration: underline;
+}

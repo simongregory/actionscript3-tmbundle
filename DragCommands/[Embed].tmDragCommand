@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>command</key>
+	<string>echo "[Embed(source='$TM_DROPPED_FILE', fontFamily='\${1:fontVariable}')]"
+
+#[Embed(systemFont="Arial", fontName="myFont", mimeType="application/x-font-truetype")]</string>
+	<key>documentExtensions</key>
+	<array>
+		<string>html</string>
+		<string>htm</string>
+		<string>rhtml</string>
+		<string>shtml</string>
+		<string>phtml</string>
+		<string>php</string>
+		<string>php3</string>
+		<string>php4</string>
+		<string>php5</string>
+		<string>inc</string>
+		<string>cfm</string>
+		<string>cfml</string>
+		<string>dbm</string>
+		<string>dbml</string>
+	</array>
+	<key>draggedFileExtensions</key>
+	<array>
+		<string>ttf</string>
+	</array>
+	<key>name</key>
+	<string>[Embed]</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>uuid</key>
+	<string>7A4D3022-BBB0-49F4-894C-15CDAB496D7D</string>
+</dict>
+</plist>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>unicodeRange="U+0020-U+002F,U+003A-U+0040,U+005B-U+0060,U+007B-U+007E,U+02c6-U+02c6,U+02dc-U+02dc,U+2013-U+2014,U+2018-U+201a,U+201c-U+201e,U+2020-U+2022,U+2026,U+2030,U+2039-U+203a,U+20ac,U+2122"</string>
+	<key>name</key>
+	<string>unicodeRange Punctuation [!@#%...]</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>tabTrigger</key>
+	<string>unicode</string>
+	<key>uuid</key>
+	<string>04BD87C5-4476-4792-BB47-500312872294</string>
+</dict>
+</plist>
