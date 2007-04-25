@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>@author	${TM_USERNAME:`niutil -readprop / "/users/$USER" realname`}</string>
+	<key>name</key>
+	<string>@author</string>
+	<key>scope</key>
+	<string>comment.block.actionscript3</string>
+	<key>tabTrigger</key>
+	<string>@</string>
+	<key>uuid</key>
+	<string>14E8CBE3-0606-4D2C-A2BF-1B6756672CD2</string>
+</dict>
+</plist>

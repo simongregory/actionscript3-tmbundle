@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -23,26 +23,36 @@ require_var "TM_FLEX_OUTPUT" "$TM_FLEX_OUTPUT"
 
 ### Compile Starts here.
 
-html_header "Build (mxmlc)" "$TM_FLEX_FILE_SPECS";
+htmlHeader "Building $TM_FLEX_FILE_SPECS";
+importCSS "$TM_BUNDLE_SUPPORT/css/errors.css";
 
 mxmlc \
 	-sp+=$TM_AS3_LIB_PATH \
 	-file-specs="$TM_FLEX_FILE_SPECS" \
 	-output="$TM_FLEX_OUTPUT" \
 	-incremental=true \
-	-optimize=true 2&gt;&amp;1 | parse_mxmlc_out.rb
+	-optimize=true 2&gt;&amp;1 | parse_mxmlc_out.py;
 
-html_footer;</string>
+if [ "$?" == "0" ]; then
+
+	echo "&lt;p&gt;&lt;a href='tm-file://$TM_PROJECT_DIR/$TM_FLEX_OUTPUT'&gt;open $TM_FLEX_OUTPUT&lt;/a&gt;&lt;/p&gt;";
+	
+	#echo "&lt;p&gt;&lt;a href='javascript:TextMate.system(\"open \" + \"tm-file://$TM_PROJECT_DIR/$TM_FLEX_OUTPUT\", null);'&gt;open swf&lt;/a&gt;&lt;/p&gt;";
+	#open "$TM_FLEX_OUTPUT";
+	#delayedJS "5000" "window.
+fi
+
+htmlFooter;</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>@B</string>
+	<string>@b</string>
 	<key>name</key>
 	<string>Build (mxmlc)</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
-	<string>source.actionscript.3, text.xml.mxml, text.xml.flex-config</string>
+	<string>source.actionscript3, source.mxml</string>
 	<key>uuid</key>
 	<string>23635FAF-4191-46E1-B534-D03EBD87A3D3</string>
 </dict>

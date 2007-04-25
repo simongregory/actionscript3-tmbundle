@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -7,14 +7,54 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
+SUPPORT = ENV['TM_SUPPORT_PATH']
+DIALOG  = SUPPORT + '/bin/tm_dialog'
+HELPDIR = 'Applications/FlexSDK2.0.1/docs/langref/'
+HELPTOC = ENV['TM_BUNDLE_SUPPORT'] + '/data/flex_help_index.xml'
 
-line   = ENV['TM_CURRENT_LINE']
-word   = STDIN.read.strip
-import = SourceTools.find_package(word)
-import = "import #{import}" unless line =~ /^\s*import/
+require SUPPORT + '/lib/exit_codes'
+require SUPPORT + '/lib/escape'
+require SUPPORT + '/lib/osx/plist'
+require "rexml/document"
 
-print "#{import};"</string>
+#Search for
+WORD = STDIN.read.strip
+TextMate.exit_show_tool_tip("Please select a term to look up.") if WORD.empty?
+
+# Open TOC
+toc_lines = IO.readlines(HELPTOC)
+
+# find matching lines
+search_results = []
+toc_lines.each do |line|
+	search_results &lt;&lt; line.strip if line[/class=\"#{WORD}/]
+end
+
+# For each line add the path to the documentation.html file
+# (converting the string on the way)
+words = []
+
+search_results.each do |line|
+	xml_line = REXML::Document.new(line)
+	help_path = xml_line.root.attributes['path']
+	class_path = help_path.tr( '/', '.' ).chomp.sub('package-detail','*').sub('.html','')
+    words.push(class_path)
+end
+
+TextMate.exit_show_tool_tip "No completion available" if words.empty?
+
+words = words.collect { |e| { 'title' =&gt; e } }
+plist = { 'menuItems' =&gt; words }.to_plist
+
+res = PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
+
+TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
+
+print "${1:"+res['selectedMenuItem']['title']+";}$0"
+
+
+
+</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
@@ -22,11 +62,11 @@ print "#{import};"</string>
 	<key>keyEquivalent</key>
 	<string>~</string>
 	<key>name</key>
-	<string>Auto Complete Import</string>
+	<string>Auto Complete Imports</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript.3 meta.package.actionscript.3, source.actionscript.3.embedded.mxml</string>
+	<string>source.actionscript3</string>
 	<key>uuid</key>
 	<string>783EB172-C2CF-44B1-A804-E06EBA9EB6DB</string>
 </dict>

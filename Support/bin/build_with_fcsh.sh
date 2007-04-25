@@ -2,8 +2,6 @@
 
 . "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh";
 
-OS=$(defaults read /System/Library/CoreServices/SystemVersion ProductVersion)
-
 function checkForSpaces {
 	if [[ "$1" != "$2" ]]; then
 		echo "Warning fsch cannot handle paths containing a space."
@@ -54,12 +52,4 @@ checkForSpaces "$TM_PROJECT_DIR/$TM_FLEX_OUTPUT" "$MXMLC_O"
 checkForSpaces "$TM_PROJECT_DIR/$TM_FLEX_FILE_SPECS" "$MXMLC_FS"
 checkForSpaces "$TM_AS3_LIB_PATH" "$MXMLC_SP"
 
-MXMLC_ARGS="mxmlc -o=$MXMLC_O -file-specs=$MXMLC_FS"
-
-if [ "$TM_AS3_LIB_PATH" != "" ]; then
-	MXMLC_ARGS="$MXMLC_ARGS -sp+=$TM_AS3_LIB_PATH"
-fi
-	
-"$TM_BUNDLE_SUPPORT/lib/fcsh_terminal" "$FCSH" "$MXMLC_ARGS" >/dev/null; 
-
-exit 200;
+osascript "$TM_BUNDLE_SUPPORT/lib/fsch_iTerm.applescript" "$FCSH" "mxmlc -o=$MXMLC_O -file-specs=$MXMLC_FS -sp+=$TM_AS3_LIB_PATH"

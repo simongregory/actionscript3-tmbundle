@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>unicodeRange="U+0100-U+01FF,U+2000-U+206F,U+20A0-U+20CF,U+2100-U+2183"
+</string>
+	<key>name</key>
+	<string>unicodeRange Latin Extended A</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>tabTrigger</key>
+	<string>unicode</string>
+	<key>uuid</key>
+	<string>86A28B50-BB49-45BF-92BC-A0730129D261</string>
+</dict>
+</plist>

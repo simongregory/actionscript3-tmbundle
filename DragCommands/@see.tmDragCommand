@@ -4,11 +4,10 @@
 <dict>
 	<key>command</key>
 	<string>CLASS=`basename "$TM_DROPPED_FILE" ".as"`
-CLASS=`basename "$CLASS" ".mxml"`
 FILE_PATH=`dirname "$TM_DROPPED_FILEPATH"`
 CLASS_PATH=`echo ${FILE_PATH#$TM_PROJECT_DIRECTORY/src/}`
 CLASS_PATH=`echo "$CLASS_PATH" | tr '/' '.'`;
-echo -n "@see $CLASS_PATH.$CLASS;\$0"</string>
+echo "@see $CLASS_PATH.$CLASS;\$0"</string>
 	<key>documentExtensions</key>
 	<array>
 		<string>html</string>
@@ -36,7 +35,7 @@ echo -n "@see $CLASS_PATH.$CLASS;\$0"</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>comment.block.documentation.asdoc</string>
+	<string>comment.block.actionscript3</string>
 	<key>uuid</key>
 	<string>DC4087FD-DA78-430E-A9F1-27FABDD521BF</string>
 </dict>

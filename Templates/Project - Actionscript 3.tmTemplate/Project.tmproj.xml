@@ -24,11 +24,19 @@
 		</dict>		
 		<dict>
 			<key>name</key>
-			<string>lib</string>
+			<string>html-template</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>html-template</string>
+		</dict>		
+		<dict>
+			<key>name</key>
+			<string>library</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
 			<key>sourceDirectory</key>
-			<string>lib</string>
+			<string>library</string>
 		</dict>
 		<dict>
 			<key>expanded</key>
@@ -81,30 +89,6 @@
 			<string>deploy/${TM_NEW_FILE_BASENAME}.swf</string>
 			<key>variable</key>
 			<string>TM_FLEX_OUTPUT</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>value</key>
-			<string>/Developer/SDKs/flex_sdk_</string>
-			<key>variable</key>
-			<string>TM_FLEX_PATH</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>value</key>
-			<string>on</string>
-			<key>variable</key>
-			<string>TM_ASDOC_GENERATION</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>value</key>
-			<string>build/launch.sh</string>
-			<key>variable</key>
-			<string>TM_FLEX_RUN_FILE</string>
 		</dict>
 	</array>
 	<key>showFileHierarchyDrawer</key>

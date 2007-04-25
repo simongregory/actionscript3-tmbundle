@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>new DropShadowFilter(${1:${2:distance}, ${3:angle}, ${4:color}, ${5:alpha}, ${6:blurX}, ${6:blurY}, ${7:strength}, ${8:quality}})</string>
+	<key>name</key>
+	<string>DropShadowFilter</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>tabTrigger</key>
+	<string>new</string>
+	<key>uuid</key>
+	<string>BCA5469E-F069-4DB3-86ED-65D8DDC7B992</string>
+</dict>
+</plist>

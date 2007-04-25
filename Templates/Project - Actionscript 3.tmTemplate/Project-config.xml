@@ -5,33 +5,15 @@
 		<incremental>true</incremental>
 		<optimize>true</optimize>
 		<keep-generated-actionscript>false</keep-generated-actionscript>
-		<warn-no-constructor>true</warn-no-constructor>
-		<warn-no-explicit-super-call-in-constructor>true</warn-no-explicit-super-call-in-constructor>
-		<show-actionscript-warnings>true</show-actionscript-warnings>
-		<show-binding-warnings>true</show-binding-warnings>
-		<show-unused-type-selector-warnings>true</show-unused-type-selector-warnings>
+		<warn-no-constructor>false</warn-no-constructor>
+		<warn-no-explicit-super-call-in-constructor>false</warn-no-explicit-super-call-in-constructor>
 		<debug>false</debug>
-
-		<!-- Example library linkage -->
-
-		<!-- for swc's
-		<library-path append="true">
-			<path-element>../lib/bin/</path-element>
-		</library-path>
-		-->
-		
-		<!-- for src
-		<source-path append="true">
-			<path-element>../lib/src/</path-element>
-		</source-path>
-		-->
-		
 	</compiler>
 	<metadata>
-		<title>${TM_NEW_FILE_BASENAME} Application</title>
-		<description>${TM_NEW_FILE_BASENAME} Project</description>
+		<title>AS3 Application</title>
+		<description>AS3 Project</description>
 		<publisher>Made in TextMate</publisher>
-		<creator>${TM_FULLNAME}</creator>
+		<creator>${TM_USER_NAME}</creator>
 		<language>EN</language>
 	</metadata>
 	<raw-metadata></raw-metadata>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>. "$TM_SUPPORT_PATH/lib/html.sh";
+
+require_cmd "svn";
+
+htmlHeader "AS3 Library Checkout";
+
+TM_AS3_LIB_CHECKOUT_PATH="${TM_AS3_LIB_PATH:=/Users/Shared/AS3Lib}"
+
+CHECKOUT_OK=$(CocoaDialog ok-msgbox --text "Please Confirm AS3 Library Checkout" \
+    --informative-text "This command will check out various open source ActionScript libraries to the local direcotry $TM_AS3_LIB_CHECKOUT_PATH please confirm to start the download." \
+    --no-newline --float)
+
+if [ "$CHECKOUT_OK" == "2" ]; then
+    echo "Checkout cancelled."
+    delayedJS "10" "window.close()"
+else
+	"$TM_BUNDLE_SUPPORT/lib/as3_libs_checkout.sh" "$TM_AS3_LIB_CHECKOUT_PATH";
+fi
+
+htmlFooter;
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>name</key>
+	<string>Checkout AS3 Libs</string>
+	<key>output</key>
+	<string>showAsHTML</string>
+	<key>uuid</key>
+	<string>8AB5276C-F9B6-44A1-BFBF-6DF728B87742</string>
+</dict>
+</plist>

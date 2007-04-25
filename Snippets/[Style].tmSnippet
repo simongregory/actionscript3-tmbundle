@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>[Style(name="${1:styleName}",type="${2:dataType}")]</string>
+	<key>name</key>
+	<string>[Style]</string>
+	<key>scope</key>
+	<string>source.actionscript3</string>
+	<key>tabTrigger</key>
+	<string>style</string>
+	<key>uuid</key>
+	<string>3D44EF16-C9AA-4A82-AC6F-A89F10C598BE</string>
+</dict>
+</plist>

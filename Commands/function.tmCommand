@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/env ruby -wKU
-
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
-
-sb = SnippetBuilder.new
-
-method_name = STDIN.read
-
-TextMate.exit_insert_snippet( sb.i_method(method_name) ) if ENV['TM_SCOPE'] =~ /interface/
-TextMate.exit_insert_snippet( sb.method(method_name) )
-</string>
+	<string>cat &lt;&lt;SNIPPET
+function ${TM_SELECTED_TEXT:-$TM_CURRENT_WORD}(\$1) : \${2:void} {
+	\$0\${2/void\$|(.+)/(?1:return null;)/}
+}
+SNIPPET</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
@@ -25,11 +19,9 @@ TextMate.exit_insert_snippet( sb.method(method_name) )
 	<key>name</key>
 	<string>function</string>
 	<key>output</key>
-	<string>openAsNewDocument</string>
+	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript.3</string>
-	<key>tabTrigger</key>
-	<string>function</string>
+	<string>source.actionscript3</string>
 	<key>uuid</key>
 	<string>FD8D1AF2-5F4D-4DEC-8917-C5DC42B0D332</string>
 </dict>

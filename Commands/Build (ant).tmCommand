@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
-	<string>saveModifiedFiles</string>
+	<string>nop</string>
 	<key>command</key>
 	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh"
 
@@ -16,21 +16,18 @@ if [ -d "$TM_PROJECT_DIR/build/" ]; then
 	cd "$TM_PROJECT_DIR/build/"
 fi
 
-html_header "Building (ant)" "$TM_FLEX_FILE_SPECS";
-
-ant -find build.xml | parse_mxmlc_out.rb
-
-html_footer</string>
+ant -find build.xml | pre
+</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>@B</string>
+	<string>@b</string>
 	<key>name</key>
 	<string>Build (ant)</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
-	<string>source.actionscript.3, text.xml.mxml, text.xml.flex-config</string>
+	<string>source.mxml, source.actionscript3</string>
 	<key>uuid</key>
 	<string>424AF1F7-45B9-495D-8C87-77E96DF237A7</string>
 </dict>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>@includeExample	"${1:path/to/example/file.as|mxml}"</string>
+	<key>name</key>
+	<string>@includeExample</string>
+	<key>scope</key>
+	<string>comment.block.actionscript3</string>
+	<key>tabTrigger</key>
+	<string>@</string>
+	<key>uuid</key>
+	<string>18512B2A-B7E8-496E-BE2D-7EBB0CA8EFA5</string>
+</dict>
+</plist>

@@ -5,9 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string># .sol files are the flash equivalent of cookies.
-# You are likely to find them here ~/Library/Preferences/Macromedia/Flash Player/
-"$TM_BUNDLE_SUPPORT/lib/sol2xml.py" -x "$TM_FILEPATH"
+	<string>"$TM_BUNDLE_SUPPORT/lib/sol2xml.py" -x "$TM_FILEPATH"
 </string>
 	<key>input</key>
 	<string>none</string>
@@ -15,8 +13,6 @@
 	<string>Convert sol to xml</string>
 	<key>output</key>
 	<string>openAsNewDocument</string>
-	<key>scope</key>
-	<string>source.actionscript</string>
 	<key>uuid</key>
 	<string>4872BA09-26B1-4010-9B8D-9C5CE294E687</string>
 </dict>
