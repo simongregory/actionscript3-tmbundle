@@ -27,7 +27,7 @@ ant -find build.xml | pre
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
-	<string>source.mxml, source.actionscript3</string>
+	<string>text.xml.mxml, source.mxml, source.actionscript3</string>
 	<key>uuid</key>
 	<string>424AF1F7-45B9-495D-8C87-77E96DF237A7</string>
 </dict>
