@@ -11,6 +11,7 @@ SUPPORT = ENV['TM_SUPPORT_PATH']
 DIALOG  = SUPPORT + '/bin/tm_dialog'
 HELPDIR = 'Applications/FlexSDK2.0.1/docs/langref/'
 HELPTOC = ENV['TM_BUNDLE_SUPPORT'] + '/data/flex_help_index.xml'
+LINE    = ENV['TM_CURRENT_LINE']
 
 require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/escape'
@@ -43,16 +44,26 @@ end
 
 TextMate.exit_show_tool_tip "No completion available" if words.empty?
 
-words = words.collect { |e| { 'title' =&gt; e } }
-plist = { 'menuItems' =&gt; words }.to_plist
+if words.size &gt; 1
 
-res = PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
+	words = words.collect { |e| { 'title' =&gt; e } }
+	plist = { 'menuItems' =&gt; words }.to_plist
+	res = PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
 
-TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
+	TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
+	choice = res['selectedMenuItem']['title']
+	
+else
+	choice = words.pop
+end
 
-print "${1:"+res['selectedMenuItem']['title']+";}$0"
+if LINE[/import/]
+	print "${1:"+choice+";}$0"
+else
+	print "import ${1:"+choice+";}$0"
+end
 
-
+	
 
 </string>
 	<key>fallbackInput</key>
