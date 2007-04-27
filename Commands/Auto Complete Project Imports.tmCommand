@@ -34,24 +34,26 @@ if !WORD.empty?
     paths = paths.grep(/#{WORD}/)
 end
 
-# paths.each do |line|
-#   search_results &lt;&lt; line.strip if line[/#{WORD}/]
-# end
-
-
-paths = paths.collect { |e| { 'title' =&gt; e }}
-plist = { 'menuItems' =&gt; paths }.to_plist
-
-res = PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
-
-TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
-
-#if LINE.empty?
-if LINE[/import/]
-	print res['selectedMenuItem']['title']
+#When there are multiple matches as the user to pick.
+if paths.size &gt; 1
+    paths = paths.collect { |e| { 'title' =&gt; e }}
+    plist = { 'menuItems' =&gt; paths }.to_plist
+    res = PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
+    TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
+    choice = res['selectedMenuItem']['title']
 else
-	print "import " + res['selectedMenuItem']['title'] +";"
-end</string>
+  choice = paths.pop
+end
+
+#Check to see if the current line has the import statement already (this could do with a litte more sophistication, especially if the classpath already exists on the line).
+if LINE[/import/]
+	print choice
+else
+	print "import " + choice + ";"
+end
+
+
+</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
