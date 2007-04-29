@@ -10,7 +10,6 @@
 	<dict>
 		<key>completions</key>
 		<array>
-			<string>a</string>
 			<string>abs</string>
 			<string>ABSOLUTE</string>
 			<string>AbstractTarget</string>

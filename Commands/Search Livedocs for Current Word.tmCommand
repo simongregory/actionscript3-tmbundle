@@ -17,7 +17,7 @@ redirect "http://livedocs.adobe.com/cfusion/search/index.cfm?loc=en_US&amp;termP
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
-	<string>source.actionscript3, source.mxml</string>
+	<string>source.actionscript3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>A39534CA-026F-4ECE-8F05-F3D110A94A68</string>
 </dict>
