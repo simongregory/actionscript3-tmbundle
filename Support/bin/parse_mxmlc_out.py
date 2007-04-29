@@ -17,8 +17,12 @@ def exitSignal():
 		
 atexit.register( exitSignal )
 
+build_message=""
+
 while line:
-	line = line.rstrip()
+	line = line.hrstrip()
+	#This line strips the formatting added by ant.
+	line = line.replace( "[exec] ", "", 1 )
 	match = matcher.search(line)
 	if match:
 		errs = errs + 1
@@ -33,5 +37,5 @@ while line:
 	line = sys.stdin.readline()
 #end_while
 
-print '<br><div id="end"><code>Compilation complete, %s error(s) occured.</code></div>' % errs
+print '<br><div id="end"><code>Build complete, %s error(s) occured.</code></div>' % errs
 	
