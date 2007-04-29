@@ -17,7 +17,7 @@ redirect "tm-file://$TM_BUNDLE_SUPPORT/html/help.html";</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
-	<string>source.actionscript3, source.mxml, text.xml.mxml</string>
+	<string>source.actionscript3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>581182B6-96D0-43DD-A80A-FFBD84DE9D95</string>
 </dict>
