@@ -23,7 +23,7 @@ require_var "TM_FLEX_OUTPUT" "$TM_FLEX_OUTPUT"
 
 ### Compile Starts here.
 
-htmlHeader "Building $TM_FLEX_FILE_SPECS";
+htmlHeader "Building $TM_FLEX_FILE_SPECS (mxmlc)";
 importCSS "$TM_BUNDLE_SUPPORT/css/errors.css";
 
 mxmlc \

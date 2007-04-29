@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
-	<string>nop</string>
+	<string>saveModifiedFiles</string>
 	<key>command</key>
 	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh"
 
@@ -16,8 +16,10 @@ if [ -d "$TM_PROJECT_DIR/build/" ]; then
 	cd "$TM_PROJECT_DIR/build/"
 fi
 
-ant -find build.xml | pre
-</string>
+htmlHeader "Building $TM_FLEX_FILE_SPECS (ant)";
+importCSS "$TM_BUNDLE_SUPPORT/css/errors.css";
+
+ant -find build.xml | parse_mxmlc_out.py</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
