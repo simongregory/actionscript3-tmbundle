@@ -26,8 +26,7 @@
 			<li>2 <a href="javascript:goTo(&quot;goto_commands&quot;);">Commands</a></li>
 			<li>3 <a href="javascript:goTo(&quot;goto_conf&quot;);">Configuration Options</a></li>
 			<li>4 <a href="javascript:goTo(&quot;goto_known_issues&quot;);">Known Issues</a></li>
-			<li>5 <a href="javascript:goTo(&quot;goto_todo&quot;);">Todo</a></li>						
-			<li>6 <a href="javascript:goTo(&quot;goto_authors&quot;);">Author</a></li>
+			<li>5 <a href="javascript:goTo(&quot;goto_todo&quot;);">Todo</a></li>
 			<li>6 <a href="javascript:goTo(&quot;goto_contributors&quot;);">Contributors</a></li>
 			</ul>
 		</p>
@@ -35,15 +34,13 @@
 		<div id="goto_installation"/>		
 		<h2><a name="installation">Installation</a></h2>
 		
-		<p>To begin working with the bundle it is necessary to download and install the Flex SDK or Flex Builder from <a href="http://www.adobe.com/cfusion/tdrc/index.cfm?product=flex&loc=en%5Fus" title="Adobe Flex website">here</a> (the download is free but registration is required). If you do not place the Flex SDK in one of <a href="javascript:goTo(&quot;goto_tm_flex_path&quot;);" title="Flex install path directory list">these</a> directories then you need to set the TextMate shell variable <a href="javascript:goTo(&quot;goto_tm_flex_path&quot;);" title="Flex install path directory list">TM_FLEX_PATH</a> to your chosen directory.</p>
+		<p>To begin working with the bundle it is necessary to download and install the Flex SDK or Flex Builder from <a href="http://www.adobe.com/products/flex/downloads/" title="Adobe Flex Website">here</a>. If you do not place the Flex SDK in one of <a href="javascript:goTo(&quot;goto_tm_flex_path&quot;);" title="Flex install path directory list">these</a> directories then you need to set the TextMate shell variable <a href="javascript:goTo(&quot;goto_tm_flex_path&quot;);" title="Flex install path directory list">TM_FLEX_PATH</a> to your chosen directory.</p>
 		<p>Documentation is available <a href="http://www.adobe.com/support/documentation/en/flex/" title="Adobe Flex Documentation">here</a>, or a zip file containing all documentation can be <a title="Flex Documentation zip (48 MB)" href="http://www.adobe.com/go/flex_documentation_zip">downloaded here</a>. Once downloaded please rename the unzipped directory 'docs' and place it in your Flex SDK directory.</p>
-		<p>To dramatically speed up compilation you can use <a href="http://labs.adobe.com/wiki/index.php/Flex_Compiler_Shell" title="Adobe Flex Compiler Shell">fcsh</a> and <a href="http://iterm.sourceforge.net" title="SourceForge iTerm">iTerm</a>. The fcsh binary needs to be copied to your Flex SDK bin directory.</p>
-		<p>A full archive of flash players can be found <a href="http://www.adobe.com/cfusion/knowledgebase/index.cfm?id=tn_14266" title="Adobe Flash Player Archive">here</a>, please note that debugger versions of the player are needed to trace output and display runtime errors. <div id="flashversion">You do not have the Flash plugin installed.</div></p>
-		<script type="text/javascript">
-			writeVersionToElement('flashversion');
-		</script>
+		<p>To dramatically speed up compilation you can use <a href="http://labs.adobe.com/wiki/index.php/Flex_Compiler_Shell" title="Adobe Flex Compiler Shell">fcsh</a> and <a href="http://iterm.sourceforge.net" title="SourceForge iTerm">iTerm</a>. The fcsh binary needs to be copied to your Flex SDK bin directory.</p>		 
+		<p><div id="flashversion">You do not have the Flash plugin installed.</div></p>
+		<p> A full archive of flash players can be found <a href="http://www.adobe.com/cfusion/knowledgebase/index.cfm?id=tn_14266" title="Adobe Flash Player Archive">here</a>, please note that debugger versions of the player are needed to trace output and display runtime errors.</p>		
 		<p>Apollo build, package, and template bundle items are in progress. The Apollo SDK can be downloaded from Adobe labs <a href="http://www.adobe.com/cfusion/entitlement/index.cfm?e=labs_apollo" title="Adobe Labs - Apollo">here</a>. Once downloaded the simplest install solution is to merge the unzipped Apollo SDK directory with your Flex SDK. There are only two files with the same name when I did this - Version.as, and mxmlc.jar. In both instances use the newer files from the Apollo SDK. Or you can follow this... <a href="http://labs.adobe.com/wiki/index.php/Apollo:Documentation:Setting_up_your_development_environment" title="Adobe Setting up your Apollo development environment">Setting_up_your_development_environment</a></p>
-		
+		<script type="text/javascript"> writeVersionToElement('flashversion'); </script>
 		<div id="goto_commands"/>
 		<h2><a name="commands">Commands</a></h2>
 
@@ -217,17 +214,12 @@
 			<li>merge the drop commands include and import and determine behavior depending on file contents.</li>
 			<li>improve asdoc newline to recognise which side of the doc block the cursor is and behave accordingly.</li>
 		</ul>
-		
-		<div id="goto_authors"/>
-		<h2><a name="authors">Author</a></h2>
-		<ul>
-		   <li title="email &gt; simon at helvector org">Simon Gregory</li>
-		</ul>
-		
+				
 		<div id="goto_contributors"/>
 		<h2><a name="contributors">Contributors</a></h2>
 		Whether they know it or not...
 		<ul>
+			<li title="email &gt; simon at helvector org">Simon Gregory</li>
 			<li>Chris Jenkins</li>
 			<li><a href="http://blog.danielparnell.com/?p=22" title="blog.danielparnell.com" >Daniel Parnell</a></li>
 			<li><a href="http://blog.iconara.net/2007/02/23/textmate-flex-tips/" title="blog.iconara.net">Theo Hultberg</a></li>
