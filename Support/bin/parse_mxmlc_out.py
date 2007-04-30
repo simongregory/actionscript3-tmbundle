@@ -20,7 +20,7 @@ atexit.register( exitSignal )
 build_message=""
 
 while line:
-	line = line.hrstrip()
+	line = line.rstrip()
 	#This line strips the formatting added by ant.
 	line = line.replace( "[exec] ", "", 1 )
 	match = matcher.search(line)
