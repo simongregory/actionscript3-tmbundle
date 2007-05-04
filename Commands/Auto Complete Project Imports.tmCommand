@@ -35,7 +35,9 @@ if !WORD.empty?
 end
 
 #When there are multiple matches as the user to pick.
-if paths.size &gt; 1
+if paths.size == 0
+   TextMate.exit_show_tool_tip "No completion available"
+elsif paths.size &gt; 1
     paths = paths.collect { |e| { 'title' =&gt; e }}
     plist = { 'menuItems' =&gt; paths }.to_plist
     res = PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
