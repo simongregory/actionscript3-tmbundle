@@ -18,6 +18,16 @@ function checkForSpaces {
 	fi	
 }
 
+if find_app >/dev/null iTerm; then
+	#All is ok.
+	do_nothing_variable="TODO remove this by checking the negative"
+else
+	echo "This command requires iTerm to be installed."
+	echo "See bundle help for more information."
+	exit 206;
+fi
+
+
 #search for the flex install directory.
 set_flex_path -t
 
