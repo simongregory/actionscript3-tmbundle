@@ -14,7 +14,7 @@ htmlHeader "AS3 Library Checkout";
 TM_AS3_LIB_CHECKOUT_PATH="${TM_AS3_LIB_PATH:=/Users/Shared/AS3Lib}"
 
 CHECKOUT_OK=$(CocoaDialog ok-msgbox --text "Please Confirm AS3 Library Checkout" \
-    --informative-text "This command will check out various open source ActionScript libraries to the local direcotry $TM_AS3_LIB_CHECKOUT_PATH please confirm to start the download." \
+    --informative-text "This command will check out various open source ActionScript libraries to the local directory $TM_AS3_LIB_CHECKOUT_PATH please confirm to start the download." \
     --no-newline --float)
 
 if [ "$CHECKOUT_OK" == "2" ]; then
