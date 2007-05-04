@@ -37,7 +37,7 @@ htmlFooter;
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>$</string>
+	<string>@r</string>
 	<key>name</key>
 	<string>Compile and Run Project...</string>
 	<key>output</key>
