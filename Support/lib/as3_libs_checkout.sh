@@ -69,6 +69,33 @@ svn checkout http://flexlib.googlecode.com/svn/trunk/src/flexlib/ flexlib/
 cd "$AS3_LIB/"
 mkdir -p "org/papervision3d"
 echo "</pre><a href="http://www.osflash.org/papervision3d/">PaperVision3D</a><pre>"
-svn checkout http://svn1.cvsdude.com/osflash/papervision3d/as3/trunk/src/org/papervision3d org/papervision3d/
+svn checkout http://svn1.cvsdude.com/osflash/papervision3d/as3/trunk/src/org/papervision3d/ org/papervision3d/
+
+#--------- FAR
+
+mkdir -p "org/vanrijkom"
+echo "</pre><a href="http://code.google.com/p/vanrijkom-flashlibs/">FAR (Flash Archive)</a><pre>"
+svn checkout http://vanrijkom-flashlibs.googlecode.com/svn/trunk/org/vanrijkom org/vanrijkom/
+
+#-------- Tweener
+
+mkdir -p "caurina"
+echo "</pre><a href='http://code.google.com/p/tweener/'>Tweener</a><pre>"
+svn checkout http://tweener.googlecode.com/svn/trunk/as3/caurina/ caurina
+
+#-------- Vegas
+
+echo "</pre><a href='http://www.osflash.org/vegas'>Vegas</a><pre>"
+
+mkdir -p "asgard"
+mkdir -p "net/ekameleon"
+mkdir -p "pegas"
+mkdir -p "vegas"
+
+svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/asgard/ asgard
+svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/net/ekameleon/ net/ekameleon
+svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/pegas/ pegas
+svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/vegas/ vegas
+#svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/VEGAS.as
 
 echo "Checkout complete."

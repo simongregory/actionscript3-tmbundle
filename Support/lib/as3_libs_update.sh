@@ -60,4 +60,38 @@ cd "$AS3_LIB/org/papervision3d"
 svn update
 echo "</pre>"
 
+#-------- FAR falsh archive
+echo "<br>FAR..<pre>"
+cd "$AS3_LIB/org/vanrijkom"
+svn update
+echo "</pre>"
+
+#-------- Tweener flash archive
+echo "<br>Tweener..<pre>"
+cd "$AS3_LIB/caurina"
+svn update
+echo "</pre>"
+
+#-------- Vegas
+
+echo "<br>Asgard..<pre>"
+cd "$AS3_LIB/asgard"
+svn update
+echo "</pre>"
+
+echo "<br>Ekameleon..<pre>"
+cd "$AS3_LIB/net/ekameleon"
+svn update
+echo "</pre>"
+
+echo "<br>Pegas..<pre>"
+cd "$AS3_LIB/pegas"
+svn update
+echo "</pre>"
+
+echo "<br>Vegas..<pre>"
+cd "$AS3_LIB/vegas"
+svn update
+echo "</pre>"
+
 echo "<br><br>Update complete."
