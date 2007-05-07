@@ -3,8 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>command</key>
-	<string>CONVERTED_XML=$("$TM_BUNDLE_SUPPORT/lib/sol2xml.py" -x "$TM_DROPPED_FILE")
-
+	<string># .sol are flash cookies.
+CONVERTED_XML=$("$TM_BUNDLE_SUPPORT/lib/sol2xml.py" -x "$TM_DROPPED_FILE")
 echo "$CONVERTED_XML"
 </string>
 	<key>documentExtensions</key>
