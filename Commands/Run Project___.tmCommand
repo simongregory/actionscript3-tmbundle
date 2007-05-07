@@ -25,13 +25,13 @@ fi</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>@</string>
+	<string>@r</string>
 	<key>name</key>
 	<string>Run Project...</string>
 	<key>output</key>
 	<string>showAsTooltip</string>
 	<key>scope</key>
-	<string>source.actionscript3, text.xml, text.html</string>
+	<string>source.actionscript3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>72E85582-E1CC-4142-94DC-51566510D868</string>
 </dict>
