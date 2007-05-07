@@ -5,7 +5,8 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>"$TM_BUNDLE_SUPPORT/lib/sol2xml.py" -x "$TM_FILEPATH"
+	<string># .sol are flash cookies.
+"$TM_BUNDLE_SUPPORT/lib/sol2xml.py" -x "$TM_FILEPATH"
 </string>
 	<key>input</key>
 	<string>none</string>
