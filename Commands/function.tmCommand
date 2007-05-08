@@ -6,7 +6,7 @@
 	<string>nop</string>
 	<key>command</key>
 	<string>cat &lt;&lt;SNIPPET
-function ${TM_SELECTED_TEXT:-$TM_CURRENT_WORD}(\$1) : \${2:void} {
+public function ${TM_SELECTED_TEXT:-$TM_CURRENT_WORD}(\$1) : \${2:void} {
 	\$0\${2/void\$|(.+)/(?1:return null;)/}
 }
 SNIPPET</string>
