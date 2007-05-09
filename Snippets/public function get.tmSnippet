@@ -3,9 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>public function get ${1:name}($2) : ${3:void} {
-	$0${3/void$|(.+)/(?1:\treturn null;)/}
-}</string>
+	<string>public function get ${1:name}() : ${2:Object} { return \$$1; }</string>
 	<key>name</key>
 	<string>public function get</string>
 	<key>scope</key>

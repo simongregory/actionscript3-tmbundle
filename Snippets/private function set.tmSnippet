@@ -3,9 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>private function set ${1:name}($2) : ${3:void} {
-	$0${3/void$|(.+)/(?1:\treturn null;)/}
-}</string>
+	<string>public function set ${1:name}(value:${2:Object}) : void { $0\$$1 = value; }</string>
 	<key>name</key>
 	<string>private function set</string>
 	<key>scope</key>

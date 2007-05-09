@@ -4,7 +4,7 @@
 <dict>
 	<key>content</key>
 	<string>private function ${1:name}($2) : ${3:void} {
-	$0${3/void$|(.+)/(?1:\treturn null;)/}
+	$0${3/void$|(.+)/(?1:return null;)/}
 }</string>
 	<key>name</key>
 	<string>private function</string>
