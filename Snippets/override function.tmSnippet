@@ -3,8 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>override function ${1:functionName}($2) : ${3:void} {
-	$0
+	<string>override ${1:public} function ${2:methodName}($3) : ${4:void} {
+	$0${4/void$|(.+)/(?1:return null;)/}
 }</string>
 	<key>name</key>
 	<string>override function</string>

@@ -1737,6 +1737,7 @@
 			<string>OVER</string>
 			<string>OVERLAY</string>
 			<string>OVERLAY_CREATED</string>
+			<string>override</string>
 			<string>overrides</string>
 			<string>owner</string>
 			<string>owns</string>
