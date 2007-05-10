@@ -8,7 +8,7 @@
 	<key>name</key>
 	<string>[InstanceType]</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>instancetype</string>
 	<key>uuid</key>

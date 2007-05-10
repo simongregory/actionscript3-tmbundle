@@ -40,7 +40,7 @@ print snip.gsub( /([a-zA-Z0-9\:\.]+?)([,\)])/ ) {
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>uuid</key>
 	<string>6B04E224-64D5-489F-B84A-2CCC416A0A82</string>
 </dict>

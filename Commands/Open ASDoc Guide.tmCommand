@@ -15,7 +15,7 @@
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
-	<string>source.actionscript3, text.xml.mxml</string>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>D79B91DD-7D2F-4D23-93DD-E717516392C3</string>
 </dict>

@@ -28,7 +28,7 @@ exit_show_html;</string>
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
-	<string>source.actionscript3, text.xml.mxml</string>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>D5F09730-851C-42B9-B06E-9F89F3226E2D</string>
 </dict>

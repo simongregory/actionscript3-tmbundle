@@ -20,11 +20,12 @@
 		</dict>
 	</array>
 	<key>keyEquivalent</key>
-	<string>$@</string>
+	<string>$@
+</string>
 	<key>name</key>
 	<string>Move to EOL and Insert ";" + LF</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>uuid</key>
 	<string>A72CEE5D-1BE8-4F26-AFB3-F0D732BEF3C4</string>
 </dict>

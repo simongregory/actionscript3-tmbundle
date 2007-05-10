@@ -11,7 +11,7 @@
 	<key>name</key>
 	<string>asdoc-comment block</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>doc</string>
 	<key>uuid</key>

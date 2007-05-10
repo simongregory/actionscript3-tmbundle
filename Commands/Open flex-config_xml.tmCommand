@@ -17,7 +17,7 @@ open -a "TextMate.app" "$TM_FLEX_PATH/frameworks/flex-config.xml";</string>
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
-	<string>source.actionscript3, text.xml.mxml</string>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>DF451360-0CEB-4319-9F92-C10C2E982E86</string>
 </dict>

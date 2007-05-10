@@ -48,7 +48,7 @@ echo "import $CLASS_PATH.$CLASS;"</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>uuid</key>
 	<string>03D8DAA6-525C-45B3-98BD-CFB9A1AE6719</string>
 </dict>

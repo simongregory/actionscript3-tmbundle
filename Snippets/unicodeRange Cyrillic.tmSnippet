@@ -9,7 +9,7 @@
 	<key>name</key>
 	<string>unicodeRange Cyrillic</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>unicode</string>
 	<key>uuid</key>

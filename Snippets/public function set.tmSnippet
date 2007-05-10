@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>public function set</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>public</string>
 	<key>uuid</key>

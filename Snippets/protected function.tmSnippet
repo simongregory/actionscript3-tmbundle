@@ -9,7 +9,7 @@
 	<key>name</key>
 	<string>protected function</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>protected</string>
 	<key>uuid</key>

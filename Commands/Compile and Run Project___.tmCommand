@@ -43,7 +43,7 @@ htmlFooter;
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
-	<string>source.actionscript3, text.xml.mxml</string>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>11A21195-0847-4E4D-B197-F998EE8CCEB2</string>
 </dict>

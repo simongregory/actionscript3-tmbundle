@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>@eventType</string>
 	<key>scope</key>
-	<string>comment.block.actionscript3</string>
+	<string>comment.block.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>@</string>
 	<key>uuid</key>
