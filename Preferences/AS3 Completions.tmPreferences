@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>AS3 Completions</string>
+	<string>ActionScript 3 Completions</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>settings</key>
