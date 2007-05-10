@@ -15,13 +15,14 @@ SNIPPET</string>
 	<key>input</key>
 	<string>selection</string>
 	<key>keyEquivalent</key>
-	<string>$</string>
+	<string>$
+</string>
 	<key>name</key>
 	<string>function</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>uuid</key>
 	<string>FD8D1AF2-5F4D-4DEC-8917-C5DC42B0D332</string>
 </dict>

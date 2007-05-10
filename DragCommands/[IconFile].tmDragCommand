@@ -33,7 +33,7 @@
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>uuid</key>
 	<string>EBAF8E27-8F48-428C-BF88-F0D37F4DC761</string>
 </dict>

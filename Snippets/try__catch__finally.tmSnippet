@@ -13,7 +13,7 @@
 	<key>name</key>
 	<string>try..catch..finally</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>try</string>
 	<key>uuid</key>

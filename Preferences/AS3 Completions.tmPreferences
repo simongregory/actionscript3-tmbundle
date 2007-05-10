@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>AS3 Completions</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>settings</key>
 	<dict>
 		<key>completions</key>

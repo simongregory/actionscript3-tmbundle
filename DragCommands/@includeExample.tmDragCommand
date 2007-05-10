@@ -31,7 +31,7 @@
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>comment.block.actionscript3</string>
+	<string>comment.block.actionscript.3</string>
 	<key>uuid</key>
 	<string>7DDB29FE-E26D-40C7-AD31-64E0C0E9567C</string>
 </dict>

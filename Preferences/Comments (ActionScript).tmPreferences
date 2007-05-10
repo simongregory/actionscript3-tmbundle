@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Comments (ActionScript)</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>

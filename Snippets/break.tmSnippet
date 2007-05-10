@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>break</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>break</string>
 	<key>uuid</key>

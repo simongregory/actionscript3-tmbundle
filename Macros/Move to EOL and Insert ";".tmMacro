@@ -16,11 +16,12 @@
 		</dict>
 	</array>
 	<key>keyEquivalent</key>
-	<string>~@</string>
+	<string>~@
+</string>
 	<key>name</key>
 	<string>Move to EOL and Insert ";"</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>uuid</key>
 	<string>A7E90461-DBAC-40EF-983A-B81C323E86D5</string>
 </dict>

@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>[Event]</string>
 	<key>scope</key>
-	<string>source.actionscript3</string>
+	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>event</string>
 	<key>uuid</key>
