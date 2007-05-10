@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Smart Typing Pairs</string>
 	<key>scope</key>
-	<string>source.mxml</string>
+	<string>source.actionscript.3</string>
 	<key>settings</key>
 	<dict>
 		<key>smartTypingPairs</key>
