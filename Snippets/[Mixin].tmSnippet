@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>${1:/*The undocumented [Mixin] tag invokes static init() which is user defined as soon as the class loads/*
+}[Mixin]$0</string>
+	<key>name</key>
+	<string>[Mixin]</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>mixin</string>
+	<key>uuid</key>
+	<string>86A72FC0-7E25-4599-998B-762BCE5FD220</string>
+</dict>
+</plist>

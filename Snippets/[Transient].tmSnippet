@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>${1://The [Transient] metadata tag marks properties which should be skipped when serializing data.
+}[Transient]$0</string>
+	<key>name</key>
+	<string>[Transient]</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>transient</string>
+	<key>uuid</key>
+	<string>3ADAE4E4-9E0A-4886-938F-1A0969818FBF</string>
+</dict>
+</plist>
