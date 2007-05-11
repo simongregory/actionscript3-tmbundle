@@ -4,7 +4,7 @@
 <dict>
 	<key>fileTypes</key>
 	<array>
-		<string>as3</string>
+		<string>as</string>
 	</array>
 	<key>firstLineMatch</key>
 	<string>\bAS3\b</string>
