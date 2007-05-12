@@ -5,7 +5,7 @@
 	<key>content</key>
 	<string>unicodeRange="U+0030-U+0039,U+002E-U+002E"</string>
 	<key>name</key>
-	<string>unicodeRange Numerals [0...9]</string>
+	<string>Numerals [0-9]</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

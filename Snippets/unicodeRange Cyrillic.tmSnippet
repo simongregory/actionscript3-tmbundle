@@ -7,7 +7,7 @@
 
 </string>
 	<key>name</key>
-	<string>unicodeRange Cyrillic</string>
+	<string>Cyrillic</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

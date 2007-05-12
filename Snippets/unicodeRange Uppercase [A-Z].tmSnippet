@@ -5,7 +5,7 @@
 	<key>content</key>
 	<string>unicodeRange="U+0020,U+0041-U+005A"</string>
 	<key>name</key>
-	<string>unicodeRange Uppercase [A-Z]</string>
+	<string>Uppercase [A-Z]</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

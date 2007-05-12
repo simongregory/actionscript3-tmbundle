@@ -6,7 +6,7 @@
 	<string>unicodeRange="U+0020,U+0061-U+007A"
 </string>
 	<key>name</key>
-	<string>unicodeRange Lowercase [a-z]</string>
+	<string>Lowercase [a-z]</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

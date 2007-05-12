@@ -5,7 +5,7 @@
 	<key>content</key>
 	<string>unicodeRange="U+3000-U+303F,U+3041-U+309F,U+30A0-U+30FF,U+FF61-U+FF9F"</string>
 	<key>name</key>
-	<string>unicodeRange Japanese Kana</string>
+	<string>Japanese Kana</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

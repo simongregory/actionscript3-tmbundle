@@ -5,7 +5,7 @@
 	<key>content</key>
 	<string>unicodeRange="U+0900-U+097F"</string>
 	<key>name</key>
-	<string>unicodeRange Devanagari</string>
+	<string>Devanagari</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
