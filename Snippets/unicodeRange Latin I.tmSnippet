@@ -6,7 +6,7 @@
 	<string>unicodeRange="U+0020,U+00A1-U+00FF,U+2000-U+206F,U+20A0-U+20CF,U+2100-U+2183"
 </string>
 	<key>name</key>
-	<string>unicodeRange Latin I</string>
+	<string>Latin I</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

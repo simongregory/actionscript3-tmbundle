@@ -5,7 +5,7 @@
 	<key>content</key>
 	<string>unicodeRange="U+0180-U+024F,U+2000-U+206F,U+20A0-U+20CF,U+2100-U+2183"</string>
 	<key>name</key>
-	<string>unicodeRange Latin Extended B</string>
+	<string>Latin Extended B</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

@@ -5,7 +5,7 @@
 	<key>content</key>
 	<string>unicodeRange="U+0E01-U+0E5B"</string>
 	<key>name</key>
-	<string>unicodeRange Thai</string>
+	<string>Thai</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

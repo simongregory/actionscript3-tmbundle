@@ -6,7 +6,7 @@
 	<string>unicodeRange="U+0600-U+06FF,U+FB50-U+FDFF,U+FE70-U+FEFF"
 </string>
 	<key>name</key>
-	<string>unicodeRange Arabic</string>
+	<string>Arabic</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

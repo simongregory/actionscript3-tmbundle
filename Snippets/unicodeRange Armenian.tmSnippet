@@ -6,7 +6,7 @@
 	<string>unicodeRange="U+0530-U+058F,U+FB13-U+FB17"
 </string>
 	<key>name</key>
-	<string>unicodeRange Armenian</string>
+	<string>Armenian</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
