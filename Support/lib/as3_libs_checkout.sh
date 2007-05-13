@@ -98,4 +98,11 @@ svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/pegas/ pegas
 svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/vegas/ vegas
 #svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/VEGAS.as
 
+#--------- guasax
+
+echo "</pre><a href='http://www.osflash.org/vegas'>GUASAX</a><pre>"
+
+mkdir -p "es/guasax"
+svn checkout http://guasax.googlecode.com/svn/trunk/guasaxlibrary/src/es/guasax es/guasax
+
 echo "Checkout complete."

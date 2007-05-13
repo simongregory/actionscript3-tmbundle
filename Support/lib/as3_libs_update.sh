@@ -94,4 +94,11 @@ cd "$AS3_LIB/vegas"
 svn update
 echo "</pre>"
 
+#--------- guasax
+
+echo "<br>GUASAX..<pre>"
+cd "$AS3_LIB/es/guasax"
+svn update
+echo "</pre>"
+
 echo "<br><br>Update complete."
