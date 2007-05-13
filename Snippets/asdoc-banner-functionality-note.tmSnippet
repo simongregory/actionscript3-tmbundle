@@ -7,7 +7,7 @@
 //  ${1:TITLE}
 //--------------------------------------</string>
 	<key>name</key>
-	<string>asdoc-banner-functionality-note</string>
+	<string>asdoc-banner</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
