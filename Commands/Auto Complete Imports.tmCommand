@@ -7,11 +7,11 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-SUPPORT = ENV['TM_SUPPORT_PATH']
-DIALOG  = SUPPORT + '/bin/tm_dialog'
-HELPDIR = 'Applications/FlexSDK2.0.1/docs/langref/'
-HELPTOC = ENV['TM_BUNDLE_SUPPORT'] + '/data/flex_help_index.xml'
-LINE    = ENV['TM_CURRENT_LINE']
+BUNDLE_SUPPORT = ENV['TM_BUNDLE_SUPPORT']
+SUPPORT        = ENV['TM_SUPPORT_PATH']
+LINE           = ENV['TM_CURRENT_LINE']
+DIALOG         = SUPPORT + '/bin/tm_dialog'
+HELPTOC        = BUNDLE_SUPPORT + '/data/flex_help_index.xml'
 
 require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/escape'
@@ -28,7 +28,7 @@ toc_lines = IO.readlines(HELPTOC)
 # find matching lines
 search_results = []
 toc_lines.each do |line|
-	search_results &lt;&lt; line.strip if line[/class=\"#{WORD}/]
+	search_results &lt;&lt; line.strip if line[/name=\"#{WORD}/]
 end
 
 # For each line add the path to the documentation.html file
@@ -37,7 +37,7 @@ words = []
 
 search_results.each do |line|
 	xml_line = REXML::Document.new(line)
-	help_path = xml_line.root.attributes['path']
+	help_path = xml_line.root.attributes['href']
 	class_path = help_path.tr( '/', '.' ).chomp.sub('package-detail','*').sub('.html','')
     words.push(class_path)
 end
