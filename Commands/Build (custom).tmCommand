@@ -10,11 +10,12 @@
 	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh"
 
 cd_to_tmproj_root;
+try_to_add_flex_bin_to_PATH;
 
-if [[ (-f "$TM_PROJECT_DIR/build/compile.sh") ]]; then
+if [[ (-x "$TM_PROJECT_DIR/build/compile.sh") ]]; then
 	"$TM_PROJECT_DIR/build/compile.sh";
 else
-	exit_show_tool_tip "Add some flavour, do some magic!";
+	exit_show_tool_tip "TM_PROJECT/build/compile.sh not found/executable.";
 fi	</string>
 	<key>input</key>
 	<string>none</string>
