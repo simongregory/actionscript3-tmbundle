@@ -6,8 +6,7 @@
 	<string>
 *	</string>
 	<key>keyEquivalent</key>
-	<string>
-</string>
+	<string></string>
 	<key>name</key>
 	<string>asdoc-newline</string>
 	<key>scope</key>
