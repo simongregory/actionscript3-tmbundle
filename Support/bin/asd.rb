@@ -49,14 +49,12 @@ else
         end
 
     elsif search_results.size > 0
-
-        # parse results for links
-        links = []
-
+        
         puts "<h1>Search results for <span class=\"search\">‘#{WORD}’</span></h1><span class=\"search_results\"><p>"
         puts flex_lang_ref
         puts "<ul>"
 
+        # parse results for links
         search_results.each do |line|
             xml_line = REXML::Document.new(line)
             help_path = xml_line.root.attributes['href']
@@ -82,7 +80,6 @@ else
         
         puts "<a href=\"tm-file://#{FL_HELPDIR}index.html\" title=\"Flash CS3 - ActionScript 3.0 Language and Components Reference\">ActionScript 3.0 Language Reference</a><br>"
         puts "<ul><li>Flash CS3 search coming soon.</li></ul>"
-
          
         # Open TOC
         #toc_lines = IO.readlines(FL_HELPTOC)    
@@ -90,16 +87,15 @@ else
         # find matching lines
         #search_results = []
         #toc_lines.each do |line|
-        #    search_results << line.strip if line[/name=\"#{WORD}/]
+        #    search_results << line.strip if line[/name=\"#{WORD}\#/]
         #end
         
         #if search_results.size > 0
         #
-        #    # parse results for links
-        #    links = []
-        #    puts "<a href=\"tm-file://#{FL_HELPDIR}index.html\" title=\"Flash CS3 - ActionScript 3.0 Language and Components Reference\">ActionScript 3.0 Language Reference</a><br>"
+        #    puts "<a href=\"tm-file://#{ FL_HELPDIR }index.html\" title=\"Flash CS3 - ActionScript 3.0 Language and Components Reference\">ActionScript 3.0 Language Reference</a><br>"
         #    puts "<ul>"
         #
+        #    #parse results for links        
         #    search_results.each do |line|
         #        xml_line = REXML::Document.new(line)
         #        help_path = xml_line.root.attributes['href']
