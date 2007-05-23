@@ -4,6 +4,7 @@
 <dict>
 	<key>command</key>
 	<string>CLASS=`basename "$TM_DROPPED_FILE" ".as"`
+CLASS=`basename "$CLASS" ".mxml"`
 FILE_PATH=`dirname "$TM_DROPPED_FILEPATH"`
 CLASS_PATH=`echo ${FILE_PATH#$TM_PROJECT_DIRECTORY/src/}`
 CLASS_PATH=`echo "$CLASS_PATH" | tr '/' '.'`;
