@@ -18,6 +18,8 @@ open -a "TextMate.app" "$TM_FLEX_PATH/frameworks/source/mx/";</string>
 	<string>Open MX Sourcecode</string>
 	<key>output</key>
 	<string>discard</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>6CFE2A86-D28E-4946-A486-65616170D33A</string>
 </dict>
