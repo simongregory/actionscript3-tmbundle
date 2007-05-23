@@ -217,7 +217,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>((\$|\s_)\w+?)\b</string>
+			<string>((\$|\b_)\w+?)\b</string>
 			<key>name</key>
 			<string>variable.language.private.actionscript.3</string>
 		</dict>
