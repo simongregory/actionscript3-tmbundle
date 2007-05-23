@@ -101,4 +101,13 @@ cd "$AS3_LIB/es/guasax"
 svn update
 echo "</pre>"
 
+#--------- as3httpclient
+
+echo "<br>AS3 HTTP Client..<pre>"
+cd "$AS3_LIB/com/abdulqabiz"
+svn update
+echo "</pre>"
+
+
+
 echo "<br><br>Update complete."
