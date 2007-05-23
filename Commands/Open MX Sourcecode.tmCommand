@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh";
+
+set_flex_path;
+
+open -a "TextMate.app" "$TM_FLEX_PATH/frameworks/source/mx/";</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string></string>
+	<key>name</key>
+	<string>Open MX Sourcecode</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>uuid</key>
+	<string>6CFE2A86-D28E-4946-A486-65616170D33A</string>
+</dict>
+</plist>
