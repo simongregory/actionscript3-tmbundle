@@ -105,4 +105,16 @@ echo "</pre><a href='http://www.osflash.org/vegas'>GUASAX</a><pre>"
 mkdir -p "es/guasax"
 svn checkout http://guasax.googlecode.com/svn/trunk/guasaxlibrary/src/es/guasax es/guasax
 
+#--------- prana
+
+# echo "</pre><a href='http://www.osflash.org/vegas'>Prana Framework</a><pre>"
+# mkdir -p "org/pranaframework"
+# svn checkout http://guasax.googlecode.com/svn/trunk/guasaxlibrary/src/es/guasax es/guasax
+# svn checkout https://prana.svn.sourceforge.net/svnroot/prana/main/src/org/pranaframework/ org/pranaframework
+
+echo "</pre><a href='http://code.google.com/p/as3httpclient/'>AS3 http client</a><pre>"
+
+mkdir -p "com/abdulqabiz"
+svn checkout http://as3httpclient.googlecode.com/svn/trunk/src/com/abdulqabiz/ com/abdulqabiz
+
 echo "Checkout complete."
