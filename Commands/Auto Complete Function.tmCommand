@@ -17,13 +17,20 @@ require SUPPORT + '/lib/osx/plist'
 words = `grep "^$TM_CURRENT_WORD" "$TM_BUNDLE_PATH/support/data/as3_completions.txt"`.split("\n")
 TextMate.exit_show_tool_tip "No completion available" if words.empty?
 
-words = words.collect { |e| { 'title' =&gt; e } }
-plist = { 'menuItems' =&gt; words }.to_plist
+if words.size &gt; 1
 
-res = PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
-abort unless res.has_key? 'selectedMenuItem'
+	words = words.collect { |e| { 'title' =&gt; e } }
+	plist = { 'menuItems' =&gt; words }.to_plist
+	res = PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
 
-snip = res['selectedMenuItem']['title'][ENV['TM_CURRENT_WORD'].length..-1]
+	TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
+	choice = res['selectedMenuItem']['title']
+	
+else
+	choice = words.pop
+end
+
+snip = choice[ENV['TM_CURRENT_WORD'].length..-1]
 
 i=0
 print snip.gsub( /([a-zA-Z0-9\:\.]+?)([,\)])/ ) {
