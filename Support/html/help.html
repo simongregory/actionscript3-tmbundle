@@ -12,7 +12,7 @@
 
    	<body>
 		<div id="tm_webpreview_header">
-			<img id="gradient" src="file:///Applications/TextMate.app/Contents/SharedSupport/Support/themes/default/images/header.png" alt="header">
+			<img id="gradient" src="header.png" alt="header">
 	    	<p class="headline">ActionScript 3 &amp; Flex Help</p>
 	    	<img id="teaser" src="file:///Applications/TextMate.app/Contents/SharedSupport/Support/themes/default/images/teaser.png" alt="teaser">
 		</div>
@@ -39,7 +39,7 @@
 		<p>To dramatically speed up compilation you can use <a href="http://labs.adobe.com/wiki/index.php/Flex_Compiler_Shell" title="Adobe Flex Compiler Shell">fcsh</a> and <a href="http://iterm.sourceforge.net" title="SourceForge iTerm">iTerm</a>. The fcsh binary needs to be copied to your Flex SDK bin directory.</p>		 
 		<p><div id="flashversion">You do not have the Flash plugin installed.</div></p>
 		<p> A full archive of flash players can be found <a href="http://www.adobe.com/cfusion/knowledgebase/index.cfm?id=tn_14266" title="Adobe Flash Player Archive">here</a>, please note that debugger versions of the player are needed to trace output and display runtime errors.</p>		
-		<p>Apollo build, package, and template bundle items are in progress. The Apollo SDK can be downloaded from Adobe labs <a href="http://www.adobe.com/cfusion/entitlement/index.cfm?e=labs_apollo" title="Adobe Labs - Apollo">here</a>. Once downloaded the simplest install solution is to merge the unzipped Apollo SDK directory with your Flex SDK. There are only two files with the same name when I did this - Version.as, and mxmlc.jar. In both instances use the newer files from the Apollo SDK. Or you can follow this... <a href="http://labs.adobe.com/wiki/index.php/Apollo:Documentation:Setting_up_your_development_environment" title="Adobe Setting up your Apollo development environment">Setting_up_your_development_environment</a></p>
+		<!-- <p>Apollo build, package, and template bundle items are in progress. The Apollo SDK can be downloaded from Adobe labs <a href="http://www.adobe.com/cfusion/entitlement/index.cfm?e=labs_apollo" title="Adobe Labs - Apollo">here</a>. Once downloaded the simplest install solution is to merge the unzipped Apollo SDK directory with your Flex SDK. There are only two files with the same name when I did this - Version.as, and mxmlc.jar. In both instances use the newer files from the Apollo SDK. Or you can follow this... <a href="http://labs.adobe.com/wiki/index.php/Apollo:Documentation:Setting_up_your_development_environment" title="Adobe Setting up your Apollo development environment">Setting_up_your_development_environment</a></p> -->
 		<script type="text/javascript"> writeVersionToElement('flashversion'); </script>
 		<div id="goto_commands"/>
 		<h2><a name="commands">Commands</a></h2>
@@ -55,6 +55,15 @@
 				</div>
 			 </dd>
 	
+			 <dt><a name="build">Build</a></dt>
+			 <dd>
+				<div class="target">active project</div>
+				<div class="keys">&#x2318;B</div>
+				<div class="description">
+					Builds the currently active project. The project needs to be correctly configured for success. See the <a href="javascript:goTo(&quot;goto_conf&quot;);">configuration options</a> below.
+				</div>
+			 </dd>
+			
 			 <dt><a name="checkout_as3_libs">Checkout AS3 Libs</a></dt>
 			 <dd>
 				<div class="description">
@@ -80,29 +89,12 @@
 			 <dt><a name="complie">Compile Current Class</a></dt>
 			 <dd>
 				<div class="target">selected file or the active file if it doesn't belong to a project</div>
-				<div class="keys">&#x21E7;F12</div>
+				<div class="keys">&#x21E7;&#x2318;B</div>
 				<div class="description">
 					Compiles using mxmlc.
 				</div>
 			 </dd>
-
-			 <dt><a name="build">Build</a></dt>
-			 <dd>
-				<div class="target">active project</div>
-				<div class="keys">&#x21E7;F12 or &#x2318;B</div>
-				<div class="description">
-					Builds the currently active project. The project needs to be correctly configured for success. See the <a href="javascript:goTo(&quot;goto_conf&quot;);">configuration options</a> below.
-				</div>
-			 </dd>
-
-			<dt><a name="bundle_help">Bundle Help</a></dt>
-			<dd>
-				<div class="target">none</div>
-				<div class="keys">Help</div>
-				<div class="description">
-					Shows this help message.
-				</div>
-			</dd>
+			
 
 			<dt><a name="get_set">Getter Setter</a></dt>
 			<dd>
@@ -125,7 +117,7 @@
 			<dt><a name="run_project">Run Project</a></dt>
 			<dd>
 				<div class="target">Current Project</div>
-				<div class="keys">&#x2318;&#x21A9;</div>
+				<div class="keys">&#x2318;R</div>
 				<div class="description">
 					See the <a href="javascript:goTo(&quot;goto_conf&quot;);">configuration options</a> below.
 				</div>
@@ -178,6 +170,13 @@
 				<div class="description">the project directory relative path to the file to create when you compile. Ideally this should be a <a href="help:anchor='project_dependent_variables'%20bookID='TextMate%20Help'">Project Dependent Variable</a>.</div>
 			</dd>
 			
+			<div id="goto_tm_flex_build_file"/>
+			<dt><a name="tm_flex_build_file">$TM_FLEX_BUILD_FILE</a></dt>
+			<dd>
+				<div class="default">None</div>
+				<div class="description">the project directory relative path to the build file you wish to use to override default behaviour.</div>
+			</dd>
+			
 			<div id="goto_tm_as3_lib_path"/>
 			<dt><a name="tm_as3_lib_path">$TM_AS3_LIB_PATH</a></dt>
 			<dd>
@@ -219,11 +218,14 @@
 		<h2><a name="contributors">Contributors</a></h2>
 		Whether they know it or not...
 		<ul>
-			<li title="email &gt; simon at helvector org">Simon Gregory</li>
+			<li><a href="http://blog.simongregory.com" title="email &gt; simon at helvector org">Simon Gregory</a></li>
 			<li>Chris Jenkins</li>
 			<li><a href="http://blog.danielparnell.com/?p=22" title="blog.danielparnell.com" >Daniel Parnell</a></li>
 			<li><a href="http://blog.iconara.net/2007/02/23/textmate-flex-tips/" title="blog.iconara.net">Theo Hultberg</a></li>
 			<li><a href="http://www.dirtystylus.com/blog/" title="www.dirtystylus.com" >Mark Llobrera</a></li>
+			<li><a href="http://4d.ratubagus.net/node/4" title="4d.ratubagus.net" >Joachim</a></li>
+			<li><a href="http://blog.chromaticrain.com/?p=3" title="ChromaticRain" >ChromaticRain</a></li>
+			<li><a href="http://subtlegradient.com/" title="ChromaticRain" >Thomas Aylott</a></li>			 						
 		</ul>		
 		
 		<script type="text/javascript" charset="utf-8">
