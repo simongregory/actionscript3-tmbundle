@@ -15,6 +15,8 @@
 	<string>Open AS3 Library Sourcecode</string>
 	<key>output</key>
 	<string>discard</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>F3D30E97-B204-430B-92EA-324A75577A25</string>
 </dict>
