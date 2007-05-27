@@ -6,8 +6,6 @@
 	<string>/**
 *	$0
 */</string>
-	<key>keyEquivalent</key>
-	<string>@D</string>
 	<key>name</key>
 	<string>asdoc-comment block</string>
 	<key>scope</key>
