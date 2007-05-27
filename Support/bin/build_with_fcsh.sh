@@ -62,4 +62,6 @@ checkForSpaces "$TM_PROJECT_DIR/$TM_FLEX_OUTPUT" "$MXMLC_O"
 checkForSpaces "$TM_PROJECT_DIR/$TM_FLEX_FILE_SPECS" "$MXMLC_FS"
 checkForSpaces "$TM_AS3_LIB_PATH" "$MXMLC_SP"
 
-osascript "$TM_BUNDLE_SUPPORT/lib/fsch_iTerm.applescript" "$FCSH" "mxmlc -o=$MXMLC_O -file-specs=$MXMLC_FS -sp+=$TM_AS3_LIB_PATH"
+osascript "$TM_BUNDLE_SUPPORT/lib/fsch_iTerm.applescript" "$FCSH" "mxmlc -o=$MXMLC_O -file-specs=$MXMLC_FS -sp+=$TM_AS3_LIB_PATH" >/dev/null;
+
+exit 200;
