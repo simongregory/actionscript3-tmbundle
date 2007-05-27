@@ -27,7 +27,7 @@ fi</string>
 	<key>keyEquivalent</key>
 	<string>@r</string>
 	<key>name</key>
-	<string>Run Project...</string>
+	<string>Run</string>
 	<key>output</key>
 	<string>showAsTooltip</string>
 	<key>scope</key>
