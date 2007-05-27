@@ -32,7 +32,7 @@ htmlFooter;</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>@r</string>
+	<string>@B</string>
 	<key>name</key>
 	<string>Compile Current Class...</string>
 	<key>output</key>

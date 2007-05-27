@@ -46,7 +46,7 @@ htmlFooter;</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>@b</string>
+	<string>@B</string>
 	<key>name</key>
 	<string>Build (mxmlc)</string>
 	<key>output</key>

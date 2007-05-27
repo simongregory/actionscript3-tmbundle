@@ -11,7 +11,7 @@
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>@b</string>
+	<string>@B</string>
 	<key>name</key>
 	<string>Build (fcsh)</string>
 	<key>output</key>
