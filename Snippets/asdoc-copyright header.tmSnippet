@@ -6,8 +6,6 @@
 	<string>/* AS3
 	Copyright `date "+%Y"` $TM_ORGANIZATION_NAME.
 */</string>
-	<key>keyEquivalent</key>
-	<string>@D</string>
 	<key>name</key>
 	<string>asdoc-copyright header</string>
 	<key>scope</key>
