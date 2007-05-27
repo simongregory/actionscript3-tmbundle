@@ -23,7 +23,7 @@ ant -find build.xml | parse_mxmlc_out.py</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>@b</string>
+	<string>@B</string>
 	<key>name</key>
 	<string>Build (ant)</string>
 	<key>output</key>
