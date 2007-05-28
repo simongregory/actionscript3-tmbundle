@@ -18,7 +18,7 @@ STDIN.read.scan(/\bclass\b.*\bextends\b\s(\w*)/).each do | path |
 end
 
 #TODO: Handle multiple matches.
-#if found_classes.size &gt; 1
+TextMate.exit_show_tool_tip "Super class not found." if found_classes.size == 0
 
 superclass = found_classes.pop()
 
@@ -35,7 +35,7 @@ project_paths = project_paths.grep(/#{superclass}/)
 if project_paths.size &gt; 0
 	TextMate.go_to :file =&gt; project_paths[0]
 else
-	TextMate.exit_show_tool_tip "Superclass 404."
+	TextMate.exit_show_tool_tip "Super class not found."
 end
 
 
