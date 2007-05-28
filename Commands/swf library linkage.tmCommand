@@ -18,6 +18,8 @@ swfdump "$TM_SELECTED_FILE" | grep "export" | sed -n '/".*"/p/'
 	<string>swf library linkage</string>
 	<key>output</key>
 	<string>showAsTooltip</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>6866EE21-9BA1-45A9-8BD6-E782F98310C4</string>
 </dict>

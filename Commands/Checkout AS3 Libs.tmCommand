@@ -32,6 +32,8 @@ htmlFooter;
 	<string>Checkout AS3 Libs</string>
 	<key>output</key>
 	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>8AB5276C-F9B6-44A1-BFBF-6DF728B87742</string>
 </dict>

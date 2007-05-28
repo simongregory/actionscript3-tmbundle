@@ -39,6 +39,8 @@ echo "Flex SDK was located here: $TM_FLEX_PATH"</string>
 	<string>Echo Build Env</string>
 	<key>output</key>
 	<string>showAsTooltip</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>E11E66FE-0647-4F08-9708-BB79586DF84B</string>
 </dict>
