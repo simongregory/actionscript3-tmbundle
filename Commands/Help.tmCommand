@@ -6,8 +6,12 @@
 	<string>saveModifiedFiles</string>
 	<key>command</key>
 	<string>. "$TM_SUPPORT_PATH/lib/html.sh"
+redirect "tm-file://$TM_BUNDLE_SUPPORT/html/help.html";
 
-redirect "tm-file://$TM_BUNDLE_SUPPORT/html/help.html";</string>
+#. "$TM_SUPPORT_PATH/lib/webpreview.sh"
+#html_header "ActionScript 3 Help" "ActionScript 3"
+#"$TM_SUPPORT_PATH/lib/markdown_to_help.rb" "$TM_BUNDLE_SUPPORT/html/help.markdown"
+#html_footer</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
