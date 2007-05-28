@@ -22,6 +22,8 @@ java -jar swfxprinter.jar "$TM_SELECTED_FILE" | pre
 	<string>swfxprinter</string>
 	<key>output</key>
 	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>68401B73-8D31-4AF2-AE15-00ECD205735C</string>
 </dict>

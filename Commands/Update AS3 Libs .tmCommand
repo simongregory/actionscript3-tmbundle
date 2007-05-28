@@ -20,6 +20,8 @@ htmlFooter</string>
 	<string>Update AS3 Libs </string>
 	<key>output</key>
 	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>A0B90589-9482-40AC-AE49-F259F3E8C1B1</string>
 </dict>
