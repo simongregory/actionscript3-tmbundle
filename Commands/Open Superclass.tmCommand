@@ -29,7 +29,7 @@ project_paths = []
 TextMate.each_text_file do |file|
 	project_paths.push(file) if File.extname(file) == ".as"
 end
-project_paths = project_paths.grep(/#{superclass}/)
+project_paths = project_paths.grep(/\b#{superclass}\.(as|mxml)/)
 
 #TODO: Present list if there are multiple matches.
 if project_paths.size &gt; 0
