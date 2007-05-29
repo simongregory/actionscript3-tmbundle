@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>trace("${1:`echo ${TM_FILENAME%.as}`}::${2:method}() " + $3 );</string>
+	<string>trace("${1:`echo ${TM_FILENAME%.as}`}::${2:method}() "${3: +} $4);$0</string>
 	<key>name</key>
 	<string>trace</string>
 	<key>scope</key>
