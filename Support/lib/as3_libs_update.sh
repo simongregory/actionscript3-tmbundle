@@ -44,6 +44,11 @@ cd "../ebay"
 svn update
 echo "</pre>"
 
+echo "<br>Amazon S3...<pre>"
+cd "../awss3"
+svn update
+echo "</pre>"
+
 # -------- xml/syndication
 
 echo "<br>Atom...<pre>"
