@@ -44,6 +44,10 @@ mkdir -p "ebay"
 echo '</pre><a href="http://code.google.com/p/as3ebaylib/">Ebay</a> - Ebay API<pre>'
 svn checkout http://as3ebaylib.googlecode.com/svn/trunk/src/com/adobe/webapis/ebay/ ebay/
 
+mkdir -p "awss3"
+echo '</pre><a href="http://code.google.com/p/as3awss3lib/">Amazon S3</a> - Amazon S3 API<pre>'
+svn checkout http://as3awss3lib.googlecode.com/svn/trunk/src/com/adobe/webapis/awss3/ awss3/
+
 # -------- xml/syndication
 
 cd "$AS3_LIB/com/adobe/"
