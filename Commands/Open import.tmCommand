@@ -15,17 +15,22 @@ require ENV["TM_SUPPORT_PATH"] + '/lib/exit_codes'
 LINE    = ENV['TM_CURRENT_LINE']
 PROJECT = ENV['TM_PROJECT_DIRECTORY']
 
+def fileSearch import_path
+	the_file = PROJECT + "/src/" + import_path
+	if File.exist?( the_file )
+		TextMate.go_to :file =&gt; the_file
+		exit
+	end
+end
+
 class_path = /import\s+(.*?);/.match(LINE)[1]
 file_path = class_path.gsub("." , "/" )
 
-as_file = PROJECT + "/src/" + file_path + ".as"
-mx_file = PROJECT + "/src/" + file_path + ".mxml"
+fileSearch( file_path+'.as' )
+fileSearch( file_path+'.mxml' )
 
-if File.exist?( as_file )
-	TextMate.go_to :file =&gt; as_file
-else
-	TextMate.exit_show_tool_tip( "Imported file not located." )
-end
+TextMate.exit_show_tool_tip( "File not found." )
+
 </string>
 	<key>input</key>
 	<string>none</string>
