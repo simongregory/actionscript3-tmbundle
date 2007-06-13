@@ -8,7 +8,7 @@ else
 	AS3_LIB="$1"
 fi
 
-echo "<h1>Updating ActionScript3 &amp; Flex Libraries</h1>"
+#echo "<h1>Updating ActionScript3 &amp; Flex Libraries</h1>"
 
 #------- core
 

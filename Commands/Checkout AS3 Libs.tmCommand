@@ -5,11 +5,11 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>. "$TM_SUPPORT_PATH/lib/html.sh";
+	<string>. "$TM_SUPPORT_PATH/lib/webpreview.sh"
 
 require_cmd "svn";
 
-htmlHeader "AS3 Library Checkout";
+html_header "AS3 Library Checkout" "ActionScript 3";
 
 TM_AS3_LIB_CHECKOUT_PATH="${TM_AS3_LIB_PATH:=/Users/Shared/AS3Lib}"
 
@@ -24,7 +24,7 @@ else
 	"$TM_BUNDLE_SUPPORT/lib/as3_libs_checkout.sh" "$TM_AS3_LIB_CHECKOUT_PATH";
 fi
 
-htmlFooter;
+html_footer;
 </string>
 	<key>input</key>
 	<string>none</string>

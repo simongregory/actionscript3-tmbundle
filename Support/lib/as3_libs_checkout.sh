@@ -13,7 +13,7 @@ fi
 mkdir -p "$AS3_LIB/com"
 cd "$AS3_LIB/com/"
 
-echo '<h1>Checkout ActionScript3 &amp; Flex Libraries</h1>';
+#echo '<h1>Checkout ActionScript3 &amp; Flex Libraries</h1>';
 
 #------- core
 
