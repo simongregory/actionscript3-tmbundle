@@ -10,7 +10,7 @@
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>mixin</string>
+	<string>Mixin</string>
 	<key>uuid</key>
 	<string>86A72FC0-7E25-4599-998B-762BCE5FD220</string>
 </dict>

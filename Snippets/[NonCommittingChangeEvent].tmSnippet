@@ -9,7 +9,7 @@
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>non</string>
+	<string>NonCommittingChangeEvent</string>
 	<key>uuid</key>
 	<string>DD3EBF3A-1CAF-4F21-AD4A-540C7C2F3193</string>
 </dict>

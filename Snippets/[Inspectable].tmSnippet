@@ -9,7 +9,7 @@
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>inspectable</string>
+	<string>Inspectable</string>
 	<key>uuid</key>
 	<string>0CAA96AB-E4E9-4091-8E7B-C0C50459C97B</string>
 </dict>

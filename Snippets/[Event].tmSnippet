@@ -9,7 +9,7 @@
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>event</string>
+	<string>Event</string>
 	<key>uuid</key>
 	<string>6A56E827-ECF4-4A52-A56D-0026E5343028</string>
 </dict>

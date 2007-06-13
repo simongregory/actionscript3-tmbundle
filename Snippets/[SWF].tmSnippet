@@ -10,7 +10,7 @@
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>swf</string>
+	<string>SWF</string>
 	<key>uuid</key>
 	<string>DDDD7C35-5E23-4EF1-91C2-19889C2E49E9</string>
 </dict>
