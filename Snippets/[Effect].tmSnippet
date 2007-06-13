@@ -10,7 +10,7 @@
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>effect</string>
+	<string>Effect</string>
 	<key>uuid</key>
 	<string>CCF27DF5-D97A-4A1F-92E3-E4DF913310AF</string>
 </dict>

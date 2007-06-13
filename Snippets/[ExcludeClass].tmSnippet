@@ -10,7 +10,7 @@
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>exclude</string>
+	<string>Exclude</string>
 	<key>uuid</key>
 	<string>E1449C3F-EE47-42FC-A2E9-A4078DB80246</string>
 </dict>

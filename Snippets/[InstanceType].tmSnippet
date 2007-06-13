@@ -10,7 +10,7 @@
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>instancetype</string>
+	<string>InstanceType</string>
 	<key>uuid</key>
 	<string>25C9031B-2FBA-416D-85B7-D5BCED2EF62B</string>
 </dict>

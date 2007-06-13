@@ -9,7 +9,7 @@
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>icon</string>
+	<string>Icon</string>
 	<key>uuid</key>
 	<string>C27AD707-3284-438D-8B8E-0CBC1E027518</string>
 </dict>
