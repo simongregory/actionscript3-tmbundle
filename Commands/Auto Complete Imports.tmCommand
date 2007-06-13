@@ -64,7 +64,8 @@ else
     all_paths = library_paths.concat( split_marker.concat(project_paths) )
     all_paths = all_paths.collect { |e| { 'title' =&gt; e }}
     plist = { 'menuItems' =&gt; all_paths }.to_plist
-    res = OSX::PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
+    #res = OSX::PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
+    res = PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
     TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
     choice = res['selectedMenuItem']['title']
 end
