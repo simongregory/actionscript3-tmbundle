@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>Log.getLogger("${1:`echo ${TM_FILENAME%.as}`}").${2:error}(${3:message});</string>
+	<key>name</key>
+	<string>log</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>log</string>
+	<key>uuid</key>
+	<string>0AB04B4F-63E5-4D2D-8D61-01FCA939D0FC</string>
+</dict>
+</plist>
