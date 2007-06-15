@@ -15,20 +15,20 @@ try_to_add_flex_bin_to_PATH;
 if [[ (-f "$TM_PROJECT_DIR/$TM_FLEX_BUILD_FILE") ]]; then
 	"$TM_PROJECT_DIR/$TM_FLEX_BUILD_FILE";
 	exit $?
-elif find_app &gt;/dev/null iTerm.app; then
-	if type -p fcsh &gt;/dev/null; then
-		build_with_fcsh.sh
-		if [[ $? == 200 ]]; then
-			exit_show_tool_tip "Building with fsch.";
-		fi
-		exit $?
-	fi
 fi
-
-require_cmd "mxmlc" "If you have installed mxmlc, then you need to either update your &lt;tt&gt;PATH&lt;/tt&gt; or set the &lt;tt&gt;TM_FLEX_PATH&lt;/tt&gt; shell variable (please see bundle help)."
 
 require_file "TM_FLEX_FILE_SPECS" "$TM_FLEX_FILE_SPECS"
 require_var "TM_FLEX_OUTPUT" "$TM_FLEX_OUTPUT"
+
+require_cmd "mxmlc" "If you have installed mxmlc, then you need to either update your &lt;tt&gt;PATH&lt;/tt&gt; or set the &lt;tt&gt;TM_FLEX_PATH&lt;/tt&gt; shell variable (please see bundle help)."
+
+if find_app &gt;/dev/null iTerm.app; then
+	if type -p fcsh &gt;/dev/null; then
+		build_with_fcsh.sh
+		#exit_show_tool_tip "Building with fsch.";
+		exit;
+	fi
+fi
 
 ### Compile Starts here.
 
