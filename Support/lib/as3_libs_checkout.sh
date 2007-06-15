@@ -13,8 +13,6 @@ fi
 mkdir -p "$AS3_LIB/com"
 cd "$AS3_LIB/com/"
 
-#echo '<h1>Checkout ActionScript3 &amp; Flex Libraries</h1>';
-
 #------- core
 
 echo '<a href="http://code.google.com/p/as3corelib/">corelib</a> - General Utility classes and APIs</li><pre>'
@@ -100,25 +98,38 @@ svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/asgard/ asgard
 svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/net/ekameleon/ net/ekameleon
 svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/pegas/ pegas
 svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/vegas/ vegas
-#svn checkout http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/VEGAS.as
+svn export http://svn1.cvsdude.com/osflash/vegas/AS3/trunk/src/VEGAS.as
 
 #--------- guasax
 
-echo "</pre><a href='http://www.osflash.org/vegas'>GUASAX</a><pre>"
+echo "</pre><a href='http://www.guasax.com/blog/'>GUASAX</a> - Struts and MVC inspired framework.<pre>"
 
 mkdir -p "es/guasax"
 svn checkout http://guasax.googlecode.com/svn/trunk/guasaxlibrary/src/es/guasax es/guasax
 
 #--------- prana
 
-# echo "</pre><a href='http://www.osflash.org/vegas'>Prana Framework</a><pre>"
-# mkdir -p "org/pranaframework"
-# svn checkout http://guasax.googlecode.com/svn/trunk/guasaxlibrary/src/es/guasax es/guasax
-# svn checkout https://prana.svn.sourceforge.net/svnroot/prana/main/src/org/pranaframework/ org/pranaframework
+echo "</pre><a href='http://sourceforge.net/projects/prana/'>Prana Framework</a> - IoC container for AS3<pre>"
+mkdir -p "org/pranaframework"
+svn checkout http://prana.svn.sourceforge.net/svnroot/prana/trunk/main/src/org/pranaframework/ org/pranaframework
+
+#--------- AS3 HTTP Client
 
 echo "</pre><a href='http://code.google.com/p/as3httpclient/'>AS3 http client</a><pre>"
 
 mkdir -p "com/abdulqabiz"
 svn checkout http://as3httpclient.googlecode.com/svn/trunk/src/com/abdulqabiz/ com/abdulqabiz
 
-echo "Checkout complete."
+#--------- AS3 Data Structures For Game Developers
+
+echo "</pre><a href='http://code.google.com/p/as3ds/'>AS3 Data Structures For Game Developers</a><pre>"
+mkdir -p "de/polygonal"
+svn checkout http://as3ds.googlecode.com/svn/trunk/de/polygonal de/polygonal
+
+#------- JWO Lib
+
+echo "</pre><a href='http://code.google.com/p/jwopitz-lib/'>JWO Lib</a> Open Source UI components for Flex<pre>"
+mkdir -p "com/jwopitz"
+svn checkout http://jwopitz-lib.googlecode.com/svn/trunk/src/com/jwopitz/ com/jwopitz
+
+echo "</pre><br>Checkout complete."
