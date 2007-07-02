@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>public function set ${1:name}(value:${2:Object}) : void { $0\$$1 = value; }</string>
+	<string>public function set ${1:name}(value:${2:Object}) : void { 
+	${3:_$1} = value; 
+}$0</string>
 	<key>name</key>
 	<string>public function set</string>
 	<key>scope</key>

@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>private function get ${1:name}() : ${2:Object} { return \$$1; }</string>
+	<string>private function get ${1:name}() : ${2:Object} { 
+	return ${3:_$1}; 
+}$0</string>
 	<key>name</key>
 	<string>private function get</string>
 	<key>scope</key>
