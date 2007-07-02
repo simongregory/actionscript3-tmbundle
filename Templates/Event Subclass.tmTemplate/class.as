@@ -2,7 +2,6 @@
 	Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME}.
 */
 package ${TM_CLASS_PATH} {
-	
 	import flash.events.Event;
 	
 	/*
@@ -20,14 +19,14 @@ package ${TM_CLASS_PATH} {
 		// CLASS CONSTANTS
 		//--------------------------------------
 		
-		public static const		CHANGE : String = "onCustomEvent";
+		public static const EVENT_NAME : String = "customEvent";
 		
 		//--------------------------------------
 		//  CONSTRUCTOR
 		//--------------------------------------
 		
-		public function ${TM_NEW_FILE_BASENAME}( type:String ){
-			super(type);		
+		public function ${TM_NEW_FILE_BASENAME}( type:String, bubbles:Boolean=true, cancelable:Boolean=false ){
+			super(type, bubbles, cancelable);		
 		}
 		
 		//--------------------------------------
@@ -37,6 +36,10 @@ package ${TM_CLASS_PATH} {
 		//--------------------------------------
 		//  PUBLIC METHODS
 		//--------------------------------------
+
+		override public function clone() : Event {
+			return new ${TM_NEW_FILE_BASENAME}(type, bubbles, cancelable);
+		}
 		
 		//--------------------------------------
 		//  EVENT HANDLERS
