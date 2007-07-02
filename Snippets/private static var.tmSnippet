@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>private static var \$${1:variableName} : ${2:Object};</string>
+	<string>private static var _${1:variableName} : ${2:Object};</string>
 	<key>name</key>
 	<string>private static var</string>
 	<key>scope</key>
