@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>private static function set ${1:name}( arg:${2:Object} ) { \$${1:name} = arg; }</string>
+	<string>private static function set ${1:name}(value:${2:Object}) : void { 
+	${3:_$1} = value; 
+}$0</string>
 	<key>name</key>
 	<string>private static set</string>
 	<key>scope</key>

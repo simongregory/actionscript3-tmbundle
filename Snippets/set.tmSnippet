@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>public function set ${1:name}( arg:${2:Object} ) { \$${1:name} = arg; }</string>
+	<string>public function set ${1:name}( arg:${2:Object} ) : void { 
+	_${1:name} = arg; 
+}</string>
 	<key>name</key>
 	<string>set</string>
 	<key>scope</key>

@@ -5,8 +5,15 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>echo "public function set $TM_CURRENT_WORD( value:\${1:Object} ) : void	{ \\$\${2:$TM_CURRENT_WORD} = value; }\$3"
-echo "public function get $TM_CURRENT_WORD() : \${1:Object}				{ return \\$\${2:$TM_CURRENT_WORD}; }\$0"</string>
+	<string>echo "public function get $TM_CURRENT_WORD() : \${1:Object} { 
+	return \${2:_$TM_CURRENT_WORD}; 
+}\$3"
+echo ""
+echo "public function set $TM_CURRENT_WORD( value:\${1:Object} ) : void { 
+	if (\${2:_$TM_CURRENT_WORD} != value) {
+		\${2:_$TM_CURRENT_WORD} = value;
+	}
+}\$0"</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>

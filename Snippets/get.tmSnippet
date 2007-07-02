@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>public function get ${1:name}() : ${2:Object} { return \$${1:name}; }</string>
+	<string>public function get ${1:name}() : ${2:Object} { 
+	return _${1:name}; 
+}</string>
 	<key>name</key>
 	<string>get</string>
 	<key>scope</key>
