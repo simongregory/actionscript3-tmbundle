@@ -4,11 +4,6 @@
 <dict>
 	<key>mainMenu</key>
 	<dict>
-		<key>excludedItems</key>
-		<array>
-			<string>6E57580F-0730-4ECE-8851-2B05BA221403</string>
-			<string>6E0AE8B3-1C00-424D-B4BF-530A180023F4</string>
-		</array>
 		<key>items</key>
 		<array>
 			<string>1117FC54-44F6-4A33-9C39-7E3F18C86563</string>
@@ -160,35 +155,14 @@
 			<dict>
 				<key>items</key>
 				<array>
-					<string>14E8CBE3-0606-4D2C-A2BF-1B6756672CD2</string>
-					<string>C2A70D52-46B6-4E2E-9ECD-7EC4C0F5C000</string>
-					<string>ACAEC4B6-F875-4244-B5E3-5102EFC55FCF</string>
-					<string>18512B2A-B7E8-496E-BE2D-7EBB0CA8EFA5</string>
-					<string>DB446148-471E-42D2-9A70-3ADD8470886F</string>
-					<string>F17DB9F3-BFAA-49AE-A90A-F6386D0A7B51</string>
-					<string>15A9131E-A820-4C8F-94E7-372B83AF5DE8</string>
-					<string>AEE06B8A-45EE-4A45-87CE-9BDB93AAAB94</string>
-					<string>C86DB545-5B1A-43D6-ACB3-D07415DBD1D3</string>
-					<string>04C83E02-D898-4275-95D6-257787383F48</string>
-					<string>87DDCCF1-18A3-4709-BA7C-163DCEDDDF9C</string>
-					<string>------------------------------------</string>
+					<string>8D235DBD-2430-45E4-90C4-462407CC9CD3</string>
 					<string>A7B18CF0-68B7-438D-AD17-0441A0688D31</string>
+					<string>------------------------------------</string>
+					<string>F9E59F3A-4540-4FB9-8484-E708F5690FFB</string>
 					<string>------------------------------------</string>
 					<string>8A0F8C9E-1158-4787-B680-0F61F2180F55</string>
 					<string>5ED7413A-8A7C-4F1F-9857-D67BF1B8FFE5</string>
 					<string>768B55B8-8E90-46A5-8CA2-594868CD3E8D</string>
-					<string>------------------------------------</string>
-					<string>8AA9EE70-7716-469A-9DC2-AB76E665721C</string>
-					<string>319EA463-13D1-4F34-A19D-ECE1D7AD6CE5</string>
-					<string>57C11B65-CC74-44EF-8BCE-3219B3599B4C</string>
-					<string>46114B55-18FC-4B7D-93CE-43D6F1F4C4D1</string>
-					<string>848DC811-34A0-4E32-910C-92E58031BB69</string>
-					<string>2623AA25-D719-4181-AFCA-A91B11F694A9</string>
-					<string>B547AC8D-2241-4E3A-84E0-7F9471EBEA3F</string>
-					<string>1BEEBD59-C99E-4826-9208-26236CD0FC75</string>
-					<string>ADBCCFC5-179D-47AA-AA94-E6F1EBA89CD8</string>
-					<string>------------------------------------</string>
-					<string>90DA8AE5-D405-4C2F-ABF2-A50CF1537FB4</string>
 				</array>
 				<key>name</key>
 				<string>ASDoc</string>
@@ -351,19 +325,9 @@
 		<string>38D1A964-B76B-4DE0-A996-3C31EFA05B10</string>
 		<string>1FB65019-CAE0-4A3E-B961-A38BA05BECCD</string>
 		<string>88336669-05E1-4C3A-ABD9-C11AFFBD9F0F</string>
-		<string>14E8CBE3-0606-4D2C-A2BF-1B6756672CD2</string>
-		<string>C2A70D52-46B6-4E2E-9ECD-7EC4C0F5C000</string>
-		<string>ACAEC4B6-F875-4244-B5E3-5102EFC55FCF</string>
-		<string>18512B2A-B7E8-496E-BE2D-7EBB0CA8EFA5</string>
+		<string>B1CB5A2D-04B9-4AEA-8375-DEDFFBE549E3</string>
 		<string>7DDB29FE-E26D-40C7-AD31-64E0C0E9567C</string>
-		<string>DB446148-471E-42D2-9A70-3ADD8470886F</string>
-		<string>F17DB9F3-BFAA-49AE-A90A-F6386D0A7B51</string>
-		<string>15A9131E-A820-4C8F-94E7-372B83AF5DE8</string>
-		<string>AEE06B8A-45EE-4A45-87CE-9BDB93AAAB94</string>
-		<string>C86DB545-5B1A-43D6-ACB3-D07415DBD1D3</string>
 		<string>DC4087FD-DA78-430E-A9F1-27FABDD521BF</string>
-		<string>04C83E02-D898-4275-95D6-257787383F48</string>
-		<string>87DDCCF1-18A3-4709-BA7C-163DCEDDDF9C</string>
 		<string>0DCA80AF-FAE0-428A-AE26-BD22D262B66E</string>
 		<string>06CC1E94-E590-4A28-9501-C96D4AB36A7D</string>
 		<string>E69C500E-5ED9-45E9-BEFA-09B81D0F4057</string>
@@ -387,16 +351,7 @@
 		<string>8A0F8C9E-1158-4787-B680-0F61F2180F55</string>
 		<string>5ED7413A-8A7C-4F1F-9857-D67BF1B8FFE5</string>
 		<string>768B55B8-8E90-46A5-8CA2-594868CD3E8D</string>
-		<string>90DA8AE5-D405-4C2F-ABF2-A50CF1537FB4</string>
-		<string>8AA9EE70-7716-469A-9DC2-AB76E665721C</string>
-		<string>319EA463-13D1-4F34-A19D-ECE1D7AD6CE5</string>
-		<string>57C11B65-CC74-44EF-8BCE-3219B3599B4C</string>
-		<string>46114B55-18FC-4B7D-93CE-43D6F1F4C4D1</string>
-		<string>848DC811-34A0-4E32-910C-92E58031BB69</string>
-		<string>2623AA25-D719-4181-AFCA-A91B11F694A9</string>
-		<string>B547AC8D-2241-4E3A-84E0-7F9471EBEA3F</string>
-		<string>1BEEBD59-C99E-4826-9208-26236CD0FC75</string>
-		<string>ADBCCFC5-179D-47AA-AA94-E6F1EBA89CD8</string>
+		<string>F9E59F3A-4540-4FB9-8484-E708F5690FFB</string>
 		<string>A7B18CF0-68B7-438D-AD17-0441A0688D31</string>
 		<string>AA607EF2-0D7E-44CB-A57A-8F7EFA812C6D</string>
 		<string>40F929D5-9827-4D79-84FD-BBC947A6A64E</string>
