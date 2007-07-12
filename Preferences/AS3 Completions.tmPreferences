@@ -2508,6 +2508,7 @@
 			<string>uncompress</string>
 			<string>underline</string>
 			<string>underlineToolTip</string>
+			<string>unicodeRange</string>
 			<string>union</string>
 			<string>UNIQUESORT</string>
 			<string>UNKNOWN</string>
