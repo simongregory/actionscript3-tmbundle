@@ -10,6 +10,10 @@ else
 	AS3_LIB="$1"
 fi
 
+echo '<script type="text/javascript" charset="utf-8">'
+cat <"$TM_BUNDLE_SUPPORT/js/help.js"
+echo '</script>'
+
 mkdir -p "$AS3_LIB/com"
 cd "$AS3_LIB/com/"
 
@@ -133,3 +137,9 @@ mkdir -p "com/jwopitz"
 svn checkout http://jwopitz-lib.googlecode.com/svn/trunk/src/com/jwopitz/ com/jwopitz
 
 echo "</pre><br>Checkout complete."
+
+cat <<-HTMOUT
+		<script type="text/javascript" charset="utf-8">
+			setup_external_links();
+		</script>
+HTMOUT
