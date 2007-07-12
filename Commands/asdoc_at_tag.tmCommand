@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -wKU
+
+SUPPORT = ENV['TM_SUPPORT_PATH']
+DIALOG = SUPPORT + '/bin/tm_dialog'
+
+require SUPPORT + '/lib/escape'
+require SUPPORT + '/lib/exit_codes'
+require SUPPORT + '/lib/osx/plist'
+
+at_symbols = [
+
+{ 'title' =&gt; 'author', 'data' =&gt; '@author ${1:' + `niutil -readprop / "/users/$USER" realname`.chomp + "}"}, 
+{ 'title' =&gt; 'eventType', 'data' =&gt; "@eventType    ${1:com.package.Class}" },
+{ 'title' =&gt; 'includeExample', 'data' =&gt; '@includeExample	"${1:path/to/example/file.as|mxml}"' },
+{ 'title' =&gt; 'langversion', 'data' =&gt; "@langversion	ActionScript ${1:3.0}" },
+{ 'title' =&gt; 'param', 'data' =&gt; '@param	${1:name}	 ${2:Description}' },
+{ 'title' =&gt; 'playerversion', 'data' =&gt; '@playerversion	Flash ${1:9}' },
+{ 'title' =&gt; 'private', 'data' =&gt; '@private' },
+{ 'title' =&gt; 'return', 'data' =&gt; '@return		${1:Description}' },
+{ 'title' =&gt; 'see', 'data' =&gt; '@see	${1:package.Class|#classMember|package.Class#classMember}' },
+{ 'title' =&gt; 'since', 'data' =&gt; '@since  ${1:' + `date +%d.%m.%Y`.chomp + '}' },
+{ 'title' =&gt; 'throws', 'data' =&gt; '@throws		${1:Exception}' }
+
+]
+
+plist = { 'menuItems' =&gt; at_symbols }.to_plist
+
+res = OSX::PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
+
+TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
+TextMate.exit_insert_snippet( res['selectedMenuItem']['data'] + "$0" );</string>
+	<key>input</key>
+	<string>none</string>
+	<key>name</key>
+	<string>@tag</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>comment.block.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>@</string>
+	<key>uuid</key>
+	<string>B1CB5A2D-04B9-4AEA-8375-DEDFFBE549E3</string>
+</dict>
+</plist>
