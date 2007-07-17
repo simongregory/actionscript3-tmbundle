@@ -54,7 +54,7 @@ Attempts to auto complete the import statement for the word you have partially t
 
 **Target:** Active Project  
 **Key Equivalent:**  ⌘B  
-Builds the currently active project. The project needs to be correctly configured for success. See the [configuration options] below.  
+Builds the currently active project. The project needs to be correctly configured by setting the `TM_FLEX_FILE_SPECS` and `TM_FLEX_OUTPUT` environmental variables. See the configuration options below.  
 
 ## Compile Current Class
 
@@ -84,7 +84,7 @@ Attempts to locate the current Classes super class and opens it.
 
 **Target:** Current Project  
 **Key Equivalent:**	⌘R  
-See the [configuration options] below.  
+See the configuration options below.  
 
 # Configuration Options
 
