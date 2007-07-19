@@ -14,6 +14,8 @@ require SUPPORT + '/lib/escape'
 require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/osx/plist'
 
+#See ${FLEX_SDK}/frameworks/flash-unicode-table.xml for further Chinese, Hangul and Japanese ranges.
+
 uni_ranges = [
 
 { 'title' =&gt; 'Uppercase [A-Z]', 'data' =&gt; 'unicodeRange="U+0020,U+0041-U+005A"' },
@@ -30,9 +32,11 @@ uni_ranges = [
 { 'title' =&gt; 'Arabic', 'data' =&gt; 'unicodeRange="U+0600-U+06FF,U+FB50-U+FDFF,U+FE70-U+FEFF"' },
 { 'title' =&gt; 'Armenian', 'data' =&gt; 'unicodeRange="U+0530-U+058F,U+FB13-U+FB17"' },
 { 'title' =&gt; 'Braille Patterns', 'data' =&gt; 'unicodeRange="U+2800-U+28FF"' },
+{ 'title' =&gt; 'Chinese (All)', 'data' =&gt; 'unicodeRange="U+3000-U+303F,U+3105-U+312C,U+31A0-U+31BF,U+4E00-U+9FAF,U+FF01-U+FF60,U+F900-U+FAFF,U+201C-U+201D,U+2018-U+2019,U+2014,U+2026,U+FFE5,U+00B7"' },
 { 'title' =&gt; 'Cyrillic', 'data' =&gt; 'unicodeRange="U+0400-U+04CE,U+2000-U+206f,U+20A0-U+20CF,U+2100-U+2183"' },
 { 'title' =&gt; 'Devanagari', 'data' =&gt; 'unicodeRange="U+0900-U+097F"' },
 { 'title' =&gt; 'Greek', 'data' =&gt; 'unicodeRange="U+0374-U+03F2,U+1F00-U+1FFE,U+2000-U+206f,U+20A0-U+20CF,U+2100-U+2183"' },
+{ 'title' =&gt; 'Hangul (All)', 'data' =&gt; 'unicodeRange="U+0020-U+007E,U+1100-U+11F9,U+3000-U+303F,U+3131-U+318E,U+327F,U+AC00-U+D7A3,U+FF01-U+FF60"' },
 { 'title' =&gt; 'Hebrew', 'data' =&gt; 'unicodeRange="U+05B0-U+05FF,U+FB1D-U+FB4F,U+2000-U+206f,U+20A0-U+20CF,U+2100-U+2183"' },
 { 'title' =&gt; 'Japanese Kana', 'data' =&gt; 'unicodeRange="U+3000-U+303F,U+3041-U+309F,U+30A0-U+30FF,U+FF61-U+FF9F"' },
 { 'title' =&gt; 'Thai', 'data' =&gt; 'unicodeRange="U+0E01-U+0E5B"' } ]
