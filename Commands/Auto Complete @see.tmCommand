@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -wKU
+
+SUPPORT        = ENV['TM_SUPPORT_PATH']
+DIALOG         = SUPPORT + '/bin/tm_dialog'
+PROJECT        = ENV['TM_PROJECT_DIRECTORY']
+LINE           = ENV['TM_CURRENT_LINE']
+BUNDLE_SUPPORT = ENV['TM_BUNDLE_SUPPORT']
+HELPTOC        = BUNDLE_SUPPORT + '/data/flex_help_index.xml'
+
+require SUPPORT + '/lib/exit_codes'
+require SUPPORT + '/lib/escape'
+require SUPPORT + '/lib/osx/plist'
+require SUPPORT + '/lib/textmate'
+require "rexml/document"
+require 'find'
+
+#Search for
+WORD = STDIN.read.strip
+TextMate.exit_show_tool_tip("Please select a term to look up.") if WORD.empty?
+
+project_paths = []
+
+# Collect all .as and .mxml files in the project src dir. Then filter for WORD.
+TextMate.each_text_file do |file|
+	project_paths.push(file.sub(PROJECT+"/src/","").sub(".as","").gsub( "/", ".")) if File.extname(file) == ".as"
+	project_paths.push(file.sub(PROJECT+"/src/","").sub(".mxml","").gsub( "/", ".")) if File.extname(file) == ".mxml"
+end
+project_paths = project_paths.grep(/#{WORD}/)
+
+# Open Help toc and find matching lines
+toc_lines = IO.readlines(HELPTOC)
+search_results = []
+library_paths = []
+toc_lines.each do |line|
+	search_results &lt;&lt; line.strip if line[/name=\"#{WORD}/]
+end
+
+# For each line add the path to the documentation.html file
+search_results.each do |line|
+	xml_line = REXML::Document.new(line)
+	help_path = xml_line.root.attributes['href']
+	class_path = help_path.tr( '/', '.' ).chomp.sub('package-detail','*').sub('.html','')
+    library_paths.push(class_path)
+end
+
+TextMate.exit_show_tool_tip "No completion available" if library_paths.empty? and project_paths.empty?
+
+#When there are multiple matches as the user to pick, otherwise return the match.
+if library_paths.size == 1 and project_paths.empty?    
+    choice = library_paths.pop    
+elsif project_paths.size == 1 and library_paths.empty?    
+    choice = project_paths.pop
+else
+    split_marker = []
+    split_marker.push('-') if library_paths.size &gt; 0 and project_paths.size &gt; 0
+    all_paths = library_paths.concat( split_marker.concat(project_paths) )
+    all_paths = all_paths.collect { |e| { 'title' =&gt; e }}
+    plist = { 'menuItems' =&gt; all_paths }.to_plist
+    res = OSX::PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
+    TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
+    choice = res['selectedMenuItem']['title']
+end
+
+print "@see " + choice + ";"
+</string>
+	<key>fallbackInput</key>
+	<string>word</string>
+	<key>input</key>
+	<string>selection</string>
+	<key>keyEquivalent</key>
+	<string>~</string>
+	<key>name</key>
+	<string>Auto Complete @see</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
+	<key>scope</key>
+	<string>comment.block.actionscript.3</string>
+	<key>uuid</key>
+	<string>A9B6935F-06BA-4CA9-8B71-F9AD8A7D9CC6</string>
+</dict>
+</plist>
