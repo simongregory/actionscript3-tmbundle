@@ -5,21 +5,46 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>echo "public function get $TM_CURRENT_WORD() : \${1:Object} { 
-	return \${2:_$TM_CURRENT_WORD}; 
-}\$3"
-echo ""
-echo "public function set $TM_CURRENT_WORD( value:\${1:Object} ) : void { 
-	if (\${2:_$TM_CURRENT_WORD} != value) {
-		\${2:_$TM_CURRENT_WORD} = value;
+	<string>#!/usr/bin/env ruby -wKU
+
+SUPPORT = ENV['TM_SUPPORT_PATH']
+require SUPPORT + '/lib/exit_codes'
+
+accessor_name = STDIN.read
+
+TextMate.exit_show_tool_tip "Please specificy an accessor string" if accessor_name.empty?
+
+f_uri   = ENV["TM_FILEPATH"]
+f_open  = File.open( f_uri, "r" )
+txt     = f_open.read
+
+accessor_match   = txt.scan(/^\W*(private|protected|public){0,1}\W*var\W*\_(#{accessor_name})\W*\:\W*(\w*)/)
+class_type       = "Object"
+
+if accessor_match.empty?
+    print ""	
+else
+    class_type = accessor_match[0][2]
+end
+
+print 'private var _' + accessor_name + ' : ${1:' + class_type + '};
+
+' if accessor_match.empty?
+
+print 'public function get ' + accessor_name + '() : ${1:' + class_type + '} { 
+	return ${2:_' + accessor_name + '}; 
+}$3
+
+public function set ' + accessor_name + '() : ${1:' + class_type + '} {
+	if( value != ${2:_' + accessor_name + '} ){
+		${2:_' + accessor_name + '} = value;
 	}
-}\$0"</string>
+}$0'
+</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
 	<string>selection</string>
-	<key>keyEquivalent</key>
-	<string>^~g</string>
 	<key>name</key>
 	<string>Getter/Setter</string>
 	<key>output</key>
