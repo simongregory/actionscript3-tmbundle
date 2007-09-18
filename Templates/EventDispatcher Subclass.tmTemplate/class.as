@@ -6,15 +6,15 @@ package ${TM_CLASS_PATH} {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	
-	/*
-	* 	EventDispatcher subclass description.
-	*
-	* 	@langversion ActionScript 3.0
-	*	@playerversion Flash 9.0
-	*
-	*	@author ${TM_USERNAME}
-	* 	@since  ${TM_DATE}
-	*/	
+	/**
+	 * 	EventDispatcher subclass description.
+	 *
+	 * 	@langversion ActionScript 3.0
+	 *	@playerversion Flash 9.0
+	 *
+	 *	@author ${TM_USERNAME}
+	 * 	@since  ${TM_DATE}
+	 */	
 	public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 		
 		//--------------------------------------
@@ -25,6 +25,9 @@ package ${TM_CLASS_PATH} {
 		//  CONSTRUCTOR
 		//--------------------------------------
 		
+		/**
+		 *	@constructor
+		 */
 		public function ${TM_NEW_FILE_BASENAME}(){
 			super();
 		}

@@ -17,6 +17,7 @@ require SUPPORT + '/lib/osx/plist'
 at_symbols = [
 
 { 'title' =&gt; 'author', 'data' =&gt; '@author ${1:' + `niutil -readprop / "/users/$USER" realname`.chomp + "}"}, 
+{ 'title' =&gt; 'constructor', 'data' =&gt; "@constructor" },
 { 'title' =&gt; 'default', 'data' =&gt; "@default    ${1:value}" },
 { 'title' =&gt; 'eventType', 'data' =&gt; "@eventType    ${1:com.package.Class}" },
 { 'title' =&gt; 'excludeInherited', 'data' =&gt; "@excludeInherited" },

@@ -7,14 +7,14 @@ package ${TM_CLASS_PATH} {
 	import flash.events.EventDispatcher;
 	
 	/*
-	*	Singleton description.
-	*
-	*	@langversion ActionScript 3.0
-	*	@playerversion Flash 9.0
-	*
-	*	@author ${TM_USERNAME}
-	*	@since  ${TM_DATE}
-	*/
+	 *	Singleton description.
+	 *
+	 *	@langversion ActionScript 3.0
+	 *	@playerversion Flash 9.0
+	 *
+	 *	@author ${TM_USERNAME}
+	 *	@since  ${TM_DATE}
+	 */
 	public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 		
 		//--------------------------------------
@@ -41,6 +41,8 @@ package ${TM_CLASS_PATH} {
 		/**
 		*	ActionScript 3 provides no protection against accidental instantiation of more than 
 		* 	one instance as the constructor has to be public.
+		*	
+		*	@constructor
 		*/
 		public function ${TM_NEW_FILE_BASENAME}(){
 			super();

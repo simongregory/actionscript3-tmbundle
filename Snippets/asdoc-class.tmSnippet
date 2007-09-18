@@ -4,14 +4,14 @@
 <dict>
 	<key>content</key>
 	<string>/**
-*   ${1:Description}
-*	
-* 	@langversion ActionScript ${2:3}
-*	@playerversion Flash ${3:9.0.0}
-*
-*	@author ${4:`niutil -readprop / "/users/$USER" realname`}
-*	@since  ${5:`date +%d.%m.%Y`}
-*/</string>
+ *  ${1:Description}
+ *	
+ * 	@langversion ActionScript ${2:3}
+ *	@playerversion Flash ${3:9.0.0}
+ *
+ *	@author ${4:`niutil -readprop / "/users/$USER" realname`}
+ *	@since  ${5:`date +%d.%m.%Y`}
+ */</string>
 	<key>name</key>
 	<string>asdoc-class</string>
 	<key>scope</key>
