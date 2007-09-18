@@ -3,15 +3,15 @@
 */
 package ${TM_CLASS_PATH} {
 		
-	/*
-	* 	Error subclass description.
-	*
-	* 	@langversion ActionScript 3.0
-	*	@playerversion Flash 9.0
-	*
-	*	@author ${TM_USERNAME}
-	* 	@since  ${TM_DATE}
-	*/	
+	/**
+	 * 	Error subclass description.
+	 *
+	 * 	@langversion ActionScript 3.0
+	 *	@playerversion Flash 9.0
+	 *
+	 *	@author ${TM_USERNAME}
+	 * 	@since  ${TM_DATE}
+	 */	
 	public class ${TM_NEW_FILE_BASENAME} extends Error {
 		
 		//--------------------------------------
@@ -23,10 +23,9 @@ package ${TM_CLASS_PATH} {
 		//--------------------------------------
 		
 		/**
-		*  Constructor.
-		*
-		*  @param message The message that describes this error.
-		*/
+		 *	@constructor
+		 *	@param message The message that describes this error.
+		 */
 		public function ${TM_NEW_FILE_BASENAME}(message:String){
 			super(message);
 		}

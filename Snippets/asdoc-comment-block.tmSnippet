@@ -4,8 +4,8 @@
 <dict>
 	<key>content</key>
 	<string>/**
-*	${1:@private}$0
-*/</string>
+ *	${1:@private}$0
+ */</string>
 	<key>name</key>
 	<string>asdoc-comment-block</string>
 	<key>scope</key>

@@ -4,14 +4,14 @@
 package ${TM_CLASS_PATH} {
 	
 	/*
-	*	Description
-	*
-	*	@langversion ActionScript 3.0
-	*	@playerversion Flash 9.0
-	*
-	*	@author ${TM_USERNAME}
-	*	@since  ${TM_DATE}
-	*/
+	 *	Description
+	 *
+	 *	@langversion ActionScript 3.0
+	 *	@playerversion Flash 9.0
+	 *
+	 *	@author ${TM_USERNAME}
+	 *	@since  ${TM_DATE}
+	 */
 	public interface ${TM_NEW_FILE_BASENAME} {
 		
 		//--------------------------------------
