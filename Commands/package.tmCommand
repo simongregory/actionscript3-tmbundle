@@ -2,18 +2,28 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>content</key>
-	<string>package ${1:com.package} {
-	$2
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>pkg_name=$(echo $TM_DIRECTORY | sed -E -e "s#^.*(src|test)/##g" -e 's#/#.#g')
+
+cat &lt;&lt;SNIPPET
+package \${1:$pkg_name} {	
+	\$2 
 }
+SNIPPET
 </string>
+	<key>input</key>
+	<string>none</string>
 	<key>name</key>
 	<string>package</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>package</string>
 	<key>uuid</key>
-	<string>40AD1B5E-A041-4626-AB76-E5AAAF6D9D73</string>
+	<string>3B521F0F-E01A-49E6-9D6A-43D697D8B5E0</string>
 </dict>
 </plist>
