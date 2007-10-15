@@ -140,6 +140,12 @@ echo "</pre><a href='http://code.google.com/p/jwopitz-lib/'>JWO Lib</a> Open Sou
 mkdir -p "com/jwopitz"
 svn checkout http://jwopitz-lib.googlecode.com/svn/trunk/src/com/jwopitz/ com/jwopitz
 
+#---------- ffsys OSC
+
+echo "</pre>Open Sound Control<pre>"
+mkdir -p "com/ffsys"
+svn checkout http://svn.xcx.co.uk/osc/trunk/resources/src/com/ffsys/ com/ffsys
+
 echo "</pre><br>Checkout complete."
 
 cat <<-HTMOUT
