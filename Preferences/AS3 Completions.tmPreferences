@@ -191,6 +191,7 @@
 			<string>BINARY</string>
 			<string>BindabilityInfo</string>
 			<string>BINDABLE</string>
+			<string>Bindable</string>
 			<string>BINDING</string>
 			<string>BindingManager</string>
 			<string>BindingUtils</string>
