@@ -68,8 +68,8 @@ if [ -n "$fullProjectPath" ]; then
 		TM_NEW_FILE_BASENAME="$projectName";
 		
 		#TODO - Try and work out why export is needed here.
-		tm_user=`niutil -readprop / /users/\$USER realname`;
-		export TM_USER_NAME="$tm_user";
+		#tm_user=`niutil -readprop / /users/\$USER realname`;
+		#export TM_USER_NAME="$tm_user";
 		export TM_YEAR=`date "+%Y"`;
 		export TM_DATE=`date "+%d.%m.%Y"`;
 		

@@ -10,7 +10,7 @@ package ${TM_CLASS_PATH} {
 	 *	@langversion ActionScript 3.0
 	 *	@playerversion Flash 9.0
 	 *
-	 *	@author ${TM_USERNAME}
+	 *	@author ${TM_FULLNAME}
 	 *	@since  ${TM_DATE}
 	 */
 	public class ${TM_NEW_FILE_BASENAME} extends Event {

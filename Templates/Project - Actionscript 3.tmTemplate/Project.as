@@ -1,5 +1,5 @@
 /* AS3
-	Copyright ${TM_YEAR} ${TM_USER_NAME}
+	Copyright ${TM_YEAR} ${TM_FULLNAME}
 */
 package {
 	
@@ -13,7 +13,7 @@ package {
 	 *	@langversion ActionScript 3.0
 	 *	@playerversion Flash 9.0
 	 *
-	 *	@author ${TM_USER_NAME}
+	 *	@author ${TM_FULLNAME}
 	 *	@since ${TM_DATE}
 	 */
 	public class ${TM_NEW_FILE_BASENAME} extends Sprite {
