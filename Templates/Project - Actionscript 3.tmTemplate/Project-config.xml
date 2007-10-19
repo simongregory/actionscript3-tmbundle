@@ -13,7 +13,7 @@
 		<title>AS3 Application</title>
 		<description>AS3 Project</description>
 		<publisher>Made in TextMate</publisher>
-		<creator>${TM_USER_NAME}</creator>
+		<creator>${TM_FULLNAME}</creator>
 		<language>EN</language>
 	</metadata>
 	<raw-metadata></raw-metadata>
