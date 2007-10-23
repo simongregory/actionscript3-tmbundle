@@ -27,6 +27,7 @@ banners = [
 { 'title' =&gt; 'Private and Protected Variables', 'data' =&gt; '// ${1:PRIVATE &amp; PROTECTED INSTANCE VARIABLES}' },
 { 'title' =&gt; 'Private Methods', 'data' =&gt; '// ${1:PRIVATE METHODS}' },
 { 'title' =&gt; 'Private Variables', 'data' =&gt; '// ${1:PRIVATE VARIABLES}' },
+{ 'title' =&gt; 'Protected Methods', 'data' =&gt; '// ${1:PROTECTED METHODS}' },
 { 'title' =&gt; 'Protected Variables', 'data' =&gt; '// ${1:PROTECTED VARIABLES}' },
 { 'title' =&gt; 'Public Methods', 'data' =&gt; '// ${1:PUBLIC METHODS}' },
 { 'title' =&gt; 'Public Variables', 'data' =&gt; '// ${1:PUBLIC VARIABLES}' }
