@@ -4,6 +4,7 @@
 <dict>
 	<key>content</key>
 	<string>override ${1:public} function ${2:methodName}($3) : ${4:void} {
+	super.${2:methodName}();
 	$0${4/void$|(.+)/(?1:return null;)/}
 }</string>
 	<key>name</key>
