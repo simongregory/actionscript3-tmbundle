@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>contactEmailRot13</key>
+	<string>ohaqyrf@uryirpgbe.bet</string>
+	<key>contactName</key>
+	<string>Simon Gregory</string>
+	<key>description</key>
+	<string>ActionScript 3 is a scripting language based on the ECMAScript standard and commonly run by the Adobe Flash Player.</string>
 	<key>mainMenu</key>
 	<dict>
 		<key>items</key>
@@ -16,6 +22,8 @@
 			<string>783EB172-C2CF-44B1-A804-E06EBA9EB6DB</string>
 			<string>96C15F92-2DB6-439E-BDC6-7775B78A4C34</string>
 			<string>3558CE1A-BA5A-4242-AF49-C9D28E57B032</string>
+			<string>373CDD32-464D-4911-9B0D-4AF4F79C71AF</string>
+			<string>------------------------------------</string>
 			<string>141B7716-9CE1-4358-ABC9-671D3AEF8871</string>
 			<string>18FA32FA-FB74-4EB9-A0D3-8699BD77E2A2</string>
 			<string>------------------------------------</string>
@@ -33,10 +41,6 @@
 			<string>4FEAB4A0-BA40-4D5D-AC7C-CA7ACF1A9D0C</string>
 			<string>A51839ED-1956-4FBC-A757-49E671DA2AFC</string>
 			<string>E762945E-8F57-4F2C-BF15-20023F54974F</string>
-			<string>266A1D74-6269-4C0E-A5E6-001236E260D7</string>
-			<string>31C971D3-1766-449E-84DF-6C4EB6575387</string>
-			<string>EF96282D-34CA-4411-8CAD-B4419DC95EBA</string>
-			<string>04F04FD3-8D60-47F4-8260-9F57A3351BDE</string>
 		</array>
 		<key>submenus</key>
 		<dict>
@@ -295,6 +299,7 @@
 		<string>141B7716-9CE1-4358-ABC9-671D3AEF8871</string>
 		<string>6CFE2A86-D28E-4946-A486-65616170D33A</string>
 		<string>18FA32FA-FB74-4EB9-A0D3-8699BD77E2A2</string>
+		<string>373CDD32-464D-4911-9B0D-4AF4F79C71AF</string>
 		<string>72E85582-E1CC-4142-94DC-51566510D868</string>
 		<string>A39534CA-026F-4ECE-8F05-F3D110A94A68</string>
 		<string>6866EE21-9BA1-45A9-8BD6-E782F98310C4</string>
@@ -404,10 +409,6 @@
 		<string>B8AE6064-A3C0-4EBD-A76F-093F6CAFE718</string>
 		<string>DEA9BFA0-B7E4-4860-8FA4-E00A2A4C2A99</string>
 		<string>E803B4A4-2B80-4BD1-8154-DEF3B90345F4</string>
-		<string>266A1D74-6269-4C0E-A5E6-001236E260D7</string>
-		<string>31C971D3-1766-449E-84DF-6C4EB6575387</string>
-		<string>EF96282D-34CA-4411-8CAD-B4419DC95EBA</string>
-		<string>04F04FD3-8D60-47F4-8260-9F57A3351BDE</string>
 	</array>
 	<key>uuid</key>
 	<string>97CE49E1-D900-402D-BFB7-FC3B28458393</string>

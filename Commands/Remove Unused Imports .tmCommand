@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -wKU
+
+require ENV["TM_SUPPORT_PATH"] + "/lib/textmate.rb"
+require ENV["TM_SUPPORT_PATH"] + '/lib/exit_codes'
+current_file = STDIN.read
+
+#Collect all imported classes.
+found_imports = []
+current_file.scan(/\bimport\b.*\.(\w*);/).each do | imported_class |
+	found_imports &lt;&lt; { 'class' =&gt; imported_class.to_s, 'count' =&gt; 0 } 
+end
+
+#Scan the document and usage count for each Import.
+found_imports.each do |import|
+    current_file.scan(/#{import['class']}/).each do | found_instance |
+        import['count'] += 1
+    end
+end
+
+#remove import lines with only one reference.
+to_remove = []
+found_imports.each do |import|
+	if import['count'] == 1
+	   to_remove &lt;&lt; import['class']+"\n"
+	   current_file = current_file.reject do |ln|
+	       /\bimport\b.*\.#{import['class']};/ =~ ln
+       end
+	end
+end
+
+if to_remove.empty?
+	TextMate.exit_show_tool_tip "All Imports appear to be referenced. (Wildcarded packages are not checked!)"
+else
+    puts current_file	
+end 
+</string>
+	<key>input</key>
+	<string>document</string>
+	<key>keyEquivalent</key>
+	<string>^I</string>
+	<key>name</key>
+	<string>Remove Unused Imports </string>
+	<key>output</key>
+	<string>replaceDocument</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>uuid</key>
+	<string>373CDD32-464D-4911-9B0D-4AF4F79C71AF</string>
+</dict>
+</plist>
