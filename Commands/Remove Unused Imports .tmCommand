@@ -35,10 +35,12 @@ found_imports.each do |import|
 	end
 end
 
+TODO: Remove duplicate imports.
+
 if to_remove.empty?
-	TextMate.exit_show_tool_tip "All Imports appear to be referenced. (Wildcarded packages are not checked!)"
+	puts "All Imports appear to be referenced. (Wildcarded packages are not checked!)"
 else
-    puts current_file	
+    TextMate.exit_replace_document current_file	
 end 
 </string>
 	<key>input</key>
@@ -48,7 +50,7 @@ end
 	<key>name</key>
 	<string>Remove Unused Imports </string>
 	<key>output</key>
-	<string>replaceDocument</string>
+	<string>showAsTooltip</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>uuid</key>
