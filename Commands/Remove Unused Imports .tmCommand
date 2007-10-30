@@ -35,7 +35,7 @@ found_imports.each do |import|
 	end
 end
 
-TODO: Remove duplicate imports.
+#TODO: Remove duplicate imports.
 
 if to_remove.empty?
 	puts "All Imports appear to be referenced. (Wildcarded packages are not checked!)"
