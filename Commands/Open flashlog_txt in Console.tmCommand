@@ -5,7 +5,22 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>open -a "Console.app" "/Users/$USER/Library/Preferences/Macromedia/Flash Player/Logs/flashlog.txt";
+	<string>TM_FLASH_LOG="/Users/$USER/Library/Preferences/Macromedia/Flash Player/Logs/flashlog.txt"
+
+if [[ -f "$TM_FLASH_LOG" ]]; then
+
+	open -a "Console.app" "$TM_FLASH_LOG";
+
+else
+
+	echo "flashlog.txt could not be found/opened."
+	echo ""
+	echo "Make sure:"
+	echo " 	you are running the Flash Debug Player."
+	echo "	you have installed the mm.cfg file (see Install mm.cfg command)."
+	echo "	you have permissions to access the file."
+
+fi
 </string>
 	<key>input</key>
 	<string>none</string>
