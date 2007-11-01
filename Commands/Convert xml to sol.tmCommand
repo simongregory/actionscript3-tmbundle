@@ -17,6 +17,8 @@
 	<string>Convert xml to sol</string>
 	<key>output</key>
 	<string>discard</string>
+	<key>scope</key>
+	<string>source.actionscript</string>
 	<key>uuid</key>
 	<string>275E4633-7BB3-4E88-8103-77F4AA90720E</string>
 </dict>
