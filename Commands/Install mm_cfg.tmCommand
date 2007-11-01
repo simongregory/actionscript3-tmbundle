@@ -35,7 +35,7 @@ open -a "TextMate.app" "$TM_MMCFG_PATH"
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
-	<string>source.actionscript.3, text.xml.mxml</string>
+	<string>source.actionscript, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>33712CB3-7897-4B93-821E-F35F8FD13BA2</string>
 </dict>

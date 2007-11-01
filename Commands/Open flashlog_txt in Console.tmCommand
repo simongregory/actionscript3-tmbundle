@@ -29,7 +29,7 @@ fi
 	<key>output</key>
 	<string>showAsTooltip</string>
 	<key>scope</key>
-	<string>source.actionscript.3, text.xml.mxml</string>
+	<string>source.actionscript, text.xml.mxml</string>
 	<key>uuid</key>
 	<string>10B06636-2744-45E9-B6B2-0ABC2B903DEF</string>
 </dict>
