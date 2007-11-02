@@ -7,6 +7,12 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
+# Please be aware of the following TODO's with this command:
+#
+# Detect if the import classs reference is within a comment block and if so comment the import out. 
+# Wildcarded.* packages are not checked.
+# Packages containing more than one class will not work.
+
 require ENV["TM_SUPPORT_PATH"] + "/lib/textmate.rb"
 require ENV["TM_SUPPORT_PATH"] + '/lib/exit_codes'
 current_file = STDIN.read
@@ -38,7 +44,7 @@ end
 #TODO: Remove duplicate imports.
 
 if to_remove.empty?
-	puts "All Imports appear to be referenced. (Wildcarded packages are not checked!)"
+	puts "All Imports appear to be referenced.\nwild.card.* packages are not checked.\nReference repetitions (ie in comments) will not be removed."
 else
     TextMate.exit_replace_document current_file	
 end 
