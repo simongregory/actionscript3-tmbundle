@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>pkg_name=$(echo $TM_DIRECTORY | sed -E -e "s#^.*(src|test)/##g" -e 's#/#.#g')
+	<string>pkg_name=$(echo $TM_DIRECTORY | sed -E -e "s#^.*(source|src|test)/##g" -e 's#/#.#g')
 
 cat &lt;&lt;SNIPPET
 package \${1:$pkg_name} {	
