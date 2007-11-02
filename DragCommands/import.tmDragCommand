@@ -3,27 +3,27 @@
 <plist version="1.0">
 <dict>
 	<key>command</key>
-	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh";
+	<string># 
+# By default this command with import the file. 
+# For include functionality hold down command when you relase the mouse.
+#
 
-CLASS=`basename "$TM_DROPPED_FILE" ".as"`
-CLASS=`basename "$CLASS" ".mxml"`
-
-FILE_PATH=`dirname "$TM_DROPPED_FILEPATH"`
-CLASS_PATH=`echo ${FILE_PATH#$TM_PROJECT_DIRECTORY/src/}`
-
-if [[ "$CLASS_PATH" == "$FILE_PATH" ]]; then
-	CLASS_PATH=`echo ${FILE_PATH#$TM_AS3_LIB_PATH/}`
+if [[ "$TM_MODIFIER_FLAGS" == "COMMAND" ]]; then
+	#TODO: Check that the file isn't mxml.
+ 	echo "include \"$TM_DROPPED_FILE\";"
+	exit 0;
 fi
 
-if [[ "$CLASS_PATH" == "$FILE_PATH" ]]; then
-	set_TM_FLEX_PATH
-	if [ "$?" == "0" ]; then
-		CLASS_PATH=`echo ${FILE_PATH#$TM_FLEX_PATH/frameworks/source/}`
-	fi
-fi
+class=`basename "$TM_DROPPED_FILE" ".as"`
+class=`basename "$class" ".mxml"`
 
-CLASS_PATH=`echo "$CLASS_PATH" | tr '/' '.'`;
-echo "import $CLASS_PATH.$CLASS;"</string>
+file_path=`dirname "$TM_DROPPED_FILEPATH"`
+file_path="$file_path/$class"
+
+import_path=$(echo "$file_path" | sed -E -e "s#^.*(source|src|test)/##g" -e 's#/#.#g')
+
+echo "import $import_path;"
+</string>
 	<key>documentExtensions</key>
 	<array>
 		<string>html</string>
@@ -47,7 +47,7 @@ echo "import $CLASS_PATH.$CLASS;"</string>
 		<string>mxml</string>
 	</array>
 	<key>name</key>
-	<string>import</string>
+	<string>import / include</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
