@@ -8,8 +8,12 @@
 # For include functionality hold down command when you relase the mouse.
 #
 
+extension=${TM_DROPPED_FILE##*.}
+
 if [[ "$TM_MODIFIER_FLAGS" == "COMMAND" ]]; then
-	#TODO: Check that the file isn't mxml.
+	if [[ "$extension" == "mxml" ]]; then
+		echo "//WARNING mxml files should not be used as includes.";
+	fi
  	echo "include \"$TM_DROPPED_FILE\";"
 	exit 0;
 fi
@@ -51,7 +55,7 @@ echo "import $import_path;"
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript.3</string>
+	<string>source.actionscript</string>
 	<key>uuid</key>
 	<string>03D8DAA6-525C-45B3-98BD-CFB9A1AE6719</string>
 </dict>
