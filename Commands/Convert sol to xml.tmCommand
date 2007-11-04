@@ -5,7 +5,8 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string># .sol are flash cookies.
+	<string># .sol files are the flash equivalent of cookies.
+# You are likely to find them here ~/Library/Preferences/Macromedia/Flash Player/
 "$TM_BUNDLE_SUPPORT/lib/sol2xml.py" -x "$TM_FILEPATH"
 </string>
 	<key>input</key>
