@@ -12,7 +12,6 @@ try_to_add_flex_bin_to_PATH;
 require_cmd "mxmlc" "If you have installed mxmlc, then you need to either update your &lt;tt&gt;PATH&lt;/tt&gt; or set the &lt;tt&gt;TM_FLEX_PATH&lt;/tt&gt; shell variable (please see bundle help)."
 
 #TODO: Warn the user that if the class isn't a subclass of Sprite it won't run.
-#TODO: Check that TM_FILENAME is a .as or .mxmlc file.
 
 htmlHeader "Compiling $TM_FILENAME";
 importCSS "$TM_BUNDLE_SUPPORT/css/errors.css";
