@@ -168,7 +168,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>((\b(public|private|protected|override|static|internal|final|dynamic|\w+)\b\s)*)\s*(function)\s*(((get|set)*)\s*\w+)</string>
+			<string>((\b(public|private|protected|override|static|internal|final|dynamic|\w+)\b\s)*)\s*(function)\s*(((get\b|set\b)*)\s*\w+)</string>
 			<key>name</key>
 			<string>storage.type.modifier.actionscript.3</string>
 		</dict>
