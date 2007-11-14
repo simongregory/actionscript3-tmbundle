@@ -31,13 +31,16 @@ print 'private var ${1:_' + accessor_name + '} : ${2:' + class_type + '};
 
 ' if accessor_match.empty?
 
-print 'public function get ' + accessor_name + '() : ${2:' + class_type + '} { 
+print '[Bindable(event="propertyChange")]
+public function get ${3:' + accessor_name + '}() : ${2:' + class_type + '} { 
 	return ${1:_' + accessor_name + '}; 
 }
 
-public function set ' + accessor_name + '( value:${2:' + class_type + '} ) : void {
-	if (value !== ${1:_' + accessor_name + '}){
+public function set ${3:' + accessor_name + '}( value:${2:' + class_type + '} ) : void {
+	var oldValue : ${2:' + class_type + '} = ${1:_' + accessor_name + '};
+	if (value !== oldValue){
 		${1:_' + accessor_name + '} = value;
+		dispatchEvent(mx.events.PropertyChangeEvent.createUpdateEvent(this, "${3:' + accessor_name + '}", oldValue, value));
 	}
 }$0'
 </string>
@@ -48,12 +51,12 @@ public function set ' + accessor_name + '( value:${2:' + class_type + '} ) : voi
 	<key>keyEquivalent</key>
 	<string>^~g</string>
 	<key>name</key>
-	<string>Getter/Setter</string>
+	<string>Bindable Getter/Setter</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>uuid</key>
-	<string>96C15F92-2DB6-439E-BDC6-7775B78A4C34</string>
+	<string>497A6856-4BA5-45B0-B243-68C1EC4869D4</string>
 </dict>
 </plist>
