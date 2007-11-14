@@ -19,13 +19,13 @@ current_file = STDIN.read
 
 #Collect all imported classes.
 found_imports = []
-current_file.scan(/\bimport\b.*\.(\w*);/).each do | imported_class |
+current_file.scan(/\bimport\s+.*\.(\w+?);/).each do | imported_class |
 	found_imports &lt;&lt; { 'class' =&gt; imported_class.to_s, 'count' =&gt; 0 } 
 end
 
 #Scan the document and usage count for each Import.
 found_imports.each do |import|
-    current_file.scan(/#{import['class']}/).each do | found_instance |
+    current_file.scan(/\b#{import['class']}\b/).each do | found_instance |
         import['count'] += 1
     end
 end
