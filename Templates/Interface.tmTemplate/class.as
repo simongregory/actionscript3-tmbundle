@@ -3,7 +3,7 @@
 */
 package ${TM_CLASS_PATH} {
 	
-	/*
+	/**
 	 *	Description
 	 *
 	 *	@langversion ActionScript 3.0
