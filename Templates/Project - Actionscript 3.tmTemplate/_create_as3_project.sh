@@ -9,7 +9,7 @@
 # Hierarchy as TM doesn't support Template duplication 
 # properly when a directory is present.
 # 
-# The created project should be fine to import into Flex Builder,
+# The created project should be fine to import into Flex Builder 2,
 # although there appear to be problems with the way Flex Builder
 # treats the deploy folder.
 #
@@ -67,9 +67,6 @@ if [ -n "$fullProjectPath" ]; then
 		#Gather variables to be substituted.
 		TM_NEW_FILE_BASENAME="$projectName";
 		
-		#TODO - Try and work out why export is needed here.
-		#tm_user=`niutil -readprop / /users/\$USER realname`;
-		#export TM_USER_NAME="$tm_user";
 		export TM_YEAR=`date "+%Y"`;
 		export TM_DATE=`date "+%d.%m.%Y"`;
 		
@@ -105,11 +102,7 @@ if [ -n "$fullProjectPath" ]; then
 		
 		# switch off custom compile.sh (disabled so projects will compile independently of a .tmproj file as these are ignored by svn).
 		#mv "$projectPath/$projectName/build/compile.sh" "$projectPath/$projectName/build/compile(rename_to_enable).sh";
-		
-		# Additional tidying up. No longer needed as the dir structure is no longer present.
-		#cd "$projectPath/$projectName/"
-		#find -d . -name '.svn' -exec rm -rf '{}' \;
-		
+			
 		# Open the project in TextMate
 		open -a "TextMate.app" "$projectPath/$projectName/$projectName.tmproj";
 		

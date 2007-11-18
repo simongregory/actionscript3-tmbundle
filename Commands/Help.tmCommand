@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -32,7 +32,7 @@ If you do not place the Flex SDK in one of these directories then you need to se
 
 Flex and ActionScript 3 documentation is available separately [here](http://www.adobe.com/support/documentation/en/flex/), a zip file containing all documentation can be [downloaded here](http://www.adobe.com/go/flex_documentation_zip). Once downloaded please rename the unzipped directory `docs` and place it in your Flex SDK directory.
 
-Compilation speed can be increased by using [fcsh](http://labs.adobe.com/wiki/index.php/Flex_Compiler_Shell) and [iTerm](http://iterm.sourceforge.net). The downloaded files need to be moved to their corresponding `lib` and `bin` Flex SDK directories.  
+Compilation speed can be increased by using [fcsh](http://labs.adobe.com/wiki/index.php/Flex_Compiler_Shell). If you are using a version of the OS earlier than leopard then [iTerm](http://iterm.sourceforge.net) is also needed. The downloaded files need to be moved to their corresponding `lib` and `bin` Flex SDK directories.  
 
 A full archive of flash players can be found [here](http://www.adobe.com/cfusion/knowledgebase/index.cfm?id=tn_14266), debugger versions of the player are needed to trace output and display runtime errors.  
 
