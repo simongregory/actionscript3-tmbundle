@@ -62,15 +62,17 @@ checkForSpaces "$TM_PROJECT_DIR/$TM_FLEX_OUTPUT" "$MXMLC_O"
 checkForSpaces "$TM_PROJECT_DIR/$TM_FLEX_FILE_SPECS" "$MXMLC_FS"
 checkForSpaces "$TM_AS3_LIB_PATH" "$MXMLC_SP"
 
+MXMLC_ARGS="mxmlc -o=$MXMLC_O -file-specs=$MXMLC_FS"
+
+if [ "$TM_AS3_LIB_PATH" != "" ]; then
+	MXMLC_ARGS="$MXMLC_ARGS -sp+=$TM_AS3_LIB_PATH"
+fi
+	
 OS=$(defaults read /System/Library/CoreServices/SystemVersion ProductVersion)
 if [[ "$OS" != 10.4.* ]]; then
-    "$TM_BUNDLE_SUPPORT/lib/fcsh_terminal" "$FCSH" "mxmlc -o=$MXMLC_O -file-specs=$MXMLC_FS -sp+=$TM_AS3_LIB_PATH" >/dev/null; 
+    "$TM_BUNDLE_SUPPORT/lib/fcsh_terminal" "$FCSH" "$MXMLC_ARGS" >/dev/null; 
 else
-	osascript "$TM_BUNDLE_SUPPORT/lib/fsch_iTerm.applescript" "$FCSH" "mxmlc -o=$MXMLC_O -file-specs=$MXMLC_FS -sp+=$TM_AS3_LIB_PATH" >/dev/null;
+	osascript "$TM_BUNDLE_SUPPORT/lib/fsch_iTerm.applescript" "$FCSH" "$MXMLC_ARGS" >/dev/null;
 fi
-
-# if [ "$TM_FLEX_TEST_LEOPARD_TERMINAL" != "" ]; then	
-# else
-# fi
 
 exit 200;
