@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . "$TM_SUPPORT_PATH/lib/html.sh";
+. "$TM_SUPPORT_PATH/lib/webpreview.sh"
 
 #Search locations for the flex sdk
 FLEX_DIRS=( "/Applications/flex_sdk_2" \

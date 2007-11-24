@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -11,7 +11,7 @@ html_header "ActionScript 3 Bundle Help" "ActionScript 3"
 "$TM_SUPPORT_PATH/lib/markdown_to_help.rb" &lt;&lt;'EOF'
 # Installation
 
-This bundle is designed to work with the Flex SDK (not the Flash IDE). Therfore it is necessary to download and install the Flex SDK or Flex Builder from [here](http://www.adobe.com/products/flex/downloads/). Bundle commands will search the following directories in an attempt to find the sdk:
+This bundle is designed to work with the Flex SDK 2 (not the Flash IDE). Therfore it is necessary to download and install the Flex SDK or Flex Builder from [here](http://www.adobe.com/products/flex/downloads/). Bundle commands will search the following directories in an attempt to find the sdk:
 
 * `/Applications/flex_sdk_2`
 * `/Applications/FlexSDK2`
@@ -80,6 +80,12 @@ Creates a get set method pair from the selected word. If there is no current wor
 **Key Equivalent:** ⇧⌘D  
 Attempts to locate the current Classes super class and opens it.  
 
+## Remove Unused Imports 
+
+**Target:** Current Document  
+**Key Equivalent:**	⇧⌃I  
+Removes any import statements who's class is *not referenced* elsewhere in the document. Please note that wildcarded.* packages are not removed and that packages containing more than one class will not work.
+
 ## Run Project
 
 **Target:** Current Project  
@@ -97,7 +103,7 @@ The path to your Flex SDK installation directory. If it is not in one of the def
 The project directory relative path to the file to compile. Ideally this should be a [Project Dependent Variable](?project_dependent_variables)
 
 * `TM_FLEX_OUTPUT`  
-The project directory relative path to the file to create when you compile. Ideally this should be a [Project Dependent Variable](?project_dependent_variables).
+The project directory relative path of the swf file to create when you compile. Ideally this should be a [Project Dependent Variable](?project_dependent_variables).
 
 * `TM_FLEX_BUILD_FILE`  
 The project directory relative path to the build file you wish to use to override default behaviour.
@@ -124,8 +130,8 @@ Chris Jenkins
 [Theo Hultberg](http://blog.iconara.net/2007/02/23/textmate-flex-tips/)  
 [Mark Llobrera](http://www.dirtystylus.com/blog/)  
 [Joachim](http://www.4d.be/)  
-[ChromaticRain](http://blog.chromaticrain.com/?p=3)  
-[Thomas Aylott](http://subtlegradient.com/)
+ChromaticRain (http://blog.chromaticrain.com/?p=3)
+[Thomas Aylott](http://subtlegradient.com/)  
 Jeremy Sachs  
 
 EOF
