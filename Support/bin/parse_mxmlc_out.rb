@@ -1,5 +1,11 @@
 #!/usr/bin/env ruby -w
 
+# TODO: Add exit status then reinstate this in the compile and build commands where appropriate.
+#if [ "$?" == "0" ]; then
+#	open "${TM_FILEPATH%.*}.swf";
+#	delayedJS "5000" "window.close()"
+#fi
+
 STDOUT.sync = true
 
 error_count = 0;

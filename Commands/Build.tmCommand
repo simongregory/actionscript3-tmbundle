@@ -12,6 +12,7 @@
 cd_to_tmproj_root;
 try_to_add_flex_bin_to_PATH;
 
+### Use a custom build file if one has been defined.
 if [[ (-f "$TM_PROJECT_DIR/$TM_FLEX_BUILD_FILE") ]]; then
 	"$TM_PROJECT_DIR/$TM_FLEX_BUILD_FILE";
 	exit $?
@@ -22,7 +23,7 @@ require_var "TM_FLEX_OUTPUT" "$TM_FLEX_OUTPUT"
 
 require_cmd "mxmlc" "If you have installed mxmlc, then you need to either update your &lt;tt&gt;PATH&lt;/tt&gt; or set the &lt;tt&gt;TM_FLEX_PATH&lt;/tt&gt; shell variable (please see bundle help)."
 
-### If the user is running Leopard the use FCSH via Terminal
+### If the user is running Leopard the use fcsh via Terminal
 OS=$(defaults read /System/Library/CoreServices/SystemVersion ProductVersion)
 if [[ "$OS" != 10.4.* ]]; then
 	build_with_fcsh.sh
@@ -30,7 +31,6 @@ if [[ "$OS" != 10.4.* ]]; then
 fi
 
 ### When the user has iTerm use FCSH.
-
 if find_app &gt;/dev/null iTerm.app; then
 	if type -p fcsh &gt;/dev/null; then
 		build_with_fcsh.sh
@@ -40,23 +40,16 @@ fi
 
 ### MXMLC Compile Starts here.
 
-htmlHeader "Building $TM_FLEX_FILE_SPECS (mxmlc)";
-importCSS "$TM_BUNDLE_SUPPORT/css/errors.css";
+html_header "Building (mxmlc)" "$TM_FLEX_FILE_SPECS";
 
 mxmlc \
 	-sp+=$TM_AS3_LIB_PATH \
 	-file-specs="$TM_FLEX_FILE_SPECS" \
 	-output="$TM_FLEX_OUTPUT" \
 	-incremental=true \
-	-optimize=true 2&gt;&amp;1 | parse_mxmlc_out.py;
+	-optimize=true 2&gt;&amp;1 | parse_mxmlc_out.rb;
 
-if [ "$?" == "0" ]; then
-
-	echo "&lt;p&gt;&lt;a href='tm-file://$TM_PROJECT_DIR/$TM_FLEX_OUTPUT'&gt;open $TM_FLEX_OUTPUT&lt;/a&gt;&lt;/p&gt;";
-	
-fi
-
-htmlFooter;
+html_footer;
 exit_show_html;
 </string>
 	<key>input</key>

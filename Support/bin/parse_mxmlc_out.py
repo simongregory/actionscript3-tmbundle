@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+#This script has been depricated in favour of parse_mxml_output.rb
+
 import sys, os.path, re, os, atexit, signal
 
 matcher = re.compile(r'(/.*?)(\(([0-9]+)\)|):.*(Error|Warning):\s*(.*)$')

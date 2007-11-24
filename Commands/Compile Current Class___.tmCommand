@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -13,21 +13,14 @@ require_cmd "mxmlc" "If you have installed mxmlc, then you need to either update
 
 #TODO: Warn the user that if the class isn't a subclass of Sprite it won't run.
 
-htmlHeader "Compiling $TM_FILENAME";
-importCSS "$TM_BUNDLE_SUPPORT/css/errors.css";
-
+html_header "Compiling $TM_FILENAME";
 mxmlc \
 	-sp+=$TM_AS3_LIB_PATH \
 	-file-specs="$TM_FILENAME" \
 	-incremental=true \
-	-optimize=true 2&gt;&amp;1 | parse_mxmlc_out.py;
+	-optimize=true 2&gt;&amp;1 | parse_mxmlc_out.rb;
 
-if [ "$?" == "0" ]; then
-	open "${TM_FILEPATH%.*}.swf";
-	delayedJS "5000" "window.close()"
-fi
-
-htmlFooter;</string>
+html_footer;</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
