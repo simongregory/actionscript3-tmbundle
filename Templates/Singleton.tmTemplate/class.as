@@ -25,17 +25,17 @@ package ${TM_CLASS_PATH} {
 		//  SINGLETON CONSTRUCTION
 		//--------------------------------------
 		
-		private static var $instance : ${TM_NEW_FILE_BASENAME};
+		private static var _instance : ${TM_NEW_FILE_BASENAME};
 		
 		public static function get instance() : ${TM_NEW_FILE_BASENAME} {
 			return initialize();
 		}
 		
 		public static function initialize() : ${TM_NEW_FILE_BASENAME} {
-			if ($instance == null){
-				$instance = new ${TM_NEW_FILE_BASENAME}();
+			if (_instance == null){
+				_instance = new ${TM_NEW_FILE_BASENAME}();
 			}
-			return $instance;
+			return _instance;
 		}
 		
 		/**
@@ -46,8 +46,8 @@ package ${TM_CLASS_PATH} {
 		*/
 		public function ${TM_NEW_FILE_BASENAME}(){
 			super();
-			if( $instance != null ) throw new Error( "Error:${TM_NEW_FILE_BASENAME} already initialised." );
-			if( $instance == null ) $instance = this;
+			if( _instance != null ) throw new Error( "Error:${TM_NEW_FILE_BASENAME} already initialised." );
+			if( _instance == null ) _instance = this;
 		}
 		
 		//--------------------------------------
