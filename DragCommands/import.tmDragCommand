@@ -24,7 +24,7 @@ class=`basename "$class" ".mxml"`
 file_path=`dirname "$TM_DROPPED_FILEPATH"`
 file_path="$file_path/$class"
 
-import_path=$(echo "$file_path" | sed -E -e "s#^.*(source|src|test)/##g" -e 's#/#.#g')
+import_path=$(echo "$file_path" | sed -E -e "s#^.*(source|src|test|AS3Lib)/##g" -e 's#/#.#g')
 
 echo "import $import_path;"
 </string>
