@@ -21,7 +21,7 @@ function checkForSpaces {
 }
 
 #Only check for iTerm when the OS is Tiger.
-if [[ "$OS" != 10.4.* ]]; then
+if [[ "$OS" == 10.4.* ]]; then
 	
 	if find_app >/dev/null iTerm; then
 		#All is ok.
