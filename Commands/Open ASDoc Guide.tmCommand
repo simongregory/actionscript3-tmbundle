@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>open -a "Safari.app" "http://labs.adobe.com/wiki/index.php/ASDoc:Creating_ASDoc_Comments";</string>
+	<string>open "http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&amp;file=asdoc_127_1.html";</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
