@@ -10,7 +10,7 @@
 	<key>name</key>
 	<string>asdoc-newline</string>
 	<key>scope</key>
-	<string>comment.block.actionscript.3</string>
+	<string>comment.block.documentation.asdoc</string>
 	<key>uuid</key>
 	<string>A7B18CF0-68B7-438D-AD17-0441A0688D31</string>
 </dict>
