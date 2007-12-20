@@ -304,6 +304,10 @@
 			</array>
 		</dict>
 		<dict>
+			<key>include</key>
+			<string>text.html.asdoc</string>
+		</dict>
+		<dict>
 			<key>begin</key>
 			<string>/\*</string>
 			<key>end</key>
