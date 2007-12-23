@@ -4,11 +4,10 @@
 package {
 	
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.display.Sprite;
 	
-	/*
-	 *	Class Description
+	/**
+	 *	Main Class for Project.
 	 *
 	 *	@langversion ActionScript 3.0
 	 *	@playerversion Flash 9.0
@@ -27,6 +26,7 @@ package {
 		 */
 		public function ${TM_NEW_FILE_BASENAME}(){
 			super();
+			stage.addEventListener( Event.RESIZE, initialise );
 		}
 		
 		//--------------------------------------
@@ -48,6 +48,15 @@ package {
 		//--------------------------------------
 		// PRIVATE & PROTECTED INSTANCE METHODS
 		//--------------------------------------
+
+		/**
+		 *	Initialise stub.
+		 */
+		private function initialise( event:Event ) : void
+		{			
+			stage.removeEventListener( Event.RESIZE, initialise );
+			trace( "Initialised" );
+		}
 		
 	}
 	

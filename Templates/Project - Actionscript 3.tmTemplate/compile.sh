@@ -13,7 +13,7 @@ echo "<code> Started @ `date "+%H:%M:%S"`</code><br />";
 "$TM_FLEX_PATH/bin/mxmlc" \
 	-sp+="$TM_AS3_LIB_PATH" \
 	-file-specs="src/${TM_NEW_FILE_BASENAME}.as" \
-	-o="deploy/${TM_NEW_FILE_BASENAME}.swf" 2>&1 | "$TM_BUNDLE_SUPPORT/bin/parse_mxmlc_out.py";
+	-o="deploy/${TM_NEW_FILE_BASENAME}.swf" 2>&1 | "$TM_BUNDLE_SUPPORT/bin/parse_mxmlc_out.rb";
 
 if [ "$?" == "0" ]
 	then
