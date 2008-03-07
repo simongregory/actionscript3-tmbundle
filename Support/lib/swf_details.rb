@@ -72,11 +72,31 @@ class Swf
     @bits = ""
     
     while(true)
-      tag = getNextTag()
-      if(tag[:id] == 9)
-        @bgcolor = sprintf("#%02X%02X%02X", tag[:data][0], tag[:data][1], tag[:data][2])
-        break
-      end
+		tag = getNextTag()
+
+		# For an AS3 implementation:
+		# http://flashpanoramas.com/blog/2007/07/02/swf-parser-air-application/		
+		# There's also a C# version somewhere.
+		
+		# See http://the-labs.com/MacromediaFlash/SWF-Spec/SWFfilereference.html
+		# For details of file format, id "Tag ID = 9" is Background Colour.
+      
+		if(tag[:id] == 9)
+			@bgcolor = sprintf("#%02X%02X%02X", tag[:data][0], tag[:data][1], tag[:data][2])
+			break
+		elsif(tag[:id] == 39)
+			# DefineSprite.
+			break			
+		elsif(tag[:id] == 43)
+			# Frame Label, SWF 3 Only.
+			break
+		elsif(tag[:id] == 76)
+			# SymbolClass.
+			break						
+		elsif(tag[:id] == 77)
+			# Metadata.
+			break
+		end
     end
     
   end
