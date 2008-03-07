@@ -27,12 +27,12 @@ ARGF.each do |line|
 
     unless match === nil
         print "<br/>" if last_match != ERROR_WARN_MATCH        
-        print 'Error <a title="Click to show error and close output" href="txmt://open?url=file://' + match[1] + 
+        print 'Error <a title="Click to show error." href="txmt://open?url=file://' + match[1] + 
               '&line='+ match[3] + 
-              '" onclick="self.close();">' + match[5] + 
+              '" >' + match[5] + 
               '</a> at line ' + match[3] + 
               ' in <a title="'+match[1] + 
-              '" href="' + match[1] + '">' +
+              '" href="txmt://open?url=file://' + match[1] + '">' +
               File.basename( match[1] ) + '</a><br/>'
         error_count += 1
         last_match = ERROR_WARN_MATCH
@@ -42,7 +42,8 @@ ARGF.each do |line|
     match = config_file_regex.match( line )
     unless match === nil
         print "<br/>" if last_match != CONFIGURATION_MATCH
-        print 'Loading configuration file: <a title="Click to open '+match[2]+'" href="txmt://open?url=file://'+match[2]+'" >' + File.basename( match[2] )+'</a><br/>'
+        print 'Loading configuration file: <a title="Click to open ' + match[2] + 
+        '" href="txmt://open?url=file://' + match[2] + '" >' + File.basename( match[2] ) +'</a><br/>'
         last_match = CONFIGURATION_MATCH
         next
     end
@@ -50,7 +51,8 @@ ARGF.each do |line|
     match = recompile_file_regex.match( line )
     unless match === nil
         print "<br/>" if last_match != RECOMPILE_REASON_MATCH
-        print 'Recompiling: <a title="Click to open '+match[2]+'" href="txmt://open?url=file://'+match[2]+'" >' + File.basename( match[2] )+'</a><br/>'
+        print 'Recompiling: <a title="Click to open ' + match[2] + 
+        '" href="txmt://open?url=file://' + match[2] + '" >' + File.basename( match[2] )+'</a><br/>'
         last_match = RECOMPILE_REASON_MATCH
         next
     end
@@ -58,7 +60,8 @@ ARGF.each do |line|
     match = reason_file_regex.match(line)
     unless match === nil
         print "<br/>" if last_match != RECOMPILE_REASON_MATCH
-        print match[1]+'<a title="Click to open '+match[2]+'" href="txmt://open?url=file://'+match[2]+'" >' + File.basename( match[2] )+'</a> '+match[3]+'<br/>'
+        print match[1]+'<a title="Click to open ' + match[2] + '" href="txmt://open?url=file://' + match[2] + 
+        '" >' + File.basename( match[2] )+'</a> ' + match[3] + '<br/>'
         last_match = RECOMPILE_REASON_MATCH
         next
     end
