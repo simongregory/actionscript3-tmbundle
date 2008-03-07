@@ -39,7 +39,7 @@ lastCompile.reverse.each do |line|
 
     match = error_and_warn_regex.match( line )
     unless match === nil
-        print 'Error <a title="Click to show error and close output" href="txmt://open?url=file://' + match[1] + '&line='+ match[3]+'" onclick="self.close();">'+match[5]+'</a> at line ' + match[3] + ' in <a title="'+match[1]+'" href="'+match[1]+'">'+File.basename( match[1] )+'</a><br/>'
+        print 'Error <a title="Click to show error." href="txmt://open?url=file://' + match[8] + '&line='+ match[3]+'" >'+match[5]+'</a> at line ' + match[3] + ' in <a title="'+match[1]+'" href="'+match[1]+'">'+File.basename( match[1] )+'</a><br/>'
         error_count += 1
         next
     end
