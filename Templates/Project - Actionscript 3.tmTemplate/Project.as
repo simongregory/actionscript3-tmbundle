@@ -26,7 +26,7 @@ package {
 		 */
 		public function ${TM_NEW_FILE_BASENAME}(){
 			super();
-			stage.addEventListener( Event.RESIZE, initialise );
+			stage.addEventListener( Event.ENTER_FRAME, initialise );
 		}
 		
 		//--------------------------------------
@@ -54,7 +54,7 @@ package {
 		 */
 		private function initialise( event:Event ) : void
 		{			
-			stage.removeEventListener( Event.RESIZE, initialise );
+			stage.removeEventListener( Event.ENTER_FRAME, initialise );
 			trace( "Initialised" );
 		}
 		
