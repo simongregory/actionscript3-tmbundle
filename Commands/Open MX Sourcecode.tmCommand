@@ -9,7 +9,14 @@
 
 set_flex_path;
 
-open -a "TextMate.app" "$TM_FLEX_PATH/frameworks/source/mx/";</string>
+if [ -d "$TM_FLEX_PATH/frameworks/source/mx/" ]; then
+	open -a "TextMate.app" "$TM_FLEX_PATH/frameworks/source/mx/";
+elif [ -d "$TM_FLEX_PATH/frameworks/projects/framework/src" ]; then
+	open -a "TextMate.app" "$TM_FLEX_PATH/frameworks/projects/framework/src";
+else
+	exit_show_tool_tip "Source 404"
+fi
+</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
