@@ -42,8 +42,10 @@ TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
 TextMate.exit_insert_snippet( banner_wrapper + "\n" + res['selectedMenuItem']['data'] + "\n" + banner_wrapper + "$0" )</string>
 	<key>input</key>
 	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>~@b</string>
 	<key>name</key>
-	<string>asdoc-banner</string>
+	<string>Insert Comment Banner</string>
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>

@@ -7,11 +7,11 @@
 	Copyright `date "+%Y"` $TM_ORGANIZATION_NAME.
 */</string>
 	<key>name</key>
-	<string>asdoc-copyright header</string>
+	<string>Insert Comment Header</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>doc</string>
+	<string>head</string>
 	<key>uuid</key>
 	<string>768B55B8-8E90-46A5-8CA2-594868CD3E8D</string>
 </dict>
