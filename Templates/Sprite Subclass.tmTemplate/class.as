@@ -26,7 +26,7 @@ package ${TM_CLASS_PATH} {
 		//--------------------------------------
 		
 		/**
-		 *	@Constructor
+		 *	@constructor
 		 */
 		public function ${TM_NEW_FILE_BASENAME}(){
 			super();
