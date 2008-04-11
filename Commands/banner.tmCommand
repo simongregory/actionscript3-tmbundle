@@ -43,7 +43,7 @@ TextMate.exit_insert_snippet( banner_wrapper + "\n" + res['selectedMenuItem']['d
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
-	<string>~@b</string>
+	<string>^B</string>
 	<key>name</key>
 	<string>Insert Comment Banner</string>
 	<key>output</key>
