@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -22,16 +22,20 @@ TM_MMCFG_PATH="/Library/Application Support/Macromedia/mm.cfg"
 #This may be an alternative location to create the mm.cfg file if the above doesn't work.
 #TM_MMCFG_PATH="$HOME/Library/Application Support/Macromedia/mm.cfg"
 
+if [ ! -f "$TM_MMCFG_PATH" ]; then
+
 echo "ErrorReportingEnable=1 
 TraceOutputFileEnable=1 
 MaxWarnings=0" &gt;"$TM_MMCFG_PATH"
+
+fi
 
 open -a "TextMate.app" "$TM_MMCFG_PATH"
 </string>
 	<key>input</key>
 	<string>none</string>
 	<key>name</key>
-	<string>Install mm.cfg</string>
+	<string>Install / Edit Debug Player Settings</string>
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
