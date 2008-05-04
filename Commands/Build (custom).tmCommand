@@ -28,7 +28,7 @@ fi	</string>
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
-	<string>source.actionscript.3, text.xml.mxml</string>
+	<string>source.actionscript.3, text.xml.mxml, text.xml.flex-config</string>
 	<key>uuid</key>
 	<string>63F2D823-98B1-44C7-8186-1F5AB1190AE4</string>
 </dict>
