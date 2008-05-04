@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -wKU
+
+SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
+BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
+
+require SUPPORT + '/lib/ui'
+require SUPPORT + '/lib/exit_codes'
+require BUN_SUP + '/lib/as_declarations'
+
+ns = "protected"
+
+snips = get_snippets(ns)
+snip = TextMate::UI.menu(snips)
+
+TextMate.exit_insert_text(ns) if snip == nil
+TextMate.exit_insert_snippet( snip['data'] )</string>
+	<key>fallbackInput</key>
+	<string>word</string>
+	<key>input</key>
+	<string>selection</string>
+	<key>name</key>
+	<string>protected</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>protected</string>
+	<key>uuid</key>
+	<string>B0161F85-8334-422F-805C-44D93821A739</string>
+</dict>
+</plist>
