@@ -37,11 +37,11 @@ def get_snippets(ns)
     
     r += [
         { 'title' => '----'},
-        { 'title' => 'static function', 'data' => ns + " static " + @method }, 
-        { 'title' => 'static get', 'data' => ns + " static " + @getter }, 
-        { 'title' => 'static set', 'data' => ns + " static " + @setter }, 
-        { 'title' => 'static var', 'data' => ns + " static " + v }, 
-        { 'title' => 'static const', 'data' => ns + " static " + @constant }
+        { 'title' => 'static const', 'data' => ns + " static" + @constant }        
+        { 'title' => 'static function', 'data' => ns + " static" + @method }, 
+        { 'title' => 'static get', 'data' => ns + " static" + @getter }, 
+        { 'title' => 'static set', 'data' => ns + " static" + @setter }, 
+        { 'title' => 'static var', 'data' => ns + " static" + v }, 
     ] unless ns == "protected"
     
     return r
