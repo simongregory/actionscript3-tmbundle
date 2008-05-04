@@ -48,7 +48,7 @@ public function set ' + accessor_name + '( value:${2:' + class_type + '} ) : voi
 	<key>keyEquivalent</key>
 	<string>^~g</string>
 	<key>name</key>
-	<string>Getter/Setter</string>
+	<string>Getter / Setter</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
