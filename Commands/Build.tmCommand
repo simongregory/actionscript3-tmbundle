@@ -61,7 +61,7 @@ exit_show_html;
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
-	<string>source.actionscript.3, text.xml.mxml</string>
+	<string>source.actionscript.3, text.xml.mxml, text.xml.flex-config</string>
 	<key>uuid</key>
 	<string>1117FC54-44F6-4A33-9C39-7E3F18C86563</string>
 </dict>
