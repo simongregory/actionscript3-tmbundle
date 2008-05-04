@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -wKU
+
+SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
+BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
+
+require SUPPORT + '/lib/ui'
+require SUPPORT + '/lib/exit_codes'
+require BUN_SUP + '/lib/as_declarations'
+
+snips = get_statics()
+snip = TextMate::UI.menu(snips)
+
+TextMate.exit_insert_text("static") if snip == nil
+TextMate.exit_insert_snippet( snip['data'] )</string>
+	<key>fallbackInput</key>
+	<string>word</string>
+	<key>input</key>
+	<string>selection</string>
+	<key>name</key>
+	<string>static</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>static</string>
+	<key>uuid</key>
+	<string>965F7929-C217-45FC-9EFD-7EE9CB94D4F8</string>
+</dict>
+</plist>
