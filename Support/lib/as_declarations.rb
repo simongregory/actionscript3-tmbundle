@@ -28,21 +28,23 @@ def get_snippets(ns)
     v = ns == "public" ? @property : @variable
     
     r = [
-          { 'title' => 'function', 'data' => ns + @method}, 
-          { 'title' => 'get', 'data' => ns + @getter},      
-          { 'title' => 'set', 'data' => ns + @setter}, 
-          { 'title' => 'var', 'data' => ns + v},
-          { 'title' => 'namespace', 'data' => ns + @namespace},          
+          list_object( 'function',  ns + @method), 
+          list_object( 'get',       ns + @getter),      
+          list_object( 'set',       ns + @setter), 
+          list_object( 'var',       ns + v),
+          list_object( 'namespace', ns + @namespace)          
     ]
-    
-    r += [
-        { 'title' => '----'},
-        { 'title' => 'static const', 'data' => ns + " static" + @constant }        
-        { 'title' => 'static function', 'data' => ns + " static" + @method }, 
-        { 'title' => 'static get', 'data' => ns + " static" + @getter }, 
-        { 'title' => 'static set', 'data' => ns + " static" + @setter }, 
-        { 'title' => 'static var', 'data' => ns + " static" + v }, 
-    ] unless ns == "protected"
+
+    if ns != "protected" 
+        r += [
+            { 'title' => '----'},
+            list_object( 'static const',    ns + " static" + @constant ),
+            list_object( 'static function', ns + " static" + @method   ), 
+            list_object( 'static get',      ns + " static" + @getter   ), 
+            list_object( 'static set',      ns + " static" + @setter   ), 
+            list_object( 'static var',      ns + " static" + v         )
+        ]
+    end
     
     return r
 end
