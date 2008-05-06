@@ -3,7 +3,11 @@
 # Collection of declaration snippets for use
 # within public, protected or private namespaces.
 
-@method    = " function ${1:name}($2):${3:void}{\n\t$0${3/void$|(.+)/(?1:return null;)/}\n}"
+as3_doc = ENV['TM_ASDOC_GENERATION']
+@include_docs = as3_doc ? true : false
+
+@doc       = "/**\n *	@private\n */\n"
+@method    = " function ${1:name}($2):${3:void}\n{\n\t$0${3/void$|(.+)/(?1:return null;)/}\n}"
 @getter    = " function get ${1:name}():${2:Object}{\n\treturn ${3:_$1};\n}$0"
 @setter    = " function set ${1:name}(value:${2:Object}):void {\n\t${3:_$1} = value;\n}$0"
 @variable  = " var _${1:variableName}:${2:Object};"
@@ -14,6 +18,8 @@
 @static_variable = "static" + @property
 @static_function = "static" + @method
 @static_constant = "static" + @constant
+
+# Public Methods
 
 def get_statics()
     r = [ 
@@ -28,11 +34,11 @@ def get_snippets(ns)
     v = ns == "public" ? @property : @variable
     
     r = [
-          list_object( 'function',  ns + @method), 
-          list_object( 'get',       ns + @getter),      
-          list_object( 'set',       ns + @setter), 
-          list_object( 'var',       ns + v),
-          list_object( 'namespace', ns + @namespace)          
+          list_object( 'function',  ns + @method ), 
+          list_object( 'get',       ns + @getter ),      
+          list_object( 'set',       ns + @setter ), 
+          list_object( 'var',       ns + v ),
+          list_object( 'namespace', ns + @namespace )          
     ]
 
     if ns != "protected" 
@@ -49,6 +55,21 @@ def get_snippets(ns)
     return r
 end
 
+def method(name)
+    
+    if name != ""
+        m = "public" + @method.sub("${1:name}","${1:"+name+"}")
+    else
+        m = "public" + @method
+    end
+    
+    if @include_docs
+        m = @doc + m
+    end
+        
+    return m    
+end
+
 # Getter/Setters
 
 def getter
@@ -59,14 +80,11 @@ def setter
     @setter
 end
 
-def method(name)
-    if name != ""
-        m = @method.sub( "${1:name}", "${1:"+name+"}")
-        return m
-    end
-    return @method    
-end
+# Private methods
 
 def list_object(title,data)
+    if @include_docs 
+        return { 'title' => title, 'data' => @doc + data}
+    end
     return { 'title' => title, 'data' => data}
 end
