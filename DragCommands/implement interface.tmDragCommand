@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -wKU
+
+# Scans Interfaces and automatically generates 
+# an implementation from the class.
+
+require ENV["TM_SUPPORT_PATH"] + "/lib/textmate.rb"
+require ENV["TM_SUPPORT_PATH"] + '/lib/exit_codes'
+
+interface_uri = ENV['TM_DROPPED_FILE']
+
+doc = File.open(interface_uri).read
+
+package_regexp   = /^(\s+)?package\s+([A-Za-z0-9.]+)/
+interface_regexp = /^(\s+)?public\s+interface\s+(\w+)\b/
+function_regexp  = /^\s+\bfunction\b\s+\w+\(.*\).*\b\w+/
+property_regexp  = /\b(get|set)\b(.*);/
+
+interface = "" 
+found_properties = []
+found_methods = []
+
+doc.scan(interface_regexp).each do | line |
+    interface = line[1]
+    puts "//"+("-"*39)+"\n// " + interface + " Implementation"+"\n//"+("-"*39) + "\n\n"
+end
+
+TextMate.exit_show_tool_tip("//Interface not identified") if interface == ""
+
+doc.scan(package_regexp).each do | line |
+    puts "//import " + line[1] + "." + interface + ";"
+end
+
+doc.scan(property_regexp).each do | line |
+    found_properties &lt;&lt; "${2:public function} " + line[0] + line[1] + " {\n\t\n}\n\n"
+end
+
+doc.scan(function_regexp).each do | line |
+    found_methods &lt;&lt;  "${1:public} " + line.sub( /^\s+\b/,"") + "\n{\n\t\n}\n\n"
+end
+
+puts found_properties.to_s unless found_properties.empty?
+puts found_methods.to_s unless found_methods.empty?
+
+
+
+</string>
+	<key>documentExtensions</key>
+	<array>
+		<string>html</string>
+		<string>htm</string>
+		<string>rhtml</string>
+		<string>shtml</string>
+		<string>phtml</string>
+		<string>php</string>
+		<string>php3</string>
+		<string>php4</string>
+		<string>php5</string>
+		<string>inc</string>
+		<string>cfm</string>
+		<string>cfml</string>
+		<string>dbm</string>
+		<string>dbml</string>
+	</array>
+	<key>draggedFileExtensions</key>
+	<array>
+		<string>as</string>
+	</array>
+	<key>name</key>
+	<string>implement interface</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
+	<key>scope</key>
+	<string>source.actionscript</string>
+	<key>uuid</key>
+	<string>BD9BDFFC-C963-4F93-9EDF-104E784D8461</string>
+</dict>
+</plist>
