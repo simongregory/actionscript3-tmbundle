@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="%{TM_NEW_FILE_BASENAME}" default="compile">
+	<property name="flex.mxmlc" value="mxmlc"/>
+	<property name="deploy.dir" value="../deploy"/>
+	<property name="src.dir" value="../src"/>
+	<target name="compile">
+		<exec executable="${flex.mxmlc}" failonerror="true">
+			<arg line="-output '${deploy.dir}/%{TM_NEW_FILE_BASENAME}.swf'"/>
+			<arg line="${src.dir}/%{TM_NEW_FILE_BASENAME}.as"/>
+		</exec>
+	</target>
+</project>

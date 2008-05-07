@@ -24,19 +24,11 @@
 		</dict>		
 		<dict>
 			<key>name</key>
-			<string>html-template</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>html-template</string>
-		</dict>		
-		<dict>
-			<key>name</key>
-			<string>library</string>
+			<string>lib</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
 			<key>sourceDirectory</key>
-			<string>library</string>
+			<string>lib</string>
 		</dict>
 		<dict>
 			<key>expanded</key>

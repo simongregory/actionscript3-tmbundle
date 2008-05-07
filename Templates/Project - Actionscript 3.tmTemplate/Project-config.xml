@@ -5,13 +5,22 @@
 		<incremental>true</incremental>
 		<optimize>true</optimize>
 		<keep-generated-actionscript>false</keep-generated-actionscript>
-		<warn-no-constructor>false</warn-no-constructor>
-		<warn-no-explicit-super-call-in-constructor>false</warn-no-explicit-super-call-in-constructor>
+		<warn-no-constructor>true</warn-no-constructor>
+		<warn-no-explicit-super-call-in-constructor>true</warn-no-explicit-super-call-in-constructor>
+      	<show-actionscript-warnings>true</show-actionscript-warnings>
+		<show-binding-warnings>true</show-binding-warnings>
+		<show-unused-type-selector-warnings>true</show-unused-type-selector-warnings>		
 		<debug>false</debug>
+		<!-- Example library linkage for bin (swc's) and src
+		<library-path append="true">
+			<path-element>../lib/bin/</path-element>
+			<path-element>../lib/src/</path-element>			
+		</library-path>
+		-->
 	</compiler>
 	<metadata>
-		<title>AS3 Application</title>
-		<description>AS3 Project</description>
+		<title>${TM_NEW_FILE_BASENAME} Application</title>
+		<description>${TM_NEW_FILE_BASENAME} Project</description>
 		<publisher>Made in TextMate</publisher>
 		<creator>${TM_FULLNAME}</creator>
 		<language>EN</language>

@@ -4,9 +4,6 @@
 # TM_FLEX_FILE_SPECS 	src/${TM_NEW_FILE_BASENAME}.mxml
 # TM_FLEX_OUTPUT 		deploy/${TM_NEW_FILE_BASENAME}.swf
 
-# Not sure why but this doesn't work when used in an AS3 project (docs suggest it should)
-#	-load-config="build/${TM_NEW_FILE_BASENAME}-config.xml" \
-
 echo "<h2>${TM_NEW_FILE_BASENAME} Custom Compile</h2>";
 echo "<code> Started @ `date "+%H:%M:%S"`</code><br />";
 
@@ -17,5 +14,5 @@ echo "<code> Started @ `date "+%H:%M:%S"`</code><br />";
 
 if [ "$?" == "0" ]
 	then
-	open "deploy/${TM_NEW_FILE_BASENAME}.html";
+	open "deploy/index.html";
 fi
