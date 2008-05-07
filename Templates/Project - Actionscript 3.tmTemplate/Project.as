@@ -7,7 +7,7 @@ package {
 	import flash.display.Sprite;
 	
 	/**
-	 *	Main Class for Project.
+	 *	Application entry point for ${TM_NEW_FILE_BASENAME}.
 	 *
 	 *	@langversion ActionScript 3.0
 	 *	@playerversion Flash 9.0
@@ -26,7 +26,7 @@ package {
 		 */
 		public function ${TM_NEW_FILE_BASENAME}(){
 			super();
-			stage.addEventListener( Event.ENTER_FRAME, initialise );
+			stage.addEventListener( Event.ENTER_FRAME, initialize );
 		}
 		
 		//--------------------------------------
@@ -50,12 +50,12 @@ package {
 		//--------------------------------------
 
 		/**
-		 *	Initialise stub.
+		 *	Initialize stub.
 		 */
-		private function initialise( event:Event ) : void
+		private function initialize( event:Event ) : void
 		{			
-			stage.removeEventListener( Event.ENTER_FRAME, initialise );
-			trace( "Initialised" );
+			stage.removeEventListener( Event.ENTER_FRAME, initialize );
+			trace( "${TM_NEW_FILE_BASENAME}::initialize()" );
 		}
 		
 	}
