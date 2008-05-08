@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<title>${TM_NEW_FILE_BASENAME}</title>
 		<script type="text/javascript" src="assets/common/js/swfobject.js"></script>
-		<script type="text/javascript" src="assets/common/js/swfaddress.js"></script>		
+		<!--script type="text/javascript" src="assets/common/js/swfaddress.js"></script-->		
 		<style type="text/css" media="screen">@import url(assets/common/css/main.css);</style>		
 	</head>
 	<body>
@@ -15,7 +15,7 @@
 		<script type="text/javascript">
 			var so = new SWFObject(
 				"${TM_NEW_FILE_BASENAME}.swf",
-				"${TM_NEW_FILE_BASENAME}", "100%", "100%", "9", "#000000" );
+				"${TM_NEW_FILE_BASENAME}", "100%", "100%", "9", "#FFFFFF" );
 				
 			so.addParam( "allowScriptAccess", "sameDomain" );
 			so.addParam( "scale", "noscale" );
