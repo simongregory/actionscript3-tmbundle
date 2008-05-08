@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -29,8 +29,8 @@ project_paths = []
 
 # Collect all .as and .mxml files in the project src dir. Then filter for WORD.
 TextMate.each_text_file do |file|
-	project_paths.push(file.sub(PROJECT+"/src/","").sub(".as","").gsub( "/", ".")) if File.extname(file) == ".as"
-	project_paths.push(file.sub(PROJECT+"/src/","").sub(".mxml","").gsub( "/", ".")) if File.extname(file) == ".mxml"
+	project_paths.push(file.sub(/^.+\/(src|source|test)\//,"").sub(".as","").gsub( "/", ".")) if File.extname(file) == ".as"
+	project_paths.push(file.sub(/^.+\/(src|source|test)\//,"").sub(".mxml","").gsub( "/", ".")) if File.extname(file) == ".mxml"
 end if PROJECT
 project_paths = project_paths.grep(/#{WORD}/)
 
@@ -83,7 +83,7 @@ end
 	<key>keyEquivalent</key>
 	<string>~</string>
 	<key>name</key>
-	<string>Auto Complete Imports</string>
+	<string>Auto Complete Import</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
