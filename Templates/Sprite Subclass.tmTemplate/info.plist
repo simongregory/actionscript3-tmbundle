@@ -6,6 +6,10 @@
 	<string>if [[ ! -f "$TM_NEW_FILE" ]]; then
    TM_YEAR=`date +%Y` \
    TM_DATE=`date +%Y-%m-%d` \
+   a=`echo ${TM_NEW_FILE#$TM_PROJECT_DIRECTORY/src/}` \
+   b=`echo ${a%/$TM_NEW_FILE_BASENAME.as}` \
+   c=`echo ${b#/}` \
+   TM_CLASS_PATH=`echo $c | tr '/' '.'` \
    perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' \
       &lt; class.as &gt; "$TM_NEW_FILE"
 fi</string>
