@@ -82,6 +82,22 @@
 			<key>variable</key>
 			<string>TM_FLEX_OUTPUT</string>
 		</dict>
+		<dict>
+			<key>enabled</key>
+			<false/>
+			<key>value</key>
+			<string></string>
+			<key>variable</key>
+			<string>TM_FLEX_PATH</string>
+		</dict>
+		<dict>
+			<key>enabled</key>
+			<false/>
+			<key>value</key>
+			<string>true</string>
+			<key>variable</key>
+			<string>TM_ASDOC_GENERATION</string>
+		</dict>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>

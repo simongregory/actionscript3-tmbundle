@@ -55,9 +55,9 @@ if [ -n "$fullProjectPath" ]; then
 		# This recursively creates all source code folders, 
 		# creating any missing directories along the way
 		mkdir -p "$classPathDirectory/core";
-		mkdir -p "$classPathDirectory/controls";
-		mkdir -p "$classPathDirectory/data";
-		mkdir -p "$classPathDirectory/net";
+		mkdir -p "$classPathDirectory/controllers";
+		mkdir -p "$classPathDirectory/errors";
+		mkdir -p "$classPathDirectory/events";
 		mkdir -p "$classPathDirectory/views";
 		
 		# Gather variables to be substituted.
@@ -69,12 +69,16 @@ if [ -n "$fullProjectPath" ]; then
 		# Customise file variables for the new project and rename
 		# files to match the project name.
 		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "Project.tmproj.xml" > "$projectPath/$projectName/$projectName.tmproj";
-		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "index.html" > "$projectPath/$projectName/deploy/index.html";
-		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "index-debug.html" > "$projectPath/$projectName/deploy/index-debug.html";
 		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "compile.sh" > "$projectPath/$projectName/build/compile.sh";
 		perl -pe 's/\%\{([^}]*)\}/$ENV{$1}/g' < "build.xml" > "$projectPath/$projectName/build/build.xml";
 		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "Project-config.xml" > "$projectPath/$projectName/src/$projectName-config.xml";
 		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "Project.as" > "$projectPath/$projectName/src/$projectName.as";
+		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "index.html" > "$projectPath/$projectName/deploy/index.html";
+		
+		# For the debug html version of the modify the file name.
+		TM_NEW_FILE_BASENAME="$projectName-debug";
+		
+		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "index.html" > "$projectPath/$projectName/deploy/index-debug.html";		
 				
 		# Copy static files.
 		
