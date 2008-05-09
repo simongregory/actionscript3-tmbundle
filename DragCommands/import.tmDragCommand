@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>command</key>
-	<string># 
-# By default this command with import the file. 
+	<string>
+# By default this will add an import statement for the dropped file. 
 # For include functionality hold down command when you relase the mouse.
-#
 
 extension=${TM_DROPPED_FILE##*.}
 
