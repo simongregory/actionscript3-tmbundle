@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>var ${1:name}:${2:Object} = new ${2:Object}($0);</string>
+	<string>var ${1:name}:${2:Object}${3: = ${2/(Object)|(Array)|(Number)|(String)|(int)|(uint)|(XML)|(Boolean)|(.+)/(?1:{)(?2:[)(?3:0.0)(?4:")(?5:0)(?6:0)(?7:&lt;doc)(?8:true)(?9:new $9\()/}$4${2/(Object)|(Array)|(Number)|(String)|(int)|(uint)|(XML)|(Boolean)|(.+)/(?1:})(?2:])(?3:)(?4:")(?5:)(?6:)(?7:\/&gt;)(?8:)(?9:\))/}};</string>
 	<key>name</key>
 	<string>var</string>
 	<key>scope</key>
