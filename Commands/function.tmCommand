@@ -15,7 +15,7 @@ require BUN_SUP + '/lib/as_declarations'
 
 method_name = STDIN.read
 
-TextMate.exit_insert_snippet( "public" + method(method_name) )
+TextMate.exit_insert_snippet( method(method_name) )
 </string>
 	<key>fallbackInput</key>
 	<string>word</string>
