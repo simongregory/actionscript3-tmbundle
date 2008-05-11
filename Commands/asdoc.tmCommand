@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby
+
+line_number = ENV['TM_LINE_NUMBER'].to_i
+class_name = File.basename(ENV['TM_FILENAME'],".as")
+doc = STDIN.read.split("\n")
+next_line = doc[line_number].to_s
+
+class_regexp = /\bclass\b/
+
+puts "/**"
+
+if next_line =~ class_regexp
+
+    puts " *  ${1:Description}"
+    puts " *"    
+    puts " *  @langversion ActionScript ${2:3}"
+    puts " *  @playerversion Flash ${3:9.0.0}"
+    puts " *"
+    puts " *  @author ${4:"+ENV['TM_FULLNAME']+"}"
+    puts " *  @since  ${5:"+`date +%d.%m.%Y`.chop+"}"
+    
+else
+    
+    puts " *	${1:@private}$0"
+    
+end
+
+print " */"</string>
+	<key>input</key>
+	<string>document</string>
+	<key>name</key>
+	<string>asdoc</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>doc</string>
+	<key>uuid</key>
+	<string>E9820D0D-76E8-43D2-901B-245087D74409</string>
+</dict>
+</plist>
