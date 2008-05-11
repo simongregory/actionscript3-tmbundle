@@ -1,6 +1,9 @@
-/* AS3
-	Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME}.
-*/
+//AS3///////////////////////////////////////////////////////////////////////////
+// 
+// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME}
+// 
+////////////////////////////////////////////////////////////////////////////////
+
 package ${TM_CLASS_PATH} {
 
 import flash.display.Sprite;
@@ -30,7 +33,6 @@ public class ${TM_NEW_FILE_BASENAME} extends Sprite {
 	 */
 	public function ${TM_NEW_FILE_BASENAME}(){
 		super();
-		stage.addEventListener( Event.ENTER_FRAME, initialize );
 	}
 	
 	//--------------------------------------
@@ -52,15 +54,6 @@ public class ${TM_NEW_FILE_BASENAME} extends Sprite {
 	//--------------------------------------
 	//  PRIVATE & PROTECTED INSTANCE METHODS
 	//--------------------------------------
-
-	/**
-	 *	Initializes this object instance.
-	 */
-	private function initialize(event:Event):void
-	{			
-		stage.removeEventListener( Event.ENTER_FRAME, initialize );
-        trace("${TM_NEW_FILE_BASENAME}::initialize()");
-	}
 	
 }
 	
