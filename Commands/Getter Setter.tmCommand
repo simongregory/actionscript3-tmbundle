@@ -27,15 +27,15 @@ else
     class_type = accessor_match[0][2]
 end
 
-print 'private var ${1:_' + accessor_name + '} : ${2:' + class_type + '};
+print 'private var ${1:_' + accessor_name + '}:${2:' + class_type + '};
 
 ' if accessor_match.empty?
 
-print 'public function get ' + accessor_name + '() : ${2:' + class_type + '} { 
+print 'public function get ' + accessor_name + '():${2:' + class_type + '} { 
 	return ${1:_' + accessor_name + '}; 
 }
 
-public function set ' + accessor_name + '( value:${2:' + class_type + '} ) : void {
+public function set ' + accessor_name + '(value:${2:' + class_type + '}):void {
 	if (value !== ${1:_' + accessor_name + '}){
 		${1:_' + accessor_name + '} = value;
 	}

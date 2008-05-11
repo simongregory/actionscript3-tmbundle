@@ -16,7 +16,7 @@ as3_doc = ENV['TM_ASDOC_GENERATION']
 @constant  = " const ${1:CONSTANT_NAME}:${2:Object};"
 
 @static_variable = "static" + @property
-@static_function = "static" + @method
+@static_method = "static" + @method
 @static_constant = "static" + @constant
 
 # Public Methods
@@ -24,7 +24,7 @@ as3_doc = ENV['TM_ASDOC_GENERATION']
 def get_statics()
     r = [ 
         list_object('static const', @static_constant),
-        list_object('static function', @static_function),
+        list_object('static function', @static_method),
         list_object('static var', @static_variable)
     ]
 end
