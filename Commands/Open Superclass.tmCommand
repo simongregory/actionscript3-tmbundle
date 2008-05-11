@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -7,10 +7,13 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-#TODO: Search all compiler library paths (add mx, and AS3_LIB)
+#TODO: Search all compiler library paths.
 
-require ENV["TM_SUPPORT_PATH"] + "/lib/textmate.rb"
-require ENV["TM_SUPPORT_PATH"] + '/lib/exit_codes'
+SUPPORT = ENV['TM_SUPPORT_PATH']
+
+require SUPPORT + "/lib/ui"
+require SUPPORT + "/lib/textmate"
+require SUPPORT + '/lib/exit_codes'
 
 found_classes = []
 STDIN.read.scan(/\bclass\b.*\bextends\b\s(\w*)/).each do | path |
@@ -18,24 +21,22 @@ STDIN.read.scan(/\bclass\b.*\bextends\b\s(\w*)/).each do | path |
 end
 
 #TODO: Handle multiple matches.
-TextMate.exit_show_tool_tip "Super class not found." if found_classes.size == 0
+TextMate.exit_show_tool_tip "Super class not correctly identified." if found_classes.size != 1
 
 superclass = found_classes.pop()
 
-#Search the project...
+# Search for all files in the project with the super classes name.
 project_paths = []
-
-# Collect all .as and .mxml files in the project src dir. Then filter for WORD.
 TextMate.each_text_file do |file|
-	project_paths.push(file) if File.extname(file) == ".as"
+	project_paths.push(file) if file =~ /\b#{superclass}\.as/
 end
-project_paths = project_paths.grep(/\b#{superclass}\.(as|mxml)/)
 
-#TODO: Present list if there are multiple matches.
-if project_paths.size &gt; 0
-	TextMate.go_to :file =&gt; project_paths[0]
+if project_paths.size == 1
+    TextMate.go_to :file =&gt; project_paths[0]
+elsif
+	TextMate.exit_show_tool_tip "Sorry, multiple files were found."
 else
-	TextMate.exit_show_tool_tip "Super class not found."
+    TextMate.exit_show_tool_tip "Super class not found in project."
 end
 
 
