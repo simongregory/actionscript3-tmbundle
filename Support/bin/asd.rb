@@ -58,13 +58,9 @@ if ENV['TM_FLEX_PATH'] and File.exist?( FX_HELPDIR )
 
     if search_results.size == 1
         
-        puts "<b>#{WORD}</b> Found, redirecting."
-        
-        #This obviously isn't the way to do this... but i'm new to Ruby.
-        search_results.each do |line|
-            xml_line = REXML::Document.new(line)            
-            puts "<meta http-equiv=\"refresh\" content=\"0; tm-file://#{FX_HELPDIR}#{xml_line.root.attributes['href']}\">"
-        end
+        puts "<b>#{WORD}</b> Found, redirecting..."        
+        xml_line = REXML::Document.new(search_results[0])            
+        puts "<meta http-equiv=\"refresh\" content=\"0; tm-file://#{FX_HELPDIR}#{xml_line.root.attributes['href']}\">"
 
 		exit
 
