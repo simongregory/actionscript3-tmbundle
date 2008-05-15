@@ -36,7 +36,7 @@ while line_number &gt; 0
     
 end
 
-print 'trace("' + class_name + '::' + method_name + '()","${1:}");$0'</string>
+print 'trace("' + class_name + '::' + method_name + '()"${1/.+/, /}$1);$0'</string>
 	<key>input</key>
 	<string>document</string>
 	<key>name</key>
