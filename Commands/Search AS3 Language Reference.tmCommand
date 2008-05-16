@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
 	<string>saveModifiedFiles</string>
 	<key>command</key>
 	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh";
-
 set_flex_path;
-
-htmlHeader "Searching AS3 Language Reference";
-importCSS "$TM_BUNDLE_SUPPORT/css/search.css";
-
 asd.rb;
-
-htmlFooter;
-
-exit_show_html;</string>
+</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
