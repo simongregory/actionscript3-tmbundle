@@ -7,16 +7,14 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-SUPPORT = ENV['TM_SUPPORT_PATH']
-DIALOG = SUPPORT + '/bin/tm_dialog'
+SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
 
-require SUPPORT + '/lib/escape'
+require SUPPORT + '/lib/ui'
 require SUPPORT + '/lib/exit_codes'
-require SUPPORT + '/lib/osx/plist'
 
 #See ${FLEX_SDK}/frameworks/flash-unicode-table.xml for further Chinese, Hangul and Japanese ranges.
 
-uni_ranges = [
+ranges = [
 
 { 'title' =&gt; 'Uppercase [A-Z]', 'data' =&gt; 'unicodeRange="U+0020,U+0041-U+005A"' },
 { 'title' =&gt; 'Lowercase [a-z]', 'data' =&gt; 'unicodeRange="U+0020,U+0061-U+007A"' },
@@ -39,14 +37,15 @@ uni_ranges = [
 { 'title' =&gt; 'Hangul (All)', 'data' =&gt; 'unicodeRange="U+0020-U+007E,U+1100-U+11F9,U+3000-U+303F,U+3131-U+318E,U+327F,U+AC00-U+D7A3,U+FF01-U+FF60"' },
 { 'title' =&gt; 'Hebrew', 'data' =&gt; 'unicodeRange="U+05B0-U+05FF,U+FB1D-U+FB4F,U+2000-U+206f,U+20A0-U+20CF,U+2100-U+2183"' },
 { 'title' =&gt; 'Japanese Kana', 'data' =&gt; 'unicodeRange="U+3000-U+303F,U+3041-U+309F,U+30A0-U+30FF,U+FF61-U+FF9F"' },
-{ 'title' =&gt; 'Thai', 'data' =&gt; 'unicodeRange="U+0E01-U+0E5B"' } ]
+{ 'title' =&gt; 'Thai', 'data' =&gt; 'unicodeRange="U+0E01-U+0E5B"' }
 
-plist = { 'menuItems' =&gt; uni_ranges }.to_plist
+]
 
-res = OSX::PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
+range = TextMate::UI.menu(ranges)
 
-TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
-TextMate.exit_insert_text( res['selectedMenuItem']['data'] );</string>
+TextMate.exit_insert_text("@") if range == nil
+TextMate.exit_insert_snippet( range['data'] + "$0" )
+</string>
 	<key>input</key>
 	<string>none</string>
 	<key>name</key>
