@@ -2,7 +2,6 @@
 
 #Conversion of the flex_utils.sh file to ruby. Currently not used by any commands...
 
-
 require "#{ENV['TM_SUPPORT_PATH']}/lib/web_preview"
 require "#{ENV['TM_SUPPORT_PATH']}/lib/exit_codes"
 
