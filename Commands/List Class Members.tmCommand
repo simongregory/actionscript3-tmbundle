@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -18,10 +18,12 @@ require SUPPORT + '/lib/exit_codes'
 
 doc = STDIN.read.strip
 
+#TODO: Correctly prefix statics and constants (dont use this);
+
 private_regexp = /^\s*(private|protected|public)\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*);/
-method_regexp = /^\s*(private|protected|public)\s+(static\s*)?function\s+\b([a-z]\w+)\b\s*\(/
+method_regexp = /^\s*(override\s+)?(private|protected|public)\s+(static\s*)?function\s+\b([a-z]\w+)\b\s*\(/
 getset_regexp = /^\s*(private|protected|public)\s+function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
-const_regexp = /^\s*\b(private|public)\b\s+\bstatic\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
+const_regexp = /^\s*\b(private|public|static)\b\s+\b(static|public|private)\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
 
 privates = []
 methods = []
@@ -32,9 +34,9 @@ doc.each do |line|
 	if line =~ private_regexp
   		privates &lt;&lt; $2.to_s  
 	elsif line =~ method_regexp
-	    methods &lt;&lt; $3.to_s + "()"
+	    methods &lt;&lt; $4.to_s + "()"
 	elsif line =~ const_regexp
-	    constants &lt;&lt; $3.to_s
+	    constants &lt;&lt; $4.to_s
 	elsif line =~ getset_regexp
 	    properties &lt;&lt; $3.to_s
 	end
