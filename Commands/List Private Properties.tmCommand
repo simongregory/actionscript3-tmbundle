@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby
+
+# Searches the current document for privately declared variables
+# and presents them to the user for selection.
+
+SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
+BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
+
+require SUPPORT + '/lib/ui'
+require SUPPORT + '/lib/exit_codes'
+
+doc = STDIN.read.strip
+
+private_regexp = /^\s*private\s+var\s+(\w+)\s*:\s*(\w+)|\*;/
+
+privates = []
+doc.each do |line|
+	if line =~ private_regexp
+  		privates &lt;&lt; $1.to_s
+	end
+end
+
+selected_index = TextMate::UI.menu(privates)
+
+TextMate.exit_show_tooltip("No private variables found.") if selected_index == nil
+TextMate.exit_insert_text( privates[selected_index] )</string>
+	<key>input</key>
+	<string>document</string>
+	<key>name</key>
+	<string>List Private Properties</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>_</string>
+	<key>uuid</key>
+	<string>45379A16-14A8-42D8-9F2B-0AE11724360E</string>
+</dict>
+</plist>
