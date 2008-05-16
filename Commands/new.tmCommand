@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -wKU
+
+SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
+
+require SUPPORT + '/lib/exit_codes'
+
+doc = STDIN.read.split("\n")
+
+line_number = ENV['TM_LINE_NUMBER'].to_i
+current_line = doc[line_number-1].to_s
+
+props_regexp = /^\s*(private|protected|public)\s+var\s+(\w+)\s*:\s*(\w+)|\*;/
+var_regexp = /var\s+(\w+)\s*:\s*(\w+)/
+prop_name_regexp = /^.*\b(\w+)\b\s*=/
+
+class_type = "ClassInstance"
+
+#TODO: Search local scope (methods) - for var declarations.
+
+if current_line =~ var_regexp	
+	class_type = $2.to_s	
+else	
+	prop_name = prop_name_regexp.match(current_line)[1]	
+	doc.each do |line|
+		if line =~ props_regexp 
+			if $2.to_s == prop_name
+				class_type = $3.to_s
+				break
+			end
+		end
+	end
+end
+
+words = `grep "^#{class_type}\(" "$TM_BUNDLE_PATH/support/data/as3_completions.txt"`.split("\n")
+if words.size == 1
+	i=0
+	snip = "new " + words[0].gsub( /([a-zA-Z0-9\:\.]+?)([,\)])/ ) {
+		"${" + String(i+=1) + ":" + $1 + "}" + $2
+	}
+else
+	snip = "new ${1:#{class_type}}($2);$0"
+end
+
+TextMate.exit_insert_snippet( snip )</string>
+	<key>fallbackInput</key>
+	<string>word</string>
+	<key>input</key>
+	<string>document</string>
+	<key>name</key>
+	<string>new</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>new</string>
+	<key>uuid</key>
+	<string>46DA2BE6-AAF8-4785-8EDA-2C5F9A39F211</string>
+</dict>
+</plist>
