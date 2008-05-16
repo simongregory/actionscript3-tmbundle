@@ -36,7 +36,7 @@ print " */"</string>
 	<key>input</key>
 	<string>document</string>
 	<key>name</key>
-	<string>asdoc</string>
+	<string>Documentation Block</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
