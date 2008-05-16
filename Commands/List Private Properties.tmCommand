@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -27,14 +27,15 @@ doc.each do |line|
 	end
 end
 
+TextMate.exit_show_tool_tip("No private variables found.") if privates.size &lt; 1
+
 selected_index = TextMate::UI.menu(privates)
 
-TextMate.exit_show_tooltip("No private variables found.") if selected_index == nil
-TextMate.exit_insert_text( privates[selected_index] )</string>
+TextMate.exit_insert_text( privates[selected_index] ) if selected_index != nil</string>
 	<key>input</key>
 	<string>document</string>
 	<key>name</key>
-	<string>List Private Properties</string>
+	<string>List Privates...</string>
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
