@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -7,14 +7,12 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-SUPPORT = ENV['TM_SUPPORT_PATH']
-DIALOG = SUPPORT + '/bin/tm_dialog'
+SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
 
-require SUPPORT + '/lib/escape'
+require SUPPORT + '/lib/ui'
 require SUPPORT + '/lib/exit_codes'
-require SUPPORT + '/lib/osx/plist'
 
-at_symbols = [
+tags = [
 
 { 'title' =&gt; 'author', 'data' =&gt; '@author ${1:' + ENV['TM_FULLNAME'] + "}"}, 
 { 'title' =&gt; 'constructor', 'data' =&gt; "@constructor" },
@@ -36,12 +34,11 @@ at_symbols = [
 
 ]
 
-plist = { 'menuItems' =&gt; at_symbols }.to_plist
+tag = TextMate::UI.menu(tags)
 
-res = OSX::PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
-
-TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
-TextMate.exit_insert_snippet( res['selectedMenuItem']['data'] + "$0" );</string>
+TextMate.exit_insert_text("@") if tag == nil
+TextMate.exit_insert_snippet( tag['data'] + "$0" )
+</string>
 	<key>input</key>
 	<string>none</string>
 	<key>name</key>
