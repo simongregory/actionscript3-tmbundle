@@ -12,7 +12,7 @@ class_name = File.basename(ENV['TM_FILENAME'],".as")
 doc = STDIN.read.split("\n")
 next_line = doc[line_number].to_s
 
-class_regexp = /\bclass\b/
+class_regexp = /\b(class|interface)\b/
 
 puts "/**"
 
