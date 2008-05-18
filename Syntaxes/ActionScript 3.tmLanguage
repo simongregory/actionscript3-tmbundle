@@ -256,7 +256,7 @@
 			           and you only escape quietly when the compiler option 
 			           show-actionscript-warnings is set to false</string>
 			<key>disabled</key>
-			<string>0</string>
+			<string>1</string>
 			<key>end</key>
 			<string>(\))\s*($|\{)</string>
 			<key>endCaptures</key>
