@@ -1,6 +1,6 @@
 //AS3///////////////////////////////////////////////////////////////////////////
 // 
-// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME}
+// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME:-$TM_FULLNAME}
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -23,7 +23,7 @@ public class ${TM_NEW_FILE_BASENAME} extends Event {
 	// CLASS CONSTANTS
 	//--------------------------------------
 	
-	public static const EVENT_NAME : String = "customEvent";
+	public static const EVENT_NAME:String = "customEvent";
 	
 	//--------------------------------------
 	//  CONSTRUCTOR
@@ -33,7 +33,7 @@ public class ${TM_NEW_FILE_BASENAME} extends Event {
 	 *	@constructor
 	 */
 	public function ${TM_NEW_FILE_BASENAME}( type:String, bubbles:Boolean=true, cancelable:Boolean=false ){
-		super(type, bubbles, cancelable);		
+		super(type, bubbles, cancelable);
 	}
 	
 	//--------------------------------------
@@ -51,7 +51,7 @@ public class ${TM_NEW_FILE_BASENAME} extends Event {
 	//--------------------------------------
 	//  EVENT HANDLERS
 	//--------------------------------------
-
+	
 	//--------------------------------------
 	//  PRIVATE VARIABLES
 	//--------------------------------------
@@ -61,5 +61,5 @@ public class ${TM_NEW_FILE_BASENAME} extends Event {
 	//--------------------------------------
 	
 }
-	
+
 }

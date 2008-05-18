@@ -1,23 +1,22 @@
 //AS3///////////////////////////////////////////////////////////////////////////
 // 
-// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME}
+// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME:-$TM_FULLNAME}
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
 package ${TM_CLASS_PATH} {
-	
-import flash.events.Event;
+
 import flash.events.EventDispatcher;
 
 /**
- * 	EventDispatcher subclass description.
+ *	EventDispatcher subclass description.
  *
- * 	@langversion ActionScript 3.0
+ *	@langversion ActionScript 3.0
  *	@playerversion Flash 9.0
  *
  *	@author ${TM_FULLNAME}
- * 	@since  ${TM_DATE}
- */	
+ *	@since  ${TM_DATE}
+ */
 public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 	
 	//--------------------------------------
@@ -46,7 +45,7 @@ public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 	//--------------------------------------
 	//  PUBLIC METHODS
 	//--------------------------------------
-
+	
 	//--------------------------------------
 	//  EVENT HANDLERS
 	//--------------------------------------
@@ -56,5 +55,5 @@ public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 	//--------------------------------------
 	
 }
-	
+
 }
