@@ -40,7 +40,7 @@ ARGF.each do |line|
             last_match = ERROR_WARN_MATCH
             next
         end
-    
+        
         match = config_file_regex.match( line )
         unless match === nil
             print "<br/>" if last_match != CONFIGURATION_MATCH
@@ -49,7 +49,7 @@ ARGF.each do |line|
             last_match = CONFIGURATION_MATCH
             next
         end
-
+        
         match = recompile_file_regex.match( line )
         unless match === nil
             print "<br/>" if last_match != RECOMPILE_REASON_MATCH
@@ -58,7 +58,7 @@ ARGF.each do |line|
             last_match = RECOMPILE_REASON_MATCH
             next
         end
-
+        
         match = reason_file_regex.match(line)
         unless match === nil
             print "<br/>" if last_match != RECOMPILE_REASON_MATCH
@@ -67,14 +67,14 @@ ARGF.each do |line|
             last_match = RECOMPILE_REASON_MATCH
             next
         end
-
+        
         if line =~ /\.swf \([0-9]/
             puts "<br/>" +line + "<br/>"
         end
-    
+        
     rescue TypeError
         
-        puts "WARING, TextMate ActionScript 3 Bundle Error, Unable to parse mxmlc output: <br/><br/>"
+        puts "WARNING, TextMate ActionScript 3 Bundle Error, Unable to parse mxmlc output: <br/><br/>"
         puts line + "<br/>"
         
         error_count += 1
