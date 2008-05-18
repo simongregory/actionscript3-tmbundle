@@ -116,7 +116,10 @@ The root path to your central ActionScript 3 / Flex library.
 Name used in copyright notices in most templates.
 
 * `TM_ASDOC_GENERATION`
-If you would like asdoc blocks automatically inserted when using commands and snippets then set this value to anything. Please note this feature is currently being added and therefore not always available.
+If you would like asdoc blocks automatically inserted when using commands, snippets, and templates then enable this variable and set this value to anything. Please note this feature is currently being added and therefore not always available.
+
+* `TM_AS3_BANNER_GENERATION`
+To have code banners insterted into the class templates set the value of this variable to anything.
 
 # Known Issues
 
