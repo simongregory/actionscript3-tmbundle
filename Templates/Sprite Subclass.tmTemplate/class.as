@@ -1,13 +1,12 @@
 //AS3///////////////////////////////////////////////////////////////////////////
 // 
-// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME}
+// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME:-$TM_FULLNAME}
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
 package ${TM_CLASS_PATH} {
 
 import flash.display.Sprite;
-import flash.events.Event;
 
 /**
  *	Sprite sub class description.
@@ -56,5 +55,5 @@ public class ${TM_NEW_FILE_BASENAME} extends Sprite {
 	//--------------------------------------
 	
 }
-	
+
 }

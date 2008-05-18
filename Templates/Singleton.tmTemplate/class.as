@@ -1,12 +1,11 @@
 //AS3///////////////////////////////////////////////////////////////////////////
 // 
-// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME}
+// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME:-$TM_FULLNAME}
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
 package ${TM_CLASS_PATH} {
-	
-import flash.events.Event;
+
 import flash.events.EventDispatcher;
 
 /**
@@ -28,13 +27,13 @@ public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 	//  SINGLETON CONSTRUCTION
 	//--------------------------------------
 	
-	private static var _instance : ${TM_NEW_FILE_BASENAME};
+	private static var _instance:${TM_NEW_FILE_BASENAME};
 	
-	public static function get instance() : ${TM_NEW_FILE_BASENAME} {
+	public static function get instance():${TM_NEW_FILE_BASENAME} {
 		return initialize();
 	}
 	
-	public static function initialize() : ${TM_NEW_FILE_BASENAME} {
+	public static function initialize():${TM_NEW_FILE_BASENAME} {
 		if (_instance == null){
 			_instance = new ${TM_NEW_FILE_BASENAME}();
 		}
@@ -42,9 +41,6 @@ public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 	}
 	
 	/**
-	 *	ActionScript 3 provides no protection against accidental instantiation of more than 
-	 * 	one instance as the constructor has to be public.
-	 *	
 	 *	@constructor
 	 */
 	public function ${TM_NEW_FILE_BASENAME}(){
@@ -64,7 +60,7 @@ public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 	//--------------------------------------
 	//  PUBLIC METHODS
 	//--------------------------------------
-
+	
 	//--------------------------------------
 	//  EVENT HANDLERS
 	//--------------------------------------

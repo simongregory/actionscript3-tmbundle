@@ -78,8 +78,7 @@ if [ -n "$fullProjectPath" ]; then
 		# For the debug html version of the modify the file name.
 		TM_NEW_FILE_BASENAME="$projectName-debug";
 		
-		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "index.html" > "$projectPath/$projectName/deploy/index-debug.html";		
-				
+		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "index.html" > "$projectPath/$projectName/deploy/index-debug.html";				
 		# Copy static files.
 		
 		cp "main.css" "$projectPath/$projectName/deploy/assets/common/css/main.css";

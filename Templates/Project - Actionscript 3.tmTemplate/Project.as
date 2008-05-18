@@ -1,9 +1,3 @@
-//AS3///////////////////////////////////////////////////////////////////////////
-// 
-// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME}
-// 
-////////////////////////////////////////////////////////////////////////////////
-
 package {
 
 import flash.events.Event;
@@ -19,11 +13,7 @@ import flash.display.Sprite;
  *	@since ${TM_DATE}
  */
 public class ${TM_NEW_FILE_BASENAME} extends Sprite {
-	
-	//---------------------------------------
-	// CONSTRUCTOR
-	//---------------------------------------
-	
+		
 	/**
 	 *	@constructor
 	 */
@@ -31,26 +21,6 @@ public class ${TM_NEW_FILE_BASENAME} extends Sprite {
 		super();
 		stage.addEventListener( Event.ENTER_FRAME, initialize );
 	}
-	
-	//--------------------------------------
-	//  CLASS CONSTANTS
-	//--------------------------------------
-	
-	//--------------------------------------
-	// PRIVATE INSTANCE PROPERTIES
-	//--------------------------------------
-	
-	//--------------------------------------
-	// GETTERS/SETTERS
-	//--------------------------------------
-	
-	//--------------------------------------
-	// PUBLIC INSTANCE METHODS
-	//--------------------------------------
-	
-	//--------------------------------------
-	// PRIVATE & PROTECTED INSTANCE METHODS
-	//--------------------------------------
 
 	/**
 	 *	Initialize stub.
