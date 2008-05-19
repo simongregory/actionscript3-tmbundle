@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>TM_FLASH_LOG="/Users/$USER/Library/Preferences/Macromedia/Flash Player/Logs/flashlog.txt"
+	<string>TM_FLASH_LOG="/Users/$USER/Library/Preferences/Macromedia/Flash Player/Logs/policyfiles.txt"
 
 if [[ -f "$TM_FLASH_LOG" ]]; then
 
@@ -13,24 +13,25 @@ if [[ -f "$TM_FLASH_LOG" ]]; then
 
 else
 
-	echo "flashlog.txt could not be found/opened."
+	echo "policyfiles.txt could not be found/opened."
 	echo ""
 	echo "Make sure:"
 	echo " 	you are running the Flash Debug Player."
 	echo "	you have installed the mm.cfg file (see Install / Edit Debug Player Settings command)."
 	echo "	you have permissions to access the mm.cfg file."
+	echo "   the mm.cfg file inludes the line PolicyFileLog=1"
 
 fi
 </string>
 	<key>input</key>
 	<string>none</string>
 	<key>name</key>
-	<string>Open Flash Log in Console</string>
+	<string>Open Policy Files Log in Console</string>
 	<key>output</key>
 	<string>showAsTooltip</string>
 	<key>scope</key>
 	<string>source.actionscript, text.xml.mxml, text.xml.flex-config</string>
 	<key>uuid</key>
-	<string>10B06636-2744-45E9-B6B2-0ABC2B903DEF</string>
+	<string>CFE8E938-F614-4B41-8EDB-748EB30EF0DC</string>
 </dict>
 </plist>

@@ -24,9 +24,21 @@ import_list = [
   'flash.events.EventDispatcher',
   'flash.events.MouseEvent',
   '---',
+  'flash.data.*',
+  'flash.desktop.*',
+  'flash.errors.*',
+  'flash.external.*',
+  'flash.filters.*',
+  'flash.filesystem.*',
   'flash.geom.*',
-  'flash.geom.Point',
-  'flash.geom.Rectangle'
+  'flash.net.*',
+  'flash.printing.*',
+  'flash.security.*',
+  'flash.system.*',
+  'flash.text.*',
+  'flash.ui.*',
+  'flash.utils.*',
+  'flash.xml.*',
     
 ]
 
