@@ -18,6 +18,8 @@ class AsClassParser
 		@properties = []
 		@privates = []
 		
+		@all_members = []
+		
         #TODO: pickup all props in local scope only.
         #TODO: Filter class constants.
         #TODO: Filter objects. 
@@ -46,7 +48,7 @@ class AsClassParser
 			
 	# Finds the class in the filesystem.
 	# If successful the class is loaded and returned.
-	def load_parent(path)
+	def load_class(path)
 		@src_dirs.each { |d|
 			uri = d.chomp + "/" + path
 			#FIX: The assumption that we'll only find one match.
@@ -59,7 +61,9 @@ class AsClassParser
 	
 	# Search and store the completions for doc.
 	def parse_completions(doc)
-		
+
+		return if doc == nil
+
 		@log += "Adding completions at level " + @depth.to_s + "\n"
 		
 		doc.each do |line|
@@ -80,7 +84,9 @@ class AsClassParser
 	
 	# Search and store the static completions for doc.
 	def parse_statics(doc)
-
+		
+		return if doc == nil
+		
 		doc.each do |line|
 			
 			if line =~ @const_regexp
@@ -92,7 +98,31 @@ class AsClassParser
 		end
 		
 	end
+	
+	# Add items to full list of properties.
+	def add_to_all_members( items_to_add )
+	    return if items_to_add == nil
+	    if items_to_add.size > 0
+	        @all_members.push('-') if @all_members.size > 0
+	        @all_members = @all_members + items_to_add
+	    end
+	end
+	
+	# Loads and returns the superclass of the supllied doc.
+	def load_parent_doc(doc)
 
+		# Scan evidence of a superclass.
+		doc.scan(@extends_regexp)
+		
+		# If we match then convert the import to a file reference.
+		if $7 != nil			
+			parent_path = doc_path_from_class_reference(doc,$7)
+			return load_class( parent_path )			
+		end
+		
+		return nil
+	end
+	
     public
     
 	# Input Commands
@@ -100,50 +130,118 @@ class AsClassParser
 	# Pass a class to start the ball rolling.
  	def add_doc(doc,local_scope)
 		
+		return if doc == nil
+		
 		# Add the methods and properties contained within the doc.
 		parse_completions(doc)
 
-		# Scan for inheritance evidence.
-		doc.scan(@extends_regexp)
-		
-		# If we match then convert the import to a file reference.
-		if $7 != nil
-			
-			# Lets try assuming the class is top level
-			parent_class_path = $7
-			
-		    doc.scan( /^\s*import\s+([\w+\.]+)(#{parent_class_path})/)
-			
-			# Use import statments to find our doc.
-			if $1 != nil
-				parent_class_path = $1+parent_class_path
-			end
-		    
-		    parent_path = parent_class_path.gsub(".","/")+".as"
-
-			next_doc = load_parent( parent_path )
-			
-			#Recurse up to the parent.
-            if next_doc != nil
-                @log += "Loading file " + parent_path + "\n"
-    			add_doc(next_doc,false)
-			else
-			    @log += "Missing file " + parent_path + "\n"
-			end
-			
-		end
+		next_doc = load_parent_doc(doc);
+		add_doc(next_doc,false)
 		
  	end
     
     # Limit search to the static members of the specified class.
-    def add_static(doc,class_name)
+    def add_class(doc,reference)
 
-        # Use import statment to find our doc.
-        doc.scan( /^\s*import\s+(([\w+\.]+)(#{class_name}))/)
-        doc = load_parent($1.gsub(".","/")+".as") if $1 != nil
-		parse_statics(doc)
+		# ClassReferences.
+		if reference =~ /^([A-Z]|\b(uint|int)\b)/
+						
+			path = doc_path_from_class_reference(doc,reference)
+			@log += "Processing #{reference} as static. #{path}"
+	        cdoc = load_class(path)
+			parse_statics(cdoc) if cdoc != nil
+
+		# Super.
+		elsif reference =~ /^super$/
+			
+			super_class = load_parent_doc(doc)
+			add_doc(super_class,false)
+
+		# this.
+		elsif reference =~ /^(this)?$/
+
+			add_doc(doc,true)
+		
+		# Instance.
+		else
+			
+			# TODO: Add get/set match.
+			type_regexp = /^\s*(protected|public)\s+var\s+\b(#{reference})\b\s*:\s*((\w+)|\*);/
+			local_type_regex = /^\s*var\s+(\b#{reference}\b)\s*:\s*(\w+)/
+			
+			type = determine_type_locally(doc,local_type_regex)
+			type = determine_type(doc,type_regexp) if type == nil
+			
+			if type
+				path = doc_path_from_class_reference(doc,type)
+				cdoc = load_class(path)
+				add_doc(cdoc,false) if cdoc != nil
+			end
+		end
+		
+		# TODO: Check type of method return statements.
+		
     end
+	
+	# Searches the given document and determines the
+	# document path for the given class_name reference.
+	# Note, this relies on the reference being imported.
+	def doc_path_from_class_reference(doc,class_name)
 
+		# Use import statment to find our doc.
+        doc.scan( /^\s*import\s+(([\w+\.]+)(\b#{class_name}\b))/)
+
+        return $1.gsub(".","/")+".as" if $1 != nil
+
+		# Assume it's top level.
+		return class_name + ".as"
+		
+	end
+	
+	# Searches a document for the type of the specified property.
+	def determine_type(doc,type_regexp)
+		
+		return if doc == nil
+		
+		# Search the document for the type.
+		doc.scan(type_regexp)		
+		return $3 if $3 != nil
+		
+		# Try the superclass.
+		next_doc = load_parent_doc(doc);
+		determine_type(next_doc,type_regexp);
+		
+	end
+
+	# Searches the local scope for a var declaration
+	# and returns it's type if found
+	def determine_type_locally(doc,type_regexp)
+		
+		d = doc.split("\n")
+		ln = ENV['TM_LINE_NUMBER'].to_i-1
+
+		while ln > 0
+
+		    txt = d[ln].to_s
+			
+			if txt =~ type_regexp
+				
+				return $2
+				
+			elsif txt =~ @method_regexp
+				
+				#When we hit a method statement exit.
+				#TODO: Inspect arguments for type.
+				return nil
+				
+			end
+			
+		    ln -= 1
+
+		end
+		
+	end
+	
     # Ouput Commands
     
     # Returns accumulated method completions.
@@ -172,5 +270,14 @@ class AsClassParser
 	def log
 		@log
 	end
-
+	
+	# Return a list of all members currently held.
+	def all_members
+		@all_members = []
+		add_to_all_members(properties)
+		add_to_all_members(methods)
+		add_to_all_members(privates)
+		return @all_members
+	end
+	
 end
