@@ -7,61 +7,39 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
 
-# Searches the current document for class members - methods, constants, variables, properties etc.
-# and presents them to the user for selection.
+# Searches the current document and it's ancestors for 
+# public and protected methods and properties then
+# presents them to the user for selection.
 
 SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
 BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
 
 require SUPPORT + '/lib/ui'
 require SUPPORT + '/lib/exit_codes'
+require BUN_SUP + '/lib/as_class_parser'
 
-doc = STDIN.read.strip
+c = AsClassParser.new
+c.add_doc STDIN.read.strip
 
-#TODO: Correctly prefix statics and constants (dont use this);
-
-private_regexp = /^\s*(private|protected|public)\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*);/
-method_regexp = /^\s*(override\s+)?(private|protected|public)\s+(static\s*)?function\s+\b([a-z]\w+)\b\s*\(/
-getset_regexp = /^\s*(private|protected|public)\s+function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
-const_regexp = /^\s*\b(private|public|static)\b\s+\b(static|public|private)\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-
-privates = []
-methods = []
-properties = []
-constants = []
-
-doc.each do |line|
-	if line =~ private_regexp
-  		privates &lt;&lt; $2.to_s  
-	elsif line =~ method_regexp
-	    methods &lt;&lt; $4.to_s + "()"
-	elsif line =~ const_regexp
-	    constants &lt;&lt; $4.to_s
-	elsif line =~ getset_regexp
-	    properties &lt;&lt; $3.to_s
-	end
-end
-
-@all_objects = []
+@members = []
 
 def add_to_menu( items_to_add )
+    return if items_to_add == nil
     if items_to_add.size &gt; 0
-        @all_objects.push('-') if@all_objects.size &gt; 0
-        @all_objects = @all_objects + items_to_add
+        @members.push('-') if @members.size &gt; 0
+        @members = @members + items_to_add
     end
 end
 
-add_to_menu(constants.sort)
-add_to_menu(properties.sort.uniq)
-add_to_menu(methods.sort)
-add_to_menu(privates.sort)
+add_to_menu(c.properties)
+add_to_menu(c.methods)
 
-TextMate.exit_show_tool_tip("No local objects found.") if @all_objects.size &lt; 1
+#+ c.log
+TextMate.exit_show_tool_tip("No members found.") if @members.size &lt; 1
 
-selected_index = TextMate::UI.menu(@all_objects)
+i = TextMate::UI.menu(@members)
 
-TextMate.exit_insert_text( "this."+@all_objects[selected_index] ) if selected_index != nil
-
+TextMate.exit_insert_text("this."+@members[i]) if i != nil
 TextMate.exit_insert_text("this.")
 </string>
 	<key>input</key>
@@ -69,7 +47,7 @@ TextMate.exit_insert_text("this.")
 	<key>name</key>
 	<string>List Class Members...</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>afterSelectedText</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
