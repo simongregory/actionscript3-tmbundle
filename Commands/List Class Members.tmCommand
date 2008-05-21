@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
-
-# Searches the current document and it's ancestors for 
-# public and protected methods and properties then
-# presents them to the user for selection.
 
 SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
 BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
@@ -19,35 +15,23 @@ require SUPPORT + '/lib/exit_codes'
 require BUN_SUP + '/lib/as_class_parser'
 
 c = AsClassParser.new
-c.add_doc(STDIN.read.strip, true)
+c.load(STDIN.read.strip,'this')
 
-@members = []
+m = c.all_members
 
-def add_to_menu( items_to_add )
-    return if items_to_add == nil
-    if items_to_add.size &gt; 0
-        @members.push('-') if @members.size &gt; 0
-        @members = @members + items_to_add
-    end
-end
+out = "this."
 
-add_to_menu(c.properties)
-add_to_menu(c.methods)
+i = TextMate::UI.menu(m) if m.size &gt; 0
+out += m[i] if i != nil
 
-#+ c.log
-TextMate.exit_show_tool_tip("No members found.") if @members.size &lt; 1
-
-i = TextMate::UI.menu(@members)
-
-TextMate.exit_insert_text("this."+@members[i]) if i != nil
-TextMate.exit_insert_text("this.")
+TextMate.exit_insert_text(out)
 </string>
 	<key>input</key>
 	<string>document</string>
 	<key>name</key>
 	<string>List Class Members...</string>
 	<key>output</key>
-	<string>afterSelectedText</string>
+	<string>discard</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
