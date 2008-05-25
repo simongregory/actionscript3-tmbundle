@@ -14,10 +14,13 @@ require SUPPORT + '/lib/ui'
 require SUPPORT + '/lib/exit_codes'
 require BUN_SUP + '/lib/as_class_parser'
 
-c = AsClassParser.new
-c.load(STDIN.read.strip,'this')
+ref = "this"
+#ref = ENV['TM_CURRENT_WORD']
 
-m = c.all_members
+c = AsClassParser.new
+c.load(STDIN.read.strip,ref)
+
+m = c.members
 
 out = "this."
 
@@ -25,11 +28,11 @@ i = TextMate::UI.menu(m) if m.size &gt; 0
 out += m[i] if i != nil
 
 TextMate.exit_insert_text(out)
-</string>
+#TextMate.exit_insert_text(out+"\n\n/*\n"+c.log+"\n*/")</string>
 	<key>input</key>
 	<string>document</string>
 	<key>name</key>
-	<string>List Class Members...</string>
+	<string>List Class Members</string>
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
