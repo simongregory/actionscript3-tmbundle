@@ -65,147 +65,23 @@
 		<dict>
 			<key>begin</key>
 			<string>(?x)
-			         (\b(public|dynamic|final)+)\s+
-			         (class|interface)\s+
-			         (\w+)\s+
-					(extends)\s+
-			         (\w+)\s+
-			         (implements)
-					\s+([\w\s,]+)\b</string>
-			<key>captures</key>
-			<dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.namespace.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.class.actionscript.3</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>6</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.class.actionscript.3</string>
-				</dict>
-				<key>7</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>8</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.class.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>TODO: Look to merging this and the following three defintions into one, 
-			           as each matches the class defintion. Remove comma from extends scope.</string>
-			<key>end</key>
-			<string>(?={)</string>
-			<key>name</key>
-			<string>meta.definition.class.extends-implements.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(public)\s+(class|interface)\s+(\w+)\s+(extends)\s+(\w+)\b</string>
-			<key>captures</key>
+					 ^\s*					
+					 (\b(public)\b\s+)?		
+					 (class)\s+				
+					 (\w+)\s*</string>
+			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
 					<string>storage.type.namespace.actionscript.3</string>
 				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
 				<key>3</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.type.class.actionscript.3</string>
+					<string>storage.type.modifier.actionscript.3</string>
 				</dict>
 				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.class.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>(?={)</string>
-			<key>name</key>
-			<string>meta.definition.class.extends.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(public)\s+(class|interface)\s+(\w+)\s+(implements)\s+([\w\s,]+)\b</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.namespace.actionscript.3</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.class.actionscript.3</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.class.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>(?={)</string>
-			<key>name</key>
-			<string>meta.definition.class.implements.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(public)\s+(class|interface)\s+(\w+)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.namespace.actionscript.3</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>3</key>
 				<dict>
 					<key>name</key>
 					<string>entity.name.type.class.actionscript.3</string>
@@ -215,6 +91,174 @@
 			<string>(?={)</string>
 			<key>name</key>
 			<string>meta.definition.class.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\b(extends)\b\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.actionscript.3</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?={|implements)</string>
+					<key>name</key>
+					<string>meta.definition.class.extends.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#support-classes</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\b(\w+)\b\s*</string>
+							<key>name</key>
+							<string>entity.name.type.class.actionscript.3</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>[^\s\}a-zA-Z0-9]</string>
+							<key>name</key>
+							<string>invalid.illegal.unexpected-extends-character.actionscript.3</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>\b(implements)\b\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.actionscript.3</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?={|extends)</string>
+					<key>name</key>
+					<string>meta.definition.class.implements.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#support-classes</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\b(\w+)\b\s*</string>
+							<key>name</key>
+							<string>entity.name.type.class.actionscript.3</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>,</string>
+							<key>name</key>
+							<string>punctuation.seperator.implements.actionscript.3</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>[^\s\}]</string>
+							<key>name</key>
+							<string>invalid.illegal.expected-implements.seperator.actionscript.3</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(?x)						# Turn on extended mode
+					 ^							# a line beginning with
+					 \s*						# some optional space
+					 (\b(public)\b\s+)			# namespace
+					 (interface)\s+				# the interface, then identifier.
+					 (\w+)\s*</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.namespace.actionscript.3</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.modifier.actionscript.3</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.type.class.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>Using a seperate defintion for interfaces as they use mulitple extends statements.</string>
+			<key>end</key>
+			<string>(?={)</string>
+			<key>name</key>
+			<string>meta.definition.interface.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\b(extends)\b\s+</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.actionscript.3</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?={)</string>
+					<key>name</key>
+					<string>meta.definition.class.extends.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#support-classes</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\b(\w+)\b\s*</string>
+							<key>name</key>
+							<string>entity.name.type.class.actionscript.3</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>,</string>
+							<key>name</key>
+							<string>punctuation.seperator.extends.actionscript.3</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>[^\s\}]</string>
+							<key>name</key>
+							<string>invalid.illegal.expected-extends.seperator.actionscript.3</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -590,11 +634,36 @@
 			<string>meta.definition.getter.actionscript.3</string>
 		</dict>
 		<dict>
+			<key>begin</key>
+			<string>(?=&lt;[a-zA-Z])</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.actionscript.3</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>support.type.function.global.actionscript.3</string>
+				</dict>
+			</dict>
 			<key>comment</key>
-			<string> name = meta.embedded.xml.actionscript.3;
-			            begin = var\s+\w+\s*:XML\s+=\s*&lt;;
-			            end = &gt;;;
-			            patterns = ( { include = text.xml; });</string>
+			<string>This is experimental. Need to find a way to loosen the match. And to remove the dependency on the statement terminator ";" in the end capture. As it is, in ActionScript, optional. (?&lt;=:XML)\s*=\s*</string>
+			<key>contentName</key>
+			<string>text.xml</string>
+			<key>end</key>
+			<string>(?&lt;=&gt;)\s*;</string>
+			<key>name</key>
+			<string>meta.embedded.xml</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>text.xml</string>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>match</key>
@@ -763,6 +832,8 @@
 			<string>variable.language.private.actionscript.3</string>
 		</dict>
 		<dict>
+			<key>disabled</key>
+			<string>1</string>
 			<key>match</key>
 			<string>@\w+\b</string>
 			<key>name</key>
@@ -785,6 +856,39 @@
 		<dict>
 			<key>include</key>
 			<string>#frameworks</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(?&lt;=[=(:]|^|return)\s*(/)(?![/*+{}?])</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(/)[igsmx]*</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>string.regexp.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\\.</string>
+					<key>name</key>
+					<string>constant.character.escape.actionscript.3</string>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -825,18 +929,8 @@
 			<string>text.html.asdoc</string>
 		</dict>
 		<dict>
-			<key>begin</key>
-			<string>/\*</string>
-			<key>end</key>
-			<string>\*/</string>
-			<key>name</key>
-			<string>comment.block.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>//.*$\n?</string>
-			<key>name</key>
-			<string>comment.line.double-slash.actionscript.3</string>
+			<key>include</key>
+			<string>#comments</string>
 		</dict>
 		<dict>
 			<key>match</key>
@@ -853,17 +947,33 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>comments</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>/\*</string>
+					<key>end</key>
+					<string>\*/</string>
+					<key>name</key>
+					<string>comment.block.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>//.*$\n?</string>
+					<key>name</key>
+					<string>comment.line.double-slash.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
 		<key>frameworks</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>comment</key>
-					<string>Filter flash, mx, fl and internal classes into their own scopes.</string>
-					<key>match</key>
-					<string>\b(InvokeEvent|AbstractEvent|AbstractInvoker|AbstractOperation|AbstractService|AbstractTarget|Accessibility|AccessibilityProperties|AccessPrivileges|AccessPrivilegesPrivilege|Accordion|AccordionHeader|AccordionHeaderSkin|AcknowledgeMessage|ActionEffectInstance|ActivatorSkin|ActivityEvent|AddChild|AddChildAction|AddChildActionInstance|Alert|AlertForm|AMFChannel|AnimateProperty|AnimatePropertyInstance|AntiAliasType|Application|ApplicationControlBar|ApplicationDomain|AreaChart|AreaRenderer|AreaSeries|AreaSeriesItem|AreaSeriesRenderData|AreaSet|ArgumentError|arguments|ArrayCollection|ArrayUtil|AssociationDefinition|AsyncMessage|AsyncRequest|AsyncToken|Automation|AutomationClass|AutomationId|AutomationMethodDescriptor|AutomationPropertyDescriptor|AutomationRecordEvent|AutomationReplayEvent|AVM1Movie|AxisBase|AxisLabel|AxisLabelSet|AxisRenderer|Back|BarChart|BarSeries|BarSeriesItem|BarSeriesRenderData|BarSet|BaseListData|BevelFilter|BindingUtils|Bitmap|BitmapData|BitmapDataChannel|BitmapFill|BitmapFilter|BitmapFilterQuality|BitmapFilterType|BlendMode|Blur|BlurFilter|BlurInstance|Border|Bounce|BoundedValue|Box|BoxDirection|BoxItemRenderer|BubbleChart|BubbleSeries|BubbleSeriesItem|BubbleSeriesRenderData|Button|ButtonBar|ButtonBarButtonSkin|ButtonLabelPlacement|ButtonSkin|ByteArray|CalendarLayoutChangeEvent|Camera|CandlestickChart|CandlestickItemRenderer|CandlestickSeries|Canvas|Capabilities|CapsStyle|CartesianChart|CartesianTransform|CategoryAxis|Channel|ChannelError|ChannelEvent|ChannelFaultEvent|ChannelSet|ChartBase|ChartElement|ChartItem|ChartItemEvent|ChartState|CheckBox|CheckBoxIcon|ChildExistenceChangedEvent|Circ|Circular|CircleItemRenderer|Class|ClassFactory|CloseEvent|CollectionEvent|CollectionEventKind|CollectionViewError|ColorMatrixFilter|ColorPicker|ColorPickerEvent|ColorPickerSkin|ColorTransform|ColorType|ColorUtil|ColumnChart|ColumnSeries|ColumnSeriesItem|ColumnSeriesRenderData|ColumnSet|ComboBase|ComboBox|ComboBoxArrowSkin|CommandMessage|ComponentDescriptor|CompositeEffect|CompositeEffectInstance|ConcreteDataService|Conflict|Conflicts|Consumer|Container|ContainerCreationPolicy|ContextMenu|ContextMenuBuiltInItems|ContextMenuEvent|ContextMenuItem|ControlBar|ConvolutionFilter|CreditCardValidator|CreditCardValidatorCardType|CrossItemRenderer|CSSStyleDeclaration|Cubic|CuePointEvent|CuePointManager|CurrencyFormatter|CurrencyValidator|CurrencyValidatorAlignSymbol|CursorBookmark|CursorError|CursorEvent|CursorManager|CursorManagerPriority|CursorPrefetch|DataAssociationMessage|DataConflictEvent|DataConsumer|DataDescription|DataErrorMessage|DataEvent|DataFormat|DataGrid|DataGridColumn|DataGridColumnDropIndicator|DataGridColumnResizeSkin|DataGridDragProxy|DataGridEvent|DataGridEventReason|DataGridHeaderSeparator|DataGridItemRenderer|DataGridListData|DataGridSortArrow|DataList|DataListError|DataMessage|DataService|DataServiceError|DataStore|DataTip|DataTransform|DateBase|DateChooser|DateChooserEvent|DateChooserEventDetail|DateChooserIndicator|DateChooserMonthArrowSkin|DateChooserYearArrowSkin|DateField|DateFormatter|DateTimeAxis|DateValidator|DefaultDataDescriptor|DeferredInstanceFromClass|DeferredInstanceFromFunction|DefinitionError|DiamondItemRenderer|Dictionary|DirectHTTPChannel|DisplacementMapFilter|DisplacementMapFilterMode|DisplayObject|DisplayObjectContainer|Dissolve|DissolveInstance|DividedBox|DividerEvent|DownloadProgressBar|DragEvent|DragManager|DragSource|DropdownEvent|DropShadowFilter|DualStyleObject|DynamicEvent|EdgeMetrics|Effect|EffectEvent|EffectInstance|EffectManager|EffectTargetFilter|Elastic|EmailValidator|EncodingError|Endian|EOFError|Error|ErrorEvent|ErrorMessage|EvalError|Event|EventDispatcher|EventPhase|EventPriority|EventRoot|Expo|ExternalInterface|Fade|FadeInstance|Fault|FaultEvent|FileFilter|FileReference|FileReferenceList|FlexEvent|FlexPrintJob|FlexPrintJobScaleType|FocusEvent|FocusManager|Font|FontStyle|Form|Formatter|FormHeading|FormItem|FormItemDirection|FormItemLabel|FrameLabel|Function|Glow|GlowFilter|GlowInstance|GradientBase|GradientBevelFilter|GradientEntry|GradientGlowFilter|GradientType|Graphics|Grid|GridBase|GridFitType|GridItem|GridLines|GridRow|HaloBorder|HaloColors|HaloFocusRect|HBox|HDividedBox|HeaderEvent|HistoryManager|HitData|HLOCChart|HLOCItemRenderer|HLOCSeries|HLOCSeriesBase|HLOCSeriesItem|HLOCSeriesRenderData|HorizontalList|HRule|HScrollBar|HSlider|HTTPChannel|HTTPRequestMessage|HTTPService|HTTPService|HTTPStatusEvent|IAccessPrivileges|IAutomationEnvironment|IAutomationManager|IAutomationMethodDescriptor|IAutomationMouseSimulator|IAutomationObject|IAutomationObjectContainer|IAutomationObjectHelper|IAutomationPropertyCodec|IAutomationReplayer|IAxis|IBar|IChartElement|IChildList|ICollectionView|IColumn|IContainer|IDataInput|IDataOutput|IDataRenderer|IDeferredInstance|IDeferredInstantiationUIComponent|IDropInListItemRenderer|IEventDispatcher|IFactory|IFill|IFlexDisplayObject|IFocusable|IFocusManager|IFocusManagerContainer|IHistoryState|IIMESupport|IInvalidating|ILayoutClient|ILayoutManager|IList|IListItemRenderer|IllegalOperationError|ILogger|Image|IManaged|IME|IMEConversionMode|IMEEvent|IMenuDataDescriptor|IMenuItemRenderer|IMXMLObject|IMXMLSupport|IndexChangedEvent|InstanceCache|int|InteractiveObject|InterpolationMethod|InvalidCategoryError|InvalidChannelError|InvalidDestinationError|InvalidFilterError|IOError|IOErrorEvent|IOverride|IPreloaderDisplay|IPropertyChangeNotifier|IRawChildrenContainer|IRepeater|IRepeaterClient|IResponder|Iris|IrisInstance|IScrollBar|IStackable|IStroke|IStyleable|IStyleClient|ISystemManager|ITabGroup|ITarget|ItemClickEvent|ItemPendingError|IToolTip|IToolTipClient|ITreeDataDescriptor|IUIComponent|IUID|IValidationListener|IViewCursor|JointStyle|Keyboard|KeyboardEvent|KeyLocation|Label|LayoutManager|Legend|LegendData|LegendItem|LegendMouseEvent|Linear|LinearAxis|LinearGradientStroke|LineChart|LineFormattedTarget|LineRenderer|LineScaleMode|LineSeries|LineSeriesItem|LineSeriesRenderData|LineSeriesSegment|LinkBar|LinkButton|LinkButtonSkin|LinkSeparator|List|ListBase|ListBaseFindPending|ListBaseSeekPending|ListBaseSelectionData|ListBaseSelectionDataPending|ListBaseSelectionPending|ListCollectionView|ListCollectionViewBookmark|ListCollectionViewCursor|ListData|ListDropIndicator|ListEvent|ListEventReason|ListItemDragProxy|ListItemRenderer|ListItemSelectEvent|ListRowInfo|Loader|Loader|LoaderConfig|LoaderContext|LoaderInfo|LoadEvent|LocalConnection|Locale|Log|LogAxis|LogEvent|LogEventLevel|LogLogger|MaskEffect|MaskEffectInstance|Math|Matrix|MBeanAttributeInfo|MBeanFeatureInfo|MBeanInfo|MBeanOperationInfo|MBeanParameterInfo|MemoryError|Menu|MenuBar|MenuBarBackgroundSkin|MenuBarItem|MenuEvent|MenuItemRenderer|Message|MessageAckEvent|MessageAgent|MessageBatch|MessageCacheItem|MessageEvent|MessageFaultEvent|MessagePersister|MessagePersisterEvent|MessageResponder|MessageSerializationError|MessageStore|MessageStoreEvent|MessagingError|Metadata|MetadataEvent|Microphone|MiniDebugTarget|MorphShape|Mouse|MouseEvent|Move|MoveEvent|MoveInstance|MovieClip|Namespace|NavBar|NetConnection|NetConnectionChannel|NetFilterEvent|NetStatusEvent|NetStream|NoChannelAvailableError|NoDataAvailableError|NoSuchChannelError|NumberBase|NumberBaseRoundType|NumberFormatter|NumberValidator|NumericAxis|NumericStepper|NumericStepperDownSkin|NumericStepperEvent|NumericStepperUpSkin|ObjectEncoding|ObjectName|ObjectProxy|ObjectUtil|Operation|Operation|Operation|Operation|OperationPendingCall|Orientation|PagedMessage|Panel|Parallel|ParallelInstance|Pause|PauseInstance|PhoneFormatter|PhoneNumberValidator|PieChart|PieSeries|PieSeriesItem|PieSeriesRenderData|PixelSnapping|PlotChart|PlotSeries|PlotSeriesItem|PlotSeriesRenderData|Point|PolarChart|PolarTransform|PolicyFileEvent|PopUpButton|PopUpButtonSkin|PopUpIcon|PopUpManager|PopUpMenuButton|PopUpMenuIcon|Preloader|PrintDataGrid|PrintJob|PriorityQueue|Producer|Producer|ProgrammaticSkin|ProgressBar|ProgressBarDirection|ProgressBarLabelPlacement|ProgressBarMode|ProgressBarSkin|ProgressEvent|ProgressIndeterminateSkin|ProgressTrackSkin|PropertyChangeEvent|PropertyChangeEventKind|PropertyChanges|Proxy|QName|QTPAdapter|QTPEnvironment|Quad|Quart|Quint|RadialGradient|RadioButton|RadioButtonGroup|RadioButtonIcon|RangeError|Rectangle|RectangularBorder|RectangularDropShadow|ReferenceError|RegExp|RegExpValidationResult|RegExpValidator|RemoteObject|RemoteObject|RemotingMessage|RemoveChild|RemoveChildAction|RemoveChildActionInstance|RenderData|Repeater|Resize|ResizeEvent|ResizeInstance|ResourceBundle|Responder|ResultEvent|RichTextEditor|Rotate|RotateInstance|RoundedRectangle|RPCMessage|RSLEvent|RTMPChannel|Scene|ScriptTimeoutError|ScrollArrowSkin|ScrollBar|ScrollBarDirection|ScrollControlBase|ScrollEvent|ScrollEventDetail|ScrollEventDirection|ScrollPolicy|ScrollThumb|ScrollThumbSkin|ScrollTrackSkin|SecureAMFChannel|Security|SecurityDomain|SecurityError|SecurityErrorEvent|SecurityPanel|Sequence|SequencedMessage|SequenceInstance|Series|SeriesEffect|SeriesEffectInstance|SeriesInterpolate|SeriesInterpolateInstance|SeriesSlide|SeriesSlideInstance|SeriesZoom|SeriesZoomInstance|SetEventHandler|SetProperty|SetPropertyAction|SetPropertyActionInstance|SetStyle|SetStyleAction|SetStyleActionInstance|ShadowBoxItemRenderer|ShadowLineRenderer|Shape|SharedObject|SharedObjectFlushStatus|SimpleButton|SimpleXMLDecoder|SimpleXMLEncoder|Sine|SkinBitmap|SkinButton|SkinMovieClip|SkinSprite|SkinTextField|Slider|SliderDataTip|SliderDirection|SliderEvent|SliderEventClickTarget|SliderHighlightSkin|SliderLabel|SliderThumb|SliderThumbSkin|SliderTrackSkin|SOAPHeader|SOAPMessage|SocialSecurityValidator|Socket|SolidColor|Sort|SortError|SortField|SortFindMode|Sound|SoundChannel|SoundEffect|SoundEffectInstance|SoundLoaderContext|SoundMixer|SoundTransform|Spacer|SpreadMethod|Sprite|StackedSeries|StackOverflowError|Stage|StageAlign|StageQuality|StageScaleMode|State|StateChangeEvent|StaticText|StatusEvent|StringBuilder|StringUtil|StringValidator|Stroke|StyleManager|StyleSheet|SwatchPanel|SwatchPanelSkin|SwatchSkin|SwitchSymbolFormatter|SyncEvent|SyntaxError|System|SystemManager|TabBar|TabNavigator|TabSkin|Text|TextArea|TextEvent|TextField|TextFieldAutoSize|TextFieldType|TextFormat|TextFormatAlign|TextInput|TextLineMetrics|TextRange|TextRenderer|TextSnapshot|Tile|TileBase|TileBaseDirection|TileDirection|TileList|TileListItemRenderer|Timer|TimerEvent|TitleBackground|TitleWindow|ToggleButtonBar|ToolBar|ToolTip|ToolTipEvent|ToolTipManager|TraceTarget|Transform|Transition|Tree|TreeCollectionCursor|TreeCollectionWrapper|TreeEvent|TreeItemRenderer|TreeListData|TreeModelChangedEvent|TreeModelChangedEventDetail|TriangleItemRenderer|Tween|TweenEffect|TweenEffectInstance|TweenEvent|TypeError|UIComponent|UIComponentCachePolicy|UIComponentDescriptor|UIDUtil|UITextField|UITextFormat|UnresolvedConflictsError|UnresolvedConflictsEvent|URIError|URLLoader|URLLoaderDataFormat|URLRequest|URLRequestHeader|URLRequestMethod|URLStream|URLVariables|ValidationResult|ValidationResultEvent|Validator|VBox|VDividedBox|VerifyError|Video|VideoDisplay|VideoError|VideoEvent|VideoResizeEvent|ViewStack|VRule|VScrollBar|VSlider|WebService|WebService|WedgeItemRenderer|WipeDown|WipeDownInstance|WipeLeft|WipeLeftInstance|WipeRight|WipeRightInstance|WipeUp|WipeUpInstance|WSDLError|XMLDecoder|XMLDocument|XMLEncoder|XMLListCollection|XMLNode|XMLNodeType|XMLSocket|XMLUtil|ZipCodeFormatter|ZipCodeValidator|ZipCodeValidatorDomainType|Zoom|ZoomInstance)\b</string>
-					<key>name</key>
-					<string>support.class.actionscript.3</string>
+					<key>include</key>
+					<string>#support-classes</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -925,6 +1035,20 @@
 			<string>TODO: Correctly scope wildcard and rest</string>
 			<key>match</key>
 			<string>(\w+):((\w+(\s*(=)?\s*(\w+)))|(\*|))|(\.\.\.)</string>
+		</dict>
+		<key>support-classes</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>comment</key>
+					<string>Filter flash, mx, fl and internal classes into their own scopes.</string>
+					<key>match</key>
+					<string>\b(InvokeEvent|AbstractEvent|AbstractInvoker|AbstractOperation|AbstractService|AbstractTarget|Accessibility|AccessibilityProperties|AccessPrivileges|AccessPrivilegesPrivilege|Accordion|AccordionHeader|AccordionHeaderSkin|AcknowledgeMessage|ActionEffectInstance|ActivatorSkin|ActivityEvent|AddChild|AddChildAction|AddChildActionInstance|Alert|AlertForm|AMFChannel|AnimateProperty|AnimatePropertyInstance|AntiAliasType|Application|ApplicationControlBar|ApplicationDomain|AreaChart|AreaRenderer|AreaSeries|AreaSeriesItem|AreaSeriesRenderData|AreaSet|ArgumentError|arguments|ArrayCollection|ArrayUtil|AssociationDefinition|AsyncMessage|AsyncRequest|AsyncToken|Automation|AutomationClass|AutomationId|AutomationMethodDescriptor|AutomationPropertyDescriptor|AutomationRecordEvent|AutomationReplayEvent|AVM1Movie|AxisBase|AxisLabel|AxisLabelSet|AxisRenderer|Back|BarChart|BarSeries|BarSeriesItem|BarSeriesRenderData|BarSet|BaseListData|BevelFilter|BindingUtils|Bitmap|BitmapData|BitmapDataChannel|BitmapFill|BitmapFilter|BitmapFilterQuality|BitmapFilterType|BlendMode|Blur|BlurFilter|BlurInstance|Border|Bounce|BoundedValue|Box|BoxDirection|BoxItemRenderer|BubbleChart|BubbleSeries|BubbleSeriesItem|BubbleSeriesRenderData|Button|ButtonBar|ButtonBarButtonSkin|ButtonLabelPlacement|ButtonSkin|ByteArray|CalendarLayoutChangeEvent|Camera|CandlestickChart|CandlestickItemRenderer|CandlestickSeries|Canvas|Capabilities|CapsStyle|CartesianChart|CartesianTransform|CategoryAxis|Channel|ChannelError|ChannelEvent|ChannelFaultEvent|ChannelSet|ChartBase|ChartElement|ChartItem|ChartItemEvent|ChartState|CheckBox|CheckBoxIcon|ChildExistenceChangedEvent|Circ|Circular|CircleItemRenderer|Class|ClassFactory|CloseEvent|CollectionEvent|CollectionEventKind|CollectionViewError|ColorMatrixFilter|ColorPicker|ColorPickerEvent|ColorPickerSkin|ColorTransform|ColorType|ColorUtil|ColumnChart|ColumnSeries|ColumnSeriesItem|ColumnSeriesRenderData|ColumnSet|ComboBase|ComboBox|ComboBoxArrowSkin|CommandMessage|ComponentDescriptor|CompositeEffect|CompositeEffectInstance|ConcreteDataService|Conflict|Conflicts|Consumer|Container|ContainerCreationPolicy|ContextMenu|ContextMenuBuiltInItems|ContextMenuEvent|ContextMenuItem|ControlBar|ConvolutionFilter|CreditCardValidator|CreditCardValidatorCardType|CrossItemRenderer|CSSStyleDeclaration|Cubic|CuePointEvent|CuePointManager|CurrencyFormatter|CurrencyValidator|CurrencyValidatorAlignSymbol|CursorBookmark|CursorError|CursorEvent|CursorManager|CursorManagerPriority|CursorPrefetch|DataAssociationMessage|DataConflictEvent|DataConsumer|DataDescription|DataErrorMessage|DataEvent|DataFormat|DataGrid|DataGridColumn|DataGridColumnDropIndicator|DataGridColumnResizeSkin|DataGridDragProxy|DataGridEvent|DataGridEventReason|DataGridHeaderSeparator|DataGridItemRenderer|DataGridListData|DataGridSortArrow|DataList|DataListError|DataMessage|DataService|DataServiceError|DataStore|DataTip|DataTransform|DateBase|DateChooser|DateChooserEvent|DateChooserEventDetail|DateChooserIndicator|DateChooserMonthArrowSkin|DateChooserYearArrowSkin|DateField|DateFormatter|DateTimeAxis|DateValidator|DefaultDataDescriptor|DeferredInstanceFromClass|DeferredInstanceFromFunction|DefinitionError|DiamondItemRenderer|Dictionary|DirectHTTPChannel|DisplacementMapFilter|DisplacementMapFilterMode|DisplayObject|DisplayObjectContainer|Dissolve|DissolveInstance|DividedBox|DividerEvent|DownloadProgressBar|DragEvent|DragManager|DragSource|DropdownEvent|DropShadowFilter|DualStyleObject|DynamicEvent|EdgeMetrics|Effect|EffectEvent|EffectInstance|EffectManager|EffectTargetFilter|Elastic|EmailValidator|EncodingError|Endian|EOFError|Error|ErrorEvent|ErrorMessage|EvalError|Event|EventDispatcher|EventPhase|EventPriority|EventRoot|Expo|ExternalInterface|Fade|FadeInstance|Fault|FaultEvent|FileFilter|FileReference|FileReferenceList|FlexEvent|FlexPrintJob|FlexPrintJobScaleType|FocusEvent|FocusManager|Font|FontStyle|Form|Formatter|FormHeading|FormItem|FormItemDirection|FormItemLabel|FrameLabel|Function|Glow|GlowFilter|GlowInstance|GradientBase|GradientBevelFilter|GradientEntry|GradientGlowFilter|GradientType|Graphics|Grid|GridBase|GridFitType|GridItem|GridLines|GridRow|HaloBorder|HaloColors|HaloFocusRect|HBox|HDividedBox|HeaderEvent|HistoryManager|HitData|HLOCChart|HLOCItemRenderer|HLOCSeries|HLOCSeriesBase|HLOCSeriesItem|HLOCSeriesRenderData|HorizontalList|HRule|HScrollBar|HSlider|HTTPChannel|HTTPRequestMessage|HTTPService|HTTPService|HTTPStatusEvent|IAccessPrivileges|IAutomationEnvironment|IAutomationManager|IAutomationMethodDescriptor|IAutomationMouseSimulator|IAutomationObject|IAutomationObjectContainer|IAutomationObjectHelper|IAutomationPropertyCodec|IAutomationReplayer|IAxis|IBar|IChartElement|IChildList|ICollectionView|IColumn|IContainer|IDataInput|IDataOutput|IDataRenderer|IDeferredInstance|IDeferredInstantiationUIComponent|IDropInListItemRenderer|IEventDispatcher|IFactory|IFill|IFlexDisplayObject|IFocusable|IFocusManager|IFocusManagerContainer|IHistoryState|IIMESupport|IInvalidating|ILayoutClient|ILayoutManager|IList|IListItemRenderer|IllegalOperationError|ILogger|Image|IManaged|IME|IMEConversionMode|IMEEvent|IMenuDataDescriptor|IMenuItemRenderer|IMXMLObject|IMXMLSupport|IndexChangedEvent|InstanceCache|int|InteractiveObject|InterpolationMethod|InvalidCategoryError|InvalidChannelError|InvalidDestinationError|InvalidFilterError|IOError|IOErrorEvent|IOverride|IPreloaderDisplay|IPropertyChangeNotifier|IRawChildrenContainer|IRepeater|IRepeaterClient|IResponder|Iris|IrisInstance|IScrollBar|IStackable|IStroke|IStyleable|IStyleClient|ISystemManager|ITabGroup|ITarget|ItemClickEvent|ItemPendingError|IToolTip|IToolTipClient|ITreeDataDescriptor|IUIComponent|IUID|IValidationListener|IViewCursor|JointStyle|Keyboard|KeyboardEvent|KeyLocation|Label|LayoutManager|Legend|LegendData|LegendItem|LegendMouseEvent|Linear|LinearAxis|LinearGradientStroke|LineChart|LineFormattedTarget|LineRenderer|LineScaleMode|LineSeries|LineSeriesItem|LineSeriesRenderData|LineSeriesSegment|LinkBar|LinkButton|LinkButtonSkin|LinkSeparator|List|ListBase|ListBaseFindPending|ListBaseSeekPending|ListBaseSelectionData|ListBaseSelectionDataPending|ListBaseSelectionPending|ListCollectionView|ListCollectionViewBookmark|ListCollectionViewCursor|ListData|ListDropIndicator|ListEvent|ListEventReason|ListItemDragProxy|ListItemRenderer|ListItemSelectEvent|ListRowInfo|Loader|Loader|LoaderConfig|LoaderContext|LoaderInfo|LoadEvent|LocalConnection|Locale|Log|LogAxis|LogEvent|LogEventLevel|LogLogger|MaskEffect|MaskEffectInstance|Math|Matrix|MBeanAttributeInfo|MBeanFeatureInfo|MBeanInfo|MBeanOperationInfo|MBeanParameterInfo|MemoryError|Menu|MenuBar|MenuBarBackgroundSkin|MenuBarItem|MenuEvent|MenuItemRenderer|Message|MessageAckEvent|MessageAgent|MessageBatch|MessageCacheItem|MessageEvent|MessageFaultEvent|MessagePersister|MessagePersisterEvent|MessageResponder|MessageSerializationError|MessageStore|MessageStoreEvent|MessagingError|Metadata|MetadataEvent|Microphone|MiniDebugTarget|MorphShape|Mouse|MouseEvent|Move|MoveEvent|MoveInstance|MovieClip|Namespace|NavBar|NetConnection|NetConnectionChannel|NetFilterEvent|NetStatusEvent|NetStream|NoChannelAvailableError|NoDataAvailableError|NoSuchChannelError|NumberBase|NumberBaseRoundType|NumberFormatter|NumberValidator|NumericAxis|NumericStepper|NumericStepperDownSkin|NumericStepperEvent|NumericStepperUpSkin|ObjectEncoding|ObjectName|ObjectProxy|ObjectUtil|Operation|Operation|Operation|Operation|OperationPendingCall|Orientation|PagedMessage|Panel|Parallel|ParallelInstance|Pause|PauseInstance|PhoneFormatter|PhoneNumberValidator|PieChart|PieSeries|PieSeriesItem|PieSeriesRenderData|PixelSnapping|PlotChart|PlotSeries|PlotSeriesItem|PlotSeriesRenderData|Point|PolarChart|PolarTransform|PolicyFileEvent|PopUpButton|PopUpButtonSkin|PopUpIcon|PopUpManager|PopUpMenuButton|PopUpMenuIcon|Preloader|PrintDataGrid|PrintJob|PriorityQueue|Producer|Producer|ProgrammaticSkin|ProgressBar|ProgressBarDirection|ProgressBarLabelPlacement|ProgressBarMode|ProgressBarSkin|ProgressEvent|ProgressIndeterminateSkin|ProgressTrackSkin|PropertyChangeEvent|PropertyChangeEventKind|PropertyChanges|Proxy|QName|QTPAdapter|QTPEnvironment|Quad|Quart|Quint|RadialGradient|RadioButton|RadioButtonGroup|RadioButtonIcon|RangeError|Rectangle|RectangularBorder|RectangularDropShadow|ReferenceError|RegExp|RegExpValidationResult|RegExpValidator|RemoteObject|RemoteObject|RemotingMessage|RemoveChild|RemoveChildAction|RemoveChildActionInstance|RenderData|Repeater|Resize|ResizeEvent|ResizeInstance|ResourceBundle|Responder|ResultEvent|RichTextEditor|Rotate|RotateInstance|RoundedRectangle|RPCMessage|RSLEvent|RTMPChannel|Scene|ScriptTimeoutError|ScrollArrowSkin|ScrollBar|ScrollBarDirection|ScrollControlBase|ScrollEvent|ScrollEventDetail|ScrollEventDirection|ScrollPolicy|ScrollThumb|ScrollThumbSkin|ScrollTrackSkin|SecureAMFChannel|Security|SecurityDomain|SecurityError|SecurityErrorEvent|SecurityPanel|Sequence|SequencedMessage|SequenceInstance|Series|SeriesEffect|SeriesEffectInstance|SeriesInterpolate|SeriesInterpolateInstance|SeriesSlide|SeriesSlideInstance|SeriesZoom|SeriesZoomInstance|SetEventHandler|SetProperty|SetPropertyAction|SetPropertyActionInstance|SetStyle|SetStyleAction|SetStyleActionInstance|ShadowBoxItemRenderer|ShadowLineRenderer|Shape|SharedObject|SharedObjectFlushStatus|SimpleButton|SimpleXMLDecoder|SimpleXMLEncoder|Sine|SkinBitmap|SkinButton|SkinMovieClip|SkinSprite|SkinTextField|Slider|SliderDataTip|SliderDirection|SliderEvent|SliderEventClickTarget|SliderHighlightSkin|SliderLabel|SliderThumb|SliderThumbSkin|SliderTrackSkin|SOAPHeader|SOAPMessage|SocialSecurityValidator|Socket|SolidColor|Sort|SortError|SortField|SortFindMode|Sound|SoundChannel|SoundEffect|SoundEffectInstance|SoundLoaderContext|SoundMixer|SoundTransform|Spacer|SpreadMethod|Sprite|StackedSeries|StackOverflowError|Stage|StageAlign|StageQuality|StageScaleMode|State|StateChangeEvent|StaticText|StatusEvent|StringBuilder|StringUtil|StringValidator|Stroke|StyleManager|StyleSheet|SwatchPanel|SwatchPanelSkin|SwatchSkin|SwitchSymbolFormatter|SyncEvent|SyntaxError|System|SystemManager|TabBar|TabNavigator|TabSkin|Text|TextArea|TextEvent|TextField|TextFieldAutoSize|TextFieldType|TextFormat|TextFormatAlign|TextInput|TextLineMetrics|TextRange|TextRenderer|TextSnapshot|Tile|TileBase|TileBaseDirection|TileDirection|TileList|TileListItemRenderer|Timer|TimerEvent|TitleBackground|TitleWindow|ToggleButtonBar|ToolBar|ToolTip|ToolTipEvent|ToolTipManager|TraceTarget|Transform|Transition|Tree|TreeCollectionCursor|TreeCollectionWrapper|TreeEvent|TreeItemRenderer|TreeListData|TreeModelChangedEvent|TreeModelChangedEventDetail|TriangleItemRenderer|Tween|TweenEffect|TweenEffectInstance|TweenEvent|TypeError|UIComponent|UIComponentCachePolicy|UIComponentDescriptor|UIDUtil|UITextField|UITextFormat|UnresolvedConflictsError|UnresolvedConflictsEvent|URIError|URLLoader|URLLoaderDataFormat|URLRequest|URLRequestHeader|URLRequestMethod|URLStream|URLVariables|ValidationResult|ValidationResultEvent|Validator|VBox|VDividedBox|VerifyError|Video|VideoDisplay|VideoError|VideoEvent|VideoResizeEvent|ViewStack|VRule|VScrollBar|VSlider|WebService|WebService|WedgeItemRenderer|WipeDown|WipeDownInstance|WipeLeft|WipeLeftInstance|WipeRight|WipeRightInstance|WipeUp|WipeUpInstance|WSDLError|XMLDecoder|XMLDocument|XMLEncoder|XMLListCollection|XMLNode|XMLNodeType|XMLSocket|XMLUtil|ZipCodeFormatter|ZipCodeValidator|ZipCodeValidatorDomainType|Zoom|ZoomInstance)\b</string>
+					<key>name</key>
+					<string>support.class.actionscript.3</string>
+				</dict>
+			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
