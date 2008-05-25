@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -8,32 +8,29 @@
 	<string>#!/usr/bin/env ruby -wKU
 
 SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
+BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
 
 require SUPPORT + '/lib/exit_codes'
+require BUN_SUP + '/lib/as_class_parser'
 
-doc = STDIN.read.split("\n")
 current_line = ENV['TM_CURRENT_LINE']
+prop = /^.*\b(\w+)\b\s*=/.match(current_line)[1] 
 
-props_regexp = /^\s*(private|protected|public)\s+var\s+(\w+)\s*:\s*(\w+)|\*;/
-var_regexp = /var\s+(\w+)\s*:\s*(\w+)/
-prop_name_regexp = /^.*\b(\w+)\b\s*=/
+c = AsClassParser.new
+class_type = c.find_type(STDIN.read.strip,prop)
+class_type = "ClassInstance" if class_type == nil
 
-class_type = "ClassInstance"
+# The adobe code conventions advise the use of these.
+short_hand = {
+    'Array' =&gt; '[$1]',
+    'Object' =&gt; '{$1}',
+    'String' =&gt; '"$1"',
+    'RegExp' =&gt; '/$1/',
+    'XML' =&gt; '&lt;xml/&gt;;'
+}
 
-#TODO: Search local scope (methods) - for var declarations.
-
-if current_line =~ var_regexp	
-	class_type = $2.to_s	
-else	
-	prop_name = prop_name_regexp.match(current_line)[1]	
-	doc.each do |line|
-		if line =~ props_regexp 
-			if $2.to_s == prop_name
-				class_type = $3.to_s
-				break
-			end
-		end
-	end
+if short_hand.key?(class_type)
+    TextMate.exit_insert_snippet( short_hand[class_type] )
 end
 
 words = `grep "^#{class_type}\(" "$TM_BUNDLE_PATH/support/data/as3_completions.txt"`.split("\n")
