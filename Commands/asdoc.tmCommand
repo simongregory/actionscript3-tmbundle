@@ -7,32 +7,22 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
 
+BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
+require BUN_SUP + '/lib/as_declarations'
+
 line_number = ENV['TM_LINE_NUMBER'].to_i
-class_name = File.basename(ENV['TM_FILENAME'],".as")
 doc = STDIN.read.split("\n")
 next_line = doc[line_number].to_s
-
 class_regexp = /\b(class|interface)\b/
-
-puts "/**"
+constructor_regexp = /function\s+(\w+)\(.*\)\s*$/
 
 if next_line =~ class_regexp
-
-    puts " *  ${1:Description}"
-    puts " *"    
-    puts " *  @langversion ActionScript ${2:3}"
-    puts " *  @playerversion Flash ${3:9.0.0}"
-    puts " *"
-    puts " *  @author ${4:"+ENV['TM_FULLNAME']+"}"
-    puts " *  @since  ${5:"+`date +%d.%m.%Y`.chop+"}"
-    
+	print class_doc
+elsif next_line =~ constructor_regexp
+	print constructor_doc
 else
-    
-    puts " *	${1:@private}$0"
-    
-end
-
-print " */"</string>
+	print private_doc
+end</string>
 	<key>input</key>
 	<string>document</string>
 	<key>name</key>
