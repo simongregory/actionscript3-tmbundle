@@ -6,7 +6,8 @@
 as3_doc = ENV['TM_ASDOC_GENERATION']
 @include_docs = as3_doc ? true : false
 
-@doc       = "/**\n *	@private\n */\n"
+@private_doc = "/**\n *	@private\n */"
+@constructor_doc = "/**\n *	@constructor\n */"
 @method    = " function ${1:name}($2):${3:void}\n{\n\t$0${3/void$|(.+)/(?1:return null;)/}\n}"
 @getter    = " function get ${1:name}():${2:Object}{\n\treturn ${3:_$1};\n}$0"
 @setter    = " function set ${1:name}(value:${2:Object}):void {\n\t${3:_$1} = value;\n}$0"
@@ -18,6 +19,16 @@ as3_doc = ENV['TM_ASDOC_GENERATION']
 @static_variable = "static" + @property
 @static_method = "static" + @method
 @static_constant = "static" + @constant
+
+@class_doc = "/**
+ *  ${1:Description}
+ *    
+ *  @langversion ActionScript ${2:3}
+ *  @playerversion Flash ${3:9.0.0}
+ *
+ *  @author ${4:"+ENV['TM_FULLNAME']+"}
+ *  @since  ${5:"+`date +%d.%m.%Y`.chop+"}
+ */"
 
 # Public Methods
 
@@ -55,6 +66,46 @@ def get_snippets(ns)
     return r
 end
 
+def class_snip(ns)
+
+    fn = ENV['TM_FILENAME']
+    cn = "NewClass"    
+    cn = File.basename(fn,".as") if fn != nil
+	
+	if @include_docs
+		
+	return "/**
+ *  Description
+ *    
+ *  @langversion ActionScript 3
+ *  @playerversion Flash 9.0.0
+ *
+ *  @author "+ENV['TM_FULLNAME']+"
+ *  @since  "+`date +%d.%m.%Y`.chop+"
+ */
+#{ns} class ${1:#{cn}} extends ${2:Object} {
+	
+	/**
+	 *   @constructor
+	 */
+	public function $1($3){
+		super();$4
+	}$0
+}"
+		
+	else
+
+		return "#{ns} class ${1:#{cn}} extends ${2:Object} {
+	
+	public function $1($3){
+		super();$4
+	}$0
+}"
+		
+	end
+
+end
+
 def method(name)
     
     if name != ""
@@ -64,10 +115,21 @@ def method(name)
     end
     
     if @include_docs
-        m = @doc + m
+        m = @private_doc + "\n" + m
     end
         
     return m    
+end
+
+def final_method
+	
+    m = "final" + @method
+    
+    if @include_docs
+        m = @private_doc + "\n" + m
+    end
+        
+    return m
 end
 
 # Getter/Setters
@@ -80,11 +142,23 @@ def setter
     @setter
 end
 
+def class_doc
+	@class_doc
+end
+
+def private_doc
+	@private_doc
+end
+
+def constructor_doc
+	@constructor_doc
+end
+
 # Private methods
 
 def list_object(title,data)
     if @include_docs 
-        return { 'title' => title, 'data' => @doc + data}
+        return { 'title' => title, 'data' => @private_doc + "\n" + data}
     end
     return { 'title' => title, 'data' => data}
 end
