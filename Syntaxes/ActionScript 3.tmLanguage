@@ -555,6 +555,10 @@
 					<key>include</key>
 					<string>#method-parameters</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#numbers</string>
+				</dict>
 			</array>
 		</dict>
 		<dict>
@@ -767,7 +771,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(\[)\s*(ArrayElementType|Bindable|DefaultProperty|Effect|Embed|Event|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|Style|SWF|Transient)\s*(\(.*\))?\s*(\])</string>
+			<string>(\[)\s*(ArrayElementType|Bindable|DefaultProperty|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|Style|SWF|Transient)\s*(\(.*\))?\s*(\])</string>
 			<key>name</key>
 			<string>storage.type.meta-data.actionscript.3</string>
 		</dict>
@@ -818,10 +822,8 @@
 			<string>constant.language.actionscript.3</string>
 		</dict>
 		<dict>
-			<key>match</key>
-			<string>\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f)?\b</string>
-			<key>name</key>
-			<string>constant.numeric.actionscript.3</string>
+			<key>include</key>
+			<string>#numbers</string>
 		</dict>
 		<dict>
 			<key>comment</key>
@@ -1035,6 +1037,18 @@
 			<string>TODO: Correctly scope wildcard and rest</string>
 			<key>match</key>
 			<string>(\w+):((\w+(\s*(=)?\s*(\w+)))|(\*|))|(\.\.\.)</string>
+		</dict>
+		<key>numbers</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f)?\b</string>
+					<key>name</key>
+					<string>constant.numeric.actionscript.3</string>
+				</dict>
+			</array>
 		</dict>
 		<key>support-classes</key>
 		<dict>
