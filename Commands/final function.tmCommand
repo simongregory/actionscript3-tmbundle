@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/env ruby
+	<string>#!/usr/bin/env ruby -wKU
 
 SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
 BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
@@ -13,19 +13,22 @@ BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
 require SUPPORT + '/lib/exit_codes'
 require BUN_SUP + '/lib/as_declarations'
 
-TextMate.exit_insert_snippet( class_snip('public') )
-</string>
+method_name = STDIN.read
+
+TextMate.exit_insert_snippet( final_method )</string>
+	<key>fallbackInput</key>
+	<string>word</string>
 	<key>input</key>
-	<string>none</string>
+	<string>selection</string>
 	<key>name</key>
-	<string>class</string>
+	<string>final function</string>
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>class</string>
+	<string>final</string>
 	<key>uuid</key>
-	<string>7F2CED83-3918-4980-9C7E-5868E8438177</string>
+	<string>54B1B5BB-09E4-4420-B3DB-46EF2D77EEF7</string>
 </dict>
 </plist>
