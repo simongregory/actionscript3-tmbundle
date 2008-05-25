@@ -7,8 +7,10 @@ as3_doc = ENV['TM_ASDOC_GENERATION']
 @include_docs = as3_doc ? true : false
 
 @private_doc = "/**\n *	@private\n */"
+@inherit_doc = "/**\n *	@inheritDoc\n */"
 @constructor_doc = "/**\n *	@constructor\n */"
 @method    = " function ${1:name}($2):${3:void}\n{\n\t$0${3/void$|(.+)/(?1:return null;)/}\n}"
+@override  = "override ${1:public} function ${2:methodName}($3):${4:void} {\n\tsuper.${2:methodName}();\n\t$0${4/void$|(.+)/(?1:return null;)/}\n}"
 @getter    = " function get ${1:name}():${2:Object}{\n\treturn ${3:_$1};\n}$0"
 @setter    = " function set ${1:name}(value:${2:Object}):void {\n\t${3:_$1} = value;\n}$0"
 @variable  = " var _${1:variableName}:${2:Object};"
@@ -106,6 +108,37 @@ def class_snip(ns)
 
 end
 
+def interface_snip
+
+    fn = ENV['TM_FILENAME']
+    cn = "NewClass"    
+    cn = File.basename(fn,".as") if fn != nil
+	
+	if @include_docs
+		
+	return "/**
+ *  Description
+ *    
+ *  @langversion ActionScript 3
+ *  @playerversion Flash 9.0.0
+ *
+ *  @author "+ENV['TM_FULLNAME']+"
+ *  @since  "+`date +%d.%m.%Y`.chop+"
+ */
+public interface ${1:#{cn}} {
+	$2
+}"
+		
+	else
+
+		return "public interface ${1:#{cn}} {
+	$2
+}"
+		
+	end
+
+end
+
 def method(name)
     
     if name != ""
@@ -118,6 +151,17 @@ def method(name)
         m = @private_doc + "\n" + m
     end
         
+    return m    
+end
+
+def override_method
+    
+	m = @override
+
+    if @include_docs
+        m = @inherit_doc + "\n" + m
+    end
+
     return m    
 end
 
@@ -153,6 +197,11 @@ end
 def constructor_doc
 	@constructor_doc
 end
+
+def inherit_doc
+	@inherit_doc
+end
+
 
 # Private methods
 

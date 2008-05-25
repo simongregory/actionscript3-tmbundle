@@ -13,13 +13,17 @@ require BUN_SUP + '/lib/as_declarations'
 line_number = ENV['TM_LINE_NUMBER'].to_i
 doc = STDIN.read.split("\n")
 next_line = doc[line_number].to_s
+
 class_regexp = /\b(class|interface)\b/
 constructor_regexp = /function\s+(\w+)\(.*\)\s*$/
+override_regexp = /override.*function.*\(/
 
 if next_line =~ class_regexp
 	print class_doc
 elsif next_line =~ constructor_regexp
 	print constructor_doc
+elsif next_line =~ override_regexp
+	print inherit_doc	
 else
 	print private_doc
 end</string>
