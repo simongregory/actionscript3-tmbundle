@@ -460,7 +460,7 @@ class AsClassParser
 	
 		# Class Members.
 		if reference =~ /^([A-Z]|\b(uint|int)\b)/
-						
+			# TODO: don't match new ClassName(), pass these down as instances.			
 			path = imported_class_to_file_path(doc,reference)
 			@log += "Processing #{reference} as static. #{path}\n"
 			store_static_members( load_class(path) )
