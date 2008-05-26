@@ -61,12 +61,18 @@
 					<string>entity.name.tag.localname.xml.flex-config</string>
 				</dict>
 			</dict>
+			<key>disabled</key>
+			<string>0</string>
 			<key>end</key>
 			<string>(/?&gt;)</string>
 			<key>name</key>
 			<string>meta.tag.xml.flex-config</string>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>include</key>
+					<string>#compilerDirectives</string>
+				</dict>
 				<dict>
 					<key>include</key>
 					<string>#tagStuff</string>
@@ -80,6 +86,20 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>compilerDirectives</key>
+		<dict>
+			<key>comment</key>
+			<string>These are not yet active, as the xml localname captures them.</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\b(accessible|actionscript-file-encoding|compiler|creator|debug|description|es|external-library-path|filename|flash-type|flex-config|fonts|include-libraries|keep-generated-actionscript|lang|language|language-range|languages|library|library-path|local-fonts-snapshot|locale|manager-class|managers|manifest|max-cached-fonts|max-glyphs-per-face|metadata|name|namespace|namespaces|optimize|path-element|publisher|range|runtime-shared-libraries|show-actionscript-warnings|show-binding-warnings|show-deprecation-warnings|source-path|strict|theme|title|uri|url|use-network|verbose-stacktraces|warn-array-tostring-changes|warn-assignment-within-conditional|warn-bad-array-cast|warn-bad-bool-assignment|warn-bad-date-cast|warn-bad-nan-comparison|warn-bad-null-assignment|warn-bad-null-comparison|warn-bad-undefined-comparison|warn-boolean-constructor-with-no-args|warn-changes-in-resolve|warn-class-is-sealed|warn-const-not-initialized|warn-constructor-returns-value|warn-deprecated-event-handler-error|warn-deprecated-function-error|warn-deprecated-property-error|warn-duplicate-argument-names|warn-duplicate-variable-def|warn-for-var-in-changes|warn-import-hides-class|warn-instance-of-changes|warn-internal-error|warn-level-not-supported|warn-missing-namespace-decl|warn-negative-uint-literal|warn-no-constructor|warn-no-explicit-super-call-in-constructor|warn-no-type-decl|warn-number-from-string-changes|warn-scoping-change-in-this|warn-slow-text-field-addition|warn-unlikely-function-value|warn-xml-class-has-changed)\b</string>
+					<key>name</key>
+					<string>support.directive.flex-config</string>
+				</dict>
+			</array>
+		</dict>
 		<key>doublequotedString</key>
 		<dict>
 			<key>begin</key>
@@ -124,6 +144,8 @@
 					<string>punctuation.definition.java-prop.begin.flex-config</string>
 				</dict>
 			</dict>
+			<key>comment</key>
+			<string>These are here because this a rescope of another lang def, need to check whether they are valid or not.</string>
 			<key>end</key>
 			<string>}</string>
 			<key>endCaptures</key>
