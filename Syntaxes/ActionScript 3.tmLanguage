@@ -400,6 +400,72 @@
 			</array>
 		</dict>
 		<dict>
+			<key>begin</key>
+			<string>(?x)^\s*
+			         (function)\s+
+					(\b(get|set)\b\s+)?
+			         (\s*\w+)      # Method name.
+			         \s*(\()</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.function.actionscript.3</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.accessor.actionscript.3</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.actionscript.3</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.begin.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>matches: public function functionName():returnType;</string>
+			<key>end</key>
+			<string>(?x)
+ 			       (\))
+ 			       (\s*:\s*)?
+ 			       (\w+|\*)?</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.end.actionscript.3</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.return.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.definition.method.interface.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#method-parameters</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>,</string>
+					<key>name</key>
+					<string>punctuation.separator.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
 			<key>captures</key>
 			<dict>
 				<key>12</key>
