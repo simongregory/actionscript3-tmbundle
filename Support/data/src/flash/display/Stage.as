@@ -9,20 +9,24 @@ package flash.display
 	public class Stage extends DisplayObjectContainer
 	{
 		public var align:String;
-		public var focus:InteractiveObject;
-		public var frameRate:Number;
-		public var height:Number;
-		public var mouseChildren:Boolean;
-		public var numChildren:int;
-		public var quality:String;
-		public var scaleMode:String;
-		public var showDefaultContextMenu:Boolean;
-		public var stageFocusRect:Boolean;
-		public var stageHeight:int;
-		public var stageWidth:int;
-		public var tabChildren:Boolean;
-		public var textSnapshot:TextSnapshot;
-		public var width:Number;
+        public var displayState:String;
+        public var focus:InteractiveObject;
+        public var frameRate:Number;
+        public var fullScreenHeight:uint;
+        public var fullScreenSourceRect:Rectangle;
+        public var fullScreenWidth:uint;
+        public var height:Number;
+        public var mouseChildren:Boolean;
+        public var numChildren:int;
+        public var quality:String;
+        public var scaleMode:String;
+        public var showDefaultContextMenu:Boolean;
+        public var stageFocusRect:Boolean;
+        public var stageHeight:int;
+        public var stageWidth:int;
+        public var tabChildren:Boolean;
+        public var textSnapshot:TextSnapshot;
+        public var width:Number;
 		override function addChild(child:DisplayObject):DisplayObject;
 		override function addChildAt(child:DisplayObject, index:int):DisplayObject;
 		override function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void;
