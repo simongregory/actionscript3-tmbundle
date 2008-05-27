@@ -12,6 +12,9 @@
 # 		   	include files are not supported.
 # 			Internal classes are not supported.
 # 			
+#
+# TODO's :  Interfaces support mulitple extends, collect them all.
+# 			Casting support.	
 class AsClassParser
     
     private
@@ -24,7 +27,7 @@ class AsClassParser
 		@depth = 0
 		@type_depth = 0
 		
-		@src_dirs          = []		
+		@src_dirs          = ""		
 		@methods           = []	
 		@properties        = []
 		@privates          = []
@@ -268,8 +271,10 @@ class AsClassParser
 	# locating source files.
 	def create_src_list
 		
-		@src_dirs = `find "$TM_PROJECT_DIRECTORY" -maxdepth 5 -name "src" -print`
-		@src_dirs += "#{ENV['TM_BUNDLE_SUPPORT']}/data/src\n"
+		if ENV['TM_PROJECT_DIRECTORY']
+			@src_dirs = `find "$TM_PROJECT_DIRECTORY" -maxdepth 5 -name "src" -print`
+			@src_dirs += "#{ENV['TM_BUNDLE_SUPPORT']}/data/src\n"			
+		end
 
 		#TODO: Move to utility.
 		flx = [ "#{ENV['TM_FLEX_PATH']}/frameworks/project/framework/src",
