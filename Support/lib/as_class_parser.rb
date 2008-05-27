@@ -9,12 +9,12 @@
 # Caveats:	A class MUST be FULLY imported to be found.
 # 			Use of fully qualified names is not supported. 
 # 				ie var foo:org.this.ThatClass
-# 		   	include files are not supported.
+# 		   	include files are not loaded and parsed.
 # 			Internal classes are not supported.
-# 			
+# 			Code commented out may be recoginised.
 #
 # TODO's :  Interfaces support mulitple extends, collect them all.
-# 			Casting support.	
+# 			Casting support.
 class AsClassParser
     
     private
@@ -46,7 +46,8 @@ class AsClassParser
 		@pro_method_regexp = /^\s*(override\s+)?(protected|public)\s+function\s+\b([a-z]\w+)\b\s*\(/
 
 		@pro_static_var_regexp    = /^\s*\b(protected|public|static)\b\s+\b(protected|public|static)\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-		@pro_static_method_regexp = /^\s*\b(protected|public)\s+(static\s+)function\s+\b([a-z]\w+)\b\s*\(/
+		@pro_static_method_regexp = /^\s*\b(protected|public|static)\b\s+\b(protected|public|static)\b\s+function\s+\b([a-z]\w+)\b\s*\(/
+		@pro_static_getset_regexp = /^\s*\b(protected|public|static)\b\s+\b(protected|public|static)\b\s+function\s+\b(get|set)\b\s+([a-z]\w+)\b\s*\(/
 
 		# Private access, the widest scope, captures all namespaces.
 		@pri_var_regexp    = /^\s*(private|protected|public)\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
@@ -56,15 +57,16 @@ class AsClassParser
 		#@pri_method_regexp_multiline = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b([a-z]\w+)\b\s*\((?m:[^)]+)\)\s*:\s*(\w+)/
 
 		@pri_static_var_regexp    = /^\s*\b(private|protected|public|static)\b\s+\b(private|protected|public|static)\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-		@pri_static_method_regexp = /^\s*\b(private|protected|public)\s+(static\s+)function\s+\b([a-z]\w+)\b\s*\(/
+		@pri_static_method_regexp = /^\s*\b(private|protected|public|static)\b\s+\b(private|protected|public|static)\b\s+function\s+\b([a-z]\w+)\b\s*\(/
+		@pri_static_getset_regexp = /^\s*\b(private|protected|public|static)\b\s+\b(private|protected|public|static)\b\s+function\s+\b(get|set)\b\s+([a-z]\w+)\b\s*\(/
 								
 		# Captures public class level members
-        # TODO: Add Accessors.
-		@static_method = /^\s*(public)\s+(static\s+)function\s+\b([a-z]\w+)\b\s*\(/
-		@const_regexp = /^\s*\b(public|static)\b\s+\b(static|public)\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
+		@pub_static_var_regexp = /^\s*\b(public|static)\b\s+\b(static|public)\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/		
+		@pub_static_method_regexp = /^\s*(public|static)\s+(static|public)\s+function\s+\b([a-z]\w+)\b\s*\(/
+		@pub_static_getset_regexp = /^\s*(public|static)\s+(static|public)\s+function\s+\b(get|set)\b\s+\b([a-z]\w+)\b\s*\(/
 		
 		#Type detection captures.
-		@extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/		
+		@extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/
 		@private_class_regexp = /^class\b/
 		
 		create_src_list()
@@ -80,7 +82,7 @@ class AsClassParser
 
 		return if doc == nil
 
-		@log += "Adding level " + @depth.to_s + "\n"
+		log_append( "Adding level " + @depth.to_s )
 		
 		# method_scans = []
 		
@@ -104,6 +106,8 @@ class AsClassParser
 				
 			elsif line =~ @pri_getset_regexp
 			    @properties << $4.to_s
+			elsif line =~ @pri_static_getset_regexp
+			    @properties << $4.to_s			
 			elsif line =~ @pri_static_method_regexp
 			    @static_methods << $3.to_s			    
 			elsif line =~ @pri_static_var_regexp
@@ -130,7 +134,7 @@ class AsClassParser
 	    
 	    return if doc == nil
 
-		@log += "Adding level " + @depth.to_s + "\n"
+		log_append( "Adding level " + @depth.to_s )
 
 		doc.each do |line|
 			
@@ -140,6 +144,8 @@ class AsClassParser
 			    @methods << $3.to_s + "()" 
 			elsif line =~ @pro_getset_regexp
 			    @properties << $4.to_s
+			elsif line =~ @pro_static_getset_regexp
+			    @static_methods << $4.to_s			    
 			elsif line =~ @pro_static_method_regexp
 			    @static_methods << $3.to_s			    
 			elsif line =~ @pro_static_var_regexp
@@ -158,7 +164,7 @@ class AsClassParser
 
 		return if doc == nil
 
-		@log += "Adding level " + @depth.to_s + "\n"
+		log_append( "Adding level " + @depth.to_s )
 		
 		doc.each do |line|
 			
@@ -184,9 +190,11 @@ class AsClassParser
 		
 		doc.each do |line|
 			
-			if line =~ @const_regexp
+			if line =~ @pub_static_var_regexp
 		  		@static_properties << $4.to_s  
-			elsif line =~ @static_method
+			elsif line =~ @pub_static_getset_regexp
+			    @static_properties << $4.to_s
+			elsif line =~ @pub_static_method_regexp
 			    @static_methods << $3.to_s + "()"
             elsif line =~ @private_class_regexp
                 break    		    
@@ -216,10 +224,14 @@ class AsClassParser
 		# Scan evidence of a superclass.
 		doc.scan(@extends_regexp)
 		
+		if $4 == "interface"
+			log_append( "WARNING: Interfaces not supported where they extend more than once." )
+		end
+		
 		# If we match then convert the import to a file reference.
 		if $7 != nil
 			parent_path = imported_class_to_file_path(doc,$7)
-			@log += "Loading super class #{$7} #{parent_path}.\n"
+			log_append("Loading super class #{$7} #{parent_path}.")
 			return load_class( parent_path )
 		end
 		
@@ -295,10 +307,9 @@ class AsClassParser
 	def load_class(path)
 		@src_dirs.each { |d|
 			uri = d.chomp + "/" + path
-			#@log += "Testing #{uri}.\n"
 			#FIX: The assumption that we'll only find one match.
 			if File.exists?(uri)
-				@log += "Opening #{uri}.\n"
+				log_append("Opening #{uri}.")
 				f = File.open(uri,"r" ).read.strip
 				return strip_comments(f)
 			end
@@ -352,13 +363,13 @@ class AsClassParser
 		 
 		doc.scan(var_regexp)		
 		if $3 != nil
-		    @log += "Determined Type as #{$3}.\n"
+		    log_append("Determined Type as #{$3}.")
 		    return $3
 	    end
 	
 		doc.scan(gs_regexp)		
 		if $5 != nil
-		    @log += "Determined Type as #{$5}.\n"
+		    log_append( "Determined Type as #{$5}.")
 		    return $5
 	    end
 
@@ -380,7 +391,7 @@ class AsClassParser
 		type_regexp = /\s*(\b#{reference}\b)\s*:\s*(\w+)/		
 		
 		if doc == nil
-			@log += "No doc for #{reference} !"
+			log_append( "No doc for #{reference} !" )
 			return
 		end
 		
@@ -393,14 +404,14 @@ class AsClassParser
 		
 			if txt =~ type_regexp
 
-				@log += "Type locally matched as \n\t#{txt}."
+				log_append( "Type locally matched as \n\t#{txt}." )
 				
 				return $2
 				
 			elsif txt =~ @pri_method_regexp
 				
 				#When we hit a method statement exit.
-				@log += "Type not located locally.\n"
+				log_append( "Type not located locally." )
 				return nil
 				
 			end
@@ -409,7 +420,7 @@ class AsClassParser
 
 		end
 		
-		@log += "Type locally failed!? (We shoudn't get this far).\n"
+		log_append("Type locally failed!? (We shoudn't get this far).")
 		return nil
 	end
 
@@ -430,14 +441,14 @@ class AsClassParser
 						
 			# We're on the home stretch.
 			type = determine_type_all(doc,find_type)
-			@log += "\nLocated "+ find_type + " as #{type} \n"
+			log_append("Located "+ find_type + " as #{type} ")
 			
 			return nil if type == nil
 			return [doc,type]
 			
 		else
 			
-			@log += "\nFinding "+ find_type + "\n"
+			log_append("Finding "+ find_type)
 			# Do another turn.
 			type 	  = determine_type_all(doc,find_type)
 			path 	  = imported_class_to_file_path(doc,type)
@@ -447,6 +458,10 @@ class AsClassParser
 			
 		end
 		
+	end
+	
+	def log_append(message)
+		@log += message + "\n"
 	end
     	
     public
@@ -465,42 +480,44 @@ class AsClassParser
 	
 		# Class Members.
 		if reference =~ /^([A-Z]|\b(uint|int)\b)/
-			# TODO: don't match new ClassName(), pass these down as instances.			
+			
+			# TODO: don't match new ClassName(), pass these down as instances.
+			#       ie var a:Foo = new Foo().name;
+			
 			path = imported_class_to_file_path(doc,reference)
-			@log += "Processing #{reference} as static. #{path}\n"
+			log_append( "Processing #{reference} as static. #{path}" )
 			store_static_members( load_class(path) )
 
 		# Super Instance Members.
 		elsif reference =~ /^super$/
 			
 			super_class = load_parent(doc)
-			@log += "Processing #{reference} as super class.\n"
+			log_append("Processing #{reference} as super class.")
 			@depth = 1
 			add_doc(super_class)
 
 		# This Instance Members.
 		elsif reference =~ /^(this)?$/
 
-            @log += "Processing as #{reference}.\n"
+            log_append("Processing as #{reference}.")
 			add_doc(doc)            
             
 		# Instance Members.
 		else
 			
-            @log += "Processing #{reference} as an instance.\n"
+            log_append("Processing #{reference} as an instance.")
             
 			type = determine_type(doc,reference)
 			
 			if type != nil
 				
-				@log += "> #{type[1]} located.\n"
 				path = imported_class_to_file_path(type[0],type[1])
 				cdoc = load_class(path)
 				add_public(cdoc) if cdoc != nil
 								
 			else
 				
-			    @log += "Failed to locate type of #{reference}.\n"
+			    log_append("Failed to locate type of #{reference}.")
 			
 			end
 			
@@ -535,7 +552,7 @@ class AsClassParser
 		# Instance Members.
 		else
 			            
-            @log += "Determining type of #{reference}.\n"
+            log_append("Determining type of #{reference}.")
             
 			items = [reference]
 			
