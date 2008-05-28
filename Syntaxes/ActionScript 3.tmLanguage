@@ -58,7 +58,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(import)\s+(.*?)(;)</string>
+			<string>(import)\s+(.*?)((;)|$)</string>
 			<key>name</key>
 			<string>storage.type.import.actionscript.3</string>
 		</dict>
@@ -751,6 +751,14 @@
 		</dict>
 		<dict>
 			<key>comment</key>
+			<string>AS3 Definition - keyword.directive.</string>
+			<key>match</key>
+			<string>(\buse\s+namespace\b)|(\bdefault\s+xml\s+namespace\b)</string>
+			<key>name</key>
+			<string>storage.modifier.namespace.actionscript.3</string>
+		</dict>
+		<dict>
+			<key>comment</key>
 			<string>AS3 Definition - statements</string>
 			<key>match</key>
 			<string>\b(if|else|while|do|for|each|in|case|switch|do|default)\b</string>
@@ -798,14 +806,6 @@
 			<string>AS3 Definition - keyword.attribute</string>
 			<key>match</key>
 			<string>\b(dynamic|final|internal|native|override|private|protected|public|static)\b</string>
-			<key>name</key>
-			<string>storage.modifier.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Definition - keyword.directive</string>
-			<key>match</key>
-			<string>\b(use\w+namespace|default\w+xml\w+namespace)\b</string>
 			<key>name</key>
 			<string>storage.modifier.actionscript.3</string>
 		</dict>
@@ -1066,6 +1066,153 @@
 					<string>\b(ABSOLUTE|ACCESSOR|ACTION_SCRIPT|ADD|ALL|AMERICAN_EXPRESS|ANY|ANY_INDEX_MODE|APPLICATION|APPLICATION_COMPLETE|AT_BOTTOM|AT_LEFT|AT_RIGHT|AT_TOP|AUTO|AUTO_RESIZE_INTERVAL|AUTO_RESIZE_METADATA_DELAY_MAX|AUTO_RESIZE_PLAYHEAD_TIMEOUT|BINDABLE|BINDING|BOTTOM|BUFFERING|BUTTON_DOWN|CANCEL|CANCELLED|CENTER|CHANGE|CHANGE_EVENT|CHILD_ADD|CHILD_INDEX_CHANGE|CHILD_REMOVE|CLOSE|CLOSE_NS_INTERVAL|COLLECTION_CHANGE|COLUMN_STRETCH|COMPLETE|CONNECTION_ERROR|COPY|CREATION_COMPLETE|CUE_POINT|CURRENT_STATE_CHANGE|CURRENT_STATE_CHANGING|CURSOR_MANAGEMENT|CURSOR_UPDATE|DATA_CHANGE|DEBUG|DEFAULT|DEFAULT_HANDLER|DEFAULT_IDLE_TIMEOUT_INTERVAL|DEFAULT_MAX_HEIGHT|DEFAULT_MAX_WIDTH|DEFAULT_MEASURED_HEIGHT|DEFAULT_MEASURED_MIN_HEIGHT|DEFAULT_MEASURED_MIN_WIDTH|DEFAULT_MEASURED_WIDTH|DEFAULT_TIMEOUT|DEFAULT_UPDATE_PROGRESS_INTERVAL|DEFAULT_UPDATE_TIME_INTERVAL|DELETE|DELETE_DEFAULT_PLAYER|DESELECT|DINERS_CLUB|DISCONNECTED|DISCOVER|DIVIDER_DRAG|DIVIDER_PRESS|DIVIDER_RELEASE|DOWN|DRAG_COMPLETE|DRAG_DROP|DRAG_ENTER|DRAG_EXIT|DRAG_OVER|DRAG_START|EFFECT|EFFECT_END|EFFECT_START|ENTER|ENTER_STATE|ERROR|EVENT|EXEC_QUEUED_CMD|EXIT_STATE|FATAL|FILL_PAGE|FINISH_AUTO_RESIZE_INTERVAL|FIRST_INDEX_MODE|HEADER_RELEASE|HEADER_SHIFT|HIDE|HIGH|HORIZONTAL|HTTP_DELAYED_BUFFERING_INTERVAL|HTTP_DO_SEEK_INTERVAL|HTTP_DO_SEEK_MAX_COUNT|IDLE|ILLEGAL_CUE_POINT|INFO|INIT_COMPLETE|INIT_PROGRESS|INITIALIZE|INVALID|INVALID_CONTENT_PATH|INVALID_SEEK|INVALID_XML|ITEM_CLICK|ITEM_CLOSE|ITEM_DOUBLE_CLICK|ITEM_EDIT_BEGIN|ITEM_EDIT_BEGINNING|ITEM_EDIT_END|ITEM_FOCUS_IN|ITEM_FOCUS_OUT|ITEM_OPEN|ITEM_OPENING|ITEM_ROLL_OUT|ITEM_ROLL_OVER|LAST_INDEX_MODE|LEFT|LINE_DOWN|LINE_LEFT|LINE_RIGHT|LINE_UP|LINK|LOAD|LOADING|LOG|LOW|MANAGED|MANUAL|MASTER_CARD|MATCH_HEIGHT|MATCH_WIDTH|MEDIUM|MENU_HIDE|MENU_SHOW|METHOD|MOUSE_DOWN_OUTSIDE|MOUSE_WHEEL_OUTSIDE|MOVE|MULTI_SELECT|NEAREST|NEW_COLUMN|NEW_ROW|NEXT_MONTH|NEXT_YEAR|NO|NO_BITRATE_MATCH|NO_CONNECTION|NO_CUE_POINT_MATCH|NO_CURSOR|NON_COMMITTING_CHANGE_EVENT|NONE|NONMODAL|NOT_A_COLOR|OFF|OK|ON|OPEN|OTHER|OVER|OVERLAY_CREATED|PAGE_DOWN|PAGE_LEFT|PAGE_RIGHT|PAGE_UP|PARENT|PAUSE|PAUSED|PLAY|PLAYHEAD_UPDATE|PLAYING|POLLED|POPUP|PREINITIALIZE|PRELOADER_DONE|PREVIOUS_MONTH|PREVIOUS_YEAR|PROGRESS|PROPERTY_CHANGE|QUEUED|READY|RECORD|REFRESH|REMOVE|REPEAT|REPEAT_END|REPEAT_START|REPLACE|REPLAY|RESET|RESIZE|RESIZING|REWIND|REWINDING|RIGHT|RSL_COMPLETE|RSL_ERROR|RSL_PROGRESS|RTMP_DO_SEEK_INTERVAL|RTMP_DO_STOP_AT_END_INTERVAL|SCROLL|SEEK|SEEKING|SELECT|SHOW|SHOW_ALL|STATE_CHANGE|STOP|STOPPED|TEXT_SELECTION_CHANGE|THICKNESS|THUMB|THUMB_DRAG|THUMB_POSITION|THUMB_PRESS|THUMB_RELEASE|THUMB_TRACK|TOOL_TIP_CREATE|TOOL_TIP_END|TOOL_TIP_HIDE|TOOL_TIP_SHOW|TOOL_TIP_SHOWN|TOOL_TIP_START|TOP|TRACK|TRANSFORM_CHANGE|TWEEN_END|TWEEN_START|TWEEN_UPDATE|UP|UPDATE|UPDATE_COMPLETE|URL_CHANGED|VALID|VALUE_COMMIT|VERTICAL|VISA|WARN|YES)\b</string>
 					<key>name</key>
 					<string>support.constant.mx.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>leading-space</key>
+		<dict>
+			<key>comment</key>
+			<string>The leading-space code is the ribbon highlighing thomas Aylott contributed to source.js.prototype.
+More info in this thread: http://comox.textdrive.com/pipermail/textmate/2006-August/012373.html
+
+Note: This is not yet enabled with
+</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^(?=(\t|  ))</string>
+					<key>end</key>
+					<string>(?=[^\t\s])</string>
+					<key>name</key>
+					<string>meta.leading-tabs</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group1.spaces</string>
+								</dict>
+								<key>10</key>
+								<dict>
+									<key>name</key>
+									<string>meta.even-tab.group10.spaces</string>
+								</dict>
+								<key>11</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group11.spaces</string>
+								</dict>
+								<key>2</key>
+								<dict>
+									<key>name</key>
+									<string>meta.even-tab.group2.spaces</string>
+								</dict>
+								<key>3</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group3.spaces</string>
+								</dict>
+								<key>4</key>
+								<dict>
+									<key>name</key>
+									<string>meta.even-tab.group4.spaces</string>
+								</dict>
+								<key>5</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group5.spaces</string>
+								</dict>
+								<key>6</key>
+								<dict>
+									<key>name</key>
+									<string>meta.even-tab.group6.spaces</string>
+								</dict>
+								<key>7</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group7.spaces</string>
+								</dict>
+								<key>8</key>
+								<dict>
+									<key>name</key>
+									<string>meta.even-tab.group8.spaces</string>
+								</dict>
+								<key>9</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group9.spaces</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>(  )(  )?(  )?(  )?(  )?(  )?(  )?(  )?(  )?(  )?(  )?</string>
+						</dict>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group1.tab</string>
+								</dict>
+								<key>10</key>
+								<dict>
+									<key>name</key>
+									<string>meta.even-tab.group10.tab</string>
+								</dict>
+								<key>11</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group11.tab</string>
+								</dict>
+								<key>2</key>
+								<dict>
+									<key>name</key>
+									<string>meta.even-tab.group2.tab</string>
+								</dict>
+								<key>3</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group3.tab</string>
+								</dict>
+								<key>4</key>
+								<dict>
+									<key>name</key>
+									<string>meta.even-tab.group4.tab</string>
+								</dict>
+								<key>5</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group5.tab</string>
+								</dict>
+								<key>6</key>
+								<dict>
+									<key>name</key>
+									<string>meta.even-tab.group6.tab</string>
+								</dict>
+								<key>7</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group7.tab</string>
+								</dict>
+								<key>8</key>
+								<dict>
+									<key>name</key>
+									<string>meta.even-tab.group8.tab</string>
+								</dict>
+								<key>9</key>
+								<dict>
+									<key>name</key>
+									<string>meta.odd-tab.group9.tab</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>(\t)(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
