@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>contactEmailRot13</key>
@@ -64,6 +64,7 @@
 					<string>DEA9BFA0-B7E4-4860-8FA4-E00A2A4C2A99</string>
 					<string>------------------------------------</string>
 					<string>B630A6C6-90AF-4AB1-BFD9-E4F19DF7857B</string>
+					<string>FA75BA29-C23B-4C2E-B7B4-AD835FD58C40</string>
 					<string>4BD79EEB-B2CE-4959-8027-837E06F9A737</string>
 					<string>400F7D93-CD1A-4F68-B6DA-6A4FF6DA5FD0</string>
 					<string>B47D02E8-47D1-41F2-A5EC-A83794587B43</string>
@@ -78,6 +79,9 @@
 					<string>F64569D4-CA0B-4D07-8300-06C7758A4442</string>
 					<string>B0161F85-8334-422F-805C-44D93821A739</string>
 					<string>0DFD0813-F534-4A15-AA77-B4FD3E9E14B6</string>
+					<string>------------------------------------</string>
+					<string>07C688F5-2C99-4C78-912B-5DA20A1A126A</string>
+					<string>F58F86DF-7C81-44B2-B424-80B2E527DDFD</string>
 					<string>------------------------------------</string>
 					<string>35B27B8F-3DBA-42FA-81C7-458AB631410B</string>
 					<string>90CBE8A4-D399-4D7E-B25E-C353785E7A47</string>
@@ -110,6 +114,7 @@
 					<string>8F80FC13-19AB-42CF-98FC-52CE1A65314F</string>
 					<string>CA4C97D5-48C1-4BEC-9F29-9C2C36E0D344</string>
 					<string>0AB04B4F-63E5-4D2D-8D61-01FCA939D0FC</string>
+					<string>5928BBEE-6950-41EA-9A9D-79DE58FF0D5B</string>
 				</array>
 				<key>name</key>
 				<string>Idioms</string>
@@ -207,7 +212,6 @@
 		<string>D53985FC-8AF9-4EF8-B1E8-9AA517BC72EF</string>
 		<string>5032E3E5-E59B-43B9-97EA-154331CB057A</string>
 		<string>D1D27A75-6867-4400-9CB0-C3D0AE45A3A0</string>
-		<string>51AE6837-FB51-490A-B6E8-312ADA16B94D</string>
 		<string>2ED58FB2-1E8C-4123-8EE7-217D14F04151</string>
 		<string>6B04E224-64D5-489F-B84A-2CCC416A0A82</string>
 		<string>783EB172-C2CF-44B1-A804-E06EBA9EB6DB</string>
@@ -298,12 +302,14 @@
 		<string>46DA2BE6-AAF8-4785-8EDA-2C5F9A39F211</string>
 		<string>C4C211C6-38AE-4509-AE44-0D8F5E02CEB9</string>
 		<string>90CBE8A4-D399-4D7E-B25E-C353785E7A47</string>
+		<string>5928BBEE-6950-41EA-9A9D-79DE58FF0D5B</string>
 		<string>23CD22CA-A55A-43C2-B7E9-3F85412DD6AD</string>
 		<string>2CA14BF3-A4C5-4B91-B8EB-36EB7A710282</string>
 		<string>45D1854B-F71E-4ECB-B7C5-B8AB5255109C</string>
 		<string>B8AE6064-A3C0-4EBD-A76F-093F6CAFE718</string>
 		<string>DEA9BFA0-B7E4-4860-8FA4-E00A2A4C2A99</string>
 		<string>E803B4A4-2B80-4BD1-8154-DEF3B90345F4</string>
+		<string>B5B33C14-A2F8-43D3-8414-79374E4230BF</string>
 	</array>
 	<key>uuid</key>
 	<string>97CE49E1-D900-402D-BFB7-FC3B28458393</string>
