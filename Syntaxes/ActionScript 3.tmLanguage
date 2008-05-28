@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>comment</key>
@@ -262,7 +262,7 @@
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>(?x)^\s*                   # start of line, optional whitespace
+			<string>(?x)^\s*                    # start of line, optional whitespace
                    	 (public)\s+                # namespace, at least one whitespace
                    	 (function)\s+              # method, at least one whitespace
                    	 (\w+)                      # constructor name.
@@ -720,7 +720,7 @@
 				</dict>
 			</dict>
 			<key>comment</key>
-			<string>This is experimental. Need to find a way to loosen the match. And to remove the dependency on the statement terminator ";" in the end capture. As it is, in ActionScript, optional. (?&lt;=:XML)\s*=\s*</string>
+			<string>This is experimental as we need to find a way to loosen the match. By removing the dependency on the statement terminator ";" in the end capture. As it is, in ActionScript, optional. (?&lt;=:XML)\s*=\s*</string>
 			<key>contentName</key>
 			<string>text.xml</string>
 			<key>end</key>
@@ -736,170 +736,6 @@
 			</array>
 		</dict>
 		<dict>
-			<key>match</key>
-			<string>\b(intrinsic)\b</string>
-			<key>name</key>
-			<string>invalid.depricated.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Definition - keyword.top-level.property</string>
-			<key>match</key>
-			<string>\b(prototype)\b</string>
-			<key>name</key>
-			<string>keyword.top-level.property.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Definition - keyword.directive.</string>
-			<key>match</key>
-			<string>(\buse\s+namespace\b)|(\bdefault\s+xml\s+namespace\b)</string>
-			<key>name</key>
-			<string>storage.modifier.namespace.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Definition - statements</string>
-			<key>match</key>
-			<string>\b(if|else|while|do|for|each|in|case|switch|do|default)\b</string>
-			<key>name</key>
-			<string>keyword.control.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Definition - statements</string>
-			<key>match</key>
-			<string>\b(try|catch|finally|throw)\b</string>
-			<key>name</key>
-			<string>keyword.control.catch-exception.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Definition - statements</string>
-			<key>match</key>
-			<string>\b(exit|return|break|continue)\b</string>
-			<key>name</key>
-			<string>keyword.control.end.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>\b(as|delete|new|is)\b</string>
-			<key>name</key>
-			<string>keyword.operator.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>\b(AS3|flash_proxy|object_proxy)\b</string>
-			<key>name</key>
-			<string>keyword.namespace.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Definition - keyword.special-type</string>
-			<key>match</key>
-			<string>\b(\*|Null|void)\b</string>
-			<key>name</key>
-			<string>keyword.special-type.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Definition - keyword.attribute</string>
-			<key>match</key>
-			<string>\b(dynamic|final|internal|native|override|private|protected|public|static)\b</string>
-			<key>name</key>
-			<string>storage.modifier.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Definition - keyword.definition</string>
-			<key>match</key>
-			<string>\b(\.\.\.|class|const|extends|function|get|implements|interface|package|set|namespace|var)\b</string>
-			<key>name</key>
-			<string>storage.type.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.meta-data.begin.actionscript.3</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.meta-data.actionscript.3</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.meta-data.end.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(\[)\s*(ArrayElementType|Bindable|DefaultProperty|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|Style|SWF|Transient)\s*(\(.*\))?\s*(\])</string>
-			<key>name</key>
-			<string>storage.type.meta-data.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Defintion - keyword.primary-expression</string>
-			<key>match</key>
-			<string>\bnull\b</string>
-			<key>name</key>
-			<string>constant.language.null.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Defintion - keyword.primary-expression</string>
-			<key>match</key>
-			<string>\btrue\b</string>
-			<key>name</key>
-			<string>constant.language.boolean.true.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Defintion - keyword.primary-expression</string>
-			<key>match</key>
-			<string>\bfalse\b</string>
-			<key>name</key>
-			<string>constant.language.boolean.false.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>\b(this|super)\b</string>
-			<key>name</key>
-			<string>variable.language.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>This is only convention, not reality!</string>
-			<key>match</key>
-			<string>\b([A-Z0-9\_]+?)\b</string>
-			<key>name</key>
-			<string>constant.language.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>AS3 Defintion - constant</string>
-			<key>match</key>
-			<string>\b(Infinity|-Infinity|undefined|NaN)\b</string>
-			<key>name</key>
-			<string>constant.language.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#numbers</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>This follows the convention that underscores or, less often, dollars identify private and protected variable names.</string>
-			<key>match</key>
-			<string>((\$|\b_)\w+?)\b</string>
-			<key>name</key>
-			<string>variable.language.private.actionscript.3</string>
-		</dict>
-		<dict>
 			<key>disabled</key>
 			<string>1</string>
 			<key>match</key>
@@ -909,88 +745,49 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|isFinite|isNaN|isXMLName|parseFloat|parseInt|trace|unescape)\b</string>
+			<string>\b(intrinsic)\b</string>
 			<key>name</key>
-			<string>support.function.global.actionscript.3</string>
+			<string>invalid.depricated.actionscript.3</string>
 		</dict>
 		<dict>
-			<key>comment</key>
-			<string>AS3 Definition - support.function.global, previous TM storage.type.global.actionscript.3</string>
-			<key>match</key>
-			<string>\b(Array|Boolean|Date|int|Number|Object|XML|XMLList|uint|String)\b</string>
-			<key>name</key>
-			<string>support.type.function.global.actionscript.3</string>
+			<key>include</key>
+			<string>#language-keywords</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#language-storage</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#compiler-metadata</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#language-constants</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#numbers</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#variables</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#globals</string>
 		</dict>
 		<dict>
 			<key>include</key>
 			<string>#frameworks</string>
 		</dict>
 		<dict>
-			<key>begin</key>
-			<string>(?&lt;=[=(:]|^|return)\s*(/)(?![/*+{}?])</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.begin.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>(/)[igsmx]*</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.end.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>string.regexp.actionscript.3</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>match</key>
-					<string>\\.</string>
-					<key>name</key>
-					<string>constant.character.escape.actionscript.3</string>
-				</dict>
-			</array>
+			<key>include</key>
+			<string>#regexp</string>
 		</dict>
 		<dict>
-			<key>begin</key>
-			<string>"</string>
-			<key>end</key>
-			<string>"</string>
-			<key>name</key>
-			<string>string.quoted.double.actionscript.3</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>match</key>
-					<string>\\.</string>
-					<key>name</key>
-					<string>constant.character.escape.actionscript.3</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>'</string>
-			<key>end</key>
-			<string>'</string>
-			<key>name</key>
-			<string>string.quoted.single.actionscript.3</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>match</key>
-					<string>\\.</string>
-					<key>name</key>
-					<string>constant.character.escape.actionscript.3</string>
-				</dict>
-			</array>
+			<key>include</key>
+			<string>#strings</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -1035,6 +832,45 @@
 				</dict>
 			</array>
 		</dict>
+		<key>compiler-metadata</key>
+		<dict>
+			<key>begin</key>
+			<string>(\[)\s*\b(ArrayElementType|Bindable|DefaultProperty|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|Style|SWF|Transient)\b</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.meta-data.begin.actionscript.3</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.type.meta-data.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>(\[)\s*(ArrayElementType|Bindable|DefaultProperty|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|Style|SWF|Transient)\s*(\(.*\))?\s*(\])</string>
+			<key>end</key>
+			<string>(\])</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.meta-data.end.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>storage.type.meta-data.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+			</array>
+		</dict>
 		<key>frameworks</key>
 		<dict>
 			<key>patterns</key>
@@ -1066,6 +902,160 @@
 					<string>\b(ABSOLUTE|ACCESSOR|ACTION_SCRIPT|ADD|ALL|AMERICAN_EXPRESS|ANY|ANY_INDEX_MODE|APPLICATION|APPLICATION_COMPLETE|AT_BOTTOM|AT_LEFT|AT_RIGHT|AT_TOP|AUTO|AUTO_RESIZE_INTERVAL|AUTO_RESIZE_METADATA_DELAY_MAX|AUTO_RESIZE_PLAYHEAD_TIMEOUT|BINDABLE|BINDING|BOTTOM|BUFFERING|BUTTON_DOWN|CANCEL|CANCELLED|CENTER|CHANGE|CHANGE_EVENT|CHILD_ADD|CHILD_INDEX_CHANGE|CHILD_REMOVE|CLOSE|CLOSE_NS_INTERVAL|COLLECTION_CHANGE|COLUMN_STRETCH|COMPLETE|CONNECTION_ERROR|COPY|CREATION_COMPLETE|CUE_POINT|CURRENT_STATE_CHANGE|CURRENT_STATE_CHANGING|CURSOR_MANAGEMENT|CURSOR_UPDATE|DATA_CHANGE|DEBUG|DEFAULT|DEFAULT_HANDLER|DEFAULT_IDLE_TIMEOUT_INTERVAL|DEFAULT_MAX_HEIGHT|DEFAULT_MAX_WIDTH|DEFAULT_MEASURED_HEIGHT|DEFAULT_MEASURED_MIN_HEIGHT|DEFAULT_MEASURED_MIN_WIDTH|DEFAULT_MEASURED_WIDTH|DEFAULT_TIMEOUT|DEFAULT_UPDATE_PROGRESS_INTERVAL|DEFAULT_UPDATE_TIME_INTERVAL|DELETE|DELETE_DEFAULT_PLAYER|DESELECT|DINERS_CLUB|DISCONNECTED|DISCOVER|DIVIDER_DRAG|DIVIDER_PRESS|DIVIDER_RELEASE|DOWN|DRAG_COMPLETE|DRAG_DROP|DRAG_ENTER|DRAG_EXIT|DRAG_OVER|DRAG_START|EFFECT|EFFECT_END|EFFECT_START|ENTER|ENTER_STATE|ERROR|EVENT|EXEC_QUEUED_CMD|EXIT_STATE|FATAL|FILL_PAGE|FINISH_AUTO_RESIZE_INTERVAL|FIRST_INDEX_MODE|HEADER_RELEASE|HEADER_SHIFT|HIDE|HIGH|HORIZONTAL|HTTP_DELAYED_BUFFERING_INTERVAL|HTTP_DO_SEEK_INTERVAL|HTTP_DO_SEEK_MAX_COUNT|IDLE|ILLEGAL_CUE_POINT|INFO|INIT_COMPLETE|INIT_PROGRESS|INITIALIZE|INVALID|INVALID_CONTENT_PATH|INVALID_SEEK|INVALID_XML|ITEM_CLICK|ITEM_CLOSE|ITEM_DOUBLE_CLICK|ITEM_EDIT_BEGIN|ITEM_EDIT_BEGINNING|ITEM_EDIT_END|ITEM_FOCUS_IN|ITEM_FOCUS_OUT|ITEM_OPEN|ITEM_OPENING|ITEM_ROLL_OUT|ITEM_ROLL_OVER|LAST_INDEX_MODE|LEFT|LINE_DOWN|LINE_LEFT|LINE_RIGHT|LINE_UP|LINK|LOAD|LOADING|LOG|LOW|MANAGED|MANUAL|MASTER_CARD|MATCH_HEIGHT|MATCH_WIDTH|MEDIUM|MENU_HIDE|MENU_SHOW|METHOD|MOUSE_DOWN_OUTSIDE|MOUSE_WHEEL_OUTSIDE|MOVE|MULTI_SELECT|NEAREST|NEW_COLUMN|NEW_ROW|NEXT_MONTH|NEXT_YEAR|NO|NO_BITRATE_MATCH|NO_CONNECTION|NO_CUE_POINT_MATCH|NO_CURSOR|NON_COMMITTING_CHANGE_EVENT|NONE|NONMODAL|NOT_A_COLOR|OFF|OK|ON|OPEN|OTHER|OVER|OVERLAY_CREATED|PAGE_DOWN|PAGE_LEFT|PAGE_RIGHT|PAGE_UP|PARENT|PAUSE|PAUSED|PLAY|PLAYHEAD_UPDATE|PLAYING|POLLED|POPUP|PREINITIALIZE|PRELOADER_DONE|PREVIOUS_MONTH|PREVIOUS_YEAR|PROGRESS|PROPERTY_CHANGE|QUEUED|READY|RECORD|REFRESH|REMOVE|REPEAT|REPEAT_END|REPEAT_START|REPLACE|REPLAY|RESET|RESIZE|RESIZING|REWIND|REWINDING|RIGHT|RSL_COMPLETE|RSL_ERROR|RSL_PROGRESS|RTMP_DO_SEEK_INTERVAL|RTMP_DO_STOP_AT_END_INTERVAL|SCROLL|SEEK|SEEKING|SELECT|SHOW|SHOW_ALL|STATE_CHANGE|STOP|STOPPED|TEXT_SELECTION_CHANGE|THICKNESS|THUMB|THUMB_DRAG|THUMB_POSITION|THUMB_PRESS|THUMB_RELEASE|THUMB_TRACK|TOOL_TIP_CREATE|TOOL_TIP_END|TOOL_TIP_HIDE|TOOL_TIP_SHOW|TOOL_TIP_SHOWN|TOOL_TIP_START|TOP|TRACK|TRANSFORM_CHANGE|TWEEN_END|TWEEN_START|TWEEN_UPDATE|UP|UPDATE|UPDATE_COMPLETE|URL_CHANGED|VALID|VALUE_COMMIT|VERTICAL|VISA|WARN|YES)\b</string>
 					<key>name</key>
 					<string>support.constant.mx.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>globals</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\b(decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|isFinite|isNaN|isXMLName|parseFloat|parseInt|trace|unescape)\b</string>
+					<key>name</key>
+					<string>support.function.global.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Definition - support.function.global, previous TM storage.type.global.actionscript.3</string>
+					<key>match</key>
+					<string>\b(Array|Boolean|Date|int|Number|Object|XML|XMLList|uint|String)\b</string>
+					<key>name</key>
+					<string>support.type.function.global.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>language-constants</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Defintion - keyword.primary-expression</string>
+					<key>match</key>
+					<string>\bnull\b</string>
+					<key>name</key>
+					<string>constant.language.null.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Defintion - keyword.primary-expression</string>
+					<key>match</key>
+					<string>\btrue\b</string>
+					<key>name</key>
+					<string>constant.language.boolean.true.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Defintion - keyword.primary-expression</string>
+					<key>match</key>
+					<string>\bfalse\b</string>
+					<key>name</key>
+					<string>constant.language.boolean.false.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Defintion - constant</string>
+					<key>match</key>
+					<string>\b(Infinity|-Infinity|undefined|NaN)\b</string>
+					<key>name</key>
+					<string>constant.language.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>This is only convention, not reality!</string>
+					<key>match</key>
+					<string>\b([A-Z0-9\_]+?)\b</string>
+					<key>name</key>
+					<string>constant.language.conventional.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>language-keywords</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Definition - keyword.top-level.property</string>
+					<key>match</key>
+					<string>\b(prototype)\b</string>
+					<key>name</key>
+					<string>keyword.top-level.property.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Definition - statements</string>
+					<key>match</key>
+					<string>\b(if|else|while|do|for|each|in|case|switch|do|default)\b</string>
+					<key>name</key>
+					<string>keyword.control.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Definition - statements</string>
+					<key>match</key>
+					<string>\b(try|catch|finally|throw)\b</string>
+					<key>name</key>
+					<string>keyword.control.catch-exception.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Definition - statements</string>
+					<key>match</key>
+					<string>\b(exit|return|break|continue)\b</string>
+					<key>name</key>
+					<string>keyword.control.end.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\b(as|delete|new|is)\b</string>
+					<key>name</key>
+					<string>keyword.operator.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Definition - keyword.special-type</string>
+					<key>match</key>
+					<string>\b(\*|Null|void)\b</string>
+					<key>name</key>
+					<string>keyword.special-type.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>language-storage</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Definition - keyword.directive.</string>
+					<key>match</key>
+					<string>(\buse\s+namespace\b)|(\bdefault\s+xml\s+namespace\b)</string>
+					<key>name</key>
+					<string>storage.modifier.namespace.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\b(AS3|flash_proxy|object_proxy)\b</string>
+					<key>name</key>
+					<string>keyword.namespace.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Definition - keyword.attribute</string>
+					<key>match</key>
+					<string>\b(dynamic|final|internal|native|override|private|protected|public|static)\b</string>
+					<key>name</key>
+					<string>storage.modifier.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>AS3 Definition - keyword.definition</string>
+					<key>match</key>
+					<string>\b(\.\.\.|class|const|extends|function|get|implements|interface|package|set|namespace|var)\b</string>
+					<key>name</key>
+					<string>storage.type.actionscript.3</string>
 				</dict>
 			</array>
 		</dict>
@@ -1263,6 +1253,80 @@ Note: This is not yet enabled with
 				</dict>
 			</array>
 		</dict>
+		<key>regexp</key>
+		<dict>
+			<key>begin</key>
+			<string>(?&lt;=[=(:]|^|return)\s*(/)(?![/*+{}?])</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(/)[igsmx]*</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>string.regexp.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\\.</string>
+					<key>name</key>
+					<string>constant.character.escape.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>strings</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>"</string>
+					<key>end</key>
+					<string>"</string>
+					<key>name</key>
+					<string>string.quoted.double.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>\\.</string>
+							<key>name</key>
+							<string>constant.character.escape.actionscript.3</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>'</string>
+					<key>end</key>
+					<string>'</string>
+					<key>name</key>
+					<string>string.quoted.single.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>\\.</string>
+							<key>name</key>
+							<string>constant.character.escape.actionscript.3</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>support-classes</key>
 		<dict>
 			<key>patterns</key>
@@ -1274,6 +1338,26 @@ Note: This is not yet enabled with
 					<string>\b(InvokeEvent|AbstractEvent|AbstractInvoker|AbstractOperation|AbstractService|AbstractTarget|Accessibility|AccessibilityProperties|AccessPrivileges|AccessPrivilegesPrivilege|Accordion|AccordionHeader|AccordionHeaderSkin|AcknowledgeMessage|ActionEffectInstance|ActivatorSkin|ActivityEvent|AddChild|AddChildAction|AddChildActionInstance|Alert|AlertForm|AMFChannel|AnimateProperty|AnimatePropertyInstance|AntiAliasType|Application|ApplicationControlBar|ApplicationDomain|AreaChart|AreaRenderer|AreaSeries|AreaSeriesItem|AreaSeriesRenderData|AreaSet|ArgumentError|arguments|ArrayCollection|ArrayUtil|AssociationDefinition|AsyncMessage|AsyncRequest|AsyncToken|Automation|AutomationClass|AutomationId|AutomationMethodDescriptor|AutomationPropertyDescriptor|AutomationRecordEvent|AutomationReplayEvent|AVM1Movie|AxisBase|AxisLabel|AxisLabelSet|AxisRenderer|Back|BarChart|BarSeries|BarSeriesItem|BarSeriesRenderData|BarSet|BaseListData|BevelFilter|BindingUtils|Bitmap|BitmapData|BitmapDataChannel|BitmapFill|BitmapFilter|BitmapFilterQuality|BitmapFilterType|BlendMode|Blur|BlurFilter|BlurInstance|Border|Bounce|BoundedValue|Box|BoxDirection|BoxItemRenderer|BubbleChart|BubbleSeries|BubbleSeriesItem|BubbleSeriesRenderData|Button|ButtonBar|ButtonBarButtonSkin|ButtonLabelPlacement|ButtonSkin|ByteArray|CalendarLayoutChangeEvent|Camera|CandlestickChart|CandlestickItemRenderer|CandlestickSeries|Canvas|Capabilities|CapsStyle|CartesianChart|CartesianTransform|CategoryAxis|Channel|ChannelError|ChannelEvent|ChannelFaultEvent|ChannelSet|ChartBase|ChartElement|ChartItem|ChartItemEvent|ChartState|CheckBox|CheckBoxIcon|ChildExistenceChangedEvent|Circ|Circular|CircleItemRenderer|Class|ClassFactory|CloseEvent|CollectionEvent|CollectionEventKind|CollectionViewError|ColorMatrixFilter|ColorPicker|ColorPickerEvent|ColorPickerSkin|ColorTransform|ColorType|ColorUtil|ColumnChart|ColumnSeries|ColumnSeriesItem|ColumnSeriesRenderData|ColumnSet|ComboBase|ComboBox|ComboBoxArrowSkin|CommandMessage|ComponentDescriptor|CompositeEffect|CompositeEffectInstance|ConcreteDataService|Conflict|Conflicts|Consumer|Container|ContainerCreationPolicy|ContextMenu|ContextMenuBuiltInItems|ContextMenuEvent|ContextMenuItem|ControlBar|ConvolutionFilter|CreditCardValidator|CreditCardValidatorCardType|CrossItemRenderer|CSSStyleDeclaration|Cubic|CuePointEvent|CuePointManager|CurrencyFormatter|CurrencyValidator|CurrencyValidatorAlignSymbol|CursorBookmark|CursorError|CursorEvent|CursorManager|CursorManagerPriority|CursorPrefetch|DataAssociationMessage|DataConflictEvent|DataConsumer|DataDescription|DataErrorMessage|DataEvent|DataFormat|DataGrid|DataGridColumn|DataGridColumnDropIndicator|DataGridColumnResizeSkin|DataGridDragProxy|DataGridEvent|DataGridEventReason|DataGridHeaderSeparator|DataGridItemRenderer|DataGridListData|DataGridSortArrow|DataList|DataListError|DataMessage|DataService|DataServiceError|DataStore|DataTip|DataTransform|DateBase|DateChooser|DateChooserEvent|DateChooserEventDetail|DateChooserIndicator|DateChooserMonthArrowSkin|DateChooserYearArrowSkin|DateField|DateFormatter|DateTimeAxis|DateValidator|DefaultDataDescriptor|DeferredInstanceFromClass|DeferredInstanceFromFunction|DefinitionError|DiamondItemRenderer|Dictionary|DirectHTTPChannel|DisplacementMapFilter|DisplacementMapFilterMode|DisplayObject|DisplayObjectContainer|Dissolve|DissolveInstance|DividedBox|DividerEvent|DownloadProgressBar|DragEvent|DragManager|DragSource|DropdownEvent|DropShadowFilter|DualStyleObject|DynamicEvent|EdgeMetrics|Effect|EffectEvent|EffectInstance|EffectManager|EffectTargetFilter|Elastic|EmailValidator|EncodingError|Endian|EOFError|Error|ErrorEvent|ErrorMessage|EvalError|Event|EventDispatcher|EventPhase|EventPriority|EventRoot|Expo|ExternalInterface|Fade|FadeInstance|Fault|FaultEvent|FileFilter|FileReference|FileReferenceList|FlexEvent|FlexPrintJob|FlexPrintJobScaleType|FocusEvent|FocusManager|Font|FontStyle|Form|Formatter|FormHeading|FormItem|FormItemDirection|FormItemLabel|FrameLabel|Function|Glow|GlowFilter|GlowInstance|GradientBase|GradientBevelFilter|GradientEntry|GradientGlowFilter|GradientType|Graphics|Grid|GridBase|GridFitType|GridItem|GridLines|GridRow|HaloBorder|HaloColors|HaloFocusRect|HBox|HDividedBox|HeaderEvent|HistoryManager|HitData|HLOCChart|HLOCItemRenderer|HLOCSeries|HLOCSeriesBase|HLOCSeriesItem|HLOCSeriesRenderData|HorizontalList|HRule|HScrollBar|HSlider|HTTPChannel|HTTPRequestMessage|HTTPService|HTTPService|HTTPStatusEvent|IAccessPrivileges|IAutomationEnvironment|IAutomationManager|IAutomationMethodDescriptor|IAutomationMouseSimulator|IAutomationObject|IAutomationObjectContainer|IAutomationObjectHelper|IAutomationPropertyCodec|IAutomationReplayer|IAxis|IBar|IChartElement|IChildList|ICollectionView|IColumn|IContainer|IDataInput|IDataOutput|IDataRenderer|IDeferredInstance|IDeferredInstantiationUIComponent|IDropInListItemRenderer|IEventDispatcher|IFactory|IFill|IFlexDisplayObject|IFocusable|IFocusManager|IFocusManagerContainer|IHistoryState|IIMESupport|IInvalidating|ILayoutClient|ILayoutManager|IList|IListItemRenderer|IllegalOperationError|ILogger|Image|IManaged|IME|IMEConversionMode|IMEEvent|IMenuDataDescriptor|IMenuItemRenderer|IMXMLObject|IMXMLSupport|IndexChangedEvent|InstanceCache|int|InteractiveObject|InterpolationMethod|InvalidCategoryError|InvalidChannelError|InvalidDestinationError|InvalidFilterError|IOError|IOErrorEvent|IOverride|IPreloaderDisplay|IPropertyChangeNotifier|IRawChildrenContainer|IRepeater|IRepeaterClient|IResponder|Iris|IrisInstance|IScrollBar|IStackable|IStroke|IStyleable|IStyleClient|ISystemManager|ITabGroup|ITarget|ItemClickEvent|ItemPendingError|IToolTip|IToolTipClient|ITreeDataDescriptor|IUIComponent|IUID|IValidationListener|IViewCursor|JointStyle|Keyboard|KeyboardEvent|KeyLocation|Label|LayoutManager|Legend|LegendData|LegendItem|LegendMouseEvent|Linear|LinearAxis|LinearGradientStroke|LineChart|LineFormattedTarget|LineRenderer|LineScaleMode|LineSeries|LineSeriesItem|LineSeriesRenderData|LineSeriesSegment|LinkBar|LinkButton|LinkButtonSkin|LinkSeparator|List|ListBase|ListBaseFindPending|ListBaseSeekPending|ListBaseSelectionData|ListBaseSelectionDataPending|ListBaseSelectionPending|ListCollectionView|ListCollectionViewBookmark|ListCollectionViewCursor|ListData|ListDropIndicator|ListEvent|ListEventReason|ListItemDragProxy|ListItemRenderer|ListItemSelectEvent|ListRowInfo|Loader|Loader|LoaderConfig|LoaderContext|LoaderInfo|LoadEvent|LocalConnection|Locale|Log|LogAxis|LogEvent|LogEventLevel|LogLogger|MaskEffect|MaskEffectInstance|Math|Matrix|MBeanAttributeInfo|MBeanFeatureInfo|MBeanInfo|MBeanOperationInfo|MBeanParameterInfo|MemoryError|Menu|MenuBar|MenuBarBackgroundSkin|MenuBarItem|MenuEvent|MenuItemRenderer|Message|MessageAckEvent|MessageAgent|MessageBatch|MessageCacheItem|MessageEvent|MessageFaultEvent|MessagePersister|MessagePersisterEvent|MessageResponder|MessageSerializationError|MessageStore|MessageStoreEvent|MessagingError|Metadata|MetadataEvent|Microphone|MiniDebugTarget|MorphShape|Mouse|MouseEvent|Move|MoveEvent|MoveInstance|MovieClip|Namespace|NavBar|NetConnection|NetConnectionChannel|NetFilterEvent|NetStatusEvent|NetStream|NoChannelAvailableError|NoDataAvailableError|NoSuchChannelError|NumberBase|NumberBaseRoundType|NumberFormatter|NumberValidator|NumericAxis|NumericStepper|NumericStepperDownSkin|NumericStepperEvent|NumericStepperUpSkin|ObjectEncoding|ObjectName|ObjectProxy|ObjectUtil|Operation|Operation|Operation|Operation|OperationPendingCall|Orientation|PagedMessage|Panel|Parallel|ParallelInstance|Pause|PauseInstance|PhoneFormatter|PhoneNumberValidator|PieChart|PieSeries|PieSeriesItem|PieSeriesRenderData|PixelSnapping|PlotChart|PlotSeries|PlotSeriesItem|PlotSeriesRenderData|Point|PolarChart|PolarTransform|PolicyFileEvent|PopUpButton|PopUpButtonSkin|PopUpIcon|PopUpManager|PopUpMenuButton|PopUpMenuIcon|Preloader|PrintDataGrid|PrintJob|PriorityQueue|Producer|Producer|ProgrammaticSkin|ProgressBar|ProgressBarDirection|ProgressBarLabelPlacement|ProgressBarMode|ProgressBarSkin|ProgressEvent|ProgressIndeterminateSkin|ProgressTrackSkin|PropertyChangeEvent|PropertyChangeEventKind|PropertyChanges|Proxy|QName|QTPAdapter|QTPEnvironment|Quad|Quart|Quint|RadialGradient|RadioButton|RadioButtonGroup|RadioButtonIcon|RangeError|Rectangle|RectangularBorder|RectangularDropShadow|ReferenceError|RegExp|RegExpValidationResult|RegExpValidator|RemoteObject|RemoteObject|RemotingMessage|RemoveChild|RemoveChildAction|RemoveChildActionInstance|RenderData|Repeater|Resize|ResizeEvent|ResizeInstance|ResourceBundle|Responder|ResultEvent|RichTextEditor|Rotate|RotateInstance|RoundedRectangle|RPCMessage|RSLEvent|RTMPChannel|Scene|ScriptTimeoutError|ScrollArrowSkin|ScrollBar|ScrollBarDirection|ScrollControlBase|ScrollEvent|ScrollEventDetail|ScrollEventDirection|ScrollPolicy|ScrollThumb|ScrollThumbSkin|ScrollTrackSkin|SecureAMFChannel|Security|SecurityDomain|SecurityError|SecurityErrorEvent|SecurityPanel|Sequence|SequencedMessage|SequenceInstance|Series|SeriesEffect|SeriesEffectInstance|SeriesInterpolate|SeriesInterpolateInstance|SeriesSlide|SeriesSlideInstance|SeriesZoom|SeriesZoomInstance|SetEventHandler|SetProperty|SetPropertyAction|SetPropertyActionInstance|SetStyle|SetStyleAction|SetStyleActionInstance|ShadowBoxItemRenderer|ShadowLineRenderer|Shape|SharedObject|SharedObjectFlushStatus|SimpleButton|SimpleXMLDecoder|SimpleXMLEncoder|Sine|SkinBitmap|SkinButton|SkinMovieClip|SkinSprite|SkinTextField|Slider|SliderDataTip|SliderDirection|SliderEvent|SliderEventClickTarget|SliderHighlightSkin|SliderLabel|SliderThumb|SliderThumbSkin|SliderTrackSkin|SOAPHeader|SOAPMessage|SocialSecurityValidator|Socket|SolidColor|Sort|SortError|SortField|SortFindMode|Sound|SoundChannel|SoundEffect|SoundEffectInstance|SoundLoaderContext|SoundMixer|SoundTransform|Spacer|SpreadMethod|Sprite|StackedSeries|StackOverflowError|Stage|StageAlign|StageQuality|StageScaleMode|State|StateChangeEvent|StaticText|StatusEvent|StringBuilder|StringUtil|StringValidator|Stroke|StyleManager|StyleSheet|SwatchPanel|SwatchPanelSkin|SwatchSkin|SwitchSymbolFormatter|SyncEvent|SyntaxError|System|SystemManager|TabBar|TabNavigator|TabSkin|Text|TextArea|TextEvent|TextField|TextFieldAutoSize|TextFieldType|TextFormat|TextFormatAlign|TextInput|TextLineMetrics|TextRange|TextRenderer|TextSnapshot|Tile|TileBase|TileBaseDirection|TileDirection|TileList|TileListItemRenderer|Timer|TimerEvent|TitleBackground|TitleWindow|ToggleButtonBar|ToolBar|ToolTip|ToolTipEvent|ToolTipManager|TraceTarget|Transform|Transition|Tree|TreeCollectionCursor|TreeCollectionWrapper|TreeEvent|TreeItemRenderer|TreeListData|TreeModelChangedEvent|TreeModelChangedEventDetail|TriangleItemRenderer|Tween|TweenEffect|TweenEffectInstance|TweenEvent|TypeError|UIComponent|UIComponentCachePolicy|UIComponentDescriptor|UIDUtil|UITextField|UITextFormat|UnresolvedConflictsError|UnresolvedConflictsEvent|URIError|URLLoader|URLLoaderDataFormat|URLRequest|URLRequestHeader|URLRequestMethod|URLStream|URLVariables|ValidationResult|ValidationResultEvent|Validator|VBox|VDividedBox|VerifyError|Video|VideoDisplay|VideoError|VideoEvent|VideoResizeEvent|ViewStack|VRule|VScrollBar|VSlider|WebService|WebService|WedgeItemRenderer|WipeDown|WipeDownInstance|WipeLeft|WipeLeftInstance|WipeRight|WipeRightInstance|WipeUp|WipeUpInstance|WSDLError|XMLDecoder|XMLDocument|XMLEncoder|XMLListCollection|XMLNode|XMLNodeType|XMLSocket|XMLUtil|ZipCodeFormatter|ZipCodeValidator|ZipCodeValidatorDomainType|Zoom|ZoomInstance)\b</string>
 					<key>name</key>
 					<string>support.class.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>variables</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\b(this|super)\b</string>
+					<key>name</key>
+					<string>variable.language.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>This follows the convention that underscores or, less often, dollars identify private and protected variable names.</string>
+					<key>match</key>
+					<string>((\$|\b_)\w+?)\b</string>
+					<key>name</key>
+					<string>variable.language.private.actionscript.3</string>
 				</dict>
 			</array>
 		</dict>
