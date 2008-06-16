@@ -6,6 +6,8 @@
 	<string>ohaqyrf@uryirpgbe.bet</string>
 	<key>contactName</key>
 	<string>Simon Gregory</string>
+	<key>deleted</key>
+	<array/>
 	<key>description</key>
 	<string>ActionScript 3 is a scripting language based on the ECMAScript standard and commonly run by the Adobe Flash Player.</string>
 	<key>mainMenu</key>
@@ -213,6 +215,7 @@
 		<string>5032E3E5-E59B-43B9-97EA-154331CB057A</string>
 		<string>D1D27A75-6867-4400-9CB0-C3D0AE45A3A0</string>
 		<string>2ED58FB2-1E8C-4123-8EE7-217D14F04151</string>
+		<string>24495DA9-8D62-48DB-8DB9-AA492B1E67C9</string>
 		<string>6B04E224-64D5-489F-B84A-2CCC416A0A82</string>
 		<string>783EB172-C2CF-44B1-A804-E06EBA9EB6DB</string>
 		<string>A9B6935F-06BA-4CA9-8B71-F9AD8A7D9CC6</string>
@@ -310,6 +313,9 @@
 		<string>DEA9BFA0-B7E4-4860-8FA4-E00A2A4C2A99</string>
 		<string>E803B4A4-2B80-4BD1-8154-DEF3B90345F4</string>
 		<string>B5B33C14-A2F8-43D3-8414-79374E4230BF</string>
+		<string>FA75BA29-C23B-4C2E-B7B4-AD835FD58C40</string>
+		<string>07C688F5-2C99-4C78-912B-5DA20A1A126A</string>
+		<string>F58F86DF-7C81-44B2-B424-80B2E527DDFD</string>
 	</array>
 	<key>uuid</key>
 	<string>97CE49E1-D900-402D-BFB7-FC3B28458393</string>
