@@ -7,6 +7,8 @@
 	<key>command</key>
 	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh";
 
+#TODO: This should be part of the Flex bundle.
+
 set_flex_path;
 
 if [ -d "$TM_FLEX_PATH/frameworks/source/mx/" ]; then
@@ -14,7 +16,7 @@ if [ -d "$TM_FLEX_PATH/frameworks/source/mx/" ]; then
 elif [ -d "$TM_FLEX_PATH/frameworks/projects/framework/src" ]; then
 	open -a "TextMate.app" "$TM_FLEX_PATH/frameworks/projects/framework/src";
 else
-	exit_show_tool_tip "Source 404"
+	exit_show_tool_tip "MX Source 404"
 fi
 </string>
 	<key>input</key>
