@@ -26,12 +26,25 @@ WORD = STDIN.read.strip
 TextMate.exit_show_tool_tip("Please select a term to look up.") if WORD.empty?
 
 project_paths = []
+project_path_matches = [ "lib", "src", "source", "test" ]
 
 # Collect all .as and .mxml files in the project src dir. Then filter for WORD.
 TextMate.each_text_file do |file|
-	project_paths.push(file.sub(/^.+\/(src|source|test)\//,"").sub(".as","").gsub( "/", ".")) if File.extname(file) == ".as"
-	project_paths.push(file.sub(/^.+\/(src|source|test)\//,"").sub(".mxml","").gsub( "/", ".")) if File.extname(file) == ".mxml"
-end if PROJECT
+       path = file.sub( PROJECT, "" );
+       project_path_matches.each do |remove|
+           path = path.gsub( /\/?#{remove}\//, "" );
+       end
+       #remove extension and replace slashes with dots
+       path = path.gsub(/\.(as|mxml)$/,"").gsub( "/", ".");
+       project_paths.push(path) if File.extname(file) == ".as" || File.extname(file) == ".mxml";
+end
+
+# Collect all .as and .mxml files in the project src dir. Then filter for WORD.
+# TextMate.each_text_file do |file|
+#   project_paths.push(file.sub(/^.+\/(src|source|test)\//,"").sub(".as","").gsub( "/", ".")) if File.extname(file) == ".as"
+#   project_paths.push(file.sub(/^.+\/(src|source|test)\//,"").sub(".mxml","").gsub( "/", ".")) if File.extname(file) == ".mxml"
+# end if PROJECT
+
 project_paths = project_paths.grep(/#{WORD}/)
 
 # Open Help toc and find matching lines
@@ -50,7 +63,7 @@ search_results.each do |line|
     library_paths.push(class_path)
 end
 
-TextMate.exit_show_tool_tip "No completion available" if library_paths.empty? and project_paths.empty?
+TextMate.exit_show_tool_tip "Import not found" if library_paths.empty? and project_paths.empty?
 
 #When there are multiple matches as the user to pick, otherwise return the match.
 if library_paths.size == 1 and project_paths.empty?    
@@ -87,7 +100,7 @@ end
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript.3</string>
+	<string>source.actionscript.3 meta.package.actionscript.3</string>
 	<key>uuid</key>
 	<string>783EB172-C2CF-44B1-A804-E06EBA9EB6DB</string>
 </dict>
