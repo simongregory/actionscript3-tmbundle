@@ -3,9 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>comment</key>
-	<string>TODO (Patches welcome!) :
-	           Define scope for imports and functions so that the auto-complete commands work without selection.
-	           Wrapping/Multiline recognition for implements declarations.</string>
+	<string>Version 2.</string>
 	<key>fileTypes</key>
 	<array>
 		<string>as</string>
@@ -23,795 +21,307 @@
 	<key>patterns</key>
 	<array>
 		<dict>
-			<key>begin</key>
-			<string>(package)\s+([\w\.]+)?</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.package.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>(?={)</string>
-			<key>name</key>
-			<string>meta.package.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>support.class.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.terminator.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(import)\s+(.*?)((;)|$)</string>
-			<key>name</key>
-			<string>storage.type.import.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(?x)
-					 ^\s*					
-					 (\b(public)\b\s+)?		
-					 (class)\s+				
-					 (\w+)\s*</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.namespace.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.modifier.actionscript.3</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.class.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>(?={)</string>
-			<key>name</key>
-			<string>meta.definition.class.actionscript.3</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>\b(extends)\b\s+</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>storage.modifier.actionscript.3</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(?={|implements)</string>
-					<key>name</key>
-					<string>meta.definition.class.extends.actionscript.3</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#support-classes</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#comments</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>\b(\w+)\b\s*</string>
-							<key>name</key>
-							<string>entity.name.type.class.actionscript.3</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>[^\s\}a-zA-Z0-9]</string>
-							<key>name</key>
-							<string>invalid.illegal.unexpected-extends-character.actionscript.3</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string>\b(implements)\b\s+</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>storage.modifier.actionscript.3</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(?={|extends)</string>
-					<key>name</key>
-					<string>meta.definition.class.implements.actionscript.3</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#support-classes</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#comments</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>\b(\w+)\b\s*</string>
-							<key>name</key>
-							<string>entity.name.type.class.actionscript.3</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>,</string>
-							<key>name</key>
-							<string>punctuation.seperator.implements.actionscript.3</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>[^\s\}]</string>
-							<key>name</key>
-							<string>invalid.illegal.expected-implements.seperator.actionscript.3</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(?x)						# Turn on extended mode
-					 ^							# a line beginning with
-					 \s*						# some optional space
-					 (\b(public)\b\s+)			# namespace
-					 (interface)\s+				# the interface, then identifier.
-					 (\w+)\s*</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.namespace.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.modifier.actionscript.3</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.class.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>Using a seperate defintion for interfaces as they use mulitple extends statements.</string>
-			<key>end</key>
-			<string>(?={)</string>
-			<key>name</key>
-			<string>meta.definition.interface.actionscript.3</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>\b(extends)\b\s+</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>storage.modifier.actionscript.3</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(?={)</string>
-					<key>name</key>
-					<string>meta.definition.class.extends.actionscript.3</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#support-classes</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#comments</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>\b(\w+)\b\s*</string>
-							<key>name</key>
-							<string>entity.name.type.class.actionscript.3</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>,</string>
-							<key>name</key>
-							<string>punctuation.seperator.extends.actionscript.3</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>[^\s\}]</string>
-							<key>name</key>
-							<string>invalid.illegal.expected-extends.seperator.actionscript.3</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(?x)^\s*                    # start of line, optional whitespace
-                   	 (public)\s+                # namespace, at least one whitespace
-                   	 (function)\s+              # method, at least one whitespace
-                   	 (\w+)                      # constructor name.
-                   	 \s*(\()                    # parameter opening.
-                   	 (?!                        # unless we have a return type.
-                   	     .*\)\s*:\s*(\w+|\*)
-                   	 )</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.namespace.actionscript.3</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.constructor.actionscript.3</string>
-				</dict>
-				<key>8</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.begin.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>matches: public function ClassName(){
-			           This scope does match valid public functions, however 
-			           defining them without a return type is "bad practice" 
-			           and you only escape quietly when the compiler option 
-			           show-actionscript-warnings is set to false</string>
-			<key>disabled</key>
-			<string>1</string>
-			<key>end</key>
-			<string>(\))\s*($|\{)</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.end.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>meta.definition.constructor.actionscript.3</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#method-parameters</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(?x)^\s*
-			         ((override)\s+)? 						                  # Optional override
-			         (public|private|protected|internal|final|dynamic|\w+)\s+ # Namespace
-			         ((static)\s+)?                                           # Optional static.
-			         (function)\s+
-			         (\s*\w+)                                                 # Method name.
-			         \s*(\()</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.namespace.actionscript.3</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>6</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function.actionscript.3</string>
-				</dict>
-				<key>7</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.actionscript.3</string>
-				</dict>
-				<key>8</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.begin.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>matches: public function functionName():returnType</string>
-			<key>end</key>
-			<string>(?x)
- 			       (\))
- 			       (\s*:\s*)?
- 			       (\w+|\*)?</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.end.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.return.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>meta.definition.method.actionscript.3</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#method-parameters</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>,</string>
-					<key>name</key>
-					<string>punctuation.separator.actionscript.3</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(?x)^\s*
-			         (function)\s+
-					(\b(get|set)\b\s+)?
-			         (\s*\w+)      # Method name.
-			         \s*(\()</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.accessor.actionscript.3</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.actionscript.3</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.begin.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>matches: public function functionName():returnType;</string>
-			<key>end</key>
-			<string>(?x)
- 			       (\))
- 			       (\s*:\s*)?
- 			       (\w+|\*)?</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.end.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.return.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>meta.definition.method.interface.actionscript.3</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#method-parameters</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>,</string>
-					<key>name</key>
-					<string>punctuation.separator.actionscript.3</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>12</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.end.actionscript.3</string>
-				</dict>
-				<key>13</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.return.actionscript.3</string>
-				</dict>
-				<key>15</key>
-				<dict>
-					<key>name</key>
-					<string>invalid.illegal.actionscript.3</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.namespace.actionscript.3</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>6</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function.actionscript.3</string>
-				</dict>
-				<key>7</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.accessor.actionscript.3</string>
-				</dict>
-				<key>8</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.actionscript.3</string>
-				</dict>
-				<key>9</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.begin.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>matches: public function set propName():void</string>
-			<key>disabled</key>
-			<string>1</string>
-			<key>match</key>
-			<string>(?x)^\s*
-			         ((override)\s+)?
-			         (public|private|protected|internal|static|final|dynamic|\w+)\s+
-			         ((static)\s+)?
-			         (function)\s*
-                       (set)\s+
-                       (\w+)\s*
-			         (\()\s*
-			         (\w+:(\w+|\*))
-			         \s*(\))
-			         \s*:\s*((void)|(\w+))</string>
-			<key>name</key>
-			<string>meta.definition.setter.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(?x)^\s*
-			         ((override)\s+)?
-			         (public|private|protected|internal|static|final|dynamic|\w+)\s+
-			         ((static)\s+)?
-			         (function)\s*
-                     (set)\s+
-                     (\w+)\s*
-			         (\()</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.namespace.actionscript.3</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>6</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function.actionscript.3</string>
-				</dict>
-				<key>7</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.accessor.actionscript.3</string>
-				</dict>
-				<key>8</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.actionscript.3</string>
-				</dict>
-				<key>9</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.begin.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>matches: public function set propName():void</string>
-			<key>disabled</key>
-			<string>0</string>
-			<key>end</key>
-			<string>(?x)
-				   (\))
-				   \s*:\s*
-				   ((void)|(\w+))</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.end.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.return.actionscript.3</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>invalid.illegal.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>meta.definition.setter.actionscript.3</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#method-parameters</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#numbers</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>10</key>
-				<dict>
-					<key>name</key>
-					<string>invalid.illegal.actionscript.3</string>
-				</dict>
-				<key>11</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.end.actionscript.3</string>
-				</dict>
-				<key>13</key>
-				<dict>
-					<key>name</key>
-					<string>invalid.illegal.return-type.actionscript.3</string>
-				</dict>
-				<key>14</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.return.actionscript.3</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.namespace.actionscript.3</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>storage.modifier.actionscript.3</string>
-				</dict>
-				<key>6</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function.actionscript.3</string>
-				</dict>
-				<key>7</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.accessor.actionscript.3</string>
-				</dict>
-				<key>8</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.actionscript.3</string>
-				</dict>
-				<key>9</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.parameters.begin.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>matches: public function get propName() : Type</string>
-			<key>match</key>
-			<string>(?x)^\s*
-			         ((override)\s+)?
-			         (public|private|protected|internal|static|final|dynamic|\w+)\s+
-			         ((static)\s+)?
-			         (function)\s*
-                     (get)\s+
-                     (\w+)\s*
-			         (\()\s*
-			         (.*)?
-			         \s*(\))
-			         \s*:\s*((\bvoid\b)|(\w+|\*))</string>
-			<key>name</key>
-			<string>meta.definition.getter.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>(?=&lt;[a-zA-Z])</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.actionscript.3</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>support.type.function.global.actionscript.3</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>This is experimental as we need to find a way to loosen the match. By removing the dependency on the statement terminator ";" in the end capture. As it is, in ActionScript, optional. (?&lt;=:XML)\s*=\s*</string>
-			<key>contentName</key>
-			<string>text.xml</string>
-			<key>end</key>
-			<string>(?&lt;=&gt;)\s*;</string>
-			<key>name</key>
-			<string>meta.embedded.xml</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>text.xml</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>disabled</key>
-			<string>1</string>
-			<key>match</key>
-			<string>@\w+\b</string>
-			<key>name</key>
-			<string>variable.language.xml-attr.actionscript.3</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>\b(intrinsic)\b</string>
-			<key>name</key>
-			<string>invalid.depricated.actionscript.3</string>
-		</dict>
-		<dict>
 			<key>include</key>
-			<string>#language-keywords</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#language-storage</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#compiler-metadata</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#language-constants</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#numbers</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#variables</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#globals</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#frameworks</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#regexp</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#strings</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>text.html.asdoc</string>
+			<string>#package</string>
 		</dict>
 		<dict>
 			<key>include</key>
 			<string>#comments</string>
 		</dict>
 		<dict>
-			<key>match</key>
-			<string>[-!%&amp;*+=/?:\|&lt;&gt;;\[\]]|(\.)+</string>
-			<key>name</key>
-			<string>keyword.operator.symbolic.actionscript.3</string>
+			<key>include</key>
+			<string>#class</string>
 		</dict>
 		<dict>
-			<key>match</key>
-			<string>^[ \t]*#[a-zA-Z]+</string>
-			<key>name</key>
-			<string>support.other.actionscript.3</string>
+			<key>include</key>
+			<string>#embedded</string>
 		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>block</key>
+		<dict>
+			<key>begin</key>
+			<string>\{</string>
+			<key>contentName</key>
+			<string>meta.scope.block.actionscript.3</string>
+			<key>end</key>
+			<string>\}</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#block</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#block-contents</string>
+				</dict>
+			</array>
+		</dict>
+		<key>block-contents</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#regexp</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#numbers</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#language-elements</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#frameworks</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variables</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#embedded-xml</string>
+				</dict>
+			</array>
+		</dict>
+		<key>class</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#class-signature</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#class-block</string>
+				</dict>
+			</array>
+		</dict>
+		<key>class-block</key>
+		<dict>
+			<key>begin</key>
+			<string>\{</string>
+			<key>end</key>
+			<string>\}</string>
+			<key>name</key>
+			<string>meta.class.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>text.html.asdoc</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#regexp</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#numbers</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variables</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#compiler-metadata</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#language-elements</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#support-classes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#methods-all</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-block</string>
+				</dict>
+			</array>
+		</dict>
+		<key>class-extends</key>
+		<dict>
+			<key>begin</key>
+			<string>\b(extends)\b\s+</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?={|implements)</string>
+			<key>name</key>
+			<string>meta.definition.class.extends.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#support-classes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\b(\w+)\b\s*</string>
+					<key>name</key>
+					<string>entity.name.type.class.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>[^\s\}a-zA-Z0-9]</string>
+					<key>name</key>
+					<string>invalid.illegal.unexpected-extends-character.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>class-implements</key>
+		<dict>
+			<key>begin</key>
+			<string>\b(implements)\b\s+</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?={|extends)</string>
+			<key>name</key>
+			<string>meta.definition.class.implements.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#support-classes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\b(\w+)\b\s*</string>
+					<key>name</key>
+					<string>entity.name.type.class.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>,</string>
+					<key>name</key>
+					<string>punctuation.seperator.implements.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>[^\s\}]</string>
+					<key>name</key>
+					<string>invalid.illegal.expected-implements.seperator.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>class-name</key>
+		<dict>
+			<key>begin</key>
+			<string>(?x)                   # Turn on extended mode
+            		 ^\s*					# Start of line and optional whitespace
+            		 (\b(dynamic)\b\s+)?	# Optional dynamic	
+            		 (\b(public)\b\s+)?		# Optional public
+            		 (class)                # Class definition
+            		 \s+</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.modifier.actionscript.3</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.namespace.actionscript.3</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.modifier.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\w+)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.type.class.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.definition.class.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#class-extends</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#class-implements</string>
+				</dict>
+			</array>
+		</dict>
+		<key>class-signature</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#class-name</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#class-extends</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#class-implements</string>
+				</dict>
+			</array>
+		</dict>
 		<key>comments</key>
 		<dict>
 			<key>patterns</key>
@@ -835,7 +345,7 @@
 		<key>compiler-metadata</key>
 		<dict>
 			<key>begin</key>
-			<string>(\[)\s*\b(ArrayElementType|Bindable|DefaultProperty|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|Style|SWF|Transient)\b</string>
+			<string>(\[)\s*\b(ArrayElementType|Bindable|DefaultProperty|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|ResourceBundle|Style|Transient)\b</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -849,8 +359,6 @@
 					<string>entity.name.type.meta-data.actionscript.3</string>
 				</dict>
 			</dict>
-			<key>comment</key>
-			<string>(\[)\s*(ArrayElementType|Bindable|DefaultProperty|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|Style|SWF|Transient)\s*(\(.*\))?\s*(\])</string>
 			<key>end</key>
 			<string>(\])</string>
 			<key>endCaptures</key>
@@ -868,6 +376,163 @@
 				<dict>
 					<key>include</key>
 					<string>#strings</string>
+				</dict>
+			</array>
+		</dict>
+		<key>compiler-metadata-swf</key>
+		<dict>
+			<key>begin</key>
+			<string>(\[)\s*\b(SWF)\b</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.meta-data.begin.actionscript.3</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.type.meta-data.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\])</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.meta-data.end.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>storage.type.meta-data.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+			</array>
+		</dict>
+		<key>embedded</key>
+		<dict>
+			<key>begin</key>
+			<string>&lt;!\[CDATA\[</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.xml.mxml</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\]\])&gt;</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.xml.mxml</string>
+				</dict>
+			</dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>text.html.asdoc</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#imports</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#regexp</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#numbers</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variables</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#compiler-metadata</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#language-elements</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#support-classes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#methods-all</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-block</string>
+				</dict>
+			</array>
+		</dict>
+		<key>embedded-xml</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?=&lt;[a-zA-Z])</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.actionscript.3</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.type.function.global.actionscript.3</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>This is experimental as we need to find a way to loosen the match. By removing the dependency on the statement terminator ";" in the end capture. As it is, in ActionScript, optional. (?&lt;=:XML)\s*=\s*</string>
+					<key>contentName</key>
+					<string>text.xml</string>
+					<key>end</key>
+					<string>(?&lt;=&gt;)\s*;</string>
+					<key>name</key>
+					<string>meta.embedded.xml</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>text.xml</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>disabled</key>
+					<string>1</string>
+					<key>match</key>
+					<string>@\w+\b</string>
+					<key>name</key>
+					<string>variable.language.xml-attr.actionscript.3</string>
 				</dict>
 			</array>
 		</dict>
@@ -905,23 +570,285 @@
 				</dict>
 			</array>
 		</dict>
+		<key>global-methods</key>
+		<dict>
+			<key>match</key>
+			<string>\b(decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|isFinite|isNaN|isXMLName|parseFloat|parseInt|trace|unescape)\b</string>
+			<key>name</key>
+			<string>support.function.global.actionscript.3</string>
+		</dict>
+		<key>global-types</key>
+		<dict>
+			<key>comment</key>
+			<string>AS3 Definition - support.function.global, previous TM storage.type.global.actionscript.3</string>
+			<key>match</key>
+			<string>\b(Array|Boolean|Class|Date|int|Number|Object|XML|XMLList|uint|String)\b</string>
+			<key>name</key>
+			<string>support.type.function.global.actionscript.3</string>
+		</dict>
 		<key>globals</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>match</key>
-					<string>\b(decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|isFinite|isNaN|isXMLName|parseFloat|parseInt|trace|unescape)\b</string>
-					<key>name</key>
-					<string>support.function.global.actionscript.3</string>
+					<key>include</key>
+					<string>#global-methods</string>
 				</dict>
 				<dict>
-					<key>comment</key>
-					<string>AS3 Definition - support.function.global, previous TM storage.type.global.actionscript.3</string>
-					<key>match</key>
-					<string>\b(Array|Boolean|Date|int|Number|Object|XML|XMLList|uint|String)\b</string>
+					<key>include</key>
+					<string>#global-types</string>
+				</dict>
+			</array>
+		</dict>
+		<key>imports</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>2</key>
+				<dict>
 					<key>name</key>
-					<string>support.type.function.global.actionscript.3</string>
+					<string>support.class.actionscript.3</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.terminator.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(import)\s+(.*?)((;)|$)</string>
+			<key>name</key>
+			<string>storage.type.import.actionscript.3</string>
+		</dict>
+		<key>interface</key>
+		<dict>
+			<key>begin</key>
+			<string>(?x)				# Turn on extended mode
+            		 ^					# a line beginning with
+            		 \s*				# some optional space
+            		 (\b(public)\b\s+)	# namespace
+            		 (interface)\s+		# interface declaration and at least one char. of whitespace
+            		 (\w+)              # interface name.
+            		 \s*</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.namespace.actionscript.3</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.modifier.actionscript.3</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.type.class.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>Using a separate definition for interfaces as they use multiple extends statements.
+			           Relies, luckily, on the fact that an interface doesnt contain any sub blocks to avoid problems with the 
+			           language definition and clashing scopes.</string>
+			<key>end</key>
+			<string>\}</string>
+			<key>name</key>
+			<string>meta.interface.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#interface-extends</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#interface-methods</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#interface-errors</string>
+				</dict>
+			</array>
+		</dict>
+		<key>interface-block</key>
+		<dict>
+			<key>begin</key>
+			<string>\{}</string>
+			<key>end</key>
+			<string>\}</string>
+			<key>name</key>
+			<string>meta.interface.block.actionscript.3</string>
+		</dict>
+		<key>interface-error-block</key>
+		<dict>
+			<key>begin</key>
+			<string>\{</string>
+			<key>comment</key>
+			<string>TODO, find a way for this to exist alongside
+		               an interface that has not been extended.</string>
+			<key>end</key>
+			<string>\}</string>
+			<key>name</key>
+			<string>invalid.illegal.actionscript.3</string>
+		</dict>
+		<key>interface-errors</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>^\s*\b(public|private|protected|\w+)\b\s+(function).*$</string>
+					<key>name</key>
+					<string>invalid.illegal.interface.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>interface-extends</key>
+		<dict>
+			<key>begin</key>
+			<string>(\b(extends)\b)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\{)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.bracket.end</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.definition.interface.extends.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#support-classes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\b(\w+)\b\s*</string>
+					<key>name</key>
+					<string>entity.name.type.class.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>,</string>
+					<key>name</key>
+					<string>punctuation.seperator.extends.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>[^\s\}]</string>
+					<key>name</key>
+					<string>invalid.illegal.expected-extends.seperator.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>interface-methods</key>
+		<dict>
+			<key>begin</key>
+			<string>(?x)
+			         ^\s*                   # start of line, optional whitespace
+    			     (function)\s+          # function declaration
+    				 (\b(get|set)\b\s+)?    # optional accessor
+    			     (\s*\w+)               # Method name.
+    			     \s*(\()</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.function.actionscript.3</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.accessor.actionscript.3</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.actionscript.3</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.begin.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>matches: public function functionName():returnType;</string>
+			<key>end</key>
+			<string>(?x)
+			       (;)
+			       |
+			       $</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.line.end.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.definition.method.interface.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>(\))</string>
+					<key>name</key>
+					<string>punctuation.definition.parameters.end.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-parameters</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list-seperator</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>:</string>
+					<key>name</key>
+					<string>punctuation.seperator.return-type.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-return-void</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#global-types</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#support-classes</string>
 				</dict>
 			</array>
 		</dict>
@@ -931,7 +858,7 @@
 			<array>
 				<dict>
 					<key>comment</key>
-					<string>AS3 Defintion - keyword.primary-expression</string>
+					<string>AS3 Definition - keyword.primary-expression</string>
 					<key>match</key>
 					<string>\bnull\b</string>
 					<key>name</key>
@@ -939,7 +866,7 @@
 				</dict>
 				<dict>
 					<key>comment</key>
-					<string>AS3 Defintion - keyword.primary-expression</string>
+					<string>AS3 Definition - keyword.primary-expression</string>
 					<key>match</key>
 					<string>\btrue\b</string>
 					<key>name</key>
@@ -947,7 +874,7 @@
 				</dict>
 				<dict>
 					<key>comment</key>
-					<string>AS3 Defintion - keyword.primary-expression</string>
+					<string>AS3 Definition - keyword.primary-expression</string>
 					<key>match</key>
 					<string>\bfalse\b</string>
 					<key>name</key>
@@ -955,7 +882,7 @@
 				</dict>
 				<dict>
 					<key>comment</key>
-					<string>AS3 Defintion - constant</string>
+					<string>AS3 Definition - constant</string>
 					<key>match</key>
 					<string>\b(Infinity|-Infinity|undefined|NaN)\b</string>
 					<key>name</key>
@@ -963,11 +890,37 @@
 				</dict>
 				<dict>
 					<key>comment</key>
-					<string>This is only convention, not reality!</string>
+					<string>This is only a (wise) convention.</string>
 					<key>match</key>
 					<string>\b([A-Z0-9\_]+?)\b</string>
 					<key>name</key>
 					<string>constant.language.conventional.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>language-elements</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#globals</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#language-constants</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#language-keywords</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#language-operators</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#language-storage</string>
 				</dict>
 			</array>
 		</dict>
@@ -1023,6 +976,18 @@
 				</dict>
 			</array>
 		</dict>
+		<key>language-operators</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>[-!%&amp;*+=/?:\|&lt;&gt;;\[\]]|(\.)+</string>
+					<key>name</key>
+					<string>keyword.operator.symbolic.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
 		<key>language-storage</key>
 		<dict>
 			<key>patterns</key>
@@ -1062,10 +1027,9 @@
 		<key>leading-space</key>
 		<dict>
 			<key>comment</key>
-			<string>The leading-space code is the ribbon highlighing thomas Aylott contributed to source.js.prototype.
+			<string>The leading-space code is the ribbon highlighting thomas Aylott contributed to source.js.prototype.
 More info in this thread: http://comox.textdrive.com/pipermail/textmate/2006-August/012373.html
-
-Note: This is not yet enabled with
+TODO: Enable.
 </string>
 			<key>patterns</key>
 			<array>
@@ -1206,11 +1170,334 @@ Note: This is not yet enabled with
 				</dict>
 			</array>
 		</dict>
+		<key>list-seperator</key>
+		<dict>
+			<key>match</key>
+			<string>,</string>
+			<key>name</key>
+			<string>punctuation.separator.actionscript.3</string>
+		</dict>
+		<key>method</key>
+		<dict>
+			<key>begin</key>
+			<string>(?x)
+			         ^\s*
+    			     ((override)\s+)? 						                  # Optional override
+    			     (public|private|protected|internal|final|dynamic|\w+)\s+ # Namespace
+    			     ((static)\s+)?                                           # Optional static.
+    			     (function)\s+
+    			     (\s*\w+)                                                 # Method name.
+    			     \s*(\()</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.actionscript.3</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.namespace.actionscript.3</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.actionscript.3</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.function.actionscript.3</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.actionscript.3</string>
+				</dict>
+				<key>8</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.begin.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?=\{)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.end.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.definition.method.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-parameters</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-parameters-default</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list-seperator</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-return</string>
+				</dict>
+			</array>
+		</dict>
+		<key>method-block</key>
+		<dict>
+			<key>begin</key>
+			<string>\{</string>
+			<key>end</key>
+			<string>\}</string>
+			<key>name</key>
+			<string>meta.function.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#block</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#block-contents</string>
+				</dict>
+			</array>
+		</dict>
+		<key>method-getter-setters</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?x)                                                               # Extended mode
+					         ^\s*                                                               # Start of line, optional whitespace
+    			             ((override)\s+)?                                                   # Optional override
+    			             (public|private|protected|internal|static|final|dynamic|\w+)\s+    # namespace declaration
+    			             ((static)\s+)?                                                     # 
+    			             (function)\s*                                                      # function declaration
+                             (set)\s+                                                           # set declaration
+                             (\w+)\s*                                                           # getter name, optional whitespace
+    			             (\()</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.actionscript.3</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.namespace.actionscript.3</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.actionscript.3</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.actionscript.3</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.accessor.actionscript.3</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.actionscript.3</string>
+						</dict>
+						<key>9</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.parameters.begin.actionscript.3</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>matches: public function set propName():void
+					           TODO: Capture return type as method</string>
+					<key>end</key>
+					<string>(?x)
+    				       (\))
+    				       \s*:\s*
+    				       (
+    				           (void)
+    				           |
+    				           (\w+)
+    				       )</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.parameters.end.actionscript.3</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.type.void.actionscript.3</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal.actionscript.3</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.definition.setter.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#method-parameters</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>,</string>
+							<key>end</key>
+							<string>(?=\))</string>
+							<key>name</key>
+							<string>invalid.illegal.actionscript.3</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
+					         ^\s*
+    			             (
+    			                 (override)\s+
+    			             )?
+    			             (public|private|protected|internal|static|final|dynamic|\w+)\s+
+    			             (
+    			                 (static)\s+
+    			             )?
+    			             (function)
+    			             \s*
+                             (get)
+                             \s+
+                             (\w+)
+                             \s*
+    			             (\()
+    			             \s*
+    			             (.*)?
+    			             \s*
+    			             (\))
+    			             \s*:\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>10</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal.actionscript.3</string>
+						</dict>
+						<key>11</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.parameters.end.actionscript.3</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.actionscript.3</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.namespace.actionscript.3</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>storage.modifier.actionscript.3</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.actionscript.3</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.accessor.actionscript.3</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.actionscript.3</string>
+						</dict>
+						<key>9</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.parameters.begin.actionscript.3</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>matches: public function get propName() : Type</string>
+					<key>end</key>
+					<string>(?=\{)</string>
+					<key>name</key>
+					<string>meta.definition.getter.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>(\bvoid\b)</string>
+							<key>name</key>
+							<string>invalid.illegal.return-type.actionscript.3</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#global-types</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#support-classes</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#wildcard</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>method-parameters</key>
 		<dict>
 			<key>captures</key>
 			<dict>
-				<key>3</key>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>variable.paramater.method.actionscript.3</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.seperator.actionscript.3</string>
+				</dict>
+				<key>4</key>
 				<dict>
 					<key>name</key>
 					<string>support.class.actionscript.3</string>
@@ -1218,28 +1505,131 @@ Note: This is not yet enabled with
 				<key>5</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.operator.symbolic.actionscript.3</string>
-				</dict>
-				<key>6</key>
-				<dict>
-					<key>name</key>
-					<string>support.class.actionscript.3</string>
-				</dict>
-				<key>7</key>
-				<dict>
-					<key>name</key>
 					<string>storage.type.wildcard.actionscript.3</string>
 				</dict>
-				<key>8</key>
+				<key>6</key>
 				<dict>
 					<key>name</key>
 					<string>storage.type.rest.actionscript.3</string>
 				</dict>
 			</dict>
-			<key>comment</key>
-			<string>TODO: Correctly scope wildcard and rest</string>
 			<key>match</key>
-			<string>(\w+):((\w+(\s*(=)?\s*(\w+)))|(\*|))|(\.\.\.)</string>
+			<string>(?x)
+			         (\w+)          # paramater name
+			         \s*(\:)\s*     # type seperator
+			         (
+			             (\w+)
+			             |
+			             (\*)       # followed by class or wildcard.			             
+			         )
+			         |(\.\.\.)      # or rest...
+			         </string>
+		</dict>
+		<key>method-parameters-default</key>
+		<dict>
+			<key>begin</key>
+			<string>(=)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.operator.symbolic.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?=\))|(,)</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#regexp</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#numbers</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#globals</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#language-constants</string>
+				</dict>
+			</array>
+		</dict>
+		<key>method-return</key>
+		<dict>
+			<key>begin</key>
+			<string>(:)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.seperator.return-type.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?=\{)</string>
+			<key>name</key>
+			<string>meta.method-return.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#global-types</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#support-classes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-return-void</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#wildcard</string>
+				</dict>
+			</array>
+		</dict>
+		<key>method-return-void</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\bvoid\b</string>
+					<key>name</key>
+					<string>keyword.void.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\bVoid\b</string>
+					<key>name</key>
+					<string>invalid.illegal.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>methods-all</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#method</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-getter-setters</string>
+				</dict>
+			</array>
 		</dict>
 		<key>numbers</key>
 		<dict>
@@ -1252,6 +1642,97 @@ Note: This is not yet enabled with
 					<string>constant.numeric.actionscript.3</string>
 				</dict>
 			</array>
+		</dict>
+		<key>old-hat</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\b(intrinsic)\b</string>
+					<key>name</key>
+					<string>invalid.depricated.actionscript.3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>package</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#package-signature</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#package-block</string>
+				</dict>
+			</array>
+		</dict>
+		<key>package-block</key>
+		<dict>
+			<key>begin</key>
+			<string>\{</string>
+			<key>end</key>
+			<string>\}</string>
+			<key>name</key>
+			<string>meta.package.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#imports</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#interface</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#class</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>text.html.asdoc</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#compiler-metadata</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#compiler-metadata-swf</string>
+				</dict>
+			</array>
+		</dict>
+		<key>package-signature</key>
+		<dict>
+			<key>begin</key>
+			<string>(package)\s+</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>([\w\.]+)?</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.type.package.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.package.actionscript.3</string>
 		</dict>
 		<key>regexp</key>
 		<dict>
@@ -1353,13 +1834,28 @@ Note: This is not yet enabled with
 				</dict>
 				<dict>
 					<key>comment</key>
-					<string>This follows the convention that underscores or, less often, dollars identify private and protected variable names.</string>
+					<string>This follows the convention that underscores or, less often, 
+					           dollars identify private and protected variable names.</string>
 					<key>match</key>
 					<string>((\$|\b_)\w+?)\b</string>
 					<key>name</key>
 					<string>variable.language.private.actionscript.3</string>
 				</dict>
 			</array>
+		</dict>
+		<key>variables-local</key>
+		<dict>
+			<key>comment</key>
+			<string>TODO</string>
+			<key>name</key>
+			<string>meta.variable-definition.actionscript.3</string>
+		</dict>
+		<key>wildcard</key>
+		<dict>
+			<key>match</key>
+			<string>\*</string>
+			<key>name</key>
+			<string>storage.type.wildcard.actionscript.3</string>
 		</dict>
 	</dict>
 	<key>scopeName</key>
