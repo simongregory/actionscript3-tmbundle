@@ -15,7 +15,7 @@ doc = STDIN.read.split("\n")
 next_line = doc[line_number].to_s
 
 class_regexp = /\b(class|interface)\b/
-constructor_regexp = /function\s+(\w+)\s*\(.*\)\s*$/
+constructor_regexp = /public\s+function\s+([A-Z]\w+)\s*\(.*\)\s*$/
 override_regexp = /override.*function.*\(/
 
 if next_line =~ class_regexp
