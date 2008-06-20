@@ -14,7 +14,14 @@ require SUPPORT + '/lib/exit_codes'
 require BUN_SUP + '/lib/as_class_parser'
 
 current_line = ENV['TM_CURRENT_LINE']
-prop = /^.*\b(\w+)\b\s*=/.match(current_line)[1] 
+type_match = /^.*\b(\w+)\b\s*=/
+prop = 'Object'
+
+if type_match =~ current_line
+	prop = $1
+else
+	TextMate.exit_insert_text( "new\t" );
+end 
 
 c = AsClassParser.new
 class_type = c.find_type(STDIN.read.strip,prop)
