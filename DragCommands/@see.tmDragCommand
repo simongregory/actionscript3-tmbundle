@@ -8,7 +8,7 @@ CLASS=`basename "$CLASS" ".mxml"`
 FILE_PATH=`dirname "$TM_DROPPED_FILEPATH"`
 CLASS_PATH=`echo ${FILE_PATH#$TM_PROJECT_DIRECTORY/src/}`
 CLASS_PATH=`echo "$CLASS_PATH" | tr '/' '.'`;
-echo "@see $CLASS_PATH.$CLASS;\$0"</string>
+echo -n "@see $CLASS_PATH.$CLASS;\$0"</string>
 	<key>documentExtensions</key>
 	<array>
 		<string>html</string>
