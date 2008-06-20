@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>comment</key>
@@ -1651,7 +1651,7 @@ TODO: Enable.
 					<key>match</key>
 					<string>\b(intrinsic)\b</string>
 					<key>name</key>
-					<string>invalid.depricated.actionscript.3</string>
+					<string>invalid.deprecated.actionscript.3</string>
 				</dict>
 			</array>
 		</dict>
@@ -1706,6 +1706,12 @@ TODO: Enable.
 				<dict>
 					<key>include</key>
 					<string>#compiler-metadata-swf</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\#include\b</string>
+					<key>name</key>
+					<string>invalid.illegal.deprecated.actionscript.3</string>
 				</dict>
 			</array>
 		</dict>
