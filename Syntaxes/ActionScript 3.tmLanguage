@@ -826,6 +826,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#method-parameters-default</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#comments</string>
 				</dict>
 				<dict>
