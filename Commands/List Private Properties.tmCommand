@@ -18,12 +18,12 @@ require SUPPORT + '/lib/exit_codes'
 
 doc = STDIN.read.strip
 
-private_regexp = /^\s*private\s+var\s+(\w+)\s*:\s*(\w+)|\*;/
+private_regexp = /^\s*(private|protected)\s+var\s+(\w+)\s*:\s*(\w+)|\*;/
 
 privates = []
 doc.each do |line|
 	if line =~ private_regexp
-  		privates &lt;&lt; $1.to_s
+  		privates &lt;&lt; $2.to_s
 	end
 end
 
