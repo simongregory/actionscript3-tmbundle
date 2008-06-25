@@ -5,13 +5,17 @@
 
 #Search locations for the flex sdk
 FLEX_DIRS=( "/Applications/flex_sdk_2" \
+            "/Applications/flex_sdk_3" \
 			"/Applications/FlexSDK2" \
 			"/Applications/Flex" \
 			"/Applications/FlexSDK2.0.1" \
 			"/Applications/Adobe Flex Builder 2/Flex SDK 2" \
+			"/Applications/Adobe Flex Builder 3/sdks/2.0.1" \
+			"/Applications/Adobe Flex Builder 3/sdks/3.0.0" \
 			"~/Flex" \
 			"~/flex_sdk_2" \
 			"/Developer/SDKs/flex_sdk_2" \
+			"/Developer/SDKs/flex_sdk_3" \			
 			"/Developer/SDKs/Flex" \
 			"/Developer/SDKs/FlexSDK2" \
 			"/Developer/Applications/Flex" \
