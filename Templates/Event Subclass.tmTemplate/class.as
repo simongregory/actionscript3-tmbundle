@@ -44,7 +44,8 @@ public class ${TM_NEW_FILE_BASENAME} extends Event {
 	//  PUBLIC METHODS
 	//--------------------------------------
 
-	override public function clone() : Event {
+	override public function clone():Event
+	{
 		return new ${TM_NEW_FILE_BASENAME}(type, bubbles, cancelable);
 	}
 	
