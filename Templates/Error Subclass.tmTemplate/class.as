@@ -29,7 +29,8 @@ public class ${TM_NEW_FILE_BASENAME} extends Error {
 	 *	@constructor
 	 *	@param message The message that describes this error.
 	 */
-	public function ${TM_NEW_FILE_BASENAME}(message:String){
+	public function ${TM_NEW_FILE_BASENAME}(message:String)
+	{
 		super(message);
 	}
 	

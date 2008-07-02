@@ -29,11 +29,13 @@ public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 	
 	private static var _instance:${TM_NEW_FILE_BASENAME};
 	
-	public static function get instance():${TM_NEW_FILE_BASENAME} {
+	public static function get instance():${TM_NEW_FILE_BASENAME}
+	{
 		return initialize();
 	}
 	
-	public static function initialize():${TM_NEW_FILE_BASENAME} {
+	public static function initialize():${TM_NEW_FILE_BASENAME}
+	{
 		if (_instance == null){
 			_instance = new ${TM_NEW_FILE_BASENAME}();
 		}
@@ -43,7 +45,8 @@ public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 	/**
 	 *	@constructor
 	 */
-	public function ${TM_NEW_FILE_BASENAME}(){
+	public function ${TM_NEW_FILE_BASENAME}()
+	{
 		super();
 		if( _instance != null ) throw new Error( "Error:${TM_NEW_FILE_BASENAME} already initialised." );
 		if( _instance == null ) _instance = this;
