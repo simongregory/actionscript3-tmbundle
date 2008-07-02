@@ -32,7 +32,8 @@ public class ${TM_NEW_FILE_BASENAME} extends Event {
 	/**
 	 *	@constructor
 	 */
-	public function ${TM_NEW_FILE_BASENAME}( type:String, bubbles:Boolean=true, cancelable:Boolean=false ){
+	public function ${TM_NEW_FILE_BASENAME}( type:String, bubbles:Boolean=true, cancelable:Boolean=false )
+	{
 		super(type, bubbles, cancelable);
 	}
 	

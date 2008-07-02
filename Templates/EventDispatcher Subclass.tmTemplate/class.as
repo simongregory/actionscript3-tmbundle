@@ -30,7 +30,8 @@ public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 	/**
 	 *	@constructor
 	 */
-	public function ${TM_NEW_FILE_BASENAME}(){
+	public function ${TM_NEW_FILE_BASENAME}()
+	{
 		super();
 	}
 	

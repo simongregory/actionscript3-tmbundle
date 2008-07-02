@@ -17,7 +17,8 @@ public class ${TM_NEW_FILE_BASENAME} extends Sprite {
 	/**
 	 *	@constructor
 	 */
-	public function ${TM_NEW_FILE_BASENAME}(){
+	public function ${TM_NEW_FILE_BASENAME}()
+	{
 		super();
 		stage.addEventListener( Event.ENTER_FRAME, initialize );
 	}
@@ -25,7 +26,7 @@ public class ${TM_NEW_FILE_BASENAME} extends Sprite {
 	/**
 	 *	Initialize stub.
 	 */
-	private function initialize( event:Event ) : void
+	private function initialize(event:Event):void
 	{
 		stage.removeEventListener( Event.ENTER_FRAME, initialize );
 		trace( "${TM_NEW_FILE_BASENAME}::initialize()" );

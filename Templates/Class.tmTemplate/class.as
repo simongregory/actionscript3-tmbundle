@@ -28,7 +28,8 @@ public class ${TM_NEW_FILE_BASENAME} extends Object {
 	/**
 	 *	@constructor
 	 */
-	public function ${TM_NEW_FILE_BASENAME}(){
+	public function ${TM_NEW_FILE_BASENAME}()
+	{
 		super();
 	}
 	
