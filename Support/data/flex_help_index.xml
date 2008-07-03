@@ -163,7 +163,7 @@
 		<help href="flash/xml/XMLDocument.html" name="XMLDocument"/>
 		<help href="flash/xml/XMLNode.html" name="XMLNode"/>
 		<help href="flash/xml/XMLNodeType.html" name="XMLNodeType"/>
-	<flashclasses>	
+	</flashclasses>	
 	<mxclasses>
 		<!-- Taken from /Applications/FlexSDK2/docs/langref/all-classes.html-->
 		<help href="mx/automation/Automation.html" name="Automation"/>
