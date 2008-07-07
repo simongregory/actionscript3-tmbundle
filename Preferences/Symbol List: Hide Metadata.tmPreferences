@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List: Hide Scopes</string>
+	<key>scope</key>
+	<string>entity.name.type.meta-data.actionscript.3, meta.definition.class.implements.actionscript.3 entity.name.type.class.actionscript.3, meta.definition.class.extends.actionscript.3 entity.name.type.class.actionscript.3, entity.name.type.package.actionscript.3</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>0</integer>
+	</dict>
+	<key>uuid</key>
+	<string>315DE72F-616B-4F1C-899F-9515E1E671FD</string>
+</dict>
+</plist>
