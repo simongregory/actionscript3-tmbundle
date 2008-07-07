@@ -33,10 +33,12 @@ end
 
 if project_paths.size == 1
     TextMate.go_to :file =&gt; project_paths[0]
-elsif
-	TextMate.exit_show_tool_tip "Sorry, multiple files were found."
+elsif project_paths.size &gt; 1
+	indx = TextMate::UI.menu(project_paths)
+	TextMate.exit_discard() if indx == nil
+	TextMate.go_to :file =&gt; project_paths[indx]
 else
-    TextMate.exit_show_tool_tip "Super class not found in project."
+	TextMate.exit_show_tool_tip "Superclass not found in project."
 end
 
 
