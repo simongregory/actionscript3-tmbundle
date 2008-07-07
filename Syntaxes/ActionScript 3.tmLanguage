@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>comment</key>
-	<string>Version 2.</string>
+	<string>Version 2</string>
 	<key>fileTypes</key>
 	<array>
 		<string>as</string>
@@ -256,11 +256,11 @@
 		<key>class-name</key>
 		<dict>
 			<key>begin</key>
-			<string>(?x)                   # Turn on extended mode
-            		 ^\s*					# Start of line and optional whitespace
-            		 (\b(dynamic)\b\s+)?	# Optional dynamic	
-            		 (\b(public)\b\s+)?		# Optional public
-            		 (class)                # Class definition
+			<string>(?x)                   		# Turn on extended mode
+            		 ^\s*							# Start of line and optional whitespace
+            		 (\b(dynamic)\b\s+)?			# Optional dynamic	
+            		 (\b(internal|public)\b\s+)?	# Optional public or internal
+            		 (class)                		# Class definition
             		 \s+</string>
 			<key>beginCaptures</key>
 			<dict>
