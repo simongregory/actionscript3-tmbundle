@@ -12,7 +12,7 @@ DIALOG         = SUPPORT + '/bin/tm_dialog'
 PROJECT        = ENV['TM_PROJECT_DIRECTORY']
 LINE           = ENV['TM_CURRENT_LINE']
 BUNDLE_SUPPORT = ENV['TM_BUNDLE_SUPPORT']
-HELPTOC        = BUNDLE_SUPPORT + '/data/flex_help_index.xml'
+HELPTOC        = BUNDLE_SUPPORT + '/data/doc_dictionary.xml'
 
 require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/escape'
@@ -32,18 +32,12 @@ project_path_matches = [ "lib", "src", "source", "test" ]
 TextMate.each_text_file do |file|
        path = file.sub( PROJECT, "" );
        project_path_matches.each do |remove|
-           path = path.gsub( /\/?#{remove}\//, "" );
+           path = path.gsub( /\/?\b#{remove}\b\//, "" );
        end
        #remove extension and replace slashes with dots
        path = path.gsub(/\.(as|mxml)$/,"").gsub( "/", ".");
        project_paths.push(path) if File.extname(file) == ".as" || File.extname(file) == ".mxml";
 end
-
-# Collect all .as and .mxml files in the project src dir. Then filter for WORD.
-# TextMate.each_text_file do |file|
-#   project_paths.push(file.sub(/^.+\/(src|source|test)\//,"").sub(".as","").gsub( "/", ".")) if File.extname(file) == ".as"
-#   project_paths.push(file.sub(/^.+\/(src|source|test)\//,"").sub(".mxml","").gsub( "/", ".")) if File.extname(file) == ".mxml"
-# end if PROJECT
 
 project_paths = project_paths.grep(/#{WORD}/)
 

@@ -12,7 +12,7 @@ DIALOG         = SUPPORT + '/bin/tm_dialog'
 PROJECT        = ENV['TM_PROJECT_DIRECTORY']
 LINE           = ENV['TM_CURRENT_LINE']
 BUNDLE_SUPPORT = ENV['TM_BUNDLE_SUPPORT']
-HELPTOC        = BUNDLE_SUPPORT + '/data/flex_help_index.xml'
+HELPTOC        = BUNDLE_SUPPORT + '/data/doc_dictionary.xml'
 
 require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/escape'
