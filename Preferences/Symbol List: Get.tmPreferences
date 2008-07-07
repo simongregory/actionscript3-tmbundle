@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List: Get</string>
+	<key>scope</key>
+	<string>meta.definition.getter.actionscript.3 entity.name.function.actionscript.3</string>
+	<key>settings</key>
+	<dict>
+		<key>symbolTransformation</key>
+		<string>
+     s/^/ get /;  # prefix
+     s/$/\()/;  # suffix</string>
+	</dict>
+	<key>uuid</key>
+	<string>D6EB54FC-C802-4299-B318-EBE6EDE08DFC</string>
+</dict>
+</plist>
