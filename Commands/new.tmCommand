@@ -40,7 +40,7 @@ if short_hand.key?(class_type)
     TextMate.exit_insert_snippet( short_hand[class_type] )
 end
 
-words = `grep "^#{class_type}\(" "$TM_BUNDLE_PATH/support/data/as3_completions.txt"`.split("\n")
+words = `grep "^#{class_type}\(" "$TM_BUNDLE_PATH/support/data/completions.txt"`.split("\n")
 if words.size == 1
 	i=0
 	snip = "new " + words[0].gsub( /([a-zA-Z0-9\:\.]+?)([,\)])/ ) {
