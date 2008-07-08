@@ -23,7 +23,7 @@ class=`basename "$class" ".mxml"`
 file_path=`dirname "$TM_DROPPED_FILEPATH"`
 file_path="$file_path/$class"
 
-src_dirs=${TM_ACTIONSCRIPT_3_COMMON_SOURCE_DIRECTORIES//:/|}
+src_dirs=${TM_AS3_USUAL_SRC_DIRS//:/|}
 import_path=$(echo "$file_path" | sed -E -e "s#^.*($src_dirs)/##g" -e 's#/#.#g')
 
 echo "import $import_path;"

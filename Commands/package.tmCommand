@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>src_dirs=${TM_ACTIONSCRIPT_3_COMMON_SOURCE_DIRECTORIES//:/|}
+	<string>src_dirs=${TM_AS3_USUAL_SRC_DIRS//:/|}
 pkg_name=$(echo $TM_DIRECTORY | sed -E -e "s#^.*($src_dirs)/##g" -e 's#/#.#g')
 
 cat &lt;&lt;SNIPPET

@@ -2,71 +2,59 @@
 
 SUPPORT = ENV['TM_SUPPORT_PATH']
 PROJECT = ENV['TM_PROJECT_DIRECTORY']
-HELPTOC = BUNDLE_SUPPORT + '/data/doc_dictionary.xml'
+HELPTOC = ENV['TM_BUNDLE_SUPPORT'] + '/data/doc_dictionary.xml'
 
 require SUPPORT + '/lib/exit_codes'
-require SUPPORT + '/lib/escape'
-require SUPPORT + '/lib/ui'
 require SUPPORT + '/lib/textmate'
-require "rexml/document"
-require 'find'
+require SUPPORT + '/lib/ui'
 
 def find_package(word)
-
-	# Places to search for source..
-	common_src_directories = ENV['TM_ACTIONSCRIPT_3_COMMON_SOURCE_DIRECTORIES']
-	common_src_directories = "src:lib:source:test" if common_src_directories == nil
-
+	
 	TextMate.exit_show_tool_tip("Please select a term to look up.") if word.empty?
-
-	project_paths = []
-	project_path_matches = common_src_directories.split(":")
-
+	
+	# Places to search for source..
+	common_src_directories = ENV['TM_AS3_USUAL_SRC_DIRS']
+	common_src_directories = "src:lib:source:test" if common_src_directories == nil
+	common_src_dir_matches = common_src_directories.split(":")
+	package_paths = []
+	
 	# Collect all .as and .mxml files in the project src dir. Then filter for word.
 	TextMate.each_text_file do |file|
+
+		if file =~ /\b#{word}\w*\.(as|mxml)$/
 	       path = file.sub( PROJECT, "" );
-	       project_path_matches.each do |remove|
+	       common_src_dir_matches.each do |remove|
 	           path = path.gsub( /^.*\b#{remove}\b\//, "" );
 	       end
-	       #remove extension and replace slashes with dots
-	       path = path.gsub(/\.(as|mxml)$/,"").gsub( "/", ".");
-	       project_paths.push(path) if File.extname(file) == ".as" || File.extname(file) == ".mxml";
+	       package_paths << path.gsub(/\.(as|mxml)$/,"").gsub( "/", ".")
+		end
+		
 	end
 
-	project_paths = project_paths.grep(/#{word}/)
-
-	# Open Help toc and find matching lines
-	toc_lines = IO.readlines(HELPTOC)
-	search_results = []
-	library_paths = []
-	toc_lines.each do |line|
-		search_results << line.strip if line[/#{word}/]
+	# Open Help dictionary and find matching lines
+	toc = IO.readlines(HELPTOC)
+	seperator = package_paths.size > 0 ? true : false;
+	toc.each do |line|		
+		if line =~ /href='([a-zA-Z0-9\/]*\b#{word}\w*)\.html'/
+			if seperator
+				package_paths << "-"
+				seperator = false
+			end
+			package_paths << $1.gsub( "/", ".")
+		end
 	end
 
-	# For each line add the path to the documentation.html file
-	search_results.each do |line|
-		xml_line = REXML::Document.new(line)
-		help_path = xml_line.root.attributes['href']
-		class_path = help_path.tr( '/', '.' ).chomp.sub('package-detail','*').sub('.html','')
-	    library_paths.push(class_path)
-	end
+	TextMate.exit_show_tool_tip "Class not found" if package_paths.empty?
 
-	TextMate.exit_show_tool_tip "Import not found" if library_paths.empty? and project_paths.empty?
+	if package_paths.size == 1
 
-	#When there are multiple matches as the user to pick, otherwise return the match.
-	if library_paths.size == 1 and project_paths.empty?    
-	    choice = library_paths.pop    
-	elsif project_paths.size == 1 and library_paths.empty?    
-	    choice = project_paths.pop
+	    package_paths.pop
+	
 	else
 
-	    split_marker = []
-	    split_marker.push('-') if library_paths.size > 0 and project_paths.size > 0
-	    all_paths = library_paths.concat( split_marker.concat(project_paths) )
-    
-	    indx = TextMate::UI.menu(all_paths)
-	    TextMate.exit_discard() if indx == nil
-	    choice = all_paths[indx]
+	    i = TextMate::UI.menu(package_paths)
+	    TextMate.exit_discard() if i == nil
+	    package_paths[i]
 
 	end
 

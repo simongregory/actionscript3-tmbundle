@@ -24,7 +24,7 @@
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>TM_ACTIONSCRIPT_3_COMMON_SOURCE_DIRECTORIES</string>
+				<string>TM_AS3_USUAL_SRC_DIRS</string>
 				<key>value</key>
 				<string>src:source:test:lib:AS3Lib</string>
 			</dict>
