@@ -85,23 +85,29 @@ def class_snip(ns)
  *  @author "+ENV['TM_FULLNAME']+"
  *  @since  "+`date +%d.%m.%Y`.chop+"
  */
-#{ns} class ${1:#{cn}} extends ${2:Object} {
+#{ns} class ${1:#{cn}} extends ${2:Object}
+{
 	
 	/**
 	 *   @constructor
 	 */
-	public function $1($3){
+	public function $1($3)
+	{
 		super();$4
 	}$0
+
 }"
 		
 	else
 
-		return "#{ns} class ${1:#{cn}} extends ${2:Object} {
+		return "#{ns} class ${1:#{cn}} extends ${2:Object}
+{
 	
-	public function $1($3){
+	public function $1($3)
+	{
 		super();$4
 	}$0
+
 }"
 		
 	end
@@ -125,13 +131,15 @@ def interface_snip
  *  @author "+ENV['TM_FULLNAME']+"
  *  @since  "+`date +%d.%m.%Y`.chop+"
  */
-public interface ${1:#{cn}} {
+public interface ${1:#{cn}}
+{
 	$2
 }"
 		
 	else
 
-		return "public interface ${1:#{cn}} {
+		return "public interface ${1:#{cn}}
+{
 	$2
 }"
 		

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -13,7 +13,9 @@ BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
 require SUPPORT + '/lib/exit_codes'
 require BUN_SUP + '/lib/as_declarations'
 
-TextMate.exit_insert_snippet( class_snip('public') )
+ns = ENV['TM_SCOPE'] =~ /meta\.package/ ? 'public' : 'internal'
+
+TextMate.exit_insert_snippet( class_snip(ns) )
 </string>
 	<key>input</key>
 	<string>none</string>
