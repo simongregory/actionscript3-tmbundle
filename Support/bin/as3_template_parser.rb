@@ -7,7 +7,7 @@ ENV['TM_YEAR'] = `date "+%Y"`.chop
 ENV['TM_DATE'] = `date +%d.%m.%Y`.chop
 
 # Places to search for source..
-common_src_directories = ENV['TM_ACTIONSCRIPT_3_COMMON_SOURCE_DIRECTORIES']
+common_src_directories = ENV['TM_AS3_USUAL_SRC_DIRS']
 common_src_directories = "src:lib:source:test" if common_src_directories == nil
 common_src_directories = common_src_directories.gsub(":","|")
 
