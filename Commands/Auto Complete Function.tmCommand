@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -8,23 +8,19 @@
 	<string>#!/usr/bin/env ruby -wKU
 
 SUPPORT = ENV['TM_SUPPORT_PATH']
-DIALOG = SUPPORT + '/bin/tm_dialog'
 
 require SUPPORT + '/lib/escape'
 require SUPPORT + '/lib/exit_codes'
-require SUPPORT + '/lib/osx/plist'
+require SUPPORT + '/lib/ui'
 
 words = `grep "^$TM_CURRENT_WORD" "$TM_BUNDLE_PATH/support/data/completions.txt"`.split("\n")
 TextMate.exit_show_tool_tip "No completion available" if words.empty?
 
 if words.size &gt; 1
 
-	words = words.collect { |e| { 'title' =&gt; e } }
-	plist = { 'menuItems' =&gt; words }.to_plist
-	res = OSX::PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
-
-	TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
-	choice = res['selectedMenuItem']['title']
+	i = TextMate::UI.menu(words)
+	TextMate.exit_discard() if i == nil
+	choice = words[i]
 	
 else
 	choice = words.pop
