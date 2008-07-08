@@ -6,8 +6,13 @@ ban_gen = (ENV['TM_AS3_BANNER_GENERATION'] != nil)
 ENV['TM_YEAR'] = `date "+%Y"`.chop
 ENV['TM_DATE'] = `date +%d.%m.%Y`.chop
 
+# Places to search for source..
+common_src_directories = ENV['TM_ACTIONSCRIPT_3_COMMON_SOURCE_DIRECTORIES']
+common_src_directories = "src:lib:source:test" if common_src_directories == nil
+common_src_directories = common_src_directories.gsub(":","|")
+
 new_file = ENV['TM_NEW_FILE']
-new_file_path = new_file.sub(/.*\/(src|source|test)\//,"")
+new_file_path = new_file.sub(/.*\/(#{common_src_directories})\//,"")
 new_file_name = File.basename(new_file)
 
 ENV['TM_CLASS_PATH'] = new_file_path.sub(new_file_name,"").chop.gsub("/",".")
