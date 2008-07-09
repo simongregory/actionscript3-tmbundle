@@ -9,6 +9,7 @@ as3_doc = ENV['TM_ASDOC_GENERATION']
 @private_doc = "/**\n *	@private\n */"
 @inherit_doc = "/**\n *	@inheritDoc\n */"
 @constructor_doc = "/**\n *	@constructor\n */"
+@interface_method = "function ${1:name}($2):${3:void};"
 @method    = " function ${1:name}($2):${3:void}\n{\n\t$0${3/void$|(.+)/(?1:return null;)/}\n}"
 @override  = "override ${1:public} function ${2:methodName}($3):${4:void} {\n\tsuper.${2:methodName}();\n\t$0${4/void$|(.+)/(?1:return null;)/}\n}"
 @getter    = " function get ${1:name}():${2:Object}{\n\treturn ${3:_$1};\n}$0"
@@ -160,6 +161,21 @@ def method(name)
     end
         
     return m    
+end
+
+def interface_method(name)
+
+	if name != ""
+        m = @interface_method.sub("${1:name}","${1:"+name+"}")
+    else
+        m = @interface_method
+    end
+    
+    if @include_docs
+        m = @private_doc + "\n" + m
+    end
+        
+    return m
 end
 
 def override_method
