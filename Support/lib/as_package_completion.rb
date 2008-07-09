@@ -8,22 +8,30 @@ require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/textmate'
 require SUPPORT + '/lib/ui'
 
+def common_src_dirs
+	# Places to search for source..
+	common_src_directories = ENV['TM_AS3_USUAL_SRC_DIRS']
+	common_src_directories = "src:lib:source:test" if common_src_directories == nil
+	common_src_dir_matches = common_src_directories.split(":")
+end
+
 def find_package(word)
 	
 	TextMate.exit_show_tool_tip("Please select a term to look up.") if word.empty?
 	
 	# Places to search for source..
-	common_src_directories = ENV['TM_AS3_USUAL_SRC_DIRS']
-	common_src_directories = "src:lib:source:test" if common_src_directories == nil
-	common_src_dir_matches = common_src_directories.split(":")
+	# common_src_directories = ENV['TM_AS3_USUAL_SRC_DIRS']
+	# common_src_directories = "src:lib:source:test" if common_src_directories == nil
+	# common_src_dir_matches = common_src_directories.split(":")
 	package_paths = []
 	
-	# Collect all .as and .mxml files in the project src dir. Then filter for word.
+	# Collect all .as and .mxml files with a filename that contains the search
+	# term. When used outside a project this step is skipped.
 	TextMate.each_text_file do |file|
 
 		if file =~ /\b#{word}\w*\.(as|mxml)$/
 	       path = file.sub( PROJECT, "" );
-	       common_src_dir_matches.each do |remove|
+	       common_src_dirs.each do |remove|
 	           path = path.gsub( /^.*\b#{remove}\b\//, "" );
 	       end
 	       package_paths << path.gsub(/\.(as|mxml)$/,"").gsub( "/", ".")
