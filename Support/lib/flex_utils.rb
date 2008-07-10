@@ -6,20 +6,24 @@ require "#{ENV['TM_SUPPORT_PATH']}/lib/web_preview"
 require "#{ENV['TM_SUPPORT_PATH']}/lib/exit_codes"
 
 #Search locations for the flex sdk
-FLEX_DIRS = [ "/Applications/flex_sdk_2",
-             "/Applications/FlexSDK2",
-             "/Applications/Flex",
-             "/Applications/FlexSDK2.0.1",
-             "/Applications/Adobe Flex Builder 2/Flex SDK 2",
-             "~/Flex",
-             "~/flex_sdk_2",
-             "/Developer/SDKs/flex_sdk_2",
-             "/Developer/SDKs/Flex",
-             "/Developer/SDKs/FlexSDK2",
-             "/Developer/Applications/Flex",
-             "/Developer/Applications/flex_sdk_2",
-             "/Developer/Applications/FlexSDK2",
-             "/Developer/Applications/Adobe Flex Builder 2/Flex SDK 2" ]
+FLEX_DIRS = [ "/Developer/SDKs/flex_sdk_3",
+			  "/Applications/flex_sdk_3",
+			  "/Applications/Adobe Flex Builder 3/sdks/3.0.0",
+			  "/Applications/Adobe Flex Builder 3/sdks/2.0.1",
+              "/Applications/flex_sdk_2",
+			  "/Applications/FlexSDK2",
+			  "/Applications/Flex",
+			  "/Applications/FlexSDK2.0.1",
+			  "/Applications/Adobe Flex Builder 2/Flex SDK 2",
+			  "~/Flex",
+			  "~/flex_sdk_2",
+			  "/Developer/SDKs/flex_sdk_2",
+			  "/Developer/SDKs/Flex",
+			  "/Developer/SDKs/FlexSDK2",
+			  "/Developer/Applications/Flex",
+			  "/Developer/Applications/flex_sdk_2",
+			  "/Developer/Applications/FlexSDK2",
+			  "/Developer/Applications/Adobe Flex Builder 2/Flex SDK 2" ]
 
 FLEX_COMMANDS = [ "mxmlc" "compc" "asdoc" "fdb" "fcsh" "acompc" "adl" "adt" ]
 
@@ -62,7 +66,6 @@ def set_flex_path ( exit_with_tooltip )
       end
 
       puts html_head(:window_title => "Help files 404", :page_title => "Help files 404", :sub_title => "")
-      #importCSS "$TM_BUNDLE_SUPPORT/css/help.css";
 
       print <<-HTMOUT
               <h2>Help not found</h2>
@@ -126,7 +129,6 @@ def require_var (evar)
   if !ENV[evar]
       
       puts html_head(:window_title => "Missing Environment Variable", :page_title => "Missing Environment Variable", :sub_title => "")
-      #importCSS "$TM_BUNDLE_SUPPORT/css/help.css";
 
       puts <<-HTMOUT
               <h2>Environement var missing</h2>
@@ -147,7 +149,6 @@ def require_file ( file )
   if !File.exist?(file)
 
       puts html_head(:window_title => "File not found", :page_title => "File not found", :sub_title => "")
-      #importCSS "$TM_BUNDLE_SUPPORT/css/help.css";
 
       print <<-HTMOUT
               <h2>#{file} 404</h2>

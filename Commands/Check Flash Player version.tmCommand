@@ -5,16 +5,29 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>echo '&lt;meta http-equiv="refresh" content="0; tm-file://'"${TM_BUNDLE_SUPPORT}"'/html/player_version.html"&gt;'
+	<string>#!/usr/bin/env ruby -wKU
 
+require ENV["TM_SUPPORT_PATH"] + "/lib/escape"
+require ENV["TM_SUPPORT_PATH"] + '/lib/web_preview'
 
+html_header "Flash Player Version"
+
+so_path = "#{ENV['TM_BUNDLE_SUPPORT']}/js/swfobject.js"
+swf_obj= e_url(so_path)
+puts "&lt;script src=\"file://#{swf_obj}\" type=\"text/javascript\" charset=\"utf-8\"&gt;&lt;/script&gt;"
+
+puts "&lt;div id=\"flashversion\"&gt;You do not have the Flash plugin installed, or your browser does not support Javascript (you should enable it, perhaps?)&lt;/div&gt;"
+
+puts "&lt;script type=\"text/javascript\"&gt;writeVersionToElement(\"flashversion\");&lt;/script&gt;"
+
+html_footer
 </string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
 	<string>$</string>
 	<key>name</key>
-	<string>Check Flash Player version</string>
+	<string>Flash Player Version</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>scope</key>
