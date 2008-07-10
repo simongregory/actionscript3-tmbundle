@@ -11,7 +11,7 @@ SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
 BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
 
 require SUPPORT + '/lib/exit_codes'
-require BUN_SUP + '/lib/as_class_parser'
+require BUN_SUP + '/lib/class_parser'
 
 current_line = ENV['TM_CURRENT_LINE']
 type_match = /^.*\b(\w+)\b\s*=/

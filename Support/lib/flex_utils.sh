@@ -4,18 +4,18 @@
 . "$TM_SUPPORT_PATH/lib/webpreview.sh"
 
 #Search locations for the flex sdk
-FLEX_DIRS=( "/Applications/flex_sdk_2" \
-            "/Applications/flex_sdk_3" \
+FLEX_DIRS=( "/Developer/SDKs/flex_sdk_3" \
+			"/Applications/flex_sdk_3" \
+			"/Applications/Adobe Flex Builder 3/sdks/3.0.0" \
+			"/Applications/Adobe Flex Builder 3/sdks/2.0.1" \
+            "/Applications/flex_sdk_2" \
 			"/Applications/FlexSDK2" \
 			"/Applications/Flex" \
 			"/Applications/FlexSDK2.0.1" \
 			"/Applications/Adobe Flex Builder 2/Flex SDK 2" \
-			"/Applications/Adobe Flex Builder 3/sdks/2.0.1" \
-			"/Applications/Adobe Flex Builder 3/sdks/3.0.0" \
 			"~/Flex" \
 			"~/flex_sdk_2" \
 			"/Developer/SDKs/flex_sdk_2" \
-			"/Developer/SDKs/flex_sdk_3" \			
 			"/Developer/SDKs/Flex" \
 			"/Developer/SDKs/FlexSDK2" \
 			"/Developer/Applications/Flex" \
@@ -61,7 +61,8 @@ set_TM_FLEX_PATH () {
 }
 
 # Attempts to find the Flex SDK directory and set it to $TM_FLEX_PATH.
-# If it fails then a html help window is shown to the user, or if -t is supplied then a tooltip.
+# If it fails then a html help window is shown to the user, 
+# or if -t is supplied then a tooltip.
 set_flex_path () {
 
 	set_TM_FLEX_PATH
@@ -75,15 +76,14 @@ set_flex_path () {
 			exit_show_tool_tip;
 		fi
 
-		htmlHeader "Help files 404";
-		importCSS "$TM_BUNDLE_SUPPORT/css/help.css";
+		html_header "Help files 404";
 
 		cat <<-HTMOUT
 				<h2>Help not found</h2>
 				<p>Please define the environment variable <code>TM_FLEX_PATH</code> and point it to your Flex SDK directory.<br>
 			  	Installation and configuration help can be found <a href="$TM_BUNDLE_SUPPORT/html/help.html#installation">here.</a></p>
 		HTMOUT
-
+		html_footer
 		exit_show_html
 	fi
 
@@ -145,6 +145,7 @@ show_help_pdf () {
 				<p>Download the Flex SDK from <a href="">here</a></p>
 		HTMOUT
 
+		html_footer		
 		exit_show_html;
 
 	fi
@@ -164,9 +165,9 @@ cd_to_tmproj_root(){
 #Make sure an environment variable is set.
 require_var (){
 	if [ "$2" == "" ]; then
+		
 		#echo "Please define the environment variable $1, see Bundle > Help for details."
-		htmlHeader "Missing Environment Variable";
-		importCSS "$TM_BUNDLE_SUPPORT/css/help.css";
+		html_header "Missing Environment Variable";
 
 		cat <<-HTMOUT
 				<h2>Environement var missing</h2>
@@ -175,7 +176,7 @@ require_var (){
 				<br>
 				Configuration help can be found <a href="tm-file://$TM_BUNDLE_SUPPORT/html/help.html#conf">here.</a></p>
 		HTMOUT
-
+		html_footer
 		exit_show_html
 	fi
 }
@@ -185,8 +186,7 @@ require_file (){
 
 	if [[ !(-f "$2") ]]; then
 
-		htmlHeader "File not found";
-		importCSS "$TM_BUNDLE_SUPPORT/css/help.css";
+		html_header "File not found";
 
 		cat <<-HTMOUT
 				<h2>$1 404</h2>
@@ -195,7 +195,9 @@ require_file (){
 				<br>
 				Configuration help can be found <a href="tm-file://$TM_BUNDLE_SUPPORT/html/help.html#conf">here.</a></p>
 		HTMOUT
-
+		
+		html_footer
+		
 		exit_show_html
 
 	fi

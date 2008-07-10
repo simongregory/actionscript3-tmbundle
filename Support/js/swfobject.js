@@ -28,7 +28,7 @@ deconcept.util = {}
 function writeVersionToElement( theElement ){
 	var version = deconcept.SWFObjectUtil.getPlayerVersion();
 	if (document.getElementById && version["major"] > 0) {
-		document.getElementById(theElement).innerHTML = "Flash player <code>"+ version['major'] +"."+ version['minor'] +"."+ version['rev'] +"</code> installed.";
+		document.getElementById(theElement).innerHTML = "Flash player <b>"+ version['major'] +"."+ version['minor'] +"."+ version['rev'] +"</b> installed.";
 	}
 }
 var SWFObject = deconcept.SWFObject;
