@@ -13,11 +13,9 @@ BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
 require SUPPORT + '/lib/exit_codes'
 require BUN_SUP + '/lib/as_declarations'
 
-scope = ENV['TM_SCOPE']
-
 method_name = STDIN.read
 
-TextMate.exit_insert_snippet( interface_method(method_name) ) if scope =~ /interface/
+TextMate.exit_insert_snippet( interface_method(method_name) ) if ENV['TM_SCOPE'] =~ /interface/
 TextMate.exit_insert_snippet( method(method_name) )
 </string>
 	<key>fallbackInput</key>

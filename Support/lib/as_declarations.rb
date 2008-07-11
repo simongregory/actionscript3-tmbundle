@@ -10,6 +10,8 @@ as3_doc = ENV['TM_ASDOC_GENERATION']
 @inherit_doc = "/**\n *	@inheritDoc\n */"
 @constructor_doc = "/**\n *	@constructor\n */"
 @interface_method = "function ${1:name}($2):${3:void};"
+@interface_getter = "function get ${1:name}():${2:Object};$0"
+@interface_setter = "function set ${1:name}(value:${2:Object}):void;$0"
 @method    = " function ${1:name}($2):${3:void}\n{\n\t$0${3/void$|(.+)/(?1:return null;)/}\n}"
 @override  = "override ${1:public} function ${2:methodName}($3):${4:void} {\n\tsuper.${2:methodName}();\n\t$0${4/void$|(.+)/(?1:return null;)/}\n}"
 @getter    = " function get ${1:name}():${2:Object}{\n\treturn ${3:_$1};\n}$0"
@@ -156,11 +158,11 @@ def method(name)
         m = "public" + @method
     end
     
-    if @include_docs
-        m = @private_doc + "\n" + m
-    end
-        
-    return m    
+    #if @include_docs
+    #    m = @private_doc + "\n" + m
+    #end
+	add_private_doc(m)
+    
 end
 
 def interface_method(name)
@@ -171,11 +173,11 @@ def interface_method(name)
         m = @interface_method
     end
     
-    if @include_docs
-        m = @private_doc + "\n" + m
-    end
-        
-    return m
+    #if @include_docs
+    #    m = @private_doc + "\n" + m
+    #end
+	add_private_doc(m)
+    
 end
 
 def override_method
@@ -193,21 +195,29 @@ def final_method
 	
     m = "final" + @method
     
-    if @include_docs
-        m = @private_doc + "\n" + m
-    end
-        
-    return m
+    #if @include_docs
+    #    m = @private_doc + "\n" + m
+    #end
+	add_private_doc(m) 
+    
 end
 
-# Getter/Setters
+# Getters
 
 def getter
-    @getter
+    add_private_doc(@getter)
 end
 
 def setter
-    @setter
+    add_private_doc(@setter)
+end
+
+def interface_getter
+    add_private_doc(@interface_getter)
+end
+
+def interface_setter
+    add_private_doc(@interface_setter)
 end
 
 def class_doc
@@ -234,4 +244,12 @@ def list_object(title,data)
         return { 'title' => title, 'data' => @private_doc + "\n" + data}
     end
     return { 'title' => title, 'data' => data}
+end
+
+# Adds a default @private asdoc block if the user has include docs set.
+def add_private_doc(snip)
+	if @include_docs
+        snip = @private_doc + "\n" + snip
+    end
+	snip
 end
