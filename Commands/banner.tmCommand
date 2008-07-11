@@ -17,7 +17,7 @@ require SUPPORT + '/lib/osx/plist'
 wrap_char = "-"
 banner_wrapper = "//" + wrap_char * 39
 
-banners = [
+all_banners = [
 
 { 'title' =&gt; 'Accessors', 'data' =&gt; "// ${1:ACCESSORS}" },
 { 'title' =&gt; 'Class Constants', 'data' =&gt; '// ${1:CLASS CONSTANTS}'}, 
@@ -33,6 +33,13 @@ banners = [
 { 'title' =&gt; 'Public Variables', 'data' =&gt; '// ${1:PUBLIC VARIABLES}' }
 
 ]
+
+i_banners = [
+	{ 'title' =&gt; 'Getter/Setters', 'data' =&gt; "// ${1:GETTER / SETTERS}" },
+	{ 'title' =&gt; 'Public Methods', 'data' =&gt; '// ${1:PUBLIC METHODS}' }
+]
+
+banners = ENV['TM_SCOPE'] =~ /interface/ ? i_banners : all_banners
 
 plist = { 'menuItems' =&gt; banners }.to_plist
 
