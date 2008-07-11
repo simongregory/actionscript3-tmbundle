@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby -wKU
 
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/package_completion.rb'
+
 doc_gen = (ENV['TM_ASDOC_GENERATION'] != nil)
 ban_gen = (ENV['TM_AS3_BANNER_GENERATION'] != nil)
 
 ENV['TM_YEAR'] = `date "+%Y"`.chop
 ENV['TM_DATE'] = `date +%d.%m.%Y`.chop
 
-# Places to search for source..
-common_src_directories = ENV['TM_AS3_USUAL_SRC_DIRS']
-common_src_directories = "src:lib:source:test" if common_src_directories == nil
-common_src_directories = common_src_directories.gsub(":","|")
+common_src_directories = common_src_dir_list.gsub(":","|")
 
 new_file = ENV['TM_NEW_FILE']
 new_file_path = new_file.sub(/.*\/(#{common_src_directories})\//,"")
