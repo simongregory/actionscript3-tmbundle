@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -31,12 +31,15 @@ print 'private var ${1:_' + accessor_name + '}:${2:' + class_type + '};
 
 ' if accessor_match.empty?
 
-print 'public function get ' + accessor_name + '():${2:' + class_type + '} { 
+print 'public function get ' + accessor_name + '():${2:' + class_type + '}
+{ 
 	return ${1:_' + accessor_name + '}; 
 }
 
-public function set ' + accessor_name + '(value:${2:' + class_type + '}):void {
-	if (value !== ${1:_' + accessor_name + '}){
+public function set ' + accessor_name + '(value:${2:' + class_type + '}):void
+{
+	if (value !== ${1:_' + accessor_name + '})
+	{
 		${1:_' + accessor_name + '} = value;
 	}
 }$0'
