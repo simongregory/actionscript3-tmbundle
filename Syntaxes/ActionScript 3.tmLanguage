@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>comment</key>
@@ -752,6 +752,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#interface-getter-setters</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#interface-methods</string>
 				</dict>
 				<dict>
@@ -855,13 +859,172 @@
 				</dict>
 			</array>
 		</dict>
+		<key>interface-getter-setters</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
+        			         ^\s*                   # start of line, optional whitespace
+            			     (function)\s+          # function declaration
+            				 (\bget\b)\s+           # accessor
+            			     (\w+)                  # Method name.
+            			     \s*
+      			             (\()
+      			             \s*
+      			             (.*)?
+      			             \s*
+      			             (\))
+      			             \s*:\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.actionscript.3</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.accessor.actionscript.3</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.actionscript.3</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.parameters.begin.actionscript.3</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal.actionscript.3</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.parameters.end.actionscript.3</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>$|;</string>
+					<key>name</key>
+					<string>meta.definition.getter.interface.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>(\bvoid\b)</string>
+							<key>name</key>
+							<string>invalid.illegal.return-type.actionscript.3</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#global-types</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#support-classes</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#wildcard</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
+        			         ^\s*                   # start of line, optional whitespace
+            			     (function)\s+          # function declaration
+            				 (\bset\b)\s+           # accessor
+                             (\w+)                  # method name
+                             \s*
+                             (\()</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.actionscript.3</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.accessor.actionscript.3</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.actionscript.3</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.parameters.begin.actionscript.3</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?x)
+					       (\))
+         				   \s*:\s*
+         				   (
+         				       (void)
+         				       |
+         				       (\w+)
+         				   )</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.parameters.end.actionscript.3</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.type.void.actionscript.3</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal.actionscript.3</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.definition.setter.interface.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#method-parameters</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>,</string>
+							<key>end</key>
+							<string>(?=\))</string>
+							<key>name</key>
+							<string>invalid.illegal.actionscript.3</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>interface-methods</key>
 		<dict>
 			<key>begin</key>
 			<string>(?x)
 			         ^\s*                   # start of line, optional whitespace
     			     (function)\s+          # function declaration
-    				 (\b(get|set)\b\s+)?    # optional accessor
     			     (\s*\w+)               # Method name.
     			     \s*(\()</string>
 			<key>beginCaptures</key>
@@ -871,12 +1034,7 @@
 					<key>name</key>
 					<string>storage.type.function.actionscript.3</string>
 				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.accessor.actionscript.3</string>
-				</dict>
-				<key>4</key>
+				<key>2</key>
 				<dict>
 					<key>name</key>
 					<string>entity.name.function.actionscript.3</string>
