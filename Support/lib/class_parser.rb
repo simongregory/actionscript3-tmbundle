@@ -21,6 +21,7 @@
 #         4. Strip comments but retain newlines.
 #         5. Expand wildcard imports.
 #         6. Check type of return statements.
+#         7. Look for classes within the same package when not located via imports.
 #
 class AsClassParser
     
