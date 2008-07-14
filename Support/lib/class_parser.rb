@@ -6,15 +6,22 @@
 # the ancestry of a class or class member storing all of
 # its public and protected methods and properties.
 # 
-# Caveats:	A class MUST be FULLY imported to be found.
-# 			Use of fully qualified names is not supported. 
-# 				ie var foo:org.this.ThatClass
-# 		   	include files are not loaded and parsed.
+# Caveats:	A class *MUST BE FULLY* imported to be found.
+# 			Use of fully qualified names is not supported, ie var foo:a.b.Klass
+# 		   	#include files are not loaded and parsed.
 # 			Internal classes are not supported.
 # 			Code commented out may be recoginised.
 #
-# TODO's :  Interfaces support mulitple extends, collect them all.
-# 			Casting support.
+# TODO's: 1. Interfaces support mulitple extends, collect them all.
+#  			 Extends regular expression - /extends(?:.|[\r\n])*?\{/
+#         2. Casting support, so Sprite( thing ).member
+#         3. Parse method params into snippets.
+# 			 Method regexp - /\((?:.|[\r\n])*?\)/
+#            Also see store_all_class_members()
+#         4. Strip comments but retain newlines.
+#         5. Expand wildcard imports.
+#         6. Check type of return statements.
+#
 class AsClassParser
     
     private
@@ -224,7 +231,7 @@ class AsClassParser
 		# Scan evidence of a superclass.
 		doc.scan(@extends_regexp)
 		
-		if $4 == "interface"
+		if $4 == "interface"					
 			log_append( "WARNING: Interfaces not supported where they extend more than once." )
 		end
 		
@@ -423,7 +430,8 @@ class AsClassParser
 		log_append("Type locally failed!? (We shoudn't get this far).")
 		return nil
 	end
-
+	
+	# Searches both the local and global scopes for the type.
 	def determine_type_all(doc,reference)
 
 		type = determine_type_locally(doc,reference)
@@ -433,6 +441,7 @@ class AsClassParser
 		
 	end
 	
+	# Moves to the superclass of the class doc, if there is one.
 	def next_ancestor(doc,items)
 		
 		find_type = items.shift
@@ -460,6 +469,7 @@ class AsClassParser
 		
 	end
 	
+	# As it says on the tin...
 	def log_append(message)
 		@log += message + "\n"
 	end
@@ -576,6 +586,7 @@ class AsClassParser
 	
     # Ouput Commands
     
+	# List of method names.
     def methods
         
         return if @methods.empty?
@@ -583,27 +594,27 @@ class AsClassParser
         
     end
 	
+	# List of property names.
 	def properties
 				
 		return if @properties.empty?
 		@properties.uniq.sort
 		
 	end
-		
+	
+	# List of static property names.
 	def static_properties
         return if @static_properties.empty?
 		@static_properties.uniq.sort		
 	end
 	
+	# List of static method names.
 	def static_methods
        return if @static_methods.empty?	    
 	   @static_methods.uniq.sort
 	end
 	
-	def log
-		@log
-	end
-	
+	# Full list of all class and superclass methods.
 	def members
 		@all_members = []		
 		add_to_all_members(properties)
@@ -612,5 +623,10 @@ class AsClassParser
 		add_to_all_members(static_methods)
 		return @all_members
 	end
-
+	
+	# String of log messages.
+	def log
+		@log
+	end
+	
 end
