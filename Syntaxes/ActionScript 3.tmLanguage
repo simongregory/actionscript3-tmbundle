@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>comment</key>
@@ -1303,13 +1303,13 @@
 		<dict>
 			<key>begin</key>
 			<string>(?x)
-					 ^\s*
-					 ((override)\s+)?                                         # Optional override
-					 (public|private|protected|internal|final|dynamic|\w+)\s+ # Namespace
-					 ((static)\s+)?                                           # Optional static
-					 (function)\s+
-					 (\s*\w+)                                                 # Method name
-					 \s*(\()</string>
+			         ^\s*
+    			     ((override|static)\s+)?                                  # Optional override or static
+    			     (public|private|protected|internal|final|dynamic|\w+)\s+ # Namespace
+    			     ((static)\s+)?                                           # Optional static.
+    			     (function)\s+
+    			     (\s*\w+)                                                 # Method name.
+    			     \s*(\()</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>2</key>
@@ -1406,14 +1406,14 @@
 				<dict>
 					<key>begin</key>
 					<string>(?x)                                                               # Extended mode
-							 ^\s*                                                               # Start of line, optional whitespace
-							 ((override)\s+)?                                                   # Optional override
-							 (public|private|protected|internal|static|final|dynamic|\w+)\s+    # namespace declaration
-							 ((static)\s+)?                                                     # 
-							 (function)\s*                                                      # function declaration
-							 (set)\s+                                                           # set declaration
-							 (\w+)\s*                                                           # getter name, optional whitespace
-							 (\()</string>
+					         ^\s*                                                               # Start of line, optional whitespace
+    			             ((override|static)\s+)?                                            # Optional override
+    			             (public|private|protected|internal|final|dynamic|\w+)\s+           # namespace declaration
+    			             ((static)\s+)?                                                     # Optional static
+    			             (function)\s*                                                      # function declaration
+                             (set)\s+                                                           # set declaration
+                             (\w+)\s*                                                           # getter name, optional whitespace
+    			             (\()</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>2</key>
@@ -1507,26 +1507,26 @@
 				<dict>
 					<key>begin</key>
 					<string>(?x)
-							 ^\s*
-							 (
-								(override)\s+
-							 )?
-							 (public|private|protected|internal|static|final|dynamic|\w+)\s+
-							 (
-								(static)\s+
-							 )?
-							 (function)
-							 \s*
-							 (get)
-							 \s+
-							 (\w+)
-							 \s*
-							 (\()
-							 \s*
-							 (.*)?
-							 \s*
-							 (\))
-							 \s*:\s*</string>
+					         ^\s*
+    			             (
+    			                 (override|static)\s+
+    			             )?
+    			             (public|private|protected|internal|static|final|dynamic|\w+)\s+
+    			             (
+    			                 (static)\s+
+    			             )?
+    			             (function)
+    			             \s*
+                             (get)
+                             \s+
+                             (\w+)
+                             \s*
+    			             (\()
+    			             \s*
+    			             (.*)?
+    			             \s*
+    			             (\))
+    			             \s*:\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>10</key>
