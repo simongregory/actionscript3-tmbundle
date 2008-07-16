@@ -158,9 +158,6 @@ def method(name)
         m = "public" + @method
     end
     
-    #if @include_docs
-    #    m = @private_doc + "\n" + m
-    #end
 	add_private_doc(m)
     
 end
@@ -173,9 +170,6 @@ def interface_method(name)
         m = @interface_method
     end
     
-    #if @include_docs
-    #    m = @private_doc + "\n" + m
-    #end
 	add_private_doc(m)
     
 end
@@ -192,14 +186,7 @@ def override_method
 end
 
 def final_method
-	
-    m = "final" + @method
-    
-    #if @include_docs
-    #    m = @private_doc + "\n" + m
-    #end
-	add_private_doc(m) 
-    
+	add_private_doc( "final" + @method )
 end
 
 # Getters
