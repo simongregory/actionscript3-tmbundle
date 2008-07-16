@@ -233,7 +233,7 @@ class AsClassParser
 		doc.scan(@extends_regexp)
 		
 		if $4 == "interface"					
-			log_append( "WARNING: Interfaces not supported where they extend more than once." )
+			log_append( "WARNING: Interfaces extending more than one interface are not supported." )
 		end
 		
 		# If we match then convert the import to a file reference.
@@ -313,6 +313,7 @@ class AsClassParser
 	# Finds the class in the filesystem.
 	# If successful the class is loaded and returned.
 	def load_class(path)
+		
 		@src_dirs.each { |d|
 			uri = d.chomp + "/" + path
 			#FIX: The assumption that we'll only find one match.
@@ -322,17 +323,25 @@ class AsClassParser
 				return strip_comments(f)
 			end
 		}
+		
+		log_append("Unable to locate #{path}")
+		
 		nil
 	end
 	
 	# Remove all comments from the file.
 	def strip_comments(doc)
+
 		# TODO: Add multiline_comments, remembering that they need 
 		# replacing with whitespace otherwise we can't track our 
-		# position within the doc when searching.
-		# multiline_comments = /\/\*(?:.|[\r\n])*?\*\//
+		# position within the doc when searching - ie for local vars.
+		
+		#multiline_comments = /\/\*(?:.|[\r\n])*?\*\//
+		#doc = doc.gsub(multiline_comments,'')		
+		
 		single_line_comments = /\/\/.*$/		
 		return doc.gsub(single_line_comments,'')
+		
 	end
 
 	# Searches the given document for the import statement
@@ -344,12 +353,17 @@ class AsClassParser
     # 		ie import flash.net.*;    
 	def imported_class_to_file_path(doc,class_name)
 
-		# Use import statment to find our doc.
+		# Check for explicit import statement.
         doc.scan( /^\s*import\s+(([\w+\.]+)(\b#{class_name}\b))/)
         
         return $1.gsub(".","/")+".as" if $1 != nil
+		
+		# Otherwise use the current package path.
+		doc.scan( /^\s*package\s+([\w+\.]+)/ )
+		
+		return $1.gsub(".","/")+"/#{class_name}.as" if $1 != nil
 
-		# Assume it's top level.
+		# If we get this far then go for a top level class.
 		return class_name + ".as"
 		
 	end
@@ -630,4 +644,16 @@ class AsClassParser
 		@log
 	end
 	
+	# Print log to the system log file.
+	def syslog
+		
+		require 'syslog'
+
+		Syslog.open('tm-as3')
+		@log.split("\n").each do |line|
+			Syslog.crit(line)
+		end
+		Syslog.close()
+		
+	end
 end
