@@ -1254,6 +1254,27 @@
 					<string>keyword.namespace.actionscript.3</string>
 				</dict>
 				<dict>
+					<key>begin</key>
+					<string>^\w*(include)\b</string>
+					<key>end</key>
+					<string>$</string>
+					<key>name</key>
+					<string>storage.include.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#strings</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\#include\b</string>
+					<key>name</key>
+					<string>invalid.illegal.deprecated.actionscript.3</string>
+				</dict>
+				<dict>
 					<key>comment</key>
 					<string>AS3 Definition - keyword.attribute</string>
 					<key>match</key>
@@ -1811,12 +1832,6 @@
 				<dict>
 					<key>include</key>
 					<string>#language-storage</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\#include\b</string>
-					<key>name</key>
-					<string>invalid.illegal.deprecated.actionscript.3</string>
 				</dict>
 			</array>
 		</dict>
