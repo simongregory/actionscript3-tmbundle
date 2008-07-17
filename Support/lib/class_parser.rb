@@ -1,3 +1,7 @@
+#!/usr/bin/env ruby
+
+require "#{ENV['TM_BUNDLE_SUPPORT']}/lib/flex_mate" 
+
 # A Utilty class to convert an ActionScript class into
 # list of it's constituent methods and properties.
 #
@@ -12,16 +16,16 @@
 # 			Internal classes are not supported.
 # 			Code commented out may be recoginised.
 #
-# TODO's: 1. Interfaces support mulitple extends, collect them all.
+# TODO's: -  Interfaces support mulitple extends, collect them all.
 #  			 Extends regular expression - /extends(?:.|[\r\n])*?\{/
-#         2. Casting support, so Sprite( thing ).member
-#         3. Parse method params into snippets.
+#         -  Casting support, so Sprite( thing ).member
+#         -  Parse method params into snippets.
 # 			 Method regexp - /\((?:.|[\r\n])*?\)/
 #            Also see store_all_class_members()
-#         4. Strip comments but retain newlines.
-#         5. Expand wildcard imports.
-#         6. Check type of return statements.
-#         7. Look for classes within the same package when not located via imports.
+#         -  Strip comments but retain newlines.
+#         -  Expand wildcard imports.
+#         -  Check type of return statements.
+#         -  Correctly locate src directories, see create_src_list()
 #
 class AsClassParser
     
@@ -233,13 +237,13 @@ class AsClassParser
 		doc.scan(@extends_regexp)
 		
 		if $4 == "interface"					
-			log_append( "WARNING: Interfaces extending more than one interface are not supported." )
+			log_append( "WARNING: Interfaces with more than one ancestor are not supported." )
 		end
 		
 		# If we match then convert the import to a file reference.
 		if $7 != nil
 			parent_path = imported_class_to_file_path(doc,$7)
-			log_append("Loading super class #{$7} #{parent_path}.")
+			log_append("Loading super class '#{$7}' '#{parent_path}'.")
 			return load_class( parent_path )
 		end
 		
@@ -296,16 +300,7 @@ class AsClassParser
 			@src_dirs += "#{ENV['TM_BUNDLE_SUPPORT']}/data/src\n"			
 		end
 
-		#TODO: Move to utility.
-		flx = [ "#{ENV['TM_FLEX_PATH']}/frameworks/project/framework/src",
-				"#{ENV['TM_FLEX_PATH']}/framework/src",
-			    "/Applications/flex_sdk_3/frameworks/project/framework/src",
-		        "/Applications/flex_sdk_2/frameworks/source",
-		        "/Developer/SDKs/flex_sdk_3/frameworks/project/framework/src",
-		        "/Developer/SDKs/flex_sdk_2/frameworks/source" ]
-		
-		fx = flx.find { |dir| File.directory? dir }
-		
+		fx = FlexMate.find_sdk_src
 		@src_dirs += fx if fx != nil
 		
  	end
@@ -324,7 +319,7 @@ class AsClassParser
 			end
 		}
 		
-		log_append("Unable to locate #{path}")
+		log_append("Unable to load '#{path}'")
 		
 		nil
 	end
@@ -355,13 +350,21 @@ class AsClassParser
 
 		# Check for explicit import statement.
         doc.scan( /^\s*import\s+(([\w+\.]+)(\b#{class_name}\b))/)
-        
-        return $1.gsub(".","/")+".as" if $1 != nil
+
+		unless $1 == nil
+			p = $1.gsub(".","/")+".as"
+			log_append("Class found as import '#{p}'")
+        	return p
+		end
 		
 		# Otherwise use the current package path.
 		doc.scan( /^\s*package\s+([\w+\.]+)/ )
 		
-		return $1.gsub(".","/")+"/#{class_name}.as" if $1 != nil
+		unless $1 == nil
+		 	p =$1.gsub(".","/")+"/#{class_name}.as" 
+			log_append("Class found as package '#{p}'")
+			return p
+		end
 
 		# If we get this far then go for a top level class.
 		return class_name + ".as"
@@ -371,6 +374,8 @@ class AsClassParser
 	# Type Locating Commands
 	
 	# Searches a document for the type of the specified property.
+	# Returns an array. First element being the document that contains the ref. 
+	# 					Second element being the type of the reference.
 	def determine_type_globally(doc,reference)
 		
 		return if doc == nil
@@ -385,14 +390,14 @@ class AsClassParser
 		 
 		doc.scan(var_regexp)		
 		if $3 != nil
-		    log_append("Determined Type as #{$3}.")
-		    return $3
+		    log_append("Type determined as '#{$3}' in global scope.")
+		    return [doc,$3]
 	    end
 	
 		doc.scan(gs_regexp)		
 		if $5 != nil
-		    log_append( "Determined Type as #{$5}.")
-		    return $5
+		    log_append("Type determined as '#{$5}' in global scope.")
+		    return [doc,$5]
 	    end
 
 		@type_depth += 1
@@ -404,9 +409,11 @@ class AsClassParser
 	end
 
 	# Searches the local scope for a var declaration
-	# and returns it's type if found.
+	# Returns an array. First element being the document that contains the ref. 
+	# 					Second element being the type of the reference.
+	#
 	# TODO: As this makes the assumption that we're 
-	# 		within a method. Which is in no way guaranteed.
+	# 		within a method. Which is in no way guaranteed.	
 	def determine_type_locally(doc,reference)
 		
 		# Conditionals may cause problems...
@@ -428,7 +435,7 @@ class AsClassParser
 
 				log_append( "Type locally matched as \n\t#{txt}." )
 				
-				return $2
+				return [doc,$2]
 				
 			elsif txt =~ @pri_method_regexp
 				
@@ -442,7 +449,7 @@ class AsClassParser
 
 		end
 		
-		log_append("Type locally failed!? (We shoudn't get this far).")
+		log_append("Type locally failed!? (We should not get this far).")
 		return nil
 	end
 	
@@ -462,20 +469,29 @@ class AsClassParser
 		find_type = items.shift
 				
 		if items.size == 0
+			
+			#TODO: Fix this, as determine_type_all delegates to 
+			# determine_type_globally and when this happens the superclass 
+			# documents may be loaded and parsed, this means that our 'doc' 
+			# reference no longer refers to the correct class.
 						
 			# We're on the home stretch.
 			type = determine_type_all(doc,find_type)
-			log_append("Located "+ find_type + " as #{type} ")
+			log_append("Located "+ find_type + " as #{type[1]} ")
 			
 			return nil if type == nil
-			return [doc,type]
+			return type
+			#[type[1],type[0]]
 			
 		else
 			
 			log_append("Finding "+ find_type)
+			
 			# Do another turn.
 			type 	  = determine_type_all(doc,find_type)
-			path 	  = imported_class_to_file_path(doc,type)
+			#path 	  = imported_class_to_file_path(doc,type)
+			path 	  = imported_class_to_file_path(type[0],type[1])
+			log_append("Found '#{find_type[0]}' here '#{path}'")			
 			child_doc = load_class(path)
 			
 			return next_ancestor(child_doc,items)
@@ -515,34 +531,34 @@ class AsClassParser
 
 		# Super Instance Members.
 		elsif reference =~ /^super$/
-			
+
+			log_append("Processing #{reference} as a super class.")			
 			super_class = load_parent(doc)
-			log_append("Processing #{reference} as super class.")
 			@depth = 1
-			add_doc(super_class)
+			add_public_and_protected(super_class)
 
 		# This Instance Members.
 		elsif reference =~ /^(this)?$/
 
-            log_append("Processing as #{reference}.")
+            log_append("Processing as '#{reference}'.")
 			add_doc(doc)            
             
 		# Instance Members.
 		else
 			
-            log_append("Processing #{reference} as an instance.")
+            log_append("Processing '#{reference}' as an instance.")
             
 			type = determine_type(doc,reference)
 			
 			if type != nil
-				
+
 				path = imported_class_to_file_path(type[0],type[1])
 				cdoc = load_class(path)
 				add_public(cdoc) if cdoc != nil
 								
 			else
 				
-			    log_append("Failed to locate type of #{reference}.")
+			    log_append("Failed to locate type of '#{reference}'.")
 			
 			end
 			
@@ -567,7 +583,7 @@ class AsClassParser
 			doc.scan(@extends_regexp)
 			return [doc, $7] if $7 != nil
 
-		# This Instance Members.
+		# 'this' instance members.
 		elsif reference =~ /^(this)?$/
             
 			# Locate class name.			
@@ -577,7 +593,7 @@ class AsClassParser
 		# Instance Members.
 		else
 			            
-            log_append("Determining type of #{reference}.")
+            log_append("Determining type of '#{reference}'.")
             
 			items = [reference]
 			
@@ -585,7 +601,7 @@ class AsClassParser
 			if /\s+(\b.*\.\b#{reference}\b)/ =~ cl												
 				items = $1.split(".")
 			end
-			
+			log_append("Ancestor list: "+items.to_s)
 			return next_ancestor(doc,items)
 			
 		end
@@ -648,12 +664,15 @@ class AsClassParser
 	def syslog
 		
 		require 'syslog'
-
+        
 		Syslog.open('tm-as3')
+		Syslog.crit('-->')
 		@log.split("\n").each do |line|
 			Syslog.crit(line)
 		end
+		Syslog.crit('<--')
 		Syslog.close()
 		
 	end
+
 end
