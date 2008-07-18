@@ -66,7 +66,9 @@ class AsClassParser
 		@pri_var_regexp    = /^\s*(private|protected|public)\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
 		@pri_getset_regexp = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/		
 		@pri_method_regexp = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b([a-z]\w+)\b\s*\((.*\)\s*:\s*(\w+))?/
-
+		
+		@constructor_regexp = /^\s*public\s+function\s+\b([A-Z]\w+)\b\s*\(/
+		
 		#@pri_method_regexp_multiline = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b([a-z]\w+)\b\s*\((?m:[^)]+)\)\s*:\s*(\w+)/
 
 		@pri_static_var_regexp    = /^\s*\b(private|protected|public|static)\b\s+\b(private|protected|public|static)\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
@@ -87,7 +89,8 @@ class AsClassParser
     end
     
 	# Property/Method Capture.
-	# Storage caputure filters based on the percieved scope of the
+	
+	# Storage caputure filters based on the scope of the
 	# item being processed. So, for 'this' all memebers and scopes,
 	# for an instance of ClassFoo it's public members.
 		
@@ -322,6 +325,7 @@ class AsClassParser
 			
 	# Finds the class in the filesystem.
 	# If successful the class is loaded and returned.
+	# paths is an array of relative class paths.
 	def load_class(paths)
 		
 		@src_dirs.each do |d|
@@ -340,7 +344,7 @@ class AsClassParser
 			
 		end
 		
-		as_file = File.basename(paths[0]).chop
+		as_file = File.basename(paths[0])
 		
 		@fail_log = "#{as_file} 404."
 		
@@ -365,12 +369,11 @@ class AsClassParser
 	end
 
 	# Searches the given document for the import statement
-	# of the specified class, when located it returns it
+	# of the specified class, if located it returns it
 	# as file path reference.
-	# NOTE: This relies on the Class being imported.
-	# TODO: Add support for wildcarded imports.	
-	# 		Do this by expanding/loading all the classes in package?
-    # 		ie import flash.net.*;    
+	# If no explicit import is delared wildcarded imports are accumulated,
+	# alongside the classes package patch and returned.
+	# Returns an array of possible file paths.
 	def imported_class_to_file_path(doc,class_name)
 		
 		possible_paths = []
@@ -394,23 +397,10 @@ class AsClassParser
 			possible_paths << $1.gsub(".","/")+"/"+class_name+".as" if line =~ pckg
 			break if line =~ cls
 		end
-		
-		log_append(possible_paths.to_s)
 
 		# As we are very likely to have a package path by this point 
 		# add in a top level match for safetys sake.
 		return possible_paths << "#{class_name}.as"
-		
-		
-		# Otherwise use the current package path.
-		#doc.scan( pckg )
-		#
-		#unless $1 == nil
-		# 	p = $1.gsub(".","/")+"/#{class_name}.as" 
-		#	log_append("Class found as package '#{p}'")
-		#	return possible_paths << p
-		#end
-
 		
 	end
 	
@@ -422,16 +412,21 @@ class AsClassParser
 	def determine_type_globally(doc,reference)
 		
 		return if doc == nil
-
+		
+		#TODO: This is still using the original scope (expecting to start on 
+		# 	   'this') so doesn't only collect public vars when it should. 
+		log_append("FIX THIS>")
+		
 		namespace = "protected|public"
 		namespace = "private|protected|public" if @type_depth == 0
 
 		# TODO: Should this be global? So it's not created on each recursion.
 		# 		Method paramaeters are likely to need work for the accessor.
-		# NOTE: Only search for getters.
 		var_regexp = /^\s*(#{namespace})\s+var\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
-		get_regexp = /^\s*(#{namespace})\s+function\s+\b(get)\b\s+\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
-		 
+
+		# Also picks up single line methods.
+		get_regexp = /^\s*(#{namespace})\s+function\s+(\b(get)\b\s+)?\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
+				 
 		doc.scan(var_regexp)		
 		if $3 != nil
 		    log_append("Type determined as '#{$3}' in global scope.")
@@ -439,9 +434,13 @@ class AsClassParser
 	    end
 	
 		doc.scan(get_regexp)		
-		if $5 != nil
-		    log_append("Type determined as '#{$5}' in global scope.")
-		    return [doc,$5]
+		if $6 != nil
+			if $6 == "void"
+				@fail_log = "void"
+				return nil
+			end
+		    log_append("Type determined as '#{$6}' in global scope.")
+		    return [doc,$6]
 	    end
 
 		@type_depth += 1
@@ -483,7 +482,13 @@ class AsClassParser
 				
 			elsif txt =~ @pri_method_regexp
 				
-				#When we hit a method statement exit.
+				# When we hit a method statement exit.
+				log_append( "Type not located locally." )
+				return nil
+				
+			elsif txt =~ @constructor_regexp
+				
+				# When we hit a (conventional) constructor statement exit.
 				log_append( "Type not located locally." )
 				return nil
 				
@@ -507,38 +512,53 @@ class AsClassParser
 		
 	end
 	
+	# Utility method for search_ancestor which uses the level to 
+	# track the depth of recursion, if it's 0 then we are operating
+	# at a local level.
+	def determine_type_at_level(doc,reference,depth)
+		return determine_type_all(doc,reference) if depth == 0
+		return determine_type_globally(doc,reference)
+	end
+	
 	# Moves to the superclass of the class doc, if there is one.
-	def next_ancestor(doc,items)
+	# doc is the current class document.
+	# items is an array of properties to check - ie, propA.propB.propC
+	def search_ancestor(doc,items,depth=0)
 		
 		find_type = items.shift
-				
+		
+		if find_type =~ /(\s*(\w+\s*)?)\(.*\)/
+			log_append("Stripped method call #{$1} #{find_type}")
+			find_type = $1
+		end
+		
 		if items.size == 0
-			
-			#TODO: Fix this, as determine_type_all delegates to 
-			# determine_type_globally and when this happens the superclass 
-			# documents may be loaded and parsed, this means that our 'doc' 
-			# reference no longer refers to the correct class.
-						
-			# We're on the home stretch.
-			type = determine_type_all(doc,find_type)
-			log_append("Located "+ find_type + " as #{type[1]} ")
+									
+			# Reached the last item in the list.
+			type = determine_type_at_level(doc,find_type,depth)
 			
 			return nil if type == nil
+			
+			log_append("Located "+ find_type + " as #{type[1]} ")
+			
 			return type
-			#[type[1],type[0]]
 			
 		else
 			
 			log_append("Finding "+ find_type)
 			
-			# Do another turn.
-			type 	  = determine_type_all(doc,find_type)
-			#path 	  = imported_class_to_file_path(doc,type)
-			path 	  = imported_class_to_file_path(type[0],type[1])
-			log_append("Found '#{find_type[0]}' here '#{path}'")			
-			child_doc = load_class(path)
+			# Recurse down.
+			type = determine_type_at_level(doc,find_type,depth)
 			
-			return next_ancestor(child_doc,items)
+			return nil if type == nil
+
+			path = imported_class_to_file_path(type[0],type[1])
+			
+			log_append("Found '#{find_type}' here '#{path.join(", ")}'")
+			
+			child_doc = load_class(path)
+				
+			return search_ancestor(child_doc,items, depth+=1)
 			
 		end
 		
@@ -569,7 +589,7 @@ class AsClassParser
 		doc = strip_comments(doc)        
 	
 		# Class Members.
-		if reference =~ /^([A-Z]|\b(uint|int)\b)/
+		if reference =~ /^([A-Z]|\b(uint|int|arguments)\b)/
 			
 			# TODO: don't match new ClassName(), pass these down as instances.
 			#       ie var a:Foo = new Foo().name;
@@ -649,9 +669,9 @@ class AsClassParser
 			cl = ENV['TM_CURRENT_LINE']
 			if /\s+(\b.*\.\b#{reference}\b)/ =~ cl												
 				items = $1.split(".")
-			end
-			log_append("Ancestor list: "+items.to_s)
-			return next_ancestor(doc,items)
+			end			
+			log_append("Ancestor list: "+items.join(", "))
+			return search_ancestor(doc,items)
 			
 		end
 		
@@ -710,7 +730,7 @@ class AsClassParser
 	end
 	
 	# Print log to the system log file.
-	def syslog
+	def to_syslog
 		
 		require 'syslog'
         
