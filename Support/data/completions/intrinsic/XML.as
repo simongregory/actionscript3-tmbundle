@@ -1,0 +1,57 @@
+package {
+	public final dynamic  class XML {
+		public static function get ignoreComments():Boolean;
+		public function set ignoreComments(value:Boolean):void;
+		public static function get ignoreProcessingInstructions():Boolean;
+		public function set ignoreProcessingInstructions(value:Boolean):void;
+		public static function get ignoreWhitespace():Boolean;
+		public function set ignoreWhitespace(value:Boolean):void;
+		public static function get prettyIndent():int;
+		public function set prettyIndent(value:int):void;
+		public static function get prettyPrinting():Boolean;
+		public function set prettyPrinting(value:Boolean):void;
+		public function XML(value:Object);
+		public function addNamespace(ns:Object):XML;
+		public function appendChild(child:Object):XML;
+		public function attribute(attributeName:*):XMLList;
+		public function attributes():XMLList;
+		public function child(propertyName:Object):XMLList;
+		public function childIndex():int;
+		public function children():XMLList;
+		public function comments():XMLList;
+		public function contains(value:XML):Boolean;
+		public function copy():XML;
+		AS3 static function defaultSettings():Object;
+		public function descendants(name:Object = *):XMLList;
+		public function elements(name:Object = *):XMLList;
+		public function hasComplexContent():Boolean;
+		public function hasOwnProperty(p:String):Boolean;
+		public function hasSimpleContent():Boolean;
+		public function inScopeNamespaces():Array;
+		public function insertChildAfter(child1:Object, child2:Object):*;
+		public function insertChildBefore(child1:Object, child2:Object):*;
+		public function length():int;
+		public function localName():Object;
+		public function name():Object;
+		public function namespace(prefix:String = null):*;
+		public function namespaceDeclarations():Array;
+		public function nodeKind():String;
+		public function normalize():XML;
+		public function parent():*;
+		public function prependChild(value:Object):XML;
+		public function processingInstructions(name:String = "*"):XMLList;
+		public function propertyIsEnumerable(p:String):Boolean;
+		public function removeNamespace(ns:Namespace):XML;
+		public function replace(propertyName:Object, value:XML):XML;
+		public function setChildren(value:Object):XML;
+		public function setLocalName(name:String):void;
+		public function setName(name:String):void;
+		public function setNamespace(ns:Namespace):void;
+		AS3 static function setSettings(... rest):void;
+		AS3 static function settings():Object;
+		public function text():XMLList;
+		public function toString():String;
+		public function toXMLString():String;
+		public function valueOf():XML;
+	}
+}
