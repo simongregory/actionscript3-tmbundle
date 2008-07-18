@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "#{ENV['TM_BUNDLE_SUPPORT']}/lib/flex_mate" 
+require File.dirname(__FILE__) + '/flex_mate' 
 
 # A Utilty class to convert an ActionScript class into
 # list of it's constituent methods and properties.
@@ -34,6 +34,7 @@ class AsClassParser
 	def initialize
 		
 		@log = ""
+		@fail_log = ""
         
         #Used to track how far up the class ancestory we are.
 		@depth = 0
@@ -296,9 +297,10 @@ class AsClassParser
 	def create_src_list
 		
 		if ENV['TM_PROJECT_DIRECTORY']
-			@src_dirs = `find "$TM_PROJECT_DIRECTORY" -maxdepth 5 -name "src" -print`
-			@src_dirs += "#{ENV['TM_BUNDLE_SUPPORT']}/data/src\n"			
+			@src_dirs = `find "$TM_PROJECT_DIRECTORY" -maxdepth 5 -name "src" -print`			
 		end
+
+		@src_dirs += "#{ENV['TM_BUNDLE_SUPPORT']}/data/completions/intrinsic\n"
 
 		fx = FlexMate.find_sdk_src
 		@src_dirs += fx if fx != nil
@@ -318,6 +320,8 @@ class AsClassParser
 				return strip_comments(f)
 			end
 		}
+		
+		@fail_log = "#{path} 404."
 		
 		log_append("Unable to load '#{path}'")
 		
@@ -385,8 +389,9 @@ class AsClassParser
 
 		# TODO: Should this be global? So it's not created on each recursion.
 		# 		Method paramaeters are likely to need work for the accessor.
+		# NOTE: Only search for getters.
 		var_regexp = /^\s*(#{namespace})\s+var\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
-		gs_regexp = /^\s*(#{namespace})\s+function\s+\b(get|set)\b\s+\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
+		get_regexp = /^\s*(#{namespace})\s+function\s+\b(get)\b\s+\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
 		 
 		doc.scan(var_regexp)		
 		if $3 != nil
@@ -394,7 +399,7 @@ class AsClassParser
 		    return [doc,$3]
 	    end
 	
-		doc.scan(gs_regexp)		
+		doc.scan(get_regexp)		
 		if $5 != nil
 		    log_append("Type determined as '#{$5}' in global scope.")
 		    return [doc,$5]
@@ -506,6 +511,11 @@ class AsClassParser
 	end
     	
     public
+    
+	# String to show in tooltip when the parsing has failed.
+	def fail_log
+		@fail_log
+	end
     
 	# Input Commands
 	
