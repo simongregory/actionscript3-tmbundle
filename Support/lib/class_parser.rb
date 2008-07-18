@@ -300,30 +300,51 @@ class AsClassParser
 			@src_dirs = `find "$TM_PROJECT_DIRECTORY" -maxdepth 5 -name "src" -print`			
 		end
 
-		@src_dirs += "#{ENV['TM_BUNDLE_SUPPORT']}/data/completions/intrinsic\n"
-
-		fx = FlexMate.find_sdk_src
-		@src_dirs += fx if fx != nil
+		bun_sup = "#{ENV['TM_BUNDLE_SUPPORT']}/data/completions"
+		
+		# Check once for existence here as we will save repeated 
+		# checks later (whilst walking up the heirarchy).
+		@src_dirs += "#{bun_sup}/intrinsic\n" if File.directory?("#{bun_sup}/intrinsic")
+		@src_dirs += "#{bun_sup}/frameworks/air\n" if File.directory?("#{bun_sup}/frameworks/air")
+		@src_dirs += "#{bun_sup}/frameworks/flash_ide\n" if File.directory?("#{bun_sup}/frameworks/flash_ide")
+		@src_dirs += "#{bun_sup}/frameworks/flash_cs3\n" if File.directory?("#{bun_sup}/frameworks/flash_cs3")
+		
+		# Where we have access to the compressed flex 3 files use them, 
+		# otherwise go looking for the sdk.
+		if File.directory?("#{bun_sup}/frameworks/flex_3")
+			@src_dirs += "#{bun_sup}/frameworks/flex_3\n"
+		else		
+			fx = FlexMate.find_sdk_src
+			@src_dirs += fx if fx != nil
+		end
 		
  	end
 			
 	# Finds the class in the filesystem.
 	# If successful the class is loaded and returned.
-	def load_class(path)
+	def load_class(paths)
 		
-		@src_dirs.each { |d|
-			uri = d.chomp + "/" + path
-			#FIX: The assumption that we'll only find one match.
-			if File.exists?(uri)
-				log_append("Opening #{uri}.")
-				f = File.open(uri,"r" ).read.strip
-				return strip_comments(f)
+		@src_dirs.each do |d|
+
+			paths.each do |path|
+				
+				uri = d.chomp + "/" + path.chomp
+				#FIX: The assumption that we'll only find one match.
+				if File.exists?(uri)
+					log_append("Opening #{uri}.")
+					f = File.open(uri,"r" ).read.strip
+					return strip_comments(f)
+				end
+				
 			end
-		}
+			
+		end
 		
-		@fail_log = "#{path} 404."
+		as_file = File.basename(paths[0]).chop
 		
-		log_append("Unable to load '#{path}'")
+		@fail_log = "#{as_file} 404."
+		
+		log_append("Unable to load #{as_file}")
 		
 		nil
 	end
@@ -351,27 +372,45 @@ class AsClassParser
 	# 		Do this by expanding/loading all the classes in package?
     # 		ie import flash.net.*;    
 	def imported_class_to_file_path(doc,class_name)
-
+		
+		possible_paths = []
+		
 		# Check for explicit import statement.
         doc.scan( /^\s*import\s+(([\w+\.]+)(\b#{class_name}\b))/)
 
 		unless $1 == nil
 			p = $1.gsub(".","/")+".as"
 			log_append("Class found as import '#{p}'")
-        	return p
+        	return possible_paths << p
 		end
+		
+		pckg = /^\s*package\s+([\w+\.]+)/
+		cls = /^\s*(public|final)\s+(final|public)?\s*\bclass\b/
+		wild = /^\s*import\s*([\w.]+)\*/
+
+		# Collect all wildcard imports here.
+		doc.each do |line|
+		 	possible_paths << $1.gsub(".","/")+class_name+".as" if line =~ wild
+			possible_paths << $1.gsub(".","/")+"/"+class_name+".as" if line =~ pckg
+			break if line =~ cls
+		end
+		
+		log_append(possible_paths.to_s)
+
+		# As we are very likely to have a package path by this point 
+		# add in a top level match for safetys sake.
+		return possible_paths << "#{class_name}.as"
+		
 		
 		# Otherwise use the current package path.
-		doc.scan( /^\s*package\s+([\w+\.]+)/ )
-		
-		unless $1 == nil
-		 	p =$1.gsub(".","/")+"/#{class_name}.as" 
-			log_append("Class found as package '#{p}'")
-			return p
-		end
+		#doc.scan( pckg )
+		#
+		#unless $1 == nil
+		# 	p = $1.gsub(".","/")+"/#{class_name}.as" 
+		#	log_append("Class found as package '#{p}'")
+		#	return possible_paths << p
+		#end
 
-		# If we get this far then go for a top level class.
-		return class_name + ".as"
 		
 	end
 	
