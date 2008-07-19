@@ -5,8 +5,7 @@ require File.dirname(__FILE__) + '/flex_mate'
 # A Utilty class to convert an ActionScript class into
 # list of it's constituent methods and properties.
 #
-# As long as the src is available, and all class members
-# imported directly (no wildcards), this will traverse 
+# As long as the source is available this will traverse 
 # the ancestry of a class or class member storing all of
 # its public and protected methods and properties.
 # 
@@ -51,7 +50,7 @@ class AsClassParser
 		# Captures public namespaces, tightest scope for instance.
 		@pub_var_regexp    = /^\s*(public)\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
 		@pub_getset_regexp = /^\s*(override\s+)?(public\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/		
-		@pub_method_regexp = /^\s*(override\s+)?(public\s+)?function\s+\b([a-z]\w+)\b\s*\(/		
+		@pub_method_regexp = /^\s*(override\s+)?(public\s+)?function\s+\b([a-z]\w+)\b\s*\((.*)\)/		
 		
 		# Protected access, looser capture includes public and protected namespaces 'super'.
 		@pro_var_regexp    = /^\s*(protected|public)\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
@@ -65,7 +64,7 @@ class AsClassParser
 		# Private access, the widest scope, captures all namespaces.
 		@pri_var_regexp    = /^\s*(private|protected|public)\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
 		@pri_getset_regexp = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/		
-		@pri_method_regexp = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b([a-z]\w+)\b\s*\((.*\)\s*:\s*(\w+))?/
+		@pri_method_regexp = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b([a-z]\w+)\b\s*\((.*\)\s*:\s*(\w+|\*))?/
 		
 		@constructor_regexp = /^\s*public\s+function\s+\b([A-Z]\w+)\b\s*\(/
 		
@@ -108,17 +107,16 @@ class AsClassParser
 		  		@properties << $2.to_s  
 			elsif line =~ @pri_method_regexp
 				
-				@methods << $3.to_s + "()"
-				
 				# Based off the the $4 th match we can determine wheter or not the
 				# method prams are mulit-line or not. If they are we need to come
 				# back and search again.
-				#if $4 == nil
-				#	method_scans << $3.to_s
-				#else
+				#if $4 != nil
+				#	@methods << "#{$3.to_s}(#{$4.to_s})"
+				#elsif $5 != nil
 				#	@methods << $3.to_s + "():" + $5.to_s
 				#end
-				#method_scans << $3.to_s
+				
+				@methods << $3.to_s + "()"
 				
 			elsif line =~ @pri_getset_regexp
 			    @properties << $4.to_s
@@ -189,7 +187,13 @@ class AsClassParser
 			elsif line =~ @pub_getset_regexp
 			    @properties << $4.to_s
 			elsif line =~ @pub_method_regexp
-			    @methods << $3.to_s + "()"
+			    
+				#if $4 != nil
+				#	@methods << $3.to_s + "(#{$4.to_s})"
+				#else
+					@methods << $3.to_s + "()"
+				#end
+
 		    elsif line =~ @private_class_regexp
 		        break
 			end
@@ -317,7 +321,7 @@ class AsClassParser
 		if File.directory?("#{bun_sup}/frameworks/flex_3")
 			@src_dirs += "#{bun_sup}/frameworks/flex_3\n"
 		else		
-			fx = FlexMate.find_sdk_src
+			fx = FlexMate.find_sdk_src			
 			@src_dirs += fx if fx != nil
 		end
 		
@@ -361,7 +365,7 @@ class AsClassParser
 		# position within the doc when searching - ie for local vars.
 		
 		#multiline_comments = /\/\*(?:.|[\r\n])*?\*\//
-		#doc = doc.gsub(multiline_comments,'')		
+		#doc.gsub!(multiline_comments,'')		
 		
 		single_line_comments = /\/\/.*$/		
 		return doc.gsub(single_line_comments,'')
@@ -413,15 +417,17 @@ class AsClassParser
 		
 		return if doc == nil
 		
-		#TODO: This is still using the original scope (expecting to start on 
-		# 	   'this') so doesn't only collect public vars when it should. 
-		log_append("FIX THIS>")
+		# TODO: Consider the logic of what we are doing here, specifically do we
+		# 	    need to introduce a 'public' only match as we are only interested 
+		#       in public variables once @type_depth > 0 IF we are inspecting a
+		# 		a chain of property references. So in: thing.foo.bar thing is 
+		#       local to the class and could be ppp (pp in the supers), but foo
+		#       can only be a public property.
 		
 		namespace = "protected|public"
 		namespace = "private|protected|public" if @type_depth == 0
 
-		# TODO: Should this be global? So it's not created on each recursion.
-		# 		Method paramaeters are likely to need work for the accessor.
+		# TODO: Method paramaeters are likely to need work for the accessor.
 		var_regexp = /^\s*(#{namespace})\s+var\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
 
 		# Also picks up single line methods.
@@ -455,8 +461,8 @@ class AsClassParser
 	# Returns an array. First element being the document that contains the ref. 
 	# 					Second element being the type of the reference.
 	#
-	# TODO: As this makes the assumption that we're 
-	# 		within a method. Which is in no way guaranteed.	
+	# TODO: This makes the assumption that we're  within a method, which is in 
+	#       no way guaranteed.	
 	def determine_type_locally(doc,reference)
 		
 		# Conditionals may cause problems...
@@ -499,7 +505,9 @@ class AsClassParser
 		end
 		
 		log_append("Type locally failed!? (We should not get this far).")
+		
 		return nil
+		
 	end
 	
 	# Searches both the local and global scopes for the type.
@@ -520,7 +528,17 @@ class AsClassParser
 		return determine_type_globally(doc,reference)
 	end
 	
-	# Moves to the superclass of the class doc, if there is one.
+	# Searches a propery chain for the type of the last item in the chain.
+	#
+	# So, with 'thing.foo.bar' we start searching for 'thing' in the local
+	# document, then it's superclasses, when it's type is located that 
+	# class is opened and we start searching for foo, etc, etc,
+	#
+	# Important to remember that we are searching in two directions
+	#
+	# 	horizontally along the property chain.
+	#   vertically through the class the ancestry.
+	# 
 	# doc is the current class document.
 	# items is an array of properties to check - ie, propA.propB.propC
 	def search_ancestor(doc,items,depth=0)
@@ -688,18 +706,14 @@ class AsClassParser
     
 	# List of method names.
     def methods
-        
         return if @methods.empty?
         @methods.uniq.sort
-        
     end
 	
 	# List of property names.
-	def properties
-				
+	def properties	
 		return if @properties.empty?
 		@properties.uniq.sort
-		
 	end
 	
 	# List of static property names.
@@ -744,4 +758,36 @@ class AsClassParser
 		
 	end
 
+end
+
+# Logical container for an actionscript document.
+class AsDocument
+	
+	# ActionScript document.
+	attr_accessor :doc 
+
+	# Path to the document in the filesystem.
+	attr_accessor :doc_path 
+	
+	# Type we are trying to locate within the document.
+	attr_accessor :type
+	
+end
+
+# Logical container for class members.
+class AsClassMember
+	
+	# The type/return type of the member.
+	attr_accessor :type
+
+	# The members name.
+	attr_accessor :name
+
+	# The label to use in the TextMate::UI.menu/popup.
+	attr_accessor :label
+	
+	# The raw match for the item.
+	# may contain all method paramaters.
+	attr_accessor :snippet
+		
 end
