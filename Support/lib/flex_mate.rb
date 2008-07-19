@@ -66,6 +66,15 @@ module FlexMate
  
 		end
 		
+		def snippetize_method_params(str)
+			i=0
+			str.gsub!( /\n|\s/,"")
+			str.gsub!( /([a-zA-Z0-9\:\.\*]+?)([,\)])/ ) {
+				"${" + String(i+=1) + ":" + $1 + "}" + $2
+			}
+			str
+		end
+		
 	end
 
 end   
@@ -86,5 +95,12 @@ if __FILE__ == $0
 
   puts "\nfind_sdk_src:"
   puts FlexMate.find_sdk_src
+	
+  puts "\nsnippetize_method_params:"
+  puts FlexMate.snippetize_method_params( "method(one:Number,two:String,three:*, four:Test, ...rest)")
+  puts FlexMate.snippetize_method_params( "method(one:Number,
+												  two:String,
+												  three:*,
+												  four:Test, ...rest);")
 
 end
