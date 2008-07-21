@@ -7,25 +7,27 @@ module FlexMate
 		# Fallback Search locations for the flex sdk if they are not specified in the 
 		# environmental variable TM_FLEX_SDK_SEARCH_PATHS
 		FLEX_DIRS = [ "/Developer/SDKs/flex_sdk_3",
-					   "/Developer/SDKs/flex_sdk_3.0.2",
-					   "/Applications/flex_sdk_3",
-		               "/Applications/flex_sdk_2",
-		               "/Applications/flex_sdk_2.0.1",
-					   "/Applications/FlexSDK2",
-					   "/Applications/Flex",
-					   "/Applications/FlexSDK2.0.1",
-					   "/Applications/Adobe Flex Builder 3/sdks/3.0.0",
-					   "/Applications/Adobe Flex Builder 3/sdks/2.0.1",
-					   "/Applications/Adobe Flex Builder 2/Flex SDK 2",
-					   "/Developer/Applications/Adobe Flex Builder 2/Flex SDK 2",			
-					   "/Developer/SDKs/flex_sdk_2",
-					   "/Developer/SDKs/Flex",
-					   "/Developer/SDKs/FlexSDK2",
-					   "/Developer/Applications/Flex",
-					   "/Developer/Applications/flex_sdk_2",
-					   "/Developer/Applications/FlexSDK2" ]
+					   			"/Developer/SDKs/flex_sdk_3.0.2",
+									"/Applications/flex_sdk_3",
+		              "/Applications/flex_sdk_2",
+		              "/Applications/flex_sdk_2.0.1",
+									"/Applications/FlexSDK2",
+									"/Applications/Flex",
+									"/Applications/FlexSDK2.0.1",
+									"/Applications/Adobe Flex Builder 3/sdks/3.0.0",
+									"/Applications/Adobe Flex Builder 3/sdks/2.0.1",
+									"/Applications/Adobe Flex Builder 2/Flex SDK 2",
+									"/Developer/Applications/Adobe Flex Builder 2/Flex SDK 2",			
+									"/Developer/SDKs/flex_sdk_2",
+									"/Developer/SDKs/Flex",
+									"/Developer/SDKs/FlexSDK2",
+									"/Developer/Applications/Flex",
+									"/Developer/Applications/flex_sdk_2",
+									"/Developer/Applications/FlexSDK2" ]
 
 		SDK_SRC_PATHS = [ "/frameworks/source/mx/", "/frameworks/projects/framework/src" ]
+		
+		LOG_FILE = "#{e_sh ENV['HOME']}/Library/Logs/TextMate ActionScript 3.log"
 
 		#Return the first Flex SDK directory found in the list.
 		def dir_check
@@ -69,11 +71,48 @@ module FlexMate
 		def snippetize_method_params(str)
 			i=0
 			str.gsub!( /\n|\s/,"")
-			str.gsub!( /([a-zA-Z0-9\:\.\*]+?)([,\)])/ ) {
+			str.gsub!( /([a-zA-Z0-9\:\.\*=]+?)([,\)])/ ) {
 				"${" + String(i+=1) + ":" + $1 + "}" + $2
 			}
 			str
 		end
+		
+		# initilialize / clear the log.
+		def initialize_log
+			f = File.open(LOG_FILE, "w")
+			f.close			
+		end
+		
+		def write_to_log_file(text)
+			
+			initialize_log unless File.exist?(LOG_FILE)
+			
+			# Append text.
+		  f = File.open(LOG_FILE, "a")
+		  f.puts Time.now.strftime("\n[%m/%d/%Y %H:%M:%S]") + " TextMate::ActionScript 3.tmbundle"
+		  f.puts text
+		  f.flush
+		  f.close
+		
+		end
+		
+		# Show a DIALOG 2 tool tip if dialog 2 is available.
+		# Used where a tooltip needs to be displayed in conjunction with another
+		# exit type.
+		# TODO: Move to seperate ui and extend TextMate::UI
+		def tooltip(message)
+
+			return if message.to_s == ""
+			
+			tm_dialog   = e_sh ENV['DIALOG']
+			is_dialog2  = ! tm_dialog.match(/2$/).nil?
+			
+			if is_dialog2
+				`"$DIALOG" tooltip <<< "#{message}"`
+			end
+			
+		end
+		
 		
 	end
 
@@ -97,10 +136,14 @@ if __FILE__ == $0
   puts FlexMate.find_sdk_src
 	
   puts "\nsnippetize_method_params:"
-  puts FlexMate.snippetize_method_params( "method(one:Number,two:String,three:*, four:Test, ...rest)")
+  puts FlexMate.snippetize_method_params( "method(one:Number,two:String,three:*, four:Test=10, ...rest)")
   puts FlexMate.snippetize_method_params( "method(one:Number,
 												  two:String,
 												  three:*,
 												  four:Test, ...rest);")
+
+  FlexMate.write_to_log_file("Test Text")
+
+	FlexMate.tooltip("Test Message")
 
 end

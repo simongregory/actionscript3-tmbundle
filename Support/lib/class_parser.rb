@@ -9,17 +9,16 @@ require File.dirname(__FILE__) + '/flex_mate'
 # the ancestry of a class or class member storing all of
 # its public and protected methods and properties.
 # 
-# Caveats:	A class *MUST BE FULLY* imported to be found.
-# 			Use of fully qualified names is not supported, ie var foo:a.b.Klass
-# 		   	#include files are not loaded and parsed.
-# 			Internal classes are not supported.
-# 			Code commented out may be recoginised.
+# Caveats:  Use of fully qualified names is not supported, ie var foo:a.b.Klass
+#           #include files are not loaded and parsed.
+#           Internal classes are not supported.
+#           Code commented out may be recoginised.
 #
 # TODO's: -  Interfaces support mulitple extends, collect them all.
-#  			 Extends regular expression - /extends(?:.|[\r\n])*?\{/
+#            Extends regular expression - /extends(?:.|[\r\n])*?\{/
 #         -  Casting support, so Sprite( thing ).member
 #         -  Parse method params into snippets.
-# 			 Method regexp - /\((?:.|[\r\n])*?\)/
+#            Method regexp - /\((?:.|[\r\n])*?\)/
 #            Also see store_all_class_members()
 #         -  Strip comments but retain newlines.
 #         -  Expand wildcard imports.
@@ -27,66 +26,79 @@ require File.dirname(__FILE__) + '/flex_mate'
 #         -  Correctly locate src directories, see create_src_list()
 #
 class AsClassParser
-    
-    private
-    
+	
+	private
+	
 	def initialize
 		
 		@log = ""
-		@fail_log = ""
-        
-        #Used to track how far up the class ancestory we are.
+		@exit_message = ""
+		
+		#Used to track how far up the class ancestory we are.
 		@depth = 0
 		@type_depth = 0
 		
-		@src_dirs          = ""		
-		@methods           = []	
+		#Void return type for inspected item.
+		@return_type_void = false
+		
+		@src_dirs          = ""
+		@methods           = []
 		@properties        = []
 		@privates          = []
 		@static_properties = []
-		@static_methods    = []				
+		@static_methods    = []
 		@all_members       = []
-
-		# Captures public namespaces, tightest scope for instance.
-		@pub_var_regexp    = /^\s*(public)\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-		@pub_getset_regexp = /^\s*(override\s+)?(public\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/		
-		@pub_method_regexp = /^\s*(override\s+)?(public\s+)?function\s+\b([a-z]\w+)\b\s*\((.*)\)/		
+		
+		# Captures public namespaces, tightest scope for instances.
+		ns = "public"
+		@pub_var_regexp    = /^\s*(#{ns})\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
+		@pub_getset_regexp = /^\s*(override\s+)?(#{ns}\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
+		#@pub_method_regexp = /^\s*(override\s+)?(#{ns}\s+)?function\s+\b([a-z]\w+)\b\s*\((.*)\)/
+		@pub_method_regexp = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\((.*)\)(\s*:\s*(\w+|\*))?/
+				
+		# Captures public class level members
+		ns = "public|static"
+		@pub_static_var_regexp = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/		
+		@pub_static_method_regexp = /^\s*(#{ns})\s+(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\(/
+		@pub_static_getset_regexp = /^\s*(#{ns})\s+(#{ns})\s+function\s+\b(get|set)\b\s+\b([a-z]\w+)\b\s*\(/
 		
 		# Protected access, looser capture includes public and protected namespaces 'super'.
-		@pro_var_regexp    = /^\s*(protected|public)\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-		@pro_getset_regexp = /^\s*(override\s+)?(protected|public)\s+function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/		
-		@pro_method_regexp = /^\s*(override\s+)?(protected|public)\s+function\s+\b([a-z]\w+)\b\s*\(/
-
-		@pro_static_var_regexp    = /^\s*\b(protected|public|static)\b\s+\b(protected|public|static)\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-		@pro_static_method_regexp = /^\s*\b(protected|public|static)\b\s+\b(protected|public|static)\b\s+function\s+\b([a-z]\w+)\b\s*\(/
-		@pro_static_getset_regexp = /^\s*\b(protected|public|static)\b\s+\b(protected|public|static)\b\s+function\s+\b(get|set)\b\s+([a-z]\w+)\b\s*\(/
-
+		ns = "protected|public"
+		@pro_var_regexp    = /^\s*(#{ns})\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
+		@pro_getset_regexp = /^\s*(override\s+)?(#{ns})\s+function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
+		#@pro_method_regexp = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\(/
+		@pro_method_regexp = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\((.*)\)(\s*:\s*(\w+|\*))?/
+				
+		ns = "protected|public|static"
+		@pro_static_var_regexp    = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
+		@pro_static_method_regexp = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+function\s+\b([a-z]\w+)\b\s*\(/
+		@pro_static_getset_regexp = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+function\s+\b(get|set)\b\s+([a-z]\w+)\b\s*\(/
+		
 		# Private access, the widest scope, captures all namespaces.
-		@pri_var_regexp    = /^\s*(private|protected|public)\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-		@pri_getset_regexp = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/		
-		@pri_method_regexp = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b([a-z]\w+)\b\s*\((.*\)\s*:\s*(\w+|\*))?/
+		ns = "private|protected|public"
+		@pri_var_regexp    = /^\s*(#{ns})\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
+		@pri_getset_regexp = /^\s*(override\s+)?(#{ns})\s+function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/		
+		@pri_method_regexp = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\((.*)\)(\s*:\s*(\w+|\*))?/
 		
-		@constructor_regexp = /^\s*public\s+function\s+\b([A-Z]\w+)\b\s*\(/
-		
-		#@pri_method_regexp_multiline = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b([a-z]\w+)\b\s*\((?m:[^)]+)\)\s*:\s*(\w+)/
-
-		@pri_static_var_regexp    = /^\s*\b(private|protected|public|static)\b\s+\b(private|protected|public|static)\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-		@pri_static_method_regexp = /^\s*\b(private|protected|public|static)\b\s+\b(private|protected|public|static)\b\s+function\s+\b([a-z]\w+)\b\s*\(/
-		@pri_static_getset_regexp = /^\s*\b(private|protected|public|static)\b\s+\b(private|protected|public|static)\b\s+function\s+\b(get|set)\b\s+([a-z]\w+)\b\s*\(/
-								
-		# Captures public class level members
-		@pub_static_var_regexp = /^\s*\b(public|static)\b\s+\b(static|public)\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/		
-		@pub_static_method_regexp = /^\s*(public|static)\s+(static|public)\s+function\s+\b([a-z]\w+)\b\s*\(/
-		@pub_static_getset_regexp = /^\s*(public|static)\s+(static|public)\s+function\s+\b(get|set)\b\s+\b([a-z]\w+)\b\s*\(/
-		
-		#Type detection captures.
+		ns = "private|protected|public|static"
+		@pri_static_var_regexp    = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
+		@pri_static_method_regexp = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+function\s+\b([a-z]\w+)\b\s*\(/
+		@pri_static_getset_regexp = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+function\s+\b(get|set)\b\s+([a-z]\w+)\b\s*\(/
+				
+		# Type detection captures.
 		@extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/
 		@private_class_regexp = /^class\b/
+		
+		# Constructors.
+		@constructor_regexp = /^\s*public\s+function\s+\b([A-Z]\w+)\b\s*\(/
+		
+		#TODO
+		#@method_regexp_multiline = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b([a-z]\w+)\b\s*\((?m:[^)]+)\)\s*:\s*(\w+)/
 		
 		create_src_list()
 		
     end
-    
+	
 	# Property/Method Capture.
 	
 	# Storage caputure filters based on the scope of the
@@ -97,9 +109,9 @@ class AsClassParser
 
 		return if doc == nil
 
-		log_append( "Adding level " + @depth.to_s )
+		log_append( "Adding local (ppp)" + @depth.to_s )
 		
-		# method_scans = []
+		#method_scans = []
 		
 		doc.each do |line|
 			
@@ -108,15 +120,16 @@ class AsClassParser
 			elsif line =~ @pri_method_regexp
 				
 				# Based off the the $4 th match we can determine wheter or not the
-				# method prams are mulit-line or not. If they are we need to come
-				# back and search again.
-				#if $4 != nil
-				#	@methods << "#{$3.to_s}(#{$4.to_s})"
-				#elsif $5 != nil
-				#	@methods << $3.to_s + "():" + $5.to_s
-				#end
-				
-				@methods << $3.to_s + "()"
+				# method prams are mulit-line or not. If they are we need to store
+				# the method name and use a scan search after we have been through
+				# line by line.
+				if $6 != nil and $4 != nil
+					@methods << "#{$3.to_s}(#{$4.to_s}):#{$6.to_s}"					
+				elsif $4 != nil
+					@methods << "#{$3.to_s}(#{$4.to_s})"				
+				else
+					@methods << "#{$3.to_s}()"
+				end
 				
 			elsif line =~ @pri_getset_regexp
 			    @properties << $4.to_s
@@ -148,14 +161,23 @@ class AsClassParser
 	    
 	    return if doc == nil
 
-		log_append( "Adding level " + @depth.to_s )
+		log_append( "Adding ancestor (pp) " + @depth.to_s )
 
 		doc.each do |line|
 			
 			if line =~ @pro_var_regexp
 		  		@properties << $2.to_s  
 			elsif line =~ @pro_method_regexp				
-			    @methods << $3.to_s + "()" 
+			    #@methods << $3.to_s + "()" 
+				
+				if $6 != nil and $4 != nil
+					@methods << "#{$3.to_s}(#{$4.to_s}):#{$6.to_s}"					
+				elsif $4 != nil
+					@methods << "#{$3.to_s}(#{$4.to_s})"				
+				else
+					@methods << "#{$3.to_s}()"
+				end
+			
 			elsif line =~ @pro_getset_regexp
 			    @properties << $4.to_s
 			elsif line =~ @pro_static_getset_regexp
@@ -178,7 +200,7 @@ class AsClassParser
 
 		return if doc == nil
 
-		log_append( "Adding level " + @depth.to_s )
+		log_append( "Adding ancestor (p)" + @depth.to_s )
 		
 		doc.each do |line|
 			
@@ -186,14 +208,22 @@ class AsClassParser
 		  		@properties << $2.to_s  
 			elsif line =~ @pub_getset_regexp
 			    @properties << $4.to_s
-			elsif line =~ @pub_method_regexp
-			    
+			elsif line =~ @pub_method_regexp			    
+				
 				#if $4 != nil
-				#	@methods << $3.to_s + "(#{$4.to_s})"
+				#	@methods << "#{$3.to_s}(#{$4.to_s})"
 				#else
-					@methods << $3.to_s + "()"
+				#   @methods << $3.to_s + "()"
 				#end
-
+				
+				if $6 != nil and $4 != nil
+					@methods << "#{$3.to_s}(#{$4.to_s}):#{$6.to_s}"					
+				elsif $4 != nil
+					@methods << "#{$3.to_s}(#{$4.to_s})"				
+				else
+					@methods << "#{$3.to_s}()"
+				end
+				
 		    elsif line =~ @private_class_regexp
 		        break
 			end
@@ -224,18 +254,24 @@ class AsClassParser
 		
 	end
 	
-	# UI Menu Utilities.
-	
-	# Add items to full list of captured class members.
-	# Constructs a list by adding 
-	def add_to_all_members(items_to_add)
-	    return if items_to_add == nil
-	    if items_to_add.size > 0
-	        @all_members.push('-') if @all_members.size > 0
-	        @all_members = @all_members + items_to_add
-	    end
+	def add_object
+
+		# public var 
+		@properties << "constructor:Object"
+		
+		# static var
+		@static_properties << "prototype:Object"
+		
+		# Methods.
+		@methods << "hasOwnProperty(name:String):Boolean"
+		@methods << "isPrototypeOf(theClass:Object):Boolean"
+		@methods << "propertyIsEnumerable(name:String):Boolean"
+		@methods << "setPropertyIsEnumerable(name:String,isEnum:Boolean=true):void"
+		@methods << "toString():String"
+		@methods << "valueOf():Object"
+		
 	end
-	
+		
 	# Document Loaders.
 	
 	# Loads and returns the superclass of the supplied doc.	
@@ -251,15 +287,22 @@ class AsClassParser
 		# If we match then convert the import to a file reference.
 		if $7 != nil
 			parent_path = imported_class_to_file_path(doc,$7)
-			log_append("Loading super class '#{$7}' '#{parent_path}'.")
+			log_append("Loading super class '#{$7}' '#{parent_path[0]}'.")
 			return load_class( parent_path )
 		end
 		
+		# ActionScript 3 makes extending object's optional in the code but the 
+		# complier always does it. So add object.		
+		doc.scan(/^\s*(public dynamic class Object)/)
+		
+		return load_class( ["Object.as"]) unless $1 
+			
 		return nil
+		
 	end
 	
 	# Adds all class members to our lists.
- 	def add_doc(doc)
+	def add_doc(doc)
 		
 		return if doc == nil
 		
@@ -271,9 +314,9 @@ class AsClassParser
 		add_public_and_protected(next_doc)
 		
  	end
- 	
+	
 	# Adds all public and protected methods and properties to our lists.
- 	def add_public_and_protected(doc)
+	def add_public_and_protected(doc)
  	    
  	    return if doc == nil
 		
@@ -285,7 +328,7 @@ class AsClassParser
     end
 	
 	# Adds all public instance methods and properties to our lists.
- 	def add_public(doc)
+	def add_public(doc)
 		
 		return if doc == nil
 		
@@ -299,7 +342,7 @@ class AsClassParser
 	# Path finding.
 	
 	# Collects all of the src directories into a list.
-    # The resulting list of dirs is then used when 
+	# The resulting list of dirs is then used when 
 	# locating source files.
 	def create_src_list
 		
@@ -311,22 +354,29 @@ class AsClassParser
 		
 		# Check once for existence here as we will save repeated 
 		# checks later (whilst walking up the heirarchy).
-		@src_dirs += "#{bun_sup}/intrinsic\n" if File.directory?("#{bun_sup}/intrinsic")
-		@src_dirs += "#{bun_sup}/frameworks/air\n" if File.directory?("#{bun_sup}/frameworks/air")
-		@src_dirs += "#{bun_sup}/frameworks/flash_ide\n" if File.directory?("#{bun_sup}/frameworks/flash_ide")
-		@src_dirs += "#{bun_sup}/frameworks/flash_cs3\n" if File.directory?("#{bun_sup}/frameworks/flash_cs3")
+		add_src_dir("#{bun_sup}/intrinsic")
+		add_src_dir("#{bun_sup}/frameworks/air")
+		add_src_dir("#{bun_sup}/frameworks/flash_ide")
+		add_src_dir("#{bun_sup}/frameworks/flash_cs3")
 		
 		# Where we have access to the compressed flex 3 files use them, 
 		# otherwise go looking for the sdk.
-		if File.directory?("#{bun_sup}/frameworks/flex_3")
-			@src_dirs += "#{bun_sup}/frameworks/flex_3\n"
-		else		
+		unless add_src_dir("#{bun_sup}/frameworks/flex_3")					
 			fx = FlexMate.find_sdk_src			
 			@src_dirs += fx if fx != nil
 		end
 		
  	end
-			
+	
+	# Helper for create_src_list
+	def add_src_dir(path)
+		if File.directory?(path)
+			@src_dirs += "#{path}\n"
+			return true
+		end
+		return false
+	end
+	
 	# Finds the class in the filesystem.
 	# If successful the class is loaded and returned.
 	# paths is an array of relative class paths.
@@ -339,7 +389,7 @@ class AsClassParser
 				uri = d.chomp + "/" + path.chomp
 				#FIX: The assumption that we'll only find one match.
 				if File.exists?(uri)
-					log_append("Opening #{uri}.")
+					#log_append("Opening #{uri}.")
 					f = File.open(uri,"r" ).read.strip
 					return strip_comments(f)
 				end
@@ -350,7 +400,7 @@ class AsClassParser
 		
 		as_file = File.basename(paths[0])
 		
-		@fail_log = "#{as_file} 404."
+		@exit_message = "#{as_file} 404."
 		
 		log_append("Unable to load #{as_file}")
 		
@@ -387,7 +437,7 @@ class AsClassParser
 
 		unless $1 == nil
 			p = $1.gsub(".","/")+".as"
-			log_append("Class found as import '#{p}'")
+			#log_append("Class found as import '#{p}'")
         	return possible_paths << p
 		end
 		
@@ -411,8 +461,10 @@ class AsClassParser
 	# Type Locating Commands
 	
 	# Searches a document for the type of the specified property.
-	# Returns an array. First element being the document that contains the ref. 
-	# 					Second element being the type of the reference.
+	#
+	# Returns an array. 
+	# First element being the document that contains the ref. 
+	# Second element being the type of the reference.
 	def determine_type_globally(doc,reference)
 		
 		return if doc == nil
@@ -429,9 +481,6 @@ class AsClassParser
 
 		# TODO: Method paramaeters are likely to need work for the accessor.
 		var_regexp = /^\s*(#{namespace})\s+var\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
-
-		# Also picks up single line methods.
-		get_regexp = /^\s*(#{namespace})\s+function\s+(\b(get)\b\s+)?\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
 				 
 		doc.scan(var_regexp)		
 		if $3 != nil
@@ -439,10 +488,14 @@ class AsClassParser
 		    return [doc,$3]
 	    end
 	
+		# Also picks up single line methods.
+		get_regexp = /^\s*(#{namespace})\s+function\s+(\b(get)\b\s+)?\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/	
+
 		doc.scan(get_regexp)		
 		if $6 != nil
 			if $6 == "void"
-				@fail_log = "void"
+				@return_type_void = true
+				log_append("Return Type determined as '#{$6}' (void) in global scope.")
 				return nil
 			end
 		    log_append("Type determined as '#{$6}' in global scope.")
@@ -458,8 +511,10 @@ class AsClassParser
 	end
 
 	# Searches the local scope for a var declaration
-	# Returns an array. First element being the document that contains the ref. 
-	# 					Second element being the type of the reference.
+	#
+	# Returns an array.
+	# First element being the document that contains the ref. 
+	# Second element being the type of the reference.
 	#
 	# TODO: This makes the assumption that we're  within a method, which is in 
 	#       no way guaranteed.	
@@ -540,17 +595,18 @@ class AsClassParser
 	#   vertically through the class the ancestry.
 	# 
 	# doc is the current class document.
-	# items is an array of properties to check - ie, propA.propB.propC
-	def search_ancestor(doc,items,depth=0)
+	# property_chain is an array of properties to check - ie, propA.propB.propC
+	def search_ancestor(doc,property_chain,depth=0)
 		
-		find_type = items.shift
+		find_type = property_chain.shift	
+		find_type = property_chain.shift if find_type =~ /this/
 		
 		if find_type =~ /(\s*(\w+\s*)?)\(.*\)/
-			log_append("Stripped method call #{$1} #{find_type}")
+			#log_append("Stripped method call #{$1} #{find_type}")
 			find_type = $1
 		end
 		
-		if items.size == 0
+		if property_chain.size == 0
 									
 			# Reached the last item in the list.
 			type = determine_type_at_level(doc,find_type,depth)
@@ -576,7 +632,7 @@ class AsClassParser
 			
 			child_doc = load_class(path)
 				
-			return search_ancestor(child_doc,items, depth+=1)
+			return search_ancestor(child_doc,property_chain, depth+=1)
 			
 		end
 		
@@ -586,26 +642,21 @@ class AsClassParser
 	def log_append(message)
 		@log += message + "\n"
 	end
-    	
-    public
-    
-	# String to show in tooltip when the parsing has failed.
-	def fail_log
-		@fail_log
-	end
-    
+	
+	public
+	
 	# Input Commands
 	
-    # Loads a full instance or class level member list for the class
+	# Loads a full instance or class level member list for the class
 	# document using the reference to determine the type of the class.
-    def load(doc,reference)
+	def load(doc,reference)
 		
 		# Set our depth counters to defaults.
-        @depth = 0
+		@depth = 0
 		@type_depth = 0
 		
-		doc = strip_comments(doc)        
-	
+		doc = strip_comments(doc)
+		
 		# Class Members.
 		if reference =~ /^([A-Z]|\b(uint|int|arguments)\b)/
 			
@@ -615,37 +666,39 @@ class AsClassParser
 			path = imported_class_to_file_path(doc,reference)
 			log_append( "Processing #{reference} as static. #{path}" )
 			store_static_members( load_class(path) )
-
+			
 		# Super Instance Members.
 		elsif reference =~ /^super$/
-
-			log_append("Processing #{reference} as a super class.")			
+			
+			log_append("Processing #{reference} as a super class.")
 			super_class = load_parent(doc)
 			@depth = 1
 			add_public_and_protected(super_class)
-
+			
 		# This Instance Members.
 		elsif reference =~ /^(this)?$/
-
-            log_append("Processing as '#{reference}'.")
-			add_doc(doc)            
-            
+			
+			log_append("Processing as '#{reference}'.")
+			add_doc(doc)
+			
 		# Instance Members.
 		else
 			
-            log_append("Processing '#{reference}' as an instance.")
-            
+			log_append("Processing '#{reference}' as an instance.")
+			
 			type = determine_type(doc,reference)
 			
 			if type != nil
 
 				path = imported_class_to_file_path(type[0],type[1])
 				cdoc = load_class(path)
-				add_public(cdoc) if cdoc != nil
-								
+				if cdoc != nil
+					add_public(cdoc)
+				end
+			
 			else
-				
-			    log_append("Failed to locate type of '#{reference}'.")
+			
+				log_append("Failed to locate type of '#{reference}'.")
 			
 			end
 			
@@ -653,7 +706,7 @@ class AsClassParser
 		
 		# TODO: Check type of method return statements.
 		
-    end
+	end
 	
 	# Attempts to find the type of the reference within the doc.
 	def determine_type(doc,reference)
@@ -680,16 +733,42 @@ class AsClassParser
 		# Instance Members.
 		else
 			            
-            log_append("Determining type of '#{reference}'.")
-            
-			items = [reference]
+      log_append("Determining type of '#{reference}'.")
 			
-			cl = ENV['TM_CURRENT_LINE']
+			cl = "#{ENV['TM_CURRENT_LINE']}"
+
+			# TODO: Fix these cases 
+			#
+			#     reference = addEventListener()			
+			# 		reference = initialize )
+			# 		stage.addEventListener( Event.ENTER_FRAME, initialize ).anotherMethod( )
+			#
+			# where the method paramaters confuse the property chain.
+			# Where the reference includes a )
+			
+			if reference.match(/[^(]\s*\)$/)
+				
+				@exit_message = "Paramaterised method calls are on the TODO list."
+				return nil
+			#	reference = reference.gsub(/\(|\)/,"")
+			#	# Find the method name prior to the parameters.
+			#	if /\b(\w+)\s*\(.*#{reference}/ =~ cl
+			#		reference = $1
+			#		log_append("REF #{$1}")
+			#	end
+			#	#strip all bracket contents on the line.
+			#	cl.gsub!( /\(.*\)/, "()")
+			#	
+			end
+            
+			property_chain = [reference]
+			
 			if /\s+(\b.*\.\b#{reference}\b)/ =~ cl												
-				items = $1.split(".")
-			end			
-			log_append("Ancestor list: "+items.join(", "))
-			return search_ancestor(doc,items)
+				property_chain = $1.split(".")
+			end
+			
+			log_append("Ancestor list: "+property_chain.join(", "))
+			return search_ancestor(doc,property_chain)
 			
 		end
 		
@@ -702,92 +781,47 @@ class AsClassParser
 		return nil
 	end
 	
-    # Ouput Commands
+	# Ouput Commands
     
 	# List of method names.
-    def methods
-        return if @methods.empty?
-        @methods.uniq.sort
-    end
+	def methods
+		return if @methods.empty?
+		@methods.uniq.sort
+	end
 	
 	# List of property names.
-	def properties	
+	def properties
 		return if @properties.empty?
 		@properties.uniq.sort
 	end
 	
 	# List of static property names.
 	def static_properties
-        return if @static_properties.empty?
+		return if @static_properties.empty?
 		@static_properties.uniq.sort		
 	end
 	
 	# List of static method names.
 	def static_methods
-       return if @static_methods.empty?	    
-	   @static_methods.uniq.sort
+		return if @static_methods.empty?	    
+		@static_methods.uniq.sort
 	end
-	
-	# Full list of all class and superclass methods.
-	def members
-		@all_members = []		
-		add_to_all_members(properties)
-		add_to_all_members(methods)
-		add_to_all_members(static_properties)
-		add_to_all_members(static_methods)
-		return @all_members
-	end
-	
-	# String of log messages.
+		
+	# Log messages.
 	def log
 		@log
 	end
-	
-	# Print log to the system log file.
-	def to_syslog
-		
-		require 'syslog'
-        
-		Syslog.open('tm-as3')
-		Syslog.crit('-->')
-		@log.split("\n").each do |line|
-			Syslog.crit(line)
-		end
-		Syslog.crit('<--')
-		Syslog.close()
-		
+
+	# String to show in tooltip when the parsing has failed.
+	def exit_message
+		@exit_message
 	end
-
-end
-
-# Logical container for an actionscript document.
-class AsDocument
 	
-	# ActionScript document.
-	attr_accessor :doc 
-
-	# Path to the document in the filesystem.
-	attr_accessor :doc_path 
-	
-	# Type we are trying to locate within the document.
-	attr_accessor :type
+	# Boolean set to true when a memeber is discovered as having a void return
+	# type.
+	def return_type_void
+		@return_type_void
+	end
 	
 end
 
-# Logical container for class members.
-class AsClassMember
-	
-	# The type/return type of the member.
-	attr_accessor :type
-
-	# The members name.
-	attr_accessor :name
-
-	# The label to use in the TextMate::UI.menu/popup.
-	attr_accessor :label
-	
-	# The raw match for the item.
-	# may contain all method paramaters.
-	attr_accessor :snippet
-		
-end
