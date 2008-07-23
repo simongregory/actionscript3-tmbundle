@@ -113,6 +113,15 @@ module FlexMate
 			
 		end
 		
+		def check_for_leopard
+			
+			os = `defaults read /System/Library/CoreServices/SystemVersion ProductVersion`
+			
+			return true if os =~ /10\.5\./
+			return false
+			
+		end
+		
 		
 	end
 
@@ -144,6 +153,10 @@ if __FILE__ == $0
 
   FlexMate.write_to_log_file("Test Text")
 
+	print "\ncheck_for_leopard: "
+	puts FlexMate.check_for_leopard
+
 	FlexMate.tooltip("Test Message")
+   
 
 end

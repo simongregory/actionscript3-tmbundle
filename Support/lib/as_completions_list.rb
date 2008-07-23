@@ -22,7 +22,8 @@ class AsCompletionsList
 	    if items.size > 0		
 	        add_seperator if @m.size > 0
 	        items.each do |i|
-				@m << menu_item(i)
+				mi = menu_item(i)
+				@m << mi unless mi == nil
 			end			
 	    end
 	
@@ -33,7 +34,8 @@ class AsCompletionsList
 	    if items.size > 0
 	        add_seperator if @m.size > 0
 			items.each do |i|
-				@m << method_item(i)
+				mi =  method_item(i)
+				@m << mi unless mi == nil
 			end
 	    end
 	end
@@ -43,22 +45,37 @@ class AsCompletionsList
 	end	
 	
 	def menu_item member
+		return nil if member == ""
 		{ 'title' => member, 'data' => member.to_s }
 	end
 	
 	def method_item member
+
+		return nil if member == ""
 		
 		if member =~ /(\b\w+)\s*\((.*)\)(\s*:\s*(\w+|\*))?/
 			title = $1 + "()"
 			typeof = $4 == nil ? "" : $4
 			data = $1+"("+$2+")"
 		end
-
-		{ 'title' => title, 'data' => data, 'typeof' => typeof  }
+    
+		return nil if title.to_s == ""
+	  { 'title' => title, 'data' => data, 'typeof' => typeof  }
 		
 	end
 	
+	def list_to_log
+		list.each do |o|
+			puts "Title: '" 	+ o['title'].to_s		+ "'"
+			puts "Data: '" 		+ o['data'].to_s 		+ "'"
+			puts "Typeof: '" 	+ o['typeof'].to_s 	+ "'"
+		end
+	end
+	
 end
+
+
+
 
 =begin rdoc
 
