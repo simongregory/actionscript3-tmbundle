@@ -95,8 +95,8 @@ class AsClassParser
 				# method prams are mulit-line or not. If they are we need to store
 				# the method name and use a scan search after we have been through
 				# line by line.
-				if $6 != nil and $4 != nil
-					@methods << "#{$3.to_s}(#{$4.to_s}):#{$6.to_s}"
+				if $7 != nil and $4 != nil
+					@methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
 				elsif $4 != nil
 					@methods << "#{$3.to_s}(#{$4.to_s})"
 				else
@@ -144,8 +144,8 @@ class AsClassParser
 				
 			elsif line =~ @pro.methods
 				
-				if $6 != nil and $4 != nil
-					@methods << "#{$3.to_s}(#{$4.to_s}):#{$6.to_s}"
+				if $7 != nil and $4 != nil
+					@methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
 				elsif $4 != nil
 					@methods << "#{$3.to_s}(#{$4.to_s})"
 				else
@@ -179,11 +179,11 @@ class AsClassParser
 
 		doc.each do |line|
 
-		if line =~ @pub.vars
-	  		@properties << $2.to_s
-		elsif line =~ @pub.getsets
-		    @properties << $4.to_s
-		elsif line =~ @pub.methods
+			if line =~ @pub.vars
+	  			@properties << $2.to_s
+			elsif line =~ @pub.getsets
+			    @properties << $4.to_s
+			elsif line =~ @pub.methods
 
 			#if $4 != nil
 			#	@methods << "#{$3.to_s}(#{$4.to_s})"
@@ -191,16 +191,17 @@ class AsClassParser
 			#   @methods << $3.to_s + "()"
 			#end
 
-			if $6 != nil and $4 != nil
-				@methods << "#{$3.to_s}(#{$4.to_s}):#{$6.to_s}"
+			if $7 != nil and $4 != nil
+				@methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
 			elsif $4 != nil
 				@methods << "#{$3.to_s}(#{$4.to_s})"
 			else
 				@methods << "#{$3.to_s}()"
 			end
 
-		elsif line =~ @private_class_regexp
-			break
+			elsif line =~ @private_class_regexp
+				break
+				
 		end
 
 		end
@@ -820,7 +821,7 @@ class AsRegexObject
 		else
 
 			@vars 	 = /^\s*(#{ns})\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-			@methods = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\((.*)\)(\s*:\s*(\w+|\*))?/
+			@methods = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\((.*)(\)(\s*:\s*(\w+|\*))?)?/
 			@getsets = /^\s*(override\s+)?(#{ns}\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
 
 		end
