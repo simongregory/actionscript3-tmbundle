@@ -59,6 +59,7 @@ class AsClassParser
 
 		# Type detection captures.
 		@extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/
+		@interface_extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+\b((?m:.*))\{/
 		@private_class_regexp = /^class\b/
 
 		# Constructors.
@@ -255,9 +256,22 @@ class AsClassParser
 
 		# Scan evidence of a superclass.
 		doc.scan(@extends_regexp)
-
+		
 		if $4 == "interface"
+			
 			log_append( "WARNING: Interfaces with more than one ancestor are not supported." )
+			
+			#doc.scan(@interface_extends_regexp)
+			#
+			#if $7
+			#	
+			#	extending = $7.gsub!(/\n|\s/,'').split(",")
+			#	ex_str = extending.join("\n")
+			#	
+			#	log_append( "WARNING: Interfaces with more than one ancestor are not supported.\n These interfaces could be missing from the output\n #{ex_str} \n\n" )
+			#	
+			#end
+			
 		end
 
 		# If we match then convert the import to a file reference.
@@ -267,8 +281,8 @@ class AsClassParser
 			return load_class( parent_path )
 		end
 
-		# ActionScript 3 makes extending object's optional in the code but the
-		# complier always does it. So add object.
+		# ActionScript 3 makes extending object's optional when writing code. 
+		# However all classes are decendants of Object, so add it here.
 		doc.scan(/^\s*(public dynamic class Object)/)
 
 		return load_class( ["Object.as"]) unless $1
