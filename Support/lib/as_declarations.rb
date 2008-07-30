@@ -13,7 +13,7 @@ as3_doc = ENV['TM_ASDOC_GENERATION']
 @interface_getter = "function get ${1:name}():${2:Object};$0"
 @interface_setter = "function set ${1:name}(value:${2:Object}):void;$0"
 @method    = " function ${1:name}($2):${3:void}\n{\n\t$0${3/void$|(.+)/(?1:return null;)/}\n}"
-@override  = "override ${1:public} function ${2:methodName}($3):${4:void} {\n\tsuper.${2:methodName}();\n\t$0${4/void$|(.+)/(?1:return null;)/}\n}"
+@override  = "override ${1:public} function ${2:methodName}($3):${4:void}\n{\n\tsuper.${2:methodName}();\n\t$0${4/void$|(.+)/(?1:return null;)/}\n}"
 @getter    = " function get ${1:name}():${2:Object}{\n\treturn ${3:_$1};\n}$0"
 @setter    = " function set ${1:name}(value:${2:Object}):void {\n\t${3:_$1} = value;\n}$0"
 @variable  = " var _${1:variableName}:${2:Object};"
@@ -178,11 +178,12 @@ def override_method
     
 	m = @override
 
-    if @include_docs
-        m = @inherit_doc + "\n" + m
-    end
+  if @include_docs
+      m = @inherit_doc + "\n" + m
+  end
+  
+  return m
 
-    return m    
 end
 
 def final_method
