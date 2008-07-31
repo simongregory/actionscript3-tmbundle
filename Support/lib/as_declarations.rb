@@ -193,11 +193,11 @@ end
 # Getters
 
 def getter
-    add_private_doc(@getter)
+    add_private_doc("public"+@getter)
 end
 
 def setter
-    add_private_doc(@setter)
+    add_private_doc("public"+@setter)
 end
 
 def interface_getter
