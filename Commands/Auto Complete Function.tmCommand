@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -7,11 +7,7 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-SUPPORT = ENV['TM_SUPPORT_PATH']
-
-require SUPPORT + '/lib/escape'
-require SUPPORT + '/lib/exit_codes'
-require SUPPORT + '/lib/ui'
+require ENV['TM_BUNDLE_SUPPORT'] + '/lib/flex_env'
 
 words = `grep "^$TM_CURRENT_WORD" "$TM_BUNDLE_PATH/support/data/completions.txt"`.split("\n")
 TextMate.exit_show_tool_tip "No completion available" if words.empty?
@@ -28,10 +24,7 @@ end
 
 snip = choice[ENV['TM_CURRENT_WORD'].length..-1]
 
-i=0
-print snip.gsub( /([a-zA-Z0-9\:\.]+?)([,\)])/ ) {
-	"${" + String(i+=1) + ":" + $1 + "}" + $2
-}</string>
+print FlexMate.snippetize_method_params(snip)</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
