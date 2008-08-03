@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Symbol List: Hide Scopes</string>
+	<string>Symbol List: Hidden</string>
 	<key>scope</key>
 	<string>entity.name.type.meta-data.actionscript.3, meta.definition.class.implements.actionscript.3 entity.name.type.class.actionscript.3, meta.definition.class.extends.actionscript.3 entity.name.type.class.actionscript.3, entity.name.type.package.actionscript.3</string>
 	<key>settings</key>
