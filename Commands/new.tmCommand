@@ -7,11 +7,7 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
-BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
-
-require SUPPORT + '/lib/exit_codes'
-require BUN_SUP + '/lib/class_parser'
+require ENV['TM_BUNDLE_SUPPORT'] + '/lib/flex_env'
 
 current_line = ENV['TM_CURRENT_LINE']
 type_match = /^.*\b(\w+)\b\s*=/
@@ -43,9 +39,7 @@ end
 words = `grep "^#{class_type}\(" "$TM_BUNDLE_PATH/support/data/completions.txt"`.split("\n")
 if words.size == 1
 	i=0
-	snip = "new " + words[0].gsub( /([a-zA-Z0-9\:\.]+?)([,\)])/ ) {
-		"${" + String(i+=1) + ":" + $1 + "}" + $2
-	}
+	snip = "new " + FlexMate.snippetize_method_params(words[0])
 else
 	snip = "new ${1:#{class_type}}($2);$0"
 end
