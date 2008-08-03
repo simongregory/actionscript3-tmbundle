@@ -14,16 +14,8 @@ require File.dirname(__FILE__) + '/flex_mate'
 #           Internal classes are not supported.
 #           Code commented out may be recoginised.
 #
-# TODO's: -  Interfaces support mulitple extends, collect them all.
-#            Extends regular expression - /extends(?:.|[\r\n])*?\{/
-#         -  Casting support, so Sprite( thing ).member
-#         -  Parse method params into snippets.
-#            Method regexp - /\((?:.|[\r\n])*?\)/
-#            Also see store_all_class_members()
-#         -  Strip comments but retain newlines.
-#         -  Expand wildcard imports.
+# TODO's: -  Casting support, so Sprite( thing ).member
 #         -  Check type of return statements.
-#         -  Correctly locate src directories, see create_src_list()
 #
 class AsClassParser
 
@@ -142,8 +134,22 @@ class AsClassParser
 					@methods << "#{meth}(): #{$4}"
 				end
 			end
-		end
-		
+		end		
+	end
+	
+	def store_multiline_interface_methods(doc,method_refs)
+		method_refs.each do |meth|
+			method_multiline = /^\s*function\s+\b#{meth}\b\s*\(((?m:[^)]+))\)\s*:\s*(\w+)/
+			doc.scan( method_multiline )
+			if $2 != nil				
+				if $1 != nil					
+					params = $1.gsub(/(\s|\n)/,"")
+					@methods << "#{meth}(#{params}): #{$2}"
+				else
+					@methods << "#{meth}(): #{$2}"
+				end
+			end
+		end		
 	end
 
 	def store_public_and_protected_class_members(doc)
@@ -220,6 +226,33 @@ class AsClassParser
 
 	end
 
+	def store_interface_members(doc)
+
+		return if doc == nil
+
+		log_append( "Adding ancestor (i)" + @depth.to_s )
+		
+		method_scans = []
+		doc.each do |line|
+
+			if line =~ @i_face.getsets
+			    @properties << $2.to_s
+			elsif line =~ @i_face.methods
+				if $5 != nil and $2 != nil
+					@methods << "#{$1.to_s}(#{$2.to_s}):#{$5.to_s}"
+				else
+					method_scans << $1
+				end		
+			end
+			
+		end
+		
+		store_multiline_interface_methods(doc,method_scans)
+		
+		@depth += 1
+
+	end
+	
 	def store_static_members(doc)
 
 		return if doc == nil
@@ -250,10 +283,6 @@ class AsClassParser
 		# Scan evidence of a superclass.
 		doc.scan(@extends_regexp)
 		
-		if $4 == "interface"			
-			return load_parents(doc)		
-		end
-		
 		# If we match then convert the import to a file reference.
 		if $7 != nil
 			possible_parent_paths = imported_class_to_file_path(doc,$7)
@@ -270,33 +299,7 @@ class AsClassParser
 		return nil
 
 	end
-	
-	# When processing interfaces we may need to load multiple parents.
-	def load_parents(doc)
 		
-		doc.scan(@interface_extends_regexp)
-		
-		if $7
-			
-			extending = $7.gsub(/\n|\s/,'').split(",")
-			ex_str = extending.join("\n")
-			
-			log_append("WARNING: Interfaces with more than one ancestor are not supported.")
-			log_append("These interfaces could be missing from the output\n #{ex_str} \n\n" )
-			
-			unless extending.empty?
-
-				#TODO: Load all the references found in extending.
-				possible_extend_class_paths = imported_class_to_file_path(doc,extending[0])				
-				return load_class(possible_extend_class_paths)
-				
-			end
-		end
-		
-		return nil;
-		
-	end
-
 	# Adds all class members to our lists.
 	def add_doc(doc)
 
@@ -333,6 +336,55 @@ class AsClassParser
 		next_doc = load_parent(doc)
 		add_public(next_doc)
 
+	end
+	
+	# Adds all interface methods and properties to our lists.
+	def add_interface(doc)
+
+		return if doc == nil
+		
+		store_interface_members(doc)
+
+		next_docs = load_interface_parents(doc)
+		
+		unless next_docs == nil or next_docs.empty?
+			next_docs.each { |d| add_interface(d) }
+		end
+
+	end
+
+	# When processing interfaces we may need to load multiple parents.
+	def load_interface_parents(doc)
+		
+		doc.scan(@interface_extends_regexp)
+		
+		if $7
+			
+			extending = $7.gsub(/\n|\s/,'').split(",")
+			ex_str = extending.join("\n")
+			
+			#log_append("WARNING: Interfaces with more than one ancestor are not supported.")
+			#log_append("These interfaces could be missing from the output\n #{ex_str} \n\n" )
+			
+			unless extending.empty?
+
+				#TODO: Load all the references found in extending.
+				exteding_interfaces = []
+				
+				extending.each do |ext|
+					p = imported_class_to_file_path(doc,ext)
+					log_append(p)
+					c = load_class(p)
+					exteding_interfaces << c if c != nil
+				end
+				 
+				return exteding_interfaces unless exteding_interfaces.empty?
+				
+			end
+		end
+		
+		return nil;
+		
 	end
 
 	# ================
@@ -374,7 +426,7 @@ class AsClassParser
 		return false
 	end
 
-	# Finds the class in the filesystem.
+	# Finds the class in the file system.
 	# If successful the class is loaded and returned.
 	# paths is an array of relative class paths.
 	def load_class(paths)
@@ -469,6 +521,15 @@ class AsClassParser
 
 	end
 	
+	# Determines whether or not the supplied document is an interface.
+	def is_interface(doc)
+		doc.scan(@extends_regexp)
+		if $4 == "interface"
+			return true
+		end
+		return false
+	end	
+	
 	# ==========================
 	# = Type Locating Commands =
 	# ==========================
@@ -554,7 +615,7 @@ class AsClassParser
 
 				return [doc,$2]
 
-			elsif txt =~ @pri_method_regexp
+			elsif txt =~ @pri.methods
 
 				# When we hit a method statement exit.
 				log_append( "Type not located locally." )
@@ -775,8 +836,12 @@ class AsClassParser
 
 				path = imported_class_to_file_path(type[0],type[1])
 				cdoc = load_class(path)
-				if cdoc != nil
-					add_public(cdoc)
+				if cdoc != nil					
+					if is_interface(cdoc)
+						add_interface(cdoc)
+					else
+						add_public(cdoc)
+					end					
 				end
 
 			else
@@ -892,7 +957,8 @@ class AsInterfaceRegex
 	
 	def initialize()
 
-			@methods = /^\s*function\s+\b([a-z]\w+)\b\s*\((.*)(\)(\s*:\s*(\w+|\*))?)?/
+			#@methods = /^\s*function\s+\b([a-z]\w+)\b\s*\((.*)(\)(\s*:\s*(\w+|\*))?)?/
+			@methods = /^\s*function\s+\b([a-z]\w+)\b\s*\(([^)\n]*)(\)(\s*:\s*(\w+|\*))?)?/
 			@getsets = /^\s*function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
 
 	end
