@@ -145,11 +145,13 @@ if __FILE__ == $0
   puts FlexMate.find_sdk_src
 	
   puts "\nsnippetize_method_params:"
-  puts FlexMate.snippetize_method_params( "method(one:Number,two:String,three:*, four:Test=10, ...rest)")
+  puts FlexMate.snippetize_method_params( "method(one:Number,two:String,three:*, four:Test=10, ...rest)")  
   puts FlexMate.snippetize_method_params( "method(one:Number,
 												  two:String,
 												  three:*,
 												  four:Test, ...rest);")
+	#TODO/FIX: Following line fails.											
+	puts FlexMate.snippetize_method_params( "method(zero:Number,four:String=\"chalk\",six:String=BIG_EVENT,three:Boolean=true)")												
 
   FlexMate.write_to_log_file("Test Text")
 

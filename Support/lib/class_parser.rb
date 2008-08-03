@@ -48,18 +48,21 @@ class AsClassParser
 		@static_properties = []
 		@static_methods    = []
 		@all_members       = []
+		@loaded_documents  = []
 
-		@pub = AsRegexObject.new("public")
-		@pro = AsRegexObject.new("protected|public")
-		@pri = AsRegexObject.new("private|protected|public")
+		@pub = AsClassRegex.new("public")
+		@pro = AsClassRegex.new("protected|public")
+		@pri = AsClassRegex.new("private|protected|public")
 
-		@pub_stat = AsRegexObject.new("public|static")
-		@pro_stat = AsRegexObject.new("protected|public|static")
-		@pri_stat = AsRegexObject.new("private|protected|public|static")
+		@pub_stat = AsClassRegex.new("public|static")
+		@pro_stat = AsClassRegex.new("protected|public|static")
+		@pri_stat = AsClassRegex.new("private|protected|public|static")
+		
+		@i_face = AsInterfaceRegex.new()
 
 		# Type detection captures.
 		@extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/
-		@interface_extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+\b((?m:.*))\{/
+		@interface_extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+\b((?m:.*))\{/ #}
 		@private_class_regexp = /^class\b/
 
 		# Constructors.
@@ -70,9 +73,11 @@ class AsClassParser
 
 		create_src_list()
 
-    end
+	end
 
-	# Property/Method Capture.
+	# ===============================
+	# = Property and Method Capture =
+	# ===============================
 
 	# Storage caputure filters based on the scope of the
 	# item being processed. So, for 'this' all memebers and scopes,
@@ -84,7 +89,7 @@ class AsClassParser
 
 		log_append( "Adding local (ppp)" + @depth.to_s )
 
-		#method_scans = []
+		method_scans = []
 
 		doc.each do |line|
 
@@ -92,16 +97,16 @@ class AsClassParser
 		  		@properties << $2.to_s
 			elsif line =~ @pri.methods
 
-				# Based off the the $4 th match we can determine wheter or not the
+				# Based off the the $7 th match we can determine wheter or not the
 				# method prams are mulit-line or not. If they are we need to store
 				# the method name and use a scan search after we have been through
 				# line by line.
+				
 				if $7 != nil and $4 != nil
+					# Single line methods - terminated with return statement.
 					@methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
-				elsif $4 != nil
-					@methods << "#{$3.to_s}(#{$4.to_s})"
 				else
-					@methods << "#{$3.to_s}()"
+					method_scans << $3
 				end
 
 			elsif line =~ @pri.getsets
@@ -118,17 +123,27 @@ class AsClassParser
 
 
 		end
-
-		# method_scans.each do |meth|
-		# 	method_multiline = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b#{meth}\b\s*\((?m:[^)]+)\)\s*:\s*(\w+)/
-		# 	doc.scan( method_multiline )
-		# 	if $2 != nil
-		# 		@methods <<  "#{meth}(): #{$3}"
-		# 	end
-		# end
+		
+		store_multiline_methods(doc,method_scans,"private|protected|public")
 
 		@depth += 1
 
+	end
+	
+	def store_multiline_methods(doc,method_refs,ns)
+		method_refs.each do |meth|
+			method_multiline = /^\s*(override\s+)?(#{ns})\s+function\s+\b#{meth}\b\s*\(((?m:[^)]+))\)\s*:\s*(\w+)/
+			doc.scan( method_multiline )
+			if $2 != nil				
+				if $3 != nil					
+					params = $3.gsub(/(\s|\n)/,"")
+					@methods << "#{meth}(#{params}): #{$4}"
+				else
+					@methods << "#{meth}(): #{$4}"
+				end
+			end
+		end
+		
 	end
 
 	def store_public_and_protected_class_members(doc)
@@ -136,7 +151,9 @@ class AsClassParser
 		return if doc == nil
 
 		log_append( "Adding ancestor (pp) " + @depth.to_s )
-
+		
+		method_scans = []
+		
 		doc.each do |line|
 
 			if line =~ @pro.vars
@@ -146,11 +163,10 @@ class AsClassParser
 			elsif line =~ @pro.methods
 				
 				if $7 != nil and $4 != nil
+					# Single line methods - terminated with return statement.
 					@methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
-				elsif $4 != nil
-					@methods << "#{$3.to_s}(#{$4.to_s})"
 				else
-					@methods << "#{$3.to_s}()"
+					method_scans << $3
 				end
 			 
 			elsif line =~ @pro.getsets
@@ -167,7 +183,9 @@ class AsClassParser
 
 
 		end
-
+		
+		store_multiline_methods(doc,method_scans,"protected|public")
+		
 		@depth += 1
 
 	end
@@ -177,7 +195,7 @@ class AsClassParser
 		return if doc == nil
 
 		log_append( "Adding ancestor (p)" + @depth.to_s )
-
+		method_scans = []
 		doc.each do |line|
 
 			if line =~ @pub.vars
@@ -185,28 +203,19 @@ class AsClassParser
 			elsif line =~ @pub.getsets
 			    @properties << $4.to_s
 			elsif line =~ @pub.methods
-
-			#if $4 != nil
-			#	@methods << "#{$3.to_s}(#{$4.to_s})"
-			#else
-			#   @methods << $3.to_s + "()"
-			#end
-
-			if $7 != nil and $4 != nil
-				@methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
-			elsif $4 != nil
-				@methods << "#{$3.to_s}(#{$4.to_s})"
-			else
-				@methods << "#{$3.to_s}()"
+				if $7 != nil and $4 != nil
+					@methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
+				else
+					method_scans << $3
+				end
+			elsif line =~ @private_class_regexp
+				break				
 			end
 
-			elsif line =~ @private_class_regexp
-				break
-				
 		end
-
-		end
-
+		
+		store_multiline_methods(doc,method_scans,"protected|public")
+		
 		@depth += 1
 
 	end
@@ -231,25 +240,9 @@ class AsClassParser
 
 	end
 
-	def add_object
-
-		# public var
-		@properties << "constructor:Object"
-
-		# static var
-		@static_properties << "prototype:Object"
-
-		# Methods.
-		@methods << "hasOwnProperty(name:String):Boolean"
-		@methods << "isPrototypeOf(theClass:Object):Boolean"
-		@methods << "propertyIsEnumerable(name:String):Boolean"
-		@methods << "setPropertyIsEnumerable(name:String,isEnum:Boolean=true):void"
-		@methods << "toString():String"
-		@methods << "valueOf():Object"
-
-	end
-
-	# Document Loaders.
+	# ====================
+	# = Document Loaders =
+	# ====================
 
 	# Loads and returns the superclass of the supplied doc.
 	def load_parent(doc)
@@ -257,38 +250,51 @@ class AsClassParser
 		# Scan evidence of a superclass.
 		doc.scan(@extends_regexp)
 		
-		if $4 == "interface"
-			
-			log_append( "WARNING: Interfaces with more than one ancestor are not supported." )
-			
-			#doc.scan(@interface_extends_regexp)
-			#
-			#if $7
-			#	
-			#	extending = $7.gsub!(/\n|\s/,'').split(",")
-			#	ex_str = extending.join("\n")
-			#	
-			#	log_append( "WARNING: Interfaces with more than one ancestor are not supported.\n These interfaces could be missing from the output\n #{ex_str} \n\n" )
-			#	
-			#end
-			
+		if $4 == "interface"			
+			return load_parents(doc)		
 		end
-
+		
 		# If we match then convert the import to a file reference.
 		if $7 != nil
-			parent_path = imported_class_to_file_path(doc,$7)
-			log_append("Loading super class '#{$7}' '#{parent_path[0]}'.")
-			return load_class( parent_path )
+			possible_parent_paths = imported_class_to_file_path(doc,$7)
+			log_append("Loading super class '#{$7}' '#{possible_parent_paths[0]}'.")
+			return load_class( possible_parent_paths )
 		end
 
 		# ActionScript 3 makes extending object's optional when writing code. 
 		# However all classes are decendants of Object, so add it here.
 		doc.scan(/^\s*(public dynamic class Object)/)
 
-		return load_class( ["Object.as"]) unless $1
+		return load_class(["Object.as"]) unless $1
 
 		return nil
 
+	end
+	
+	# When processing interfaces we may need to load multiple parents.
+	def load_parents(doc)
+		
+		doc.scan(@interface_extends_regexp)
+		
+		if $7
+			
+			extending = $7.gsub(/\n|\s/,'').split(",")
+			ex_str = extending.join("\n")
+			
+			log_append("WARNING: Interfaces with more than one ancestor are not supported.")
+			log_append("These interfaces could be missing from the output\n #{ex_str} \n\n" )
+			
+			unless extending.empty?
+
+				#TODO: Load all the references found in extending.
+				possible_extend_class_paths = imported_class_to_file_path(doc,extending[0])				
+				return load_class(possible_extend_class_paths)
+				
+			end
+		end
+		
+		return nil;
+		
 	end
 
 	# Adds all class members to our lists.
@@ -329,11 +335,12 @@ class AsClassParser
 
 	end
 
-	# Path finding.
-
+	# ================
+	# = Path Finding =
+	# ================
+	
 	# Collects all of the src directories into a list.
-	# The resulting list of dirs is then used when
-	# locating source files.
+	# The resulting list of dirs is then used when locating source files.
 	def create_src_list
 
 		if ENV['TM_PROJECT_DIRECTORY']
@@ -377,10 +384,16 @@ class AsClassParser
 			paths.each do |path|
 
 				uri = d.chomp + "/" + path.chomp
+
+				if @loaded_documents.include?(uri)
+					log_append("Already added #{uri}")
+					return nil 
+				end
+				
 				#FIX: The assumption that we'll only find one match.
 				if File.exists?(uri)
-					#log_append("Opening #{uri}.")
-					f = File.open(uri,"r" ).read.strip
+					@loaded_documents << uri
+					f = File.open(uri,"r" ).read.strip					
 					return strip_comments(f)
 				end
 
@@ -392,32 +405,17 @@ class AsClassParser
 
 		@exit_message = "#{as_file} 404."
 
-		log_append("Unable to load #{as_file}")
+		log_append("Unable to load '#{as_file}'")
 
 		nil
 	end
 
-	# Remove all comments from the file.
-	def strip_comments(doc)
-
-		# TODO: Add multiline_comments, remembering that they need
-		# replacing with whitespace otherwise we can't track our
-		# position within the doc when searching - ie for local vars.
-
-		#multiline_comments = /\/\*(?:.|[\r\n])*?\*\//
-		#doc.gsub!(multiline_comments,'')
-
-		single_line_comments = /\/\/.*$/
-		return doc.gsub(single_line_comments,'')
-
-	end
-
-	# Searches the given document for the import statement
-	# of the specified class, if located it returns it
-	# as file path reference.
-	# If no explicit import is delared wildcarded imports are accumulated,
-	# alongside the classes package patch and returned.
-	# Returns an array of possible file paths.
+	# Searches the given document for the import statement of the specified class,
+	# if located it returns it as a file path reference. Where no explicit import 
+	# is delared wildcarded imports are accumulated, alongside the classes package 
+	# path and returned.
+	#
+	# Returns an array of possible file paths, ie ["org/helvector/Foo.as"]
 	def imported_class_to_file_path(doc,class_name)
 
 		possible_paths = []
@@ -448,7 +446,32 @@ class AsClassParser
 
 	end
 
-	# Type Locating Commands
+	# ========================
+	# = Utitlity / Stripping =
+	# ========================
+	
+	# Strips comments from the document. This is designed to leave whitespace in
+	# their place so the caret position remains correct.
+	def strip_comments(doc)
+
+		multiline_comments = /\/\*(?:.|([\r\n]))*?\*\//
+		doc.gsub!(multiline_comments) do |s|
+			if $1
+				r = ""
+				a = s.split("\n")
+				r += "\n" * (a.length-1) if a.length > 1
+				r
+			end
+		end
+
+		single_line_comments = /\/\/.*$/
+		return doc.gsub(single_line_comments,'')
+
+	end
+	
+	# ==========================
+	# = Type Locating Commands =
+	# ==========================
 
 	# Searches a document for the type of the specified property.
 	#
@@ -602,9 +625,9 @@ class AsClassParser
 			type = determine_type_at_level(doc,find_type,depth)
 
 			return nil if type == nil
-
+			
 			log_append("Located "+ find_type + " as #{type[1]} ")
-
+			
 			return type
 
 		else
@@ -619,7 +642,10 @@ class AsClassParser
 			path = imported_class_to_file_path(type[0],type[1])
 
 			log_append("Found '#{find_type}' here '#{path.join(", ")}'")
-
+			
+			#Reset loaded docs as we are running again.
+			@loaded_documents = []
+			
 			child_doc = load_class(path)
 
 			return search_ancestor(child_doc,property_chain, depth+=1)
@@ -627,78 +653,7 @@ class AsClassParser
 		end
 
 	end
-
-	# As it says on the tin...
-	def log_append(message)
-		@log += message + "\n"
-	end
-
-	public
-
-	# Input Commands
-
-	# Loads a full instance or class level member list for the class
-	# document using the reference to determine the type of the class.
-	def load(doc,reference)
-
-		# Set our depth counters to defaults.
-		@depth = 0
-		@type_depth = 0
-
-		doc = strip_comments(doc)
-
-		# Class Members.
-		if reference =~ /^([A-Z]|\b(uint|int|arguments)\b)/
-
-			# TODO: don't match new ClassName(), pass these down as instances.
-			#       ie var a:Foo = new Foo().name;
-
-			path = imported_class_to_file_path(doc,reference)
-			log_append( "Processing #{reference} as static. #{path}" )
-			store_static_members( load_class(path) )
-
-		# Super Instance Members.
-		elsif reference =~ /^super$/
-
-			log_append("Processing #{reference} as a super class.")
-			super_class = load_parent(doc)
-			@depth = 1
-			add_public_and_protected(super_class)
-
-		# This Instance Members.
-		elsif reference =~ /^(this)?$/
-
-			log_append("Processing as '#{reference}'.")
-			add_doc(doc)
-
-		# Instance Members.
-		else
-
-			log_append("Processing '#{reference}' as an instance.")
-
-			type = determine_type(doc,reference)
-
-			if type != nil
-
-				path = imported_class_to_file_path(type[0],type[1])
-				cdoc = load_class(path)
-				if cdoc != nil
-					add_public(cdoc)
-				end
-
-			else
-
-				@exit_message = "Failed to locate type of '#{reference}'."
-				log_append(@exit_message)
-
-			end
-
-		end
-
-		# TODO: Check type of method return statements.
-
-	end
-
+	
 	# Attempts to find the type of the reference within the doc.
 	def determine_type(doc,reference)
 
@@ -765,15 +720,88 @@ class AsClassParser
 		end
 
 	end
+	
+	public
 
-	# As determine_type, but only returns the member type.
+	# ==================
+	# = Input Commands =
+	# ==================
+
+	# Loads a full instance or class level member list for the class
+	# document using the reference to determine the type of the class.
+	def load(doc,reference)
+
+		# Set our depth counters to defaults.
+		@depth = 0
+		@type_depth = 0
+
+		doc = strip_comments(doc)
+
+		# Class Members.
+		if reference =~ /^([A-Z]|\b(uint|int|arguments)\b)/
+
+			# TODO: don't match new ClassName(), pass these down as instances.
+			#       ie var a:Foo = new Foo().name;
+
+			path = imported_class_to_file_path(doc,reference)
+			log_append( "Processing #{reference} as static. #{path}" )
+			store_static_members( load_class(path) )
+
+		# Super Instance Members.
+		elsif reference =~ /^super$/
+
+			log_append("Processing #{reference} as a super class.")
+			super_class = load_parent(doc)
+			@depth = 1
+			add_public_and_protected(super_class)
+
+		# This Instance Members.
+		elsif reference =~ /^(this)?$/
+
+			log_append("Processing as '#{reference}'.")
+			add_doc(doc)
+
+		# Instance Members.
+		else
+
+			log_append("Processing '#{reference}' as an instance.")
+
+			type = determine_type(doc,reference)
+
+			if type != nil
+				
+				#Reset our loaded documents list.
+				@loaded_documents = []
+
+				path = imported_class_to_file_path(type[0],type[1])
+				cdoc = load_class(path)
+				if cdoc != nil
+					add_public(cdoc)
+				end
+
+			else
+
+				@exit_message = "Failed to locate type of '#{reference}'."
+				log_append(@exit_message)
+
+			end
+
+		end
+
+		# TODO: Check type of method return statements.
+
+	end
+
+	# Returns the type of the refernece within the doc.
 	def find_type(doc,reference)
 		type = determine_type(doc,reference)
 		return type[1].to_s if type != nil
 		return nil
 	end
 
-	# Ouput Commands
+	# ==================
+	# = Ouput Commands =
+	# ==================
 
 	# List of method names.
 	def methods
@@ -798,12 +826,24 @@ class AsClassParser
 		return if @static_methods.empty?
 		@static_methods.uniq.sort
 	end
+	
+	# ===========
+	# = Logging =
+	# ===========
 
+	private
+	
+	def log_append(message)
+		@log += "#{message}\n"
+	end
+	
+	public
+	
 	# Log messages.
 	def log
 		@log
 	end
-
+	
 	# String to show in tooltip when the parsing has failed.
 	def exit_message
 		@exit_message
@@ -817,7 +857,7 @@ class AsClassParser
 
 end
 
-class AsRegexObject
+class AsClassRegex
 
 	attr_reader :vars
 	attr_reader :methods
@@ -835,13 +875,26 @@ class AsRegexObject
 		else
 
 			@vars 	 = /^\s*(#{ns})\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-			@methods = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\((.*)(\)(\s*:\s*(\w+|\*))?)?/
+
+			@methods = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\(([^)\n]*)(\)(\s*:\s*(\w+|\*))?)?/			
 			@getsets = /^\s*(override\s+)?(#{ns}\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
 
 		end
 
-
 	end
 
-
 end
+
+class AsInterfaceRegex
+	
+	attr_reader :methods
+	attr_reader :getsets	
+	
+	def initialize()
+
+			@methods = /^\s*function\s+\b([a-z]\w+)\b\s*\((.*)(\)(\s*:\s*(\w+|\*))?)?/
+			@getsets = /^\s*function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
+
+	end
+		
+end	
