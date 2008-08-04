@@ -36,7 +36,7 @@ print FlexMate.snippetize_method_params(snip)</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript.3 meta.class.actionscript.3</string>
+	<string>source.actionscript.3 meta.class.actionscript.3, source.actionscript.3.embedded.mxml</string>
 	<key>uuid</key>
 	<string>6B04E224-64D5-489F-B84A-2CCC416A0A82</string>
 </dict>
