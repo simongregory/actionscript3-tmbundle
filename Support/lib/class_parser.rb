@@ -199,7 +199,7 @@ class AsClassParser
 
 		return if doc == nil
 
-		log_append( "Adding ancestor (p)" + @depth.to_s )
+		log_append( "Adding ancestor (p) " + @depth.to_s )
 		method_scans = []
 		doc.each do |line|
 
@@ -229,7 +229,7 @@ class AsClassParser
 
 		return if doc == nil
 
-		log_append( "Adding ancestor (i)" + @depth.to_s )
+		log_append( "Adding ancestor (i) " + @depth.to_s )
 		
 		method_scans = []
 		doc.each do |line|
@@ -375,7 +375,6 @@ class AsClassParser
 				
 				extending.each do |ext|
 					p = imported_class_to_file_path(doc,ext)
-					log_append(p)
 					c = load_class(p)
 					exteding_interfaces << c if c != nil
 				end
@@ -553,10 +552,11 @@ class AsClassParser
 		#       can only be a public property.
 
 		namespace = "protected|public"
-		namespace = "private|protected|public" if @type_depth == 0
+		namespace = "private|protected|public" if @type_depth == 0		
+		namespace = "" if is_interface(doc)
 
 		# TODO: Method paramaeters are likely to need work for the accessor.
-		var_regexp = /^\s*(#{namespace})\s+var\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
+		var_regexp = /^\s*(#{namespace})\s*\bvar\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
 
 		doc.scan(var_regexp)
 		if $3 != nil
@@ -565,7 +565,7 @@ class AsClassParser
 		end
 
 		# Also picks up single line methods.
-		get_regexp = /^\s*(#{namespace})\s+function\s+(\b(get)\b\s+)?\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
+		get_regexp = /^\s*(#{namespace})\s*\bfunction\s+(\b(get)\b\s+)?\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
 
 		doc.scan(get_regexp)
 		if $6 != nil
@@ -965,4 +965,4 @@ class AsInterfaceRegex
 
 	end
 		
-end	
+end
