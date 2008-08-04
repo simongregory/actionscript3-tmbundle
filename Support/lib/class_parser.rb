@@ -53,14 +53,13 @@ class AsClassParser
 		@i_face = AsInterfaceRegex.new()
 
 		# Type detection captures.
-		@extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/
+		@extends_regexp = /^\s*((dynamic|final)\s+)?(public)\s+((dynamic|final)\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/
 		@interface_extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+\b((?m:.*))\{/ #}
 		@private_class_regexp = /^class\b/
 
 		# Constructors.
 		@constructor_regexp = /^\s*public\s+function\s+\b([A-Z]\w+)\b\s*\(/
 
-		#TODO
 		#@method_regexp_multiline = /^\s*(override\s+)?(private|protected|public)\s+function\s+\b([a-z]\w+)\b\s*\((?m:[^)]+)\)\s*:\s*(\w+)/
 
 		create_src_list()
@@ -161,9 +160,9 @@ class AsClassParser
 		method_scans = []
 		
 		doc.each do |line|
-
+			
 			if line =~ @pro.vars
-				
+
 				@properties << $2.to_s
 				
 			elsif line =~ @pro.methods
@@ -284,18 +283,21 @@ class AsClassParser
 		doc.scan(@extends_regexp)
 		
 		# If we match then convert the import to a file reference.
-		if $7 != nil
-			possible_parent_paths = imported_class_to_file_path(doc,$7)
-			log_append("Loading super class '#{$7}' '#{possible_parent_paths[0]}'.")
+		if $9 != nil
+			possible_parent_paths = imported_class_to_file_path(doc,$9)
+			log_append("Loading super class '#{$9}' '#{possible_parent_paths[0]}'.")
 			return load_class( possible_parent_paths )
 		end
 
 		# ActionScript 3 makes extending object's optional when writing code. 
 		# However all classes are decendants of Object, so add it here.
 		doc.scan(/^\s*(public dynamic class Object)/)
-
-		return load_class(["Object.as"]) unless $1
-
+		
+		unless $1
+			log_append("Loading super class 'Object'.")
+			return load_class(["Object.as"]) 
+		end
+		
 		return nil
 
 	end
@@ -524,7 +526,7 @@ class AsClassParser
 	# Determines whether or not the supplied document is an interface.
 	def is_interface(doc)
 		doc.scan(@extends_regexp)
-		if $4 == "interface"
+		if $6 == "interface"
 			return true
 		end
 		return false
