@@ -294,7 +294,7 @@ class AsClassParser
 		doc.scan(/^\s*(public dynamic class Object)/)
 		
 		unless $1
-			log_append("Loading super class 'Object'.")
+			log_append("Loading super class 'Object' 'Object.as'.")
 			return load_class(["Object.as"]) 
 		end
 		
@@ -529,6 +529,16 @@ class AsClassParser
 			return true
 		end
 		return false
+	end
+	
+	# Cleans the referece of any problem causing chars before processing.
+	def clean_reference(ref)
+		if ref =~ /\.$/
+			return ref.chop
+		elsif ref =~ /^\s*$/
+			return "this"
+		end
+		return ref
 	end	
 	
 	# ==========================
@@ -799,6 +809,7 @@ class AsClassParser
 		@type_depth = 0
 
 		doc = strip_comments(doc)
+    reference = clean_reference(reference)
 
 		# Class Members.
 		if reference =~ /^([A-Z]|\b(uint|int|arguments)\b)/
@@ -861,6 +872,7 @@ class AsClassParser
 
 	# Returns the type of the refernece within the doc.
 	def find_type(doc,reference)
+		reference = clean_reference(reference)
 		type = determine_type(doc,reference)
 		return type[1].to_s if type != nil
 		return nil

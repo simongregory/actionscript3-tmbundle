@@ -104,9 +104,6 @@ module FlexMate
 
 			return if message.to_s == ""
 			
-			tm_dialog   = e_sh ENV['DIALOG']
-			is_dialog2  = ! tm_dialog.match(/2$/).nil?
-			
 			if is_dialog2
 				`"$DIALOG" tooltip <<< "#{message}"`
 			end
@@ -122,7 +119,49 @@ module FlexMate
 			
 		end
 		
+		def is_dialog2
+			tm_dialog = e_sh ENV['DIALOG']
+			! tm_dialog.match(/2$/).nil? 
+		end
 		
+		def popop(options)
+			
+			#return nil if options.empty?
+			
+			# 		"$DIALOG" help popup
+			# Presents the user with a list of items which can be filtered down by typing to select the item they want.
+			# 
+			# popup usage:
+			#{}"$DIALOG" popup options <<<'{ suggestions = ( { title = "foo"; }, { title = "bar"; } ); }'
+			# 
+			# Options:
+			#  -f, --initial-filter       Sets the text which will be used for initial filtering of the suggestions.
+			#  -s, --static-prefix        A prefix which is used when filtering suggestions.
+			#  -e, --extra-chars          A string of extra characters which are allowed while typing.
+			#  -i, --case-insensitive     Case is ignored when comparing typed characters.
+			#  -x, --shell-cmd            When the user selects an item, this command will be passed the selection on STDIN, and the output will be written to the document.
+			#  -w, --wait                 Causes the command to not return until the user has selected an item (or cancelled).
+
+      #return_hash = true
+      #if options[0].kind_of?(String)
+      #  return_hash = false
+      #  options = options.collect { |e| e == nil ? { 'separator' => 1 } : { 'title' => e } }
+      #end
+      #
+      #res = ::IO.popen("#{TM_DIALOG} -u", "r+") do |io|
+      #  Thread.new do
+      #    plist = { 'menuItems' => options }.to_plist
+      #    io.write plist; io.close_write
+      #  end
+      #  OSX::PropertyList::load(io)
+      #end
+      #
+      #return nil unless res.has_key? 'selectedIndex'
+      #index = res['selectedIndex'].to_i
+      #
+      #return return_hash ? options[index] : index
+    end
+			
 	end
 
 end   
@@ -159,6 +198,8 @@ if __FILE__ == $0
 	puts FlexMate.check_for_leopard
 
 	FlexMate.tooltip("Test Message")
+	
+	puts "\nis_dialog2:"
+	puts FlexMate.is_dialog2.to_s
    
-
 end
