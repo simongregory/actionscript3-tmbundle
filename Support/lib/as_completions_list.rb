@@ -17,27 +17,32 @@ class AsCompletionsList
 		return @m
 	end
 	
+	def override_list
+		@m = []
+		add_method(@cp.methods)
+		return @m
+	end
+	
 	def add(items)
 		return if items == nil
-	    if items.size > 0		
-	        add_seperator if @m.size > 0
-	        items.each do |i|
+	  if items.size > 0		
+			add_seperator if @m.size > 0
+	  	items.each do |i|
 				mi = menu_item(i)
 				@m << mi unless mi == nil
 			end			
-	    end
-	
+	 	end
 	end
 	
 	def add_method(items)
 		return if items == nil
-	    if items.size > 0
-	        add_seperator if @m.size > 0
+		if items.size > 0
+			add_seperator if @m.size > 0
 			items.each do |i|
 				mi =  method_item(i)
 				@m << mi unless mi == nil
 			end
-	    end
+		end
 	end
 	
 	def add_seperator
@@ -58,9 +63,9 @@ class AsCompletionsList
 			typeof = $4 == nil ? "" : $4
 			data = $1+"("+$2+")"
 		end
-    
+		
 		return nil if title.to_s == ""
-	  { 'title' => title, 'data' => data, 'typeof' => typeof  }
+		{ 'title' => title, 'data' => data, 'typeof' => typeof  }
 		
 	end
 	
@@ -73,9 +78,6 @@ class AsCompletionsList
 	end
 	
 end
-
-
-
 
 =begin rdoc
 

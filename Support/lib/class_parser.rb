@@ -18,7 +18,7 @@ require File.dirname(__FILE__) + '/flex_mate'
 #         -  Check type of return statements.
 #
 class AsClassParser
-
+	
 	private
 
 	def initialize
@@ -32,6 +32,8 @@ class AsClassParser
 
 		#Void return type for inspected item.
 		@return_type_void = false
+		
+		@completion_src = ENV['TM_BUNDLE_SUPPORT']
 
 		@src_dirs          = ""
 		@methods           = []
@@ -397,24 +399,39 @@ class AsClassParser
 	def create_src_list
 
 		if ENV['TM_PROJECT_DIRECTORY']
-			@src_dirs = `find "$TM_PROJECT_DIRECTORY" -maxdepth 5 -name "src" -print`
+			src_list = '"src"'
+			
+			# This isn't working properly yet as it only matches the top level lib
+			# within the Proj.
+			#if ENV['TM_AS3_USUAL_SRC_DIRS'] != nil
+			#	src_a = ENV['TM_AS3_USUAL_SRC_DIRS'].split(":")
+			#	src_list = '"' + src_a.pop() + '"'
+			#	src_a.each do |d|
+			#		src_list += ' -or -name "'+d+'"'
+			#	end
+			#end
+			
+			@src_dirs = `find -d "$TM_PROJECT_DIRECTORY" -maxdepth 5 -name #{src_list} -print`
+			
 		end
 
-		bun_sup = "#{ENV['TM_BUNDLE_SUPPORT']}/data/completions"
-
+		cs = "#{@completion_src}/data/completions"
+		
 		# Check once for existence here as we will save repeated
 		# checks later (whilst walking up the heirarchy).
-		add_src_dir("#{bun_sup}/intrinsic")
-		add_src_dir("#{bun_sup}/frameworks/air")
-		add_src_dir("#{bun_sup}/frameworks/flash_ide")
-		add_src_dir("#{bun_sup}/frameworks/flash_cs3")
+		add_src_dir("#{cs}/intrinsic")
+		add_src_dir("#{cs}/frameworks/air")
+		add_src_dir("#{cs}/frameworks/flash_ide")
+		add_src_dir("#{cs}/frameworks/flash_cs3")
 
 		# Where we have access to the compressed flex 3 files use them,
 		# otherwise go looking for the sdk.
-		unless add_src_dir("#{bun_sup}/frameworks/flex_3")
+		unless add_src_dir("#{cs}/frameworks/flex_3")
 			fx = FlexMate.find_sdk_src
 			@src_dirs += fx if fx != nil
 		end
+		
+		#log_append( "src_dirs " + @src_dirs )
 
  	end
 
@@ -623,7 +640,8 @@ class AsClassParser
 
 			if txt =~ type_regexp
 
-				log_append( "Type locally matched as \n\t#{txt}." )
+				#log_append( "Type locally matched as \n\t#{txt}." )
+				log_append( "Type locally matched as #{$2}." )
 
 				return [doc,$2]
 
@@ -764,7 +782,14 @@ class AsClassParser
 		#
 		# where the method paramaters confuse the property chain.
 		# Where the reference includes a )
-    
+		
+		#if reference =~ /\w\s*\)/
+		#	rgx_ref = reference.gsub(')', '\)')
+		#	if cl =~ /\s([\w.]+)\(.*#{rgx_ref}/
+		#		reference = $1
+		#	end	
+		#end
+		
 		if reference.match(/[^(]\s*\)$/)
     
 			@exit_message = "Paramaterised method calls are on the TODO list."
@@ -778,7 +803,7 @@ class AsClassParser
 			#	end
 			#	#strip all bracket contents on the line.
 			#	cl.gsub!( /\(.*\)/, "()")
-
+    
 		end
     
 		property_chain = [reference]
@@ -795,7 +820,7 @@ class AsClassParser
 	end
 	
 	public
-
+	
 	# ==================
 	# = Input Commands =
 	# ==================
@@ -877,7 +902,15 @@ class AsClassParser
 		return type[1].to_s if type != nil
 		return nil
 	end
-
+	
+	# Sets the location of the completions src directory.
+	def completion_src=(dir)
+		if File.directory?(dir)
+			@completion_src = dir
+			create_src_list()			
+		end
+	end
+	
 	# ==================
 	# = Ouput Commands =
 	# ==================
