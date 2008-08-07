@@ -808,7 +808,7 @@ class AsClassParser
     
 		property_chain = [reference]
     
-		if /\s+(\b.*\.\b#{reference}\b)/ =~ cl
+		if /\s+(\b[\w.]+\.\b#{reference}\b)/ =~ cl
 			property_chain = $1.split(".")
 		end
     
@@ -833,7 +833,8 @@ class AsClassParser
 		@depth = 0
 		@type_depth = 0
 
-		doc = strip_comments(doc)
+		doc = strip_comments(doc)  
+		
     reference = clean_reference(reference)
 
 		# Class Members.
@@ -909,6 +910,13 @@ class AsClassParser
 			@completion_src = dir
 			create_src_list()			
 		end
+	end
+	
+	# Expects class ref to be in the format org.foo.BarClass
+	def load_reference(class_ref)
+		path = [class_ref.gsub(".","/") + ".as"]
+		cdoc = load_class(path)
+		add_public(cdoc)
 	end
 	
 	# ==================

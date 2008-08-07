@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby -wKU
 
-SUPPORT = ENV['TM_SUPPORT_PATH']
+SUPPORT = ENV['TM_SUPPORT_PATH'] unless SUPPORT
 PROJECT = ENV['TM_PROJECT_DIRECTORY']
-HELPTOC = ENV['TM_BUNDLE_SUPPORT'] + '/data/doc_dictionary.xml'
+
+#HELPTOC = ENV['TM_BUNDLE_SUPPORT'] + '/data/doc_dictionary.xml'
+HELPTOC = File.dirname(__FILE__) + '/../data/doc_dictionary.xml'
 
 require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/textmate'
@@ -51,7 +53,7 @@ def find_package(word)
 	end
 
 	# Open Help dictionary and find matching lines
-	toc = IO.readlines(HELPTOC)
+	toc = ::IO.readlines(HELPTOC)
 	seperator = package_paths.size > 0 ? true : false;
 	toc.each do |line|
 		if line =~ /href='([a-zA-Z0-9\/]*\b#{word}\w*)\.html'/
