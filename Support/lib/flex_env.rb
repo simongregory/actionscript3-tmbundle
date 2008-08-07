@@ -7,6 +7,7 @@ BUN_SUP = File.dirname(__FILE__)
 require SUPPORT + '/lib/escape'
 require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/ui'
+#require SUPPORT + '/lib/textmate' 
 
 require BUN_SUP + '/as_completions_list'
 require BUN_SUP + '/class_parser'
