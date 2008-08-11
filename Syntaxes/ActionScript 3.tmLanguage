@@ -193,6 +193,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#language-storage</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#methods-all</string>
 				</dict>
 				<dict>
@@ -351,7 +355,7 @@
 		<key>compiler-metadata</key>
 		<dict>
 			<key>begin</key>
-			<string>(\[)\s*\b(AccessibilityClass|ArrayElementType|Bindable|DataBindingInfo|DefaultBindingProperty|DefaultProperty|DefaultTriggerEvent|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|ResourceBundle|Style|Transient)\b</string>
+			<string>(\[)\s*\b(AccessibilityClass|ArrayElementType|Bindable|DataBindingInfo|DefaultBindingProperty|DefaultProperty|DefaultTriggerEvent|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|RequiresDataBinding|ResourceBundle|Style|Transient)\b</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -1261,7 +1265,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>^\w*(include)\b</string>
+					<string>^\s*(include)\b</string>
 					<key>end</key>
 					<string>$</string>
 					<key>name</key>
