@@ -1219,7 +1219,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\b(as|delete|new|is|instanceof|typeof)\b</string>
+					<string>\b(as|delete|new|is|typeof)\b</string>
 					<key>name</key>
 					<string>keyword.operator.actionscript.3</string>
 				</dict>
@@ -1230,6 +1230,12 @@
 					<string>\b(\*|Null|void)\b</string>
 					<key>name</key>
 					<string>keyword.special-type.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\binstanceof\b</string>
+					<key>name</key>
+					<string>invalid.illegal.deprecated.actionscript.3</string>
 				</dict>
 			</array>
 		</dict>
