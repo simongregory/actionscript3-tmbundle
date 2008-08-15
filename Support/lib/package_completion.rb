@@ -38,11 +38,11 @@ def find_package(word)
 	TextMate.each_text_file do |file|
 		
 		if file =~ /\b#{word}\w*\.(as|mxml)$/
-	       path = file.sub( $project, "" );
-	       common_src_dirs.each do |remove|
-	           path = path.gsub( /^.*\b#{remove}\b\//, "" );
-	       end
-	       package_paths << path.gsub(/\.(as|mxml)$/,"").gsub( "/", ".")
+			path = file.sub( $project, "" );
+			common_src_dirs.each do |remove|
+				path = path.gsub( /^.*\b#{remove}\b\//, "" );
+			end
+			package_paths << path.gsub(/\.(as|mxml)$/,"").gsub( "/", ".")
 		end
 		
 	end
@@ -64,13 +64,20 @@ def find_package(word)
 
 	if package_paths.size == 1
 
-	    package_paths.pop
+		package_paths.pop
 	
 	else
-
-	    i = TextMate::UI.menu(package_paths)
-	    TextMate.exit_discard() if i == nil
-	    package_paths[i]
+		
+		# Move any exact hits to the top of the list.
+		best_paths = package_paths.grep( /\.#{word}$/ )
+		unless best_paths.empty?
+			package_paths = package_paths - best_paths
+			package_paths = best_paths + [ "-" ] + package_paths
+		end
+		
+		i = TextMate::UI.menu(package_paths)
+		TextMate.exit_discard() if i == nil
+		package_paths[i]
 
 	end
 
