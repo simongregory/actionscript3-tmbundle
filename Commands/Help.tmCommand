@@ -113,7 +113,7 @@ The project directory relative path to the build file you wish to use to overrid
 
 * `TM_AS3_LIB_PATH`  
 default: `/Users/Shared/AS3Lib`  
-The root path to your central ActionScript 3 / Flex library.
+The path to a central ActionScript 3/Flex library, this path is added to the compiler arguments when running a build.
 
 * `TM_ORGANIZATION_NAME`  
 Name used in copyright notices in most templates.
