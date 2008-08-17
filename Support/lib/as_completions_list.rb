@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby -wKU
 
+
+# A Object to be used as a data provider for a TextMate::UI.menu.
+#
+# Created to translate the values stored within an instance of AsClassParser.
 class AsCompletionsList
 
 	def initialize(class_parser)

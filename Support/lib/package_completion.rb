@@ -21,12 +21,12 @@ def common_src_dirs
 end
 
 # Finds, and where sucessful returns, the package path for the specified 
-# class (word is used as paramater here as it may be a partial class name).
+# class (word is used as parameter here as it may be a partial class name).
 # Packages paths are resolved via doc_dictionary.xml, which contains flash, fl, 
 # and mx paths, and the current tm project (when available). 
 #
 # Where mulitple possible matches are found these are presented to the user 
-# using Textmate::UI.menu.
+# using Textmate::UI.menu with the most probable match at the top of the menu.
 def find_package(word)
 	
 	TextMate.exit_show_tool_tip("Please select a term to look up.") if word.empty?

@@ -12,7 +12,6 @@ require File.dirname(__FILE__) + '/flex_mate'
 # Caveats:  Use of fully qualified names is not supported, ie var foo:a.b.Klass
 #           #include files are not loaded and parsed.
 #           Internal classes are not supported.
-#           Code commented out may be recoginised.
 #
 # TODO's: -  Casting support, so Sprite( thing ).member
 #         -  Check type of return statements.
@@ -58,6 +57,8 @@ class AsClassParser
 		@extends_regexp = /^\s*((dynamic|final)\s+)?(public)\s+((dynamic|final)\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/
 		@interface_extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+\b((?m:.*))\{/ #}
 		@private_class_regexp = /^class\b/
+		
+		@static_member_regexp = /^([A-Z]|\b(uint|int|arguments)\b)/
 
 		# Constructors.
 		@constructor_regexp = /^\s*public\s+function\s+\b([A-Z]\w+)\b\s*\(/
@@ -411,7 +412,8 @@ class AsClassParser
 			#	end
 			#end
 			
-			@src_dirs = `find -d "$TM_PROJECT_DIRECTORY" -maxdepth 5 -name #{src_list} -print`
+			# Note Errors are redirected and suppressed (ie Permissions Errors)
+			@src_dirs = `find -d "$TM_PROJECT_DIRECTORY" -maxdepth 5 -name #{src_list} -print 2>/dev/null`
 			
 		end
 
@@ -549,14 +551,23 @@ class AsClassParser
 	end
 	
 	# Cleans the referece of any problem causing chars before processing.
-	def clean_reference(ref)
-		if ref =~ /\.$/
-			return ref.chop
-		elsif ref =~ /^\s*$/
-			return "this"
-		end
-		return ref
-	end	
+	# TODO: Remove this if no problems have appeared for a while, type detection
+	# has been improved with the introduction of the property inspector.
+	#def clean_reference(ref)
+	#	
+	#	# By default expect TM's current word to be passed in, if it isn't then
+	#	# **assume** that a correct reference has been handed over.
+	#	unless ref == ENV['TM_CURRENT_WORD']
+	#		return ref
+	#	end
+  #
+	#	if ref =~ /\.$/
+	#		return ref.chop
+	#	elsif ref =~ /^\s*$/
+	#		return "this"
+	#	end
+	#	return ref
+	#end	
 	
 	# ==========================
 	# = Type Locating Commands =
@@ -683,11 +694,14 @@ class AsClassParser
 	# track the depth of recursion, if it's 0 then we are operating
 	# at a local level.
 	def determine_type_at_level(doc,reference,depth)
+		if reference =~ @static_member_regexp
+			return [doc,reference]
+		end
 		return determine_type_all(doc,reference) if depth == 0
 		return determine_type_globally(doc,reference)
 	end
 
-	# Searches a propery chain for the type of the last item in the chain.
+	# Searches a property chain for the type of its last item.
 	#
 	# So, with 'thing.foo.bar' we start searching for 'thing' in the local
 	# document, then it's superclasses, when it's type is located that
@@ -695,8 +709,8 @@ class AsClassParser
 	#
 	# Important to remember that we are searching in two directions
 	#
-	# 	horizontally along the property chain.
-	#   vertically through the class the ancestry.
+	# 	* Horizontally along the property chain.
+	#   * Vertically through the class the ancestry.
 	#
 	# doc is the current class document.
 	# property_chain is an array of properties to check - ie, propA.propB.propC
@@ -749,7 +763,7 @@ class AsClassParser
 	def determine_type(doc,reference)
 
 		# Class Members.
-		if reference =~ /^([A-Z]|\b(uint|int)\b)/
+		if reference =~ @static_member_regexp
 
 			return [doc, reference]
 
@@ -772,45 +786,40 @@ class AsClassParser
 
 		log_append("Determining type of '#{reference}'.")
 
-		cl = "#{ENV['TM_CURRENT_LINE']}"
+		# cl = "#{ENV['TM_CURRENT_LINE']}"
 
-		# TODO: Fix these cases
+		# TODO: Test these cases
 		#
 		#     reference = addEventListener()
 		# 		reference = initialize )
 		# 		stage.addEventListener( Event.ENTER_FRAME, initialize ).anotherMethod( )
 		#
-		# where the method paramaters confuse the property chain.
+		# Where the method paramaters confuse the property chain.
 		# Where the reference includes a )
 		
-		#if reference =~ /\w\s*\)/
-		#	rgx_ref = reference.gsub(')', '\)')
-		#	if cl =~ /\s([\w.]+)\(.*#{rgx_ref}/
-		#		reference = $1
-		#	end	
-		#end
-		
 		if reference.match(/[^(]\s*\)$/)
-    
 			@exit_message = "Paramaterised method calls are on the TODO list."
-			return nil
-			
-			#reference = reference.gsub(/\(|\)/,"")
-			## Find the method name prior to the parameters.
-			#	if /\b(\w+)\s*\(.*#{reference}/ =~ cl
-			#		reference = $1
-			#		log_append("REF #{$1}")
-			#	end
-			#	#strip all bracket contents on the line.
-			#	cl.gsub!( /\(.*\)/, "()")
-    
+			return nil    
 		end
     
 		property_chain = [reference]
-    
-		if /\s+(\b[\w.]+\.\b#{reference}\b)/ =~ cl
-			property_chain = $1.split(".")
+		
+		if reference.match( /\./)
+			property_chain = reference.split(".")
 		end
+    
+		# Where casting has occoured we may have a short cut to exploit as the type
+		# we are searching for at that point in the chain will be referenced in the 
+		# local document.
+		shortcut = nil
+		property_chain.reverse.each do |p|
+			if p =~ @static_member_regexp
+				shortcut = p
+				break
+			end
+		end
+		
+		property_chain.slice!(0,property_chain.rindex(shortcut)) if shortcut
     
 		log_append("Ancestor list: "+property_chain.join(", "))
 		return search_ancestor(doc,property_chain)
@@ -834,21 +843,20 @@ class AsClassParser
 		@type_depth = 0
 
 		doc = strip_comments(doc)  
+
+    # reference = clean_reference(reference)
 		
-    reference = clean_reference(reference)
-
 		# Class Members.
-		if reference =~ /^([A-Z]|\b(uint|int|arguments)\b)/
-
-			# TODO: don't match new ClassName(), pass these down as instances.
-			#       ie var a:Foo = new Foo().name;
-
-			path = imported_class_to_file_path(doc,reference)
-			log_append( "Processing #{reference} as static. #{path}" )
-			store_static_members( load_class(path) )
-
+		#if reference =~ @static_member_regexp
+    #
+		#	path = imported_class_to_file_path(doc,reference)
+		#	log_append( "Processing #{reference} as static. #{path}" )
+		#	store_static_members( load_class(path) )
+    #
+		#els
+		
 		# Super Instance Members.
-		elsif reference =~ /^super$/
+		if reference =~ /^super$/
 
 			log_append("Processing #{reference} as a super class.")
 			super_class = load_parent(doc)
@@ -896,9 +904,9 @@ class AsClassParser
 
 	end
 
-	# Returns the type of the refernece within the doc.
+	# Returns the type of the reference within the doc.
 	def find_type(doc,reference)
-		reference = clean_reference(reference)
+		#reference = clean_reference(reference)
 		type = determine_type(doc,reference)
 		return type[1].to_s if type != nil
 		return nil
@@ -912,11 +920,21 @@ class AsClassParser
 		end
 	end
 	
+	# Loads all the public methods, accessors and properties of the specified Class.
 	# Expects class ref to be in the format org.foo.BarClass
 	def load_reference(class_ref)
 		path = [class_ref.gsub(".","/") + ".as"]
 		cdoc = load_class(path)
 		add_public(cdoc)
+	end
+	
+	# Loads all the static members of the requested class.
+	def load_statics(doc,reference)
+		
+		path = imported_class_to_file_path(doc,reference)
+		log_append( "Processing #{reference} as static. #{path}" )
+		store_static_members( load_class(path) )
+		
 	end
 	
 	# ==================
