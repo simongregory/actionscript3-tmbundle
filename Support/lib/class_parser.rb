@@ -430,9 +430,9 @@ class AsClassParser
 		# otherwise go looking for the sdk.
 		unless add_src_dir("#{cs}/frameworks/flex_3")
 			fx = FlexMate.find_sdk_src
-			@src_dirs += fx if fx != nil
+			add_src_dir(fx)
 		end
-		
+
 		#log_append( "src_dirs " + @src_dirs )
 
  	end
@@ -450,6 +450,8 @@ class AsClassParser
 	# If successful the class is loaded and returned.
 	# paths is an array of relative class paths.
 	def load_class(paths)
+
+		urls= []
 
 		@src_dirs.each do |d|
 
@@ -916,6 +918,7 @@ class AsClassParser
 	def completion_src=(dir)
 		if File.directory?(dir)
 			@completion_src = dir
+			@src_dirs = ""
 			create_src_list()			
 		end
 	end
