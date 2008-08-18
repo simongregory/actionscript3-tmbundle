@@ -138,7 +138,8 @@ module AsPropertyInspector
 			end
 			return false
 		end
-
+		
+		# Return a boolean depending on whether the caret is just after a '.'
 		def self.at_dot
 			li = ENV['TM_LINE_INDEX'] 
 			ln = ENV['TM_CURRENT_LINE']
@@ -147,6 +148,16 @@ module AsPropertyInspector
 			return true if la[i] == "."
 			return false
 		end
+		
+		def self.insert_dot
+			li = ENV['TM_LINE_INDEX'] 
+			ln = ENV['TM_CURRENT_LINE']
+			la = ln.split("")
+			i = li.to_i-1
+			return false if la[i] =~ /(\.|\s)/
+			return true
+		end
+		
 
 end
  

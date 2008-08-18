@@ -112,6 +112,55 @@ module FlexMate
 			
 		end
 		
+		def complete(choices)
+							
+				result = nil
+				
+				if is_dialog2 and ENV['TM_AS3_POPUP_COMPLETION_ON']
+
+					# "$DIALOG" help popup
+					# Presents the user with a list of items which can be filtered down by typing to select the item they want.
+					# 
+					# popup usage:
+					# "$DIALOG" popup «options» <<<'{ suggestions = ( { title = "foo"; }, { title = "bar"; } ); }'
+					# 
+					# Options:
+					#  -f, --initial-filter       Sets the text which will be used for initial filtering of the suggestions.
+					#  -s, --static-prefix        A prefix which is used when filtering suggestions.
+					#  -e, --extra-chars          A string of extra characters which are allowed while typing.
+					#  -i, --case-insensitive     Case is ignored when comparing typed characters.
+					#  -x, --shell-cmd            When the user selects an item, this command will be passed the selection on STDIN, and the output will be written to the document.
+					#  -w, --wait                 Causes the command to not return until the user has selected an item (or cancelled).
+
+					# Although the above help command says to use 'title', it appears (if you
+					# look in the review ui.rb) that display is needed.
+										
+					choices.each { |mi| mi['display'] = mi['title'] }
+					
+					choices = choices.reject {|mi| mi['title'] == "-" }
+					
+					# TODO: Work out how to supress the output from Dialog.
+					
+					result = ::IO.popen("#{TM_DIALOG} popup --wait", "w+") do |io|
+	          Thread.new do
+							plist = { 'suggestions' => choices }.to_plist
+	            io.write plist; io.close_write	
+	          end
+	         	OSX::PropertyList::load(io) rescue nil
+	        end
+	
+					return nil if result == nil
+					return nil unless result.has_key? 'index'
+	        index = result['index'].to_i
+          
+	        return choices[index]
+					
+				else
+					result = TextMate::UI.menu(choices)
+				end
+
+		end
+		
 		def check_for_leopard
 			
 			os = `defaults read /System/Library/CoreServices/SystemVersion ProductVersion`
@@ -126,44 +175,6 @@ module FlexMate
 			! tm_dialog.match(/2$/).nil? 
 		end
 		
-		def popop(options)
-			
-			#return nil if options.empty?
-			
-			# 		"$DIALOG" help popup
-			# Presents the user with a list of items which can be filtered down by typing to select the item they want.
-			# 
-			# popup usage:
-			#{}"$DIALOG" popup options <<<'{ suggestions = ( { title = "foo"; }, { title = "bar"; } ); }'
-			# 
-			# Options:
-			#  -f, --initial-filter       Sets the text which will be used for initial filtering of the suggestions.
-			#  -s, --static-prefix        A prefix which is used when filtering suggestions.
-			#  -e, --extra-chars          A string of extra characters which are allowed while typing.
-			#  -i, --case-insensitive     Case is ignored when comparing typed characters.
-			#  -x, --shell-cmd            When the user selects an item, this command will be passed the selection on STDIN, and the output will be written to the document.
-			#  -w, --wait                 Causes the command to not return until the user has selected an item (or cancelled).
-
-      #return_hash = true
-      #if options[0].kind_of?(String)
-      #  return_hash = false
-      #  options = options.collect { |e| e == nil ? { 'separator' => 1 } : { 'title' => e } }
-      #end
-      #
-      #res = ::IO.popen("#{TM_DIALOG} -u", "r+") do |io|
-      #  Thread.new do
-      #    plist = { 'menuItems' => options }.to_plist
-      #    io.write plist; io.close_write
-      #  end
-      #  OSX::PropertyList::load(io)
-      #end
-      #
-      #return nil unless res.has_key? 'selectedIndex'
-      #index = res['selectedIndex'].to_i
-      #
-      #return return_hash ? options[index] : index
-    end
-			
 	end
 
 end   
