@@ -41,6 +41,9 @@ module AsPropertyInspector
 
 				current_letter = la[i]
 
+				# Make sure we stop if we hit a closing nest char.
+				break if current_letter == "("
+				
 				if current_letter =~ /\)/
 					
 					while i >= 0
@@ -149,6 +152,7 @@ module AsPropertyInspector
 			return false
 		end
 		
+		# Should autocompletion insert a dot before the completed statement. 
 		def self.insert_dot
 			li = ENV['TM_LINE_INDEX'] 
 			ln = ENV['TM_CURRENT_LINE']
@@ -158,7 +162,6 @@ module AsPropertyInspector
 			return true
 		end
 		
-
 end
  
 if __FILE__ == $0
@@ -321,7 +324,7 @@ if __FILE__ == $0
 			assert_equal nil, AsPropertyInspector.property_chain
 			
 		end
-				
+		 
 		def test_blank
 			
 			ENV['TM_CURRENT_LINE'] = <<-EOF
@@ -336,6 +339,35 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '40'
 			assert_equal "this", AsPropertyInspector.property_chain
+			
+		end
+
+		def test_no_whitespace
+			
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      _menu.removeEventListener(MenuEvent,handleMenuClosed);
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '12'
+			assert_equal "_menu", AsPropertyInspector.property_chain
+			
+			ENV['TM_LINE_INDEX'] = '31'
+			assert_equal "_menu.removeEventListener", AsPropertyInspector.property_chain
+			
+			ENV['TM_LINE_INDEX'] = '41'
+			assert_equal "MenuEvent", AsPropertyInspector.property_chain
+			
+			ENV['TM_LINE_INDEX'] = '42'
+			assert_equal nil, AsPropertyInspector.property_chain
+			
+			ENV['TM_LINE_INDEX'] = '58'
+			assert_equal "handleMenuClosed", AsPropertyInspector.property_chain
+			
+			ENV['TM_LINE_INDEX'] = '59'
+			assert_equal "_menu.removeEventListener", AsPropertyInspector.property_chain
+			
+			ENV['TM_LINE_INDEX'] = '60'
+			assert_equal nil, AsPropertyInspector.property_chain
 			
 		end
 		
@@ -375,6 +407,30 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '54'
 			assert_equal false, AsPropertyInspector.is_static
+			
+		end
+
+		# ====================
+		# = insert_dot tests =
+		# ====================
+		
+		def test_insert_dot
+			
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      property. property            
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '6'
+			assert_equal false, AsPropertyInspector.insert_dot
+			
+			ENV['TM_LINE_INDEX'] = '24'
+			assert_equal true, AsPropertyInspector.insert_dot
+			
+			ENV['TM_LINE_INDEX'] = '15'
+			assert_equal false, AsPropertyInspector.insert_dot
+			
+			ENV['TM_LINE_INDEX'] = '30'
+			assert_equal false, AsPropertyInspector.insert_dot
 			
 		end
 		
