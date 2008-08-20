@@ -151,7 +151,8 @@ module AsPropertyInspector
 			return false
 		end
 		
-		# Should autocompletion insert a dot before the completed statement. 
+		# Should autocompletion insert a dot before the completed statement.
+		# Deprecated, in favour of scope in the language file. 
 		def self.insert_dot
 			li = ENV['TM_LINE_INDEX'] 
 			ln = ENV['TM_CURRENT_LINE']
@@ -159,6 +160,35 @@ module AsPropertyInspector
 			i = li.to_i-1
 			return false if la[i] =~ /(\.|\s)/
 			return true
+		end
+		
+		# Single access point to collect all information about the current scope.
+		def self.capture
+			
+			state = {
+				:ref => self.property_chain,
+				:is_static => self.is_static,
+				:insert_dot => self.insert_dot,
+				:filter => nil
+			}
+			
+			return state if state[:is_static] == true
+			
+			chain = state[:ref].split(".")
+			
+			# Do we need to filter output?
+			unless ENV['TM_SCOPE'] =~ /following\.dot/
+				unless chain[0] == "this"
+					state[:filter] = chain.pop()
+					state[:ref] = chain.join(".")
+					if state[:ref] == ''
+						state[:ref] = "this"
+					end
+			  end
+			end
+			
+			state
+			
 		end
 		
 end
@@ -174,6 +204,7 @@ if __FILE__ == $0
 	
 	ENV['TM_LINE_INDEX'] = '59'
 	puts "Is Static: " + AsPropertyInspector.is_static.to_s
+	puts "\nTODO: WRITE TESTS FOR AsPropertyInspector.capture\n"
 	puts "\nStarting Tests:"
 	
 	require "test/unit"

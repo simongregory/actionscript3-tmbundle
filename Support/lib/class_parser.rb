@@ -13,8 +13,10 @@ require File.dirname(__FILE__) + '/flex_mate'
 #           #include files are not loaded and parsed.
 #           Internal classes are not supported.
 #
-# TODO's: -  Casting support, so Sprite( thing ).member
-#         -  Check type of return statements.
+# TODO's: - Casting support, so Sprite( thing ).member
+#         - Check type of return statements.
+#         - Adding local function variables.
+#         - Stoping local vars in other scopes from being picked up.
 #
 class AsClassParser
 	
@@ -114,7 +116,6 @@ class AsClassParser
 		  elsif line =~ @private_class_regexp
 		        break
 			end
-
 
 		end
 		

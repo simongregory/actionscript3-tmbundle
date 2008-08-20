@@ -112,7 +112,7 @@ module FlexMate
 			
 		end
 		
-		def complete(choices,filter)
+		def complete(choices,filter,exit_message)
 
 			pid = fork do
       	
@@ -134,15 +134,20 @@ module FlexMate
 					#  -i, --case-insensitive     Case is ignored when comparing typed characters.
 					#  -x, --shell-cmd            When the user selects an item, this command will be passed the selection on STDIN, and the output will be written to the document.
 					#  -w, --wait                 Causes the command to not return until the user has selected an item (or cancelled).
+          
+					choices = choices.reject {|mi| mi['title'] == "-" }
 
 					# Although the above help command says to use 'title', it appears (if you
-					# look in the review ui.rb) that display is needed.
+					# look in the review ui.rb) that 'display' is needed.
 										
-					choices.each { |mi| mi['display'] = mi['title'] }					
-					choices = choices.reject {|mi| mi['title'] == "-" }
+					choices.each { |mi| 
+						mi['display'] = mi['title']
+						mi['match'] = mi['title'].sub(/\W.*$/,"")
+					}					
 					
 					command = "#{TM_DIALOG} popup -w"					
 					command << " -f #{e_sh filter}" if filter != nil
+					command << " -x date"
 
 					result = nil
 					#result = ::IO.popen(command, "w+") do |io|
@@ -164,13 +169,22 @@ module FlexMate
 					return nil unless result.has_key? 'index'
 	        i = result['index'].to_i
 					r = choices[i]
+					
 					to_insert = r['data']
+					to_insert.sub!( "#{r['match']}", "")
+					to_insert = self.snippetize_method_params(to_insert)
+					to_insert += ";" if r['typeof'] == "void" 
+					
+					self.tooltip if exit_message != nil
           
 					# Insert the snippet if necessary
           `"$DIALOG" x-insert #{e_sh to_insert}` unless to_insert.empty?
 
+				else
+
+					 self.tooltip ":)\nOpt in to DIALOG2 popup useage by\nsetting TM_AS3_POPUP_COMPLETION_ON"
+					
 				end
-				
 			end
 
 		end
