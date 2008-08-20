@@ -29,7 +29,7 @@ end
 # using Textmate::UI.menu with the most probable match at the top of the menu.
 def find_package(word)
 	
-	TextMate.exit_show_tool_tip("Please select a term to look up.") if word.empty?
+	TextMate.exit_show_tool_tip("Please select a class to\nlocate the package path for.") if word.empty?
 	
 	package_paths = []
 	

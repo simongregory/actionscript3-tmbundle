@@ -552,25 +552,6 @@ class AsClassParser
 		return false
 	end
 	
-	# Cleans the referece of any problem causing chars before processing.
-	# TODO: Remove this if no problems have appeared for a while, type detection
-	# has been improved with the introduction of the property inspector.
-	#def clean_reference(ref)
-	#	
-	#	# By default expect TM's current word to be passed in, if it isn't then
-	#	# **assume** that a correct reference has been handed over.
-	#	unless ref == ENV['TM_CURRENT_WORD']
-	#		return ref
-	#	end
-  #
-	#	if ref =~ /\.$/
-	#		return ref.chop
-	#	elsif ref =~ /^\s*$/
-	#		return "this"
-	#	end
-	#	return ref
-	#end	
-	
 	# ==========================
 	# = Type Locating Commands =
 	# ==========================

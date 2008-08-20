@@ -10,6 +10,11 @@
 	<dict>
 		<key>completions</key>
 		<array>
+			<string>package</string>
+			<string>class</string>
+			<string>public</string>
+			<string>protected</string>
+			<string>private</string>
 			<string>abs</string>
 			<string>ABSOLUTE</string>
 			<string>AbstractTarget</string>

@@ -112,10 +112,13 @@ module FlexMate
 			
 		end
 		
-		def complete(choices)
-							
-				result = nil
-				
+		def complete(choices,filter)
+
+			pid = fork do
+      	
+				STDOUT.reopen(open('/dev/null'))
+      	STDERR.reopen(open('/dev/null'))			
+
 				if is_dialog2 and ENV['TM_AS3_POPUP_COMPLETION_ON']
 
 					# "$DIALOG" help popup
@@ -135,29 +138,40 @@ module FlexMate
 					# Although the above help command says to use 'title', it appears (if you
 					# look in the review ui.rb) that display is needed.
 										
-					choices.each { |mi| mi['display'] = mi['title'] }
-					
+					choices.each { |mi| mi['display'] = mi['title'] }					
 					choices = choices.reject {|mi| mi['title'] == "-" }
 					
-					# TODO: Work out how to supress the output from Dialog.
-					
-					result = ::IO.popen("#{TM_DIALOG} popup --wait", "w+") do |io|
-	          Thread.new do
-							plist = { 'suggestions' => choices }.to_plist
-	            io.write plist; io.close_write	
-	          end
-	         	OSX::PropertyList::load(io) rescue nil
-	        end
+					command = "#{TM_DIALOG} popup -w"					
+					command << " -f #{e_sh filter}" if filter != nil
+
+					result = nil
+					#result = ::IO.popen(command, "w+") do |io|
+	        #  Thread.new do
+					#		plist = { 'suggestions' => choices }.to_plist
+	        #    io.write plist; io.close_write	
+	        #  end
+	        # 	OSX::PropertyList::load(io) rescue nil
+	        #end
 	
+					plist = { 'suggestions' => choices }
+					IO.popen(command, 'w+') do |io|
+            io << plist.to_plist
+            io.close_write
+            result = OSX::PropertyList.load io rescue nil
+          end
+					
 					return nil if result == nil
 					return nil unless result.has_key? 'index'
-	        index = result['index'].to_i
+	        i = result['index'].to_i
+					r = choices[i]
+					to_insert = r['data']
           
-	        return choices[index]
-					
-				else
-					result = TextMate::UI.menu(choices)
+					# Insert the snippet if necessary
+          `"$DIALOG" x-insert #{e_sh to_insert}` unless to_insert.empty?
+
 				end
+				
+			end
 
 		end
 		

@@ -9,8 +9,13 @@
 
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/flex_env'
 
-words = `grep "^$TM_CURRENT_WORD" "$TM_BUNDLE_PATH/support/data/completions.txt"`.split("\n")
-TextMate.exit_show_tool_tip "No completion available" if words.empty?
+words = `grep "^$TM_CURRENT_WORD\(" "$TM_BUNDLE_PATH/support/data/completions.txt"`.split("\n")
+
+# The scope that this command is triggered from is auto-generated from the same 
+# data but does not include any methods which don't contain parameters. 
+# This means when the word list has no matches we can insert a set of empty brackets.
+
+TextMate.exit_insert_snippet("()${1:;}") if words.empty?
 
 if words.size &gt; 1
 
@@ -24,7 +29,18 @@ end
 
 snip = choice[ENV['TM_CURRENT_WORD'].length..-1]
 
-print FlexMate.snippetize_method_params(snip)</string>
+print FlexMate.snippetize_method_params(snip)
+
+
+# WARN: Custom methods with the same signature will be ignored in favour of the
+#       predetermined completions list.
+#
+# TODO: support.class.flash.actionscript.3, support.class.fl.actionscript.3, 
+#       support.class.mx.actionscript.3, support.class.top-level.actionscript.3
+#
+# DONE: support.function.top-level.actionscript.3, 
+#       support.function.flash.actionscript.3, support.function.fl.actionscript.3, 
+#       support.function.mx.actionscript.3, support.function.global.actionscript.3	</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
@@ -36,7 +52,7 @@ print FlexMate.snippetize_method_params(snip)</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript.3 meta.class.actionscript.3, source.actionscript.3.embedded.mxml</string>
+	<string>support.function.top-level.actionscript.3, support.function.flash.actionscript.3, support.function.fl.actionscript.3, support.function.mx.actionscript.3, support.function.global.actionscript.3</string>
 	<key>uuid</key>
 	<string>6B04E224-64D5-489F-B84A-2CCC416A0A82</string>
 </dict>
