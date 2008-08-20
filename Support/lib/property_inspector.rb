@@ -19,7 +19,6 @@ module AsPropertyInspector
 			i = li.to_i-1
 			
 			# When we are on a completly blank line return "this"
-			# TODO, expand this functionality.
 			if ln =~ /^\s*$/
 				return "this"
 			end
