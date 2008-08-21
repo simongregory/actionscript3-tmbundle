@@ -145,20 +145,13 @@ module FlexMate
 						mi['match'] = mi['title'].sub(/\W.*$/,"")
 					}					
 					
-					command = "#{TM_DIALOG} popup -w"					
-					command << " -f #{e_sh filter}" if filter != nil
-					command << " -x date"
+					command = "#{TM_DIALOG} popup --wait"					
+					command << " --initial-filter #{e_sh filter}" if filter != nil
+					command << " --extra-chars '_'"
 
 					result = nil
-					#result = ::IO.popen(command, "w+") do |io|
-	        #  Thread.new do
-					#		plist = { 'suggestions' => choices }.to_plist
-	        #    io.write plist; io.close_write	
-	        #  end
-	        # 	OSX::PropertyList::load(io) rescue nil
-	        #end
-	
 					plist = { 'suggestions' => choices }
+					
 					IO.popen(command, 'w+') do |io|
             io << plist.to_plist
             io.close_write
@@ -175,7 +168,7 @@ module FlexMate
 					to_insert = self.snippetize_method_params(to_insert)
 					to_insert += ";" if r['typeof'] == "void" 
 					
-					self.tooltip if exit_message != nil
+					self.tooltip(exit_message)
           
 					# Insert the snippet if necessary
           `"$DIALOG" x-insert #{e_sh to_insert}` unless to_insert.empty?
