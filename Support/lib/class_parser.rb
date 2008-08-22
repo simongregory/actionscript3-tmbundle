@@ -39,11 +39,14 @@ class AsClassParser
 		@src_dirs          = ""
 		@methods           = []
 		@properties        = []
+		@getsets           = []		
 		@privates          = []
 		@static_properties = []
 		@static_methods    = []
 		@all_members       = []
 		@loaded_documents  = []
+		
+		@mbr =[]
 
 		@pub = AsClassRegex.new("public")
 		@pro = AsClassRegex.new("protected|public")
@@ -82,7 +85,9 @@ class AsClassParser
 	def store_all_class_members(doc)
 
 		return if doc == nil
-
+		
+		store_local_scope(doc)
+		
 		log_append( "Adding local (ppp)" + @depth.to_s )
 
 		method_scans = []
@@ -106,7 +111,8 @@ class AsClassParser
 				end
 
 			elsif line =~ @pri.getsets
-			    @properties << $4.to_s
+			    #@properties << $4.to_s
+				@getsets << $4.to_s
 			elsif line =~ @pri_stat.getsets
 			    @properties << $4.to_s
 			elsif line =~ @pri_stat.methods
@@ -125,6 +131,43 @@ class AsClassParser
 
 	end
 	
+	def store_local_scope(doc)
+		
+		return unless ENV['TM_SCOPE'] =~ /meta\.function\.actionscript\.3/
+		
+		# Collect all memebers between the current line and a method definition.
+		props = []
+		
+		# TODO: Conditionals may cause problems because of the colon.
+		type_regexp = /\s*(\b\w+\b)\s*:\s*(\w+)/
+
+		d = doc.split("\n")
+		ln = ENV['TM_LINE_NUMBER'].to_i-1
+
+		while ln > 0
+
+			txt = d[ln].to_s
+
+			if txt =~ type_regexp
+				props << $1
+			end
+			
+			if txt =~ @pri.methods
+				break
+			elsif txt =~ @constructor_regexp
+				break
+			end
+
+			ln -= 1
+
+		end
+
+		return nil if ln == 0
+		
+		@properties.concat(props)
+		
+	end
+	
 	def store_multiline_methods(doc,method_refs,ns)
 		method_refs.each do |meth|
 			method_multiline = /^\s*(override\s+)?(#{ns})\s+function\s+\b#{meth}\b\s*\(((?m:[^)]+))\)\s*:\s*(\w+)/
@@ -132,9 +175,9 @@ class AsClassParser
 			if $2 != nil				
 				if $3 != nil					
 					params = $3.gsub(/(\s|\n)/,"")
-					@methods << "#{meth}(#{params}): #{$4}"
+					@methods << "#{meth}(#{params}):#{$4}"
 				else
-					@methods << "#{meth}(): #{$4}"
+					@methods << "#{meth}():#{$4}"
 				end
 			end
 		end		
@@ -147,9 +190,9 @@ class AsClassParser
 			if $2 != nil				
 				if $1 != nil					
 					params = $1.gsub(/(\s|\n)/,"")
-					@methods << "#{meth}(#{params}): #{$2}"
+					@methods << "#{meth}(#{params}):#{$2}"
 				else
-					@methods << "#{meth}(): #{$2}"
+					@methods << "#{meth}():#{$2}"
 				end
 			end
 		end		
@@ -179,7 +222,8 @@ class AsClassParser
 				end
 			 
 			elsif line =~ @pro.getsets
-				@properties << $4.to_s
+				#@properties << $4.to_s
+				@getsets << $4.to_s
 			elsif line =~ @pro_stat.getsets
 				@static_methods << $4.to_s
 			elsif line =~ @pro_stat.methods
@@ -210,7 +254,7 @@ class AsClassParser
 			if line =~ @pub.vars
 	  			@properties << $2.to_s
 			elsif line =~ @pub.getsets
-			    @properties << $4.to_s
+			    @getsets << $4.to_s
 			elsif line =~ @pub.methods
 				if $7 != nil and $4 != nil
 					@methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
@@ -239,7 +283,7 @@ class AsClassParser
 		doc.each do |line|
 
 			if line =~ @i_face.getsets
-			    @properties << $2.to_s
+			    @getsets << $2.to_s
 			elsif line =~ @i_face.methods
 				if $5 != nil and $2 != nil
 					@methods << "#{$1.to_s}(#{$2.to_s}):#{$5.to_s}"
@@ -401,6 +445,7 @@ class AsClassParser
 	def create_src_list
 
 		if ENV['TM_PROJECT_DIRECTORY']
+
 			src_list = '"src"'
 			
 			# This isn't working properly yet as it only matches the top level lib
@@ -828,8 +873,6 @@ class AsClassParser
 
 		doc = strip_comments(doc)  
 
-    # reference = clean_reference(reference)
-		
 		# Class Members.
 		#if reference =~ @static_member_regexp
     #
@@ -938,6 +981,12 @@ class AsClassParser
 		@properties.uniq.sort
 	end
 
+	# List of getter setter names.
+	def gettersetters
+		return if @getsets.empty?
+		@getsets.uniq.sort
+	end
+
 	# List of static property names.
 	def static_properties
 		return if @static_properties.empty?
@@ -993,12 +1042,11 @@ class AsClassRegex
 
 			@vars = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+\b(var|const)\b\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
 			@methods = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+function\s+\b([a-z]\w+)\b\s*\(/
-	    @getsets = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+function\s+\b(get|set)\b\s+\b([a-z]\w+)\b\s*\(/
+			@getsets = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+function\s+\b(get|set)\b\s+\b([a-z]\w+)\b\s*\(/
 
 		else
 
 			@vars 	 = /^\s*(#{ns})\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
-
 			@methods = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\(([^)\n]*)(\)(\s*:\s*(\w+|\*))?)?/			
 			@getsets = /^\s*(override\s+)?(#{ns}\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
 
@@ -1021,4 +1069,12 @@ class AsInterfaceRegex
 
 	end
 		
+end
+
+class AsMember
+	attr_accessor :namespace
+	attr_accessor :name
+	attr_accessor :type
+	attr_accessor :parameters
+	attr_accessor :storage_type
 end
