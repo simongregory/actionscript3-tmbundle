@@ -162,20 +162,22 @@ module FlexMate
 					return nil unless result.has_key? 'index'
 	        i = result['index'].to_i
 					r = choices[i]
+					m = r['match']
 					
 					to_insert = r['data']
-					to_insert.sub!( "#{r['match']}", "")
+					to_insert.sub!( "#{m}", "")
 					to_insert = self.snippetize_method_params(to_insert)
 					to_insert += ";" if r['typeof'] == "void" 
 					
-					self.tooltip(exit_message)
+					#`"$DIALOG" tooltip <<< "#{exit_message}"` unless exit_message == nil
+					self.tooltip exit_message
           
 					# Insert the snippet if necessary
           `"$DIALOG" x-insert #{e_sh to_insert}` unless to_insert.empty?
 
 				else
 
-					 self.tooltip ":)\nOpt in to DIALOG2 popup useage by\nsetting TM_AS3_POPUP_COMPLETION_ON"
+					 self.tooltip "Opt into using the DIALOG2 popup by\nsetting TM_AS3_POPUP_COMPLETION_ON\n:)"
 					
 				end
 			end

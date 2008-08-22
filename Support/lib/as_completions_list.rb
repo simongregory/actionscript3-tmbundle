@@ -15,6 +15,7 @@ class AsCompletionsList
 	def list
 		@m = []		
 		add(@cp.properties)
+		add(@cp.gettersetters)
 		add(@cp.static_properties)
 		add_method(@cp.methods)
 		add_method(@cp.static_methods)
@@ -23,6 +24,7 @@ class AsCompletionsList
 	
 	def overridables
 		@m = []
+		add(@cp.gettersetters)
 		add_method(@cp.methods)
 		return @m
 	end
