@@ -63,7 +63,7 @@ class AsClassParser
 		@interface_extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+\b((?m:.*))\{/ #}
 		@private_class_regexp = /^class\b/
 		
-		@static_member_regexp = /^([A-Z]|\b(uint|int|arguments)\b)/
+		@static_member_regexp = /^([A-Z]\w*|\b(uint|int|arguments)\b)$/
 
 		# Constructors.
 		@constructor_regexp = /^\s*public\s+function\s+\b([A-Z]\w+)\b\s*\(/
@@ -523,7 +523,7 @@ class AsClassParser
 
 		as_file = File.basename(paths[0])
 
-		@exit_message = "#{as_file} 404."
+		@exit_message = "Completions incomplete.\nThe class #{as_file.sub!(/\.as$/,'')} was not found."
 
 		log_append("Unable to load '#{as_file}'")
 
@@ -793,7 +793,7 @@ class AsClassParser
 
 		# Class Members.
 		if reference =~ @static_member_regexp
-
+			
 			return [doc, reference]
 
 		# Super Instance Members.
@@ -815,22 +815,6 @@ class AsClassParser
 
 		log_append("Determining type of '#{reference}'.")
 
-		# cl = "#{ENV['TM_CURRENT_LINE']}"
-
-		# TODO: Test these cases
-		#
-		#     reference = addEventListener()
-		# 		reference = initialize )
-		# 		stage.addEventListener( Event.ENTER_FRAME, initialize ).anotherMethod( )
-		#
-		# Where the method paramaters confuse the property chain.
-		# Where the reference includes a )
-		
-		if reference.match(/[^(]\s*\)$/)
-			@exit_message = "Paramaterised method calls are on the TODO list."
-			return nil    
-		end
-    
 		property_chain = [reference]
 		
 		if reference.match( /\./)
@@ -872,15 +856,6 @@ class AsClassParser
 		@type_depth = 0
 
 		doc = strip_comments(doc)  
-
-		# Class Members.
-		#if reference =~ @static_member_regexp
-    #
-		#	path = imported_class_to_file_path(doc,reference)
-		#	log_append( "Processing #{reference} as static. #{path}" )
-		#	store_static_members( load_class(path) )
-    #
-		#els
 		
 		# Super Instance Members.
 		if reference =~ /^super$/

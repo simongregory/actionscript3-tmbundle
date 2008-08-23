@@ -1,23 +1,23 @@
 package flash.utils {
-	public interface IDataInput {
-		public function get bytesAvailable():uint;
-		public function get endian():String;
-		public function set endian(value:String):void;
-		public function get objectEncoding():uint;
-		public function set objectEncoding(value:uint):void;
-		public function readBoolean():Boolean;
-		public function readByte():int;
-		public function readBytes(bytes:ByteArray, offset:uint = 0, length:uint = 0):void;
-		public function readDouble():Number;
-		public function readFloat():Number;
-		public function readInt():int;
-		public function readMultiByte(length:uint, charSet:String):String;
-		public function readObject():*;
-		public function readShort():int;
-		public function readUnsignedByte():uint;
-		public function readUnsignedInt():uint;
-		public function readUnsignedShort():uint;
-		public function readUTF():String;
-		public function readUTFBytes(length:uint):String;
-	}
+public interface IDataInput {
+	function get bytesAvailable():uint;
+	function get endian():String;
+	function set endian(value:String):void;
+	function get objectEncoding():uint;
+	function set objectEncoding(value:uint):void;
+	function readBoolean():Boolean;
+	function readByte():int;
+	function readBytes(bytes:ByteArray, offset:uint = 0, length:uint = 0):void;
+	function readDouble():Number;
+	function readFloat():Number;
+	function readInt():int;
+	function readMultiByte(length:uint, charSet:String):String;
+	function readObject():*;
+	function readShort():int;
+	function readUnsignedByte():uint;
+	function readUnsignedInt():uint;
+	function readUnsignedShort():uint;
+	function readUTF():String;
+	function readUTFBytes(length:uint):String;
+}
 }

@@ -772,6 +772,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#language-include</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>text.html.asdoc</string>
 				</dict>
 				<dict>
@@ -1181,6 +1185,27 @@
 				</dict>
 			</array>
 		</dict>
+		<key>language-include</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^\s*(include)\b</string>
+					<key>end</key>
+					<string>$</string>
+					<key>name</key>
+					<string>storage.include.actionscript.3</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#strings</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>language-keywords</key>
 		<dict>
 			<key>patterns</key>
@@ -1282,19 +1307,8 @@
 					<string>keyword.namespace.actionscript.3</string>
 				</dict>
 				<dict>
-					<key>begin</key>
-					<string>^\s*(include)\b</string>
-					<key>end</key>
-					<string>$</string>
-					<key>name</key>
-					<string>storage.include.actionscript.3</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#strings</string>
-						</dict>
-					</array>
+					<key>include</key>
+					<string>#language-include</string>
 				</dict>
 				<dict>
 					<key>match</key>
