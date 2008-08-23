@@ -178,13 +178,19 @@ module AsPropertyInspector
 			
 			# Do we need to filter output?
 			unless ENV['TM_SCOPE'] =~ /following\.dot/
-				unless chain[0] == "this"
+
+				#if chain[0] != "this" and chain.size > 1
+				#if chain[0] == "this" and chain.size > 1
+				if chain.size > 1
 					state[:filter] = chain.pop()
 					state[:ref] = chain.join(".")
 					if state[:ref] == ''
 						state[:ref] = "this"
-					end
-			  end
+					end				
+				elsif chain.size == 1 and chain[0] != "this"
+					state[:ref] = "this" 
+					state[:filter] = chain[0]
+				end
 			end
 			
 			state
@@ -216,7 +222,7 @@ if __FILE__ == $0
 		# ========================
 		
 		def test_property
-			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'			
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       basicProperty.                           
 			EOF
@@ -239,7 +245,7 @@ if __FILE__ == $0
 		end
 		
 		def test_method
-			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'			
 			ENV['TM_LINE_INDEX']   = '20'
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       simpleMethod()
@@ -250,7 +256,7 @@ if __FILE__ == $0
 		end
 		
 		def test_method_with_basic_parameters
-			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'			
 			ENV['TM_LINE_INDEX']   = '47'
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       parameterisedMethodCall( "hello", world )
@@ -261,7 +267,7 @@ if __FILE__ == $0
 		end
 
 		def test_method_with_nested_parameters
-			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'			
 			ENV['TM_LINE_INDEX']   = '60'
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       paramaterisedMethodCall( ["hello" , 'world' ], foo() )
@@ -272,7 +278,7 @@ if __FILE__ == $0
 		end
 		
 		def test_property_chain
-			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'			
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       one.two().three.four( TypeCast(five) )
 			EOF
@@ -287,9 +293,9 @@ if __FILE__ == $0
 			assert_equal 'TypeCast', AsPropertyInspector.property_chain
 			
 		end
-		
+				
 		def test_as_cast
-			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'			
 			ENV['TM_LINE_INDEX']   = '24'
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       ( hello as World )
@@ -300,7 +306,7 @@ if __FILE__ == $0
 		end
 		
 		def test_with_nested_casting
-			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'			
 			ENV['TM_LINE_INDEX']   = '35'
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       a.big.( hello as World ).here
@@ -311,7 +317,7 @@ if __FILE__ == $0
 		end
 		
 		def test_with_nested_comments
-			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'			
 			ENV['TM_LINE_INDEX']   = '54'
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       doSomething( /* with some (annoying) content*/ )
@@ -322,7 +328,7 @@ if __FILE__ == $0
 		end
 		
 		def test_new_constructor
-			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'			
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       var e:TypicalEvent = new TypicalEvent( TypicalEvent.SAY_HELLO );
 			EOF
@@ -342,6 +348,8 @@ if __FILE__ == $0
 		end
 		
 		def test_multliline_method
+
+			ENV['TM_SCOPE'] = 'source.actionscript.3'			
 			
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       "foo" ).here
@@ -356,6 +364,8 @@ if __FILE__ == $0
 		end
 		 
 		def test_blank
+			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'
 			
 			ENV['TM_CURRENT_LINE'] = <<-EOF
                                         
@@ -373,6 +383,8 @@ if __FILE__ == $0
 		end
 
 		def test_no_whitespace
+
+			ENV['TM_SCOPE'] = 'source.actionscript.3'
 			
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       _menu.removeEventListener(MenuEvent,handleMenuClosed);
@@ -406,6 +418,8 @@ if __FILE__ == $0
 		# ===================
 		
 		def test_static
+			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'
 			
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       Math. notStatic     Math().   new Bottle().cider
@@ -446,6 +460,8 @@ if __FILE__ == $0
 		
 		def test_insert_dot
 			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'
+			
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       property. property            
 			EOF
@@ -461,6 +477,204 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '30'
 			assert_equal false, AsPropertyInspector.insert_dot
+			
+		end
+		
+		# =================
+		# = capture tests =
+		# =================
+
+		def test_captures
+
+			ENV['TM_SCOPE'] = 'following.dot'
+			
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      StaticExample.
+			EOF
+
+			ENV['TM_LINE_INDEX'] = '20'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'StaticExample', c[:ref] 			
+			assert_equal true, c[:is_static]
+			assert_equal nil, c[:filter]
+			assert_equal false, c[:insert_dot]
+			
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      this.
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '11'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'this', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal nil, c[:filter]
+			assert_equal false, c[:insert_dot]			
+
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      this.foo.
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '15'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'this.foo', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal nil, c[:filter]
+			assert_equal false, c[:insert_dot]
+
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      one.two.three.foo
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '23'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'one.two.three.foo', c[:ref]
+			assert_equal false, c[:is_static]
+			assert_equal nil, c[:filter]
+			assert_equal true, c[:insert_dot]
+			
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      one.(p as Two).three.
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '27'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'one.Two.three', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal nil, c[:filter]
+			assert_equal false, c[:insert_dot]
+
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      BigOne(one).two.foo.
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '26'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'BigOne.two.foo', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal nil, c[:filter]
+			assert_equal false, c[:insert_dot]
+						
+		end
+		
+		def test_captures_with_filter
+			
+			ENV['TM_SCOPE'] = 'source.actionscript.3'
+			
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      StaticExample 
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '19'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'StaticExample', c[:ref] 			
+			assert_equal true, c[:is_static]
+			assert_equal nil, c[:filter]
+			assert_equal true, c[:insert_dot]
+			
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      this
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '10'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'this', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal nil, c[:filter]
+			assert_equal true, c[:insert_dot]			
+
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      this.test_filter
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '22'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'this', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal 'test_filter', c[:filter]
+			assert_equal true, c[:insert_dot]
+
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      test_filter
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '17'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'this', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal 'test_filter', c[:filter]
+			assert_equal true, c[:insert_dot]
+
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      one.two.three.foo
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '23'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'one.two.three', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal 'foo', c[:filter]
+			assert_equal true, c[:insert_dot]
+			
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      one.(p as Two).three.foo
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '30'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'one.Two.three', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal 'foo', c[:filter]
+			assert_equal true, c[:insert_dot]
+
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      BigOne(one).two.foo
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '25'
+
+			c = AsPropertyInspector.capture
+
+			assert_equal 'BigOne.two', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal 'foo', c[:filter]
+			assert_equal true, c[:insert_dot]
+			
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      BigOne(one).two.(z as Three).(x as Four).foo
+			EOF
+			
+			ENV['TM_LINE_INDEX'] = '38'
+      
+			c = AsPropertyInspector.capture
+      
+			assert_equal 'BigOne.two.Three.Four', c[:ref] 			
+			assert_equal false, c[:is_static]
+			assert_equal 'foo', c[:filter]
+			assert_equal true, c[:insert_dot]
 			
 		end
 		

@@ -32,32 +32,55 @@ def find_package(word)
 	TextMate.exit_show_tool_tip("Please select a class to\nlocate the package path for.") if word.empty?
 	
 	package_paths = []
+	best_paths = []
 	
 	# Collect all .as and .mxml files with a filename that contains the search
 	# term. When used outside a project this step is skipped.
 	TextMate.each_text_file do |file|
 		
 		if file =~ /\b#{word}\w*\.(as|mxml)$/
+			
 			path = file.sub( $project, "" );
+			
 			common_src_dirs.each do |remove|
-				path = path.gsub( /^.*\b#{remove}\b\//, "" );
+				path = path.gsub( /^.*\b#{remove}\b\//, '' );
 			end
-			package_paths << path.gsub(/\.(as|mxml)$/,"").gsub( "/", ".")
+
+			path = path.gsub(/\.(as|mxml)$/,'').gsub( "/", ".").sub(/^\./,'')
+
+			if path =~ /\.#{word}$/
+				best_paths << path
+			else
+				package_paths << path
+			end
+			
 		end
 		
 	end
 
 	# Open Help dictionary and find matching lines
 	toc = ::IO.readlines($help_toc)
-	seperator = package_paths.size > 0 ? true : false;
 	toc.each do |line|
 		if line =~ /href='([a-zA-Z0-9\/]*\b#{word}\w*)\.html'/
-			if seperator
-				package_paths << "-"
-				seperator = false
+			
+			path = $1.gsub( "/", ".")
+			
+			if path =~ /\.#{word}$/
+				best_paths << path
+			else
+				package_paths << path
 			end
-			package_paths << $1.gsub( "/", ".")
+			
 		end
+	end
+
+	package_paths.uniq!
+	best_paths.uniq!
+	
+	if package_paths.size > 0 and best_paths.size > 0
+		package_paths = best_paths + ['-'] + package_paths
+	else
+		package_paths = best_paths + package_paths
 	end
 
 	TextMate.exit_show_tool_tip "Class not found" if package_paths.empty?
@@ -70,10 +93,6 @@ def find_package(word)
 		
 		# Move any exact hits to the top of the list.
 		best_paths = package_paths.grep( /\.#{word}$/ )
-		unless best_paths.empty?
-			package_paths = package_paths - best_paths
-			package_paths = best_paths + [ "-" ] + package_paths
-		end
 		
 		i = TextMate::UI.menu(package_paths)
 		TextMate.exit_discard() if i == nil

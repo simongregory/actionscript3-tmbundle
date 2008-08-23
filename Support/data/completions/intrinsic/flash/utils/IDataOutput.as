@@ -1,20 +1,20 @@
 package flash.utils {
-	public interface IDataOutput {
-		public function get endian():String;
-		public function set endian(value:String):void;
-		public function get objectEncoding():uint;
-		public function set objectEncoding(value:uint):void;
-		public function writeBoolean(value:Boolean):void;
-		public function writeByte(value:int):void;
-		public function writeBytes(bytes:ByteArray, offset:uint = 0, length:uint = 0):void;
-		public function writeDouble(value:Number):void;
-		public function writeFloat(value:Number):void;
-		public function writeInt(value:int):void;
-		public function writeMultiByte(value:String, charSet:String):void;
-		public function writeObject(object:*):void;
-		public function writeShort(value:int):void;
-		public function writeUnsignedInt(value:uint):void;
-		public function writeUTF(value:String):void;
-		public function writeUTFBytes(value:String):void;
-	}
+public interface IDataOutput {
+	function get endian():String;
+	function set endian(value:String):void;
+	function get objectEncoding():uint;
+	function set objectEncoding(value:uint):void;
+	function writeBoolean(value:Boolean):void;
+	function writeByte(value:int):void;
+	function writeBytes(bytes:ByteArray, offset:uint = 0, length:uint = 0):void;
+	function writeDouble(value:Number):void;
+	function writeFloat(value:Number):void;
+	function writeInt(value:int):void;
+	function writeMultiByte(value:String, charSet:String):void;
+	function writeObject(object:*):void;
+	function writeShort(value:int):void;
+	function writeUnsignedInt(value:uint):void;
+	function writeUTF(value:String):void;
+	function writeUTFBytes(value:String):void;
+}
 }
