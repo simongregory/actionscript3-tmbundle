@@ -13,9 +13,8 @@ require File.dirname(__FILE__) + '/flex_mate'
 #           #include files are not loaded and parsed.
 #           Internal classes are not supported.
 #
-# TODO's: - Casting support, so Sprite( thing ).member
+# TODO's: - Multiline static methods.
 #         - Check type of return statements.
-#         - Adding local function variables.
 #         - Stoping local vars in other scopes from being picked up.
 #
 class AsClassParser
@@ -80,7 +79,7 @@ class AsClassParser
 
 	# Storage caputure filters based on the scope of the
 	# item being processed. So, for 'this' all memebers and scopes,
-	# for an instance of ClassFoo it's public members.
+	# for an instance of FooClass it's public members.
 
 	def store_all_class_members(doc)
 
@@ -116,7 +115,7 @@ class AsClassParser
 			elsif line =~ @pri_stat.getsets
 			    @properties << $4.to_s
 			elsif line =~ @pri_stat.methods
-			    @static_methods << $3.to_s
+			    @static_methods << "#{$3.to_s}()"
 			elsif line =~ @pri_stat.vars
 			    @static_properties << $4.to_s
 		  elsif line =~ @private_class_regexp
@@ -148,15 +147,10 @@ class AsClassParser
 
 			txt = d[ln].to_s
 
-			if txt =~ type_regexp
-				props << $1
-			end
+			props << $1 if txt =~ type_regexp
 			
-			if txt =~ @pri.methods
-				break
-			elsif txt =~ @constructor_regexp
-				break
-			end
+			break if txt =~ @pri.methods				
+			break if txt =~ @constructor_regexp
 
 			ln -= 1
 
@@ -222,12 +216,11 @@ class AsClassParser
 				end
 			 
 			elsif line =~ @pro.getsets
-				#@properties << $4.to_s
 				@getsets << $4.to_s
 			elsif line =~ @pro_stat.getsets
 				@static_methods << $4.to_s
 			elsif line =~ @pro_stat.methods
-				@static_methods << $3.to_s
+				@static_methods << "#{$3.to_s}()"
 			elsif line =~ @pro_stat.vars
 				@static_properties << $4.to_s
 		  elsif line =~ @private_class_regexp
@@ -311,7 +304,7 @@ class AsClassParser
 			elsif line =~ @pub_stat.getsets
 				@static_properties << $4.to_s
 			elsif line =~ @pub_stat.methods
-				@static_methods << $3.to_s + "()"
+				@static_methods << "#{$3.to_s}()"
 			elsif line =~ @private_class_regexp
 				break
 			end
@@ -545,7 +538,6 @@ class AsClassParser
 
 		unless $1 == nil
 			p = $1.gsub(".","/")+".as"
-			#log_append("Class found as import '#{p}'")
 			return possible_paths << p
 		end
 
@@ -560,7 +552,7 @@ class AsClassParser
 			break if line =~ cls
 		end
 
-		# As we are very likely to have a package path by this point
+		# Even though we are very likely to have a package path by this point
 		# add in a top level match for safetys sake.
 		return possible_paths << "#{class_name}.as"
 
@@ -733,7 +725,7 @@ class AsClassParser
 	# Searches a property chain for the type of its last item.
 	#
 	# So, with 'thing.foo.bar' we start searching for 'thing' in the local
-	# document, then it's superclasses, when it's type is located that
+	# document, then it's super classes, when it's type is located that
 	# class is opened and we start searching for foo, etc, etc,
 	#
 	# Important to remember that we are searching in two directions
@@ -908,7 +900,6 @@ class AsClassParser
 
 	# Returns the type of the reference within the doc.
 	def find_type(doc,reference)
-		#reference = clean_reference(reference)
 		type = determine_type(doc,reference)
 		return type[1].to_s if type != nil
 		return nil
@@ -1024,7 +1015,12 @@ class AsClassRegex
 			@vars 	 = /^\s*(#{ns})\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
 			@methods = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\(([^)\n]*)(\)(\s*:\s*(\w+|\*))?)?/			
 			@getsets = /^\s*(override\s+)?(#{ns}\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
-
+			
+			# TODO: 
+			#@events = /\[\s*Event\s*\(\s*name\s*="(\w+)"\s*,\s*type\s*=\s*"([\w.]+)"\s*\)\s*]/
+			#@effects = /\[\s*Effect\s*\(\s*name\s*="(\w+)"\s*,\s*event\s*=\s*"([\w.]+)"\s*\)\s*]/
+			#@styles = /\[\s*Event\s*\(\s* \s*\)\s*]/
+			
 		end
 
 	end
