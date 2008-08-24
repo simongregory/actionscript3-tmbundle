@@ -103,6 +103,8 @@ module AsPropertyInspector
 			chain = found.to_s
 			chain.chop! if chain =~ /\.$/
 			
+			return nil if chain == ""
+			
 			return chain
 		
 		end
@@ -172,6 +174,7 @@ module AsPropertyInspector
 				:filter => nil
 			}
 			
+			return state if state[:ref] == nil			
 			return state if state[:is_static] == true
 			
 			chain = state[:ref].split(".")
@@ -360,6 +363,16 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX']   = '13'
 			assert_equal nil, AsPropertyInspector.property_chain
+			
+			ENV['TM_CURRENT_LINE'] = <<-EOF
+      (navigationController as NavigationController).length).
+			EOF
+
+			ENV['TM_LINE_INDEX']   = '53'
+			assert_equal "NavigationController", AsPropertyInspector.property_chain			
+
+			ENV['TM_LINE_INDEX']   = '61'
+			assert_equal nil, AsPropertyInspector.property_chain			
 			
 		end
 		 

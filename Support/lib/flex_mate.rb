@@ -135,22 +135,29 @@ module FlexMate
 					#  -x, --shell-cmd            When the user selects an item, this command will be passed the selection on STDIN, and the output will be written to the document.
 					#  -w, --wait                 Causes the command to not return until the user has selected an item (or cancelled).
           
-					choices = choices.reject {|mi| mi['title'] == "-" }
+					#choices = choices.reject {|mi| mi['title'] == "-" }
 
 					# Although the above help command says to use 'title', it appears (if you
 					# look in the review ui.rb) that 'display' is needed.
 										
-					choices.each { |mi| 
-						mi['display'] = mi['title']
-						mi['match'] = mi['title'].sub(/\W.*$/,"")
-					}					
+					#choices.each { |mi| 
+					#	mi['display'] = mi['title']
+					#	mi['match'] = mi['title'].sub(/\W.*$/,"")
+					#}
+					
+					images = {
+			      "Method"   => "/Applications/TextMate.app/Contents/Resources/Bundle Item Icons/Macros.png",
+			      "Property" => "/Applications/TextMate.app/Contents/Resources/Bundle Item Icons/Preferences.png",
+			    }					
 					
 					command = "#{TM_DIALOG} popup --wait"					
 					command << " --initial-filter #{e_sh filter}" if filter != nil
 					command << " --extra-chars '_'"
 
 					result = nil
+					
 					plist = { 'suggestions' => choices }
+					plist['images'] = images
 					
 					IO.popen(command, 'w+') do |io|
             io << plist.to_plist
