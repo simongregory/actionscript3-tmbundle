@@ -2,8 +2,11 @@
 
 require File.dirname(__FILE__) + '/flex_env.rb'
 
-$project  = ENV['TM_PROJECT_DIRECTORY']
+$project  = "#{ENV['TM_PROJECT_DIRECTORY']}"
 $help_toc = File.dirname(__FILE__) + '/../data/doc_dictionary.xml'
+
+$best_paths = []
+$package_paths = []
 
 # Returns an colon seperated list of directory names 
 # that are commonly used as the root directory for source files.
@@ -20,19 +23,8 @@ def common_src_dirs
 	src_dirs_matches
 end
 
-# Finds, and where sucessful returns, the package path for the specified 
-# class (word is used as parameter here as it may be a partial class name).
-# Packages paths are resolved via doc_dictionary.xml, which contains flash, fl, 
-# and mx paths, and the current tm project (when available). 
-#
-# Where mulitple possible matches are found these are presented to the user 
-# using Textmate::UI.menu with the most probable match at the top of the menu.
-def find_package(word)
-	
-	TextMate.exit_show_tool_tip("Please select a class to\nlocate the package path for.") if word.empty?
-	
-	package_paths = []
-	best_paths = []
+# Loads all paths found within the current project.
+def search_project_paths(word)
 	
 	# Collect all .as and .mxml files with a filename that contains the search
 	# term. When used outside a project this step is skipped.
@@ -49,15 +41,20 @@ def find_package(word)
 			path = path.gsub(/\.(as|mxml)$/,'').gsub( "/", ".").sub(/^\./,'')
 
 			if path =~ /\.#{word}$/
-				best_paths << path
+				$best_paths << path
 			else
-				package_paths << path
+				$package_paths << path
 			end
 			
 		end
 		
 	end
+	
+end
 
+# Loads all paths stored in the bundle lookup list.
+def search_bundle_paths(word)
+	
 	# Open Help dictionary and find matching lines
 	toc = ::IO.readlines($help_toc)
 	toc.each do |line|
@@ -66,40 +63,63 @@ def find_package(word)
 			path = $1.gsub( "/", ".")
 			
 			if path =~ /\.#{word}$/
-				best_paths << path
+				$best_paths << path
 			else
-				package_paths << path
+				$package_paths << path
 			end
 			
 		end
 	end
-
-	package_paths.uniq!
-	best_paths.uniq!
 	
-	if package_paths.size > 0 and best_paths.size > 0
-		package_paths = best_paths + ['-'] + package_paths
+end
+
+# Loads both bundle and project paths.
+def search_all_paths(word)
+	search_project_paths(word)
+	search_bundle_paths(word)
+end
+
+# Finds, and where sucessful returns, the package path for the specified 
+# class (word is used as parameter here as it may be a partial class name).
+# Packages paths are resolved via doc_dictionary.xml, which contains flash, fl, 
+# and mx paths, and the current tm project (when available). 
+#
+# Where mulitple possible matches are found these are presented to the user 
+# using Textmate::UI.menu with the most probable match at the top of the menu.
+def find_package(word)
+	
+	TextMate.exit_show_tool_tip("Please select a class to\nlocate the package path for.") if word.empty?
+	
+	$package_paths = []
+	$best_paths = []
+	
+	search_all_paths(word)
+
+	$package_paths.uniq!
+	$best_paths.uniq!
+	
+	if $package_paths.size > 0 and $best_paths.size > 0
+		$package_paths = $best_paths + ['-'] + $package_paths
 	else
-		package_paths = best_paths + package_paths
+		$package_paths = $best_paths + $package_paths
 	end
 
-	TextMate.exit_show_tool_tip "Class not found" if package_paths.empty?
+	TextMate.exit_show_tool_tip "Class not found" if $package_paths.empty?
 
-	if package_paths.size == 1
+	if $package_paths.size == 1
 
-		package_paths.pop
+		$package_paths.pop
 	
 	else
 		
 		# Move any exact hits to the top of the list.
-		best_paths = package_paths.grep( /\.#{word}$/ )
+		$best_paths = $package_paths.grep( /\.#{word}$/ )
 		
-		i = TextMate::UI.menu(package_paths)
+		i = TextMate::UI.menu($package_paths)
 		TextMate.exit_discard() if i == nil
-		package_paths[i]
+		$package_paths[i]
 
 	end
 
 end
 
-	

@@ -34,6 +34,9 @@ class AsClassParser
 		@return_type_void = false
 		
 		@completion_src = ENV['TM_BUNDLE_SUPPORT']
+		
+		#Parse class meta data alongside methods and properties (for flex tags).
+		@include_metadata = false
 
 		@src_dirs          = ""
 		@methods           = []
@@ -42,6 +45,9 @@ class AsClassParser
 		@privates          = []
 		@static_properties = []
 		@static_methods    = []
+		@effects					 = []
+		@events            = []
+		@styles            = []
 		@all_members       = []
 		@loaded_documents  = []
 		
@@ -242,12 +248,26 @@ class AsClassParser
 
 		log_append( "Adding ancestor (p) " + @depth.to_s )
 		method_scans = []
+		
 		doc.each do |line|
+			
+			if @include_metadata
+				if line =~ @pub.effects
+					@effects << $1.to_s
+					next
+				elsif line =~ @pub.events
+					@events << $1.to_s
+					next
+				elsif line =~ @pub.styles
+					@styles << $1.to_s
+					next
+				end
+			end
 
 			if line =~ @pub.vars
-	  			@properties << $2.to_s
+				@properties << $2.to_s
 			elsif line =~ @pub.getsets
-			    @getsets << $4.to_s
+				@getsets << $4.to_s
 			elsif line =~ @pub.methods
 				if $7 != nil and $4 != nil
 					@methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
@@ -255,7 +275,7 @@ class AsClassParser
 					method_scans << $3
 				end
 			elsif line =~ @private_class_regexp
-				break				
+				break
 			end
 
 		end
@@ -506,7 +526,8 @@ class AsClassParser
 				#FIX: The assumption that we'll only find one match.
 				if File.exists?(uri)
 					@loaded_documents << uri
-					f = File.open(uri,"r" ).read.strip					
+					f = File.open(uri,"r" ).read.strip
+					f = load_includes(f,uri)
 					return strip_comments(f)
 				end
 
@@ -588,6 +609,24 @@ class AsClassParser
 			return true
 		end
 		return false
+	end
+	
+	# Load inlcudes references
+	def load_includes(doc,uri)
+		
+		# TODO: We need to load included files but retain our caret position within
+		# the file (for local type detection). May be possilbe to append to the end of
+		# a file IF there's no private classes. Otherwise we could increment the caret
+		# position by the number of lines added?
+		
+		doc.each do |line|
+			if line =~ /^\s*include\s+"([\w.\/]+)";$/
+				include_path = File.dirname(uri)+"/#{$1}"
+				log_append("WARNING Not Loaded Include " + include_path)
+			end
+		end
+		
+		doc
 	end
 	
 	# ==========================
@@ -847,7 +886,8 @@ class AsClassParser
 		@depth = 0
 		@type_depth = 0
 
-		doc = strip_comments(doc)  
+		#doc = load_includes(doc,"#{ENV['TM_FILEPATH']}")
+		doc = strip_comments(doc)
 		
 		# Super Instance Members.
 		if reference =~ /^super$/
@@ -916,7 +956,8 @@ class AsClassParser
 	
 	# Loads all the public methods, accessors and properties of the specified Class.
 	# Expects class ref to be in the format org.foo.BarClass
-	def load_reference(class_ref)
+	def load_reference(class_ref,include_meta=false)
+		@include_metadata = include_meta
 		path = [class_ref.gsub(".","/") + ".as"]
 		cdoc = load_class(path)
 		add_public(cdoc)
@@ -965,6 +1006,24 @@ class AsClassParser
 		@static_methods.uniq.sort
 	end
 	
+	# List of effects described in the class meta-data.
+	def effects
+		return if @effects.empty?
+		@effects.uniq.sort
+	end
+
+	# List of events described in the class meta-data.	
+	def events
+		return if @events.empty?
+		@events.uniq.sort		
+	end
+	
+	# List of effects described in the class meta-data.
+	def styles
+		return if @styles.empty?
+		@styles.uniq.sort		
+	end
+	
 	# ===========
 	# = Logging =
 	# ===========
@@ -1000,6 +1059,9 @@ class AsClassRegex
 	attr_reader :vars
 	attr_reader :methods
 	attr_reader :getsets
+	attr_reader :events
+	attr_reader :effects
+	attr_reader :styles
 
 	def initialize(ns)
 
@@ -1016,11 +1078,11 @@ class AsClassRegex
 			@methods = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\(([^)\n]*)(\)(\s*:\s*(\w+|\*))?)?/			
 			@getsets = /^\s*(override\s+)?(#{ns}\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
 			
-			# TODO: 
-			#@events = /\[\s*Event\s*\(\s*name\s*="(\w+)"\s*,\s*type\s*=\s*"([\w.]+)"\s*\)\s*]/
-			#@effects = /\[\s*Effect\s*\(\s*name\s*="(\w+)"\s*,\s*event\s*=\s*"([\w.]+)"\s*\)\s*]/
-			#@styles = /\[\s*Event\s*\(\s* \s*\)\s*]/
-			
+			# Class Meta-data.
+			@events = /\[\s*Event\s*\(\s*name\s*="(\w+)"\s*,\s*type\s*=\s*"([\w.]+)"\s*\)\s*\]/
+			@effects = /\[\s*Effect\s*\(\s*name\s*="(\w+)"\s*,\s*event\s*=\s*"([\w.]+)"\s*\)\s*\]/
+			@styles = /\[\s*Style\s*\(\s*name="(\w+)".*\s*\)\s*\]/
+
 		end
 
 	end
