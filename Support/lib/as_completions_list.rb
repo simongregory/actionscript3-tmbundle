@@ -31,7 +31,7 @@ class AsCompletionsList
 		add_d2(@cp.properties)
 		add_d2(@cp.gettersetters)		
 		add_method_d2(@cp.methods)
-		add_d2(@cp.static_properties)		
+		add_d2(@cp.static_properties, "Constant")		
 		add_method_d2(@cp.static_methods)
 		return @m
 	end
@@ -48,6 +48,27 @@ class AsCompletionsList
 	def properties
 		@m = []
 		add(@cp.properties)
+		return @m
+	end
+	
+	# List of properities that can be used as attributes in a flex tag.
+	def attributes
+		@m = []
+		add(@cp.properties)
+		add(@cp.gettersetters)
+		add(@cp.events)
+		add(@cp.styles)
+		add(@cp.effects)
+		return @m
+	end
+	
+	def attributes_d2
+		@m = []		
+		add_d2(@cp.properties, 'Property')
+		add_d2(@cp.gettersetters, 'Property')
+		add_d2(@cp.effects, 'Effect')
+		add_d2(@cp.events, 'Event')
+		add_d2(@cp.styles, 'Style')
 		return @m
 	end
 	
@@ -108,28 +129,28 @@ class AsCompletionsList
 	# = DIALOG2 =
 	# ===========
 	
-	def add_d2 items
+	def add_d2 items, category='Property'
 		return if items == nil
 	  items.each do |i|
-			mi = menu_item_d2(i)
+			mi = menu_item_d2(i,category)
 			@m << mi unless mi == nil
 		end			
 	end
 	
-	def menu_item_d2 member
+	def menu_item_d2 member, category='Property'
 		return nil if member.to_s == ""
-		{ 'display' => member, 'data' => member.to_s, 'match' => member.sub(/\W.*$/,""), 'image' => 'Property' }
+		{ 'display' => member, 'data' => member.to_s, 'match' => member.sub(/\W.*$/,""), 'image' => "#{category}" }
 	end
 	
-	def add_method_d2 items
+	def add_method_d2 items, category='Method'
 		return if items == nil
 		items.each do |i|
-			mi = method_item_d2(i)
+			mi = method_item_d2(i,category)
 			@m << mi unless mi == nil
 		end
 	end
 	
-	def method_item_d2 member
+	def method_item_d2 member, category='Method'
 
 		return nil if member.to_s == ""
 		
@@ -142,7 +163,7 @@ class AsCompletionsList
 		
 		return nil if display.to_s == ""
 		
-		{ 'display' => display, 'data' => data, 'typeof' => typeof, 'match' => match, 'image' => 'Method'  }
+		{ 'display' => display, 'data' => data, 'typeof' => typeof, 'match' => match, 'image' => "#{category}"  }
 		
 	end
 	
@@ -165,8 +186,9 @@ if __FILE__ == $0
 	class DummyClassParser
 		attr_accessor :properties, :gettersetters, :methods
 		attr_accessor :static_properties, :static_methods
-	end
-	
+		attr_accessor :effects, :events, :styles
+	end              
+	                 
 	class TestAsCompletionsList < Test::Unit::TestCase
 				
 		def test_dialog
@@ -216,26 +238,60 @@ if __FILE__ == $0
 			
 			assert_equal('testProperty',  		 								  list[0]['display'])
 			assert_equal('testProperty',  		 								  list[0]['match'])
+			assert_equal('Property', 														list[0]['image'])
 			
 			assert_equal('testGetter',	  		 								  list[1]['display'])
 			assert_equal('testGetter',	  		 								  list[1]['match'])
+			assert_equal('Property', 														list[1]['image'])
 			
 			assert_equal('paramaterless()', 	 								  list[2]['display'])
 			assert_equal('paramaterless()', 	 								  list[2]['data'])			
 			assert_equal('paramaterless', 	 								  	list[2]['match'])			
 			assert_equal('Boolean', 	 								  			  list[2]['typeof'])
-			
+			assert_equal('Method',															list[2]['image'])
+						
 			assert_equal('methodWithParams()', 								  list[3]['display'])
 			assert_equal('methodWithParams(a:Number,b:String)', list[3]['data'])
 			assert_equal('methodWithParams', 										list[3]['match'])			
 			assert_equal('void', 																list[3]['typeof'])
+			assert_equal('Method', 														  list[3]['image'])
 			
 			assert_equal('TEST_STATIC',   		 									list[4]['display'])
 			assert_equal('TEST_STATIC',   		 									list[4]['match'])
-			
+			assert_equal('Property', 														list[4]['image'])
+						
 			assert_equal('staticMethod()', 		 									list[5]['display'])			
 			assert_equal('staticMethod', 		 										list[5]['match'])			
+			assert_equal('Method', 															list[5]['image'])
 			
+		end
+		
+		def test_attributes_d2
+			
+			c = DummyClassParser.new
+			
+			c.properties    = [ "testProperty" ]
+			c.gettersetters = [ "testGetter", nil ]
+			c.effects       = [ 'testEffect' ]
+			c.events        = [ 'testEvent' ]
+			c.styles        = [ 'testStyle' ]
+			
+			l = AsCompletionsList.new(c)
+			
+			list = l.attributes_d2			
+			
+			assert_equal('testEffect', list[2]['display'])
+			assert_equal('testEffect', list[2]['match'])			
+			assert_equal('Effect', 		 list[2]['image'])
+
+			assert_equal('testEvent',	list[3]['display'])
+			assert_equal('testEvent',	list[3]['match'])			
+			assert_equal('Event', 		list[3]['image'])
+
+			assert_equal('testStyle',	list[4]['display'])
+			assert_equal('testStyle',	list[4]['match'])
+			assert_equal('Style', 		list[4]['image'])			
+						
 		end				
 		
   end

@@ -9,17 +9,17 @@ module FlexMate
 		# Fallback Search locations for the flex sdk if they are not specified in the 
 		# environmental variable TM_FLEX_SDK_SEARCH_PATHS
 		FLEX_DIRS = [ "/Developer/SDKs/flex_sdk_3",
-					   			"/Developer/SDKs/flex_sdk_3.0.2",
+									"/Developer/SDKs/flex_sdk_3.0.2",
 									"/Applications/flex_sdk_3",
-		              "/Applications/flex_sdk_2",
-		              "/Applications/flex_sdk_2.0.1",
+									"/Applications/flex_sdk_2",
+									"/Applications/flex_sdk_2.0.1",
 									"/Applications/FlexSDK2",
 									"/Applications/Flex",
 									"/Applications/FlexSDK2.0.1",
 									"/Applications/Adobe Flex Builder 3/sdks/3.0.0",
 									"/Applications/Adobe Flex Builder 3/sdks/2.0.1",
 									"/Applications/Adobe Flex Builder 2/Flex SDK 2",
-									"/Developer/Applications/Adobe Flex Builder 2/Flex SDK 2",			
+									"/Developer/Applications/Adobe Flex Builder 2/Flex SDK 2",
 									"/Developer/SDKs/flex_sdk_2",
 									"/Developer/SDKs/Flex",
 									"/Developer/SDKs/FlexSDK2",
@@ -112,14 +112,19 @@ module FlexMate
 			
 		end
 		
-		def complete(choices,filter,exit_message)
+		def complete(choices,filter=nil,exit_message=nil)
+			
+			if choices[0]['display'] == nil
+				puts "Error, was expecting Dialog2 compatable data."
+				exit
+			end
 
 			pid = fork do
       	
 				STDOUT.reopen(open('/dev/null'))
       	STDERR.reopen(open('/dev/null'))			
 
-				if is_dialog2 and ENV['TM_AS3_POPUP_COMPLETION_ON']
+				if is_dialog2
 
 					# "$DIALOG" help popup
 					# Presents the user with a list of items which can be filtered down by typing to select the item they want.
@@ -134,20 +139,21 @@ module FlexMate
 					#  -i, --case-insensitive     Case is ignored when comparing typed characters.
 					#  -x, --shell-cmd            When the user selects an item, this command will be passed the selection on STDIN, and the output will be written to the document.
 					#  -w, --wait                 Causes the command to not return until the user has selected an item (or cancelled).
-          
-					#choices = choices.reject {|mi| mi['title'] == "-" }
 
 					# Although the above help command says to use 'title', it appears (if you
 					# look in the review ui.rb) that 'display' is needed.
 										
-					#choices.each { |mi| 
-					#	mi['display'] = mi['title']
-					#	mi['match'] = mi['title'].sub(/\W.*$/,"")
-					#}
+					icon_dir = "#{BUN_SUP}/../icons"
 					
 					images = {
-			      "Method"   => "/Applications/TextMate.app/Contents/Resources/Bundle Item Icons/Macros.png",
-			      "Property" => "/Applications/TextMate.app/Contents/Resources/Bundle Item Icons/Preferences.png",
+			      "Method"   => "#{icon_dir}/Method.png",
+			      "Property" => "#{icon_dir}/Property.png",
+			      "Effect"   => "#{icon_dir}/Effect.png",
+			      "Event"    => "#{icon_dir}/Event.png",
+			      "Style"    => "#{icon_dir}/Style.png",
+			      "Constant" => "#{icon_dir}/Constant.png",
+			      "Getter"   => "#{icon_dir}/Getter.png",
+			      "Setter"   => "#{icon_dir}/Setter.png"
 			    }					
 					
 					command = "#{TM_DIALOG} popup --wait"					
@@ -184,7 +190,7 @@ module FlexMate
 
 				else
 
-					 self.tooltip "Opt into using the DIALOG2 popup by\nsetting TM_AS3_POPUP_COMPLETION_ON\n:)"
+					 self.tooltip "Dialog2 is required for this command.\n:)"
 					
 				end
 			end
@@ -232,7 +238,8 @@ if __FILE__ == $0
 												  two:String,
 												  three:*,
 												  four:Test, ...rest);")
-	#TODO/FIX: Following line fails.											
+	
+	#TODO/FIX: Following line fails.
 	puts FlexMate.snippetize_method_params( "method(zero:Number,four:String=\"chalk\",six:String=BIG_EVENT,three:Boolean=true)")												
 
   FlexMate.write_to_log_file("Test Text")
