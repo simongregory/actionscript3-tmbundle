@@ -23,7 +23,8 @@ def common_src_dirs
 	src_dirs_matches
 end
 
-# Loads all paths found within the current project.
+# Loads all paths found within the current project that have a filename which
+# contains the requested word.
 def search_project_paths(word)
 	
 	# Collect all .as and .mxml files with a filename that contains the search
@@ -49,10 +50,13 @@ def search_project_paths(word)
 		end
 		
 	end
+
+	{ :exact_matches => $best_paths, :partial_matches => $package_paths }
 	
 end
 
-# Loads all paths stored in the bundle lookup list.
+# Loads all paths stored in the bundle lookup that have a filename which
+# contains the requested word.
 def search_bundle_paths(word)
 	
 	# Open Help dictionary and find matching lines
@@ -71,12 +75,21 @@ def search_bundle_paths(word)
 		end
 	end
 	
+	{ :exact_matches => $best_paths, :partial_matches => $package_paths }
+	
 end
 
 # Loads both bundle and project paths.
 def search_all_paths(word)
+
 	search_project_paths(word)
 	search_bundle_paths(word)
+	
+	$best_paths.uniq!
+	$package_paths.uniq!
+	
+	{ :exact_matches => $best_paths, :partial_matches => $package_paths }
+	
 end
 
 # Finds, and where sucessful returns, the package path for the specified 
@@ -94,9 +107,6 @@ def find_package(word)
 	$best_paths = []
 	
 	search_all_paths(word)
-
-	$package_paths.uniq!
-	$best_paths.uniq!
 	
 	if $package_paths.size > 0 and $best_paths.size > 0
 		$package_paths = $best_paths + ['-'] + $package_paths
