@@ -63,8 +63,9 @@ class AsClassParser
 		
 		@i_face = AsInterfaceRegex.new()
 
-		# Type detection captures.
+		# Type detection captures.		
 		@extends_regexp = /^\s*((dynamic|final)\s+)?(public)\s+((dynamic|final)\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/
+		@interface_regexp = /^\s*public\s+(interface)\s+(\w+)\s+/
 		@interface_extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+\b((?m:.*))\{/ #}
 		@private_class_regexp = /^class\b/
 		
@@ -89,7 +90,7 @@ class AsClassParser
 
 	def store_all_class_members(doc)
 
-		return if doc == nil
+		return if doc.nil?
 		
 		store_local_scope(doc)
 		
@@ -200,7 +201,7 @@ class AsClassParser
 
 	def store_public_and_protected_class_members(doc)
 
-		return if doc == nil
+		return if doc.nil?
 
 		log_append( "Adding ancestor (pp) " + @depth.to_s )
 		
@@ -244,7 +245,7 @@ class AsClassParser
 
 	def store_public_class_members(doc)
 
-		return if doc == nil
+		return if doc.nil?
 
 		log_append( "Adding ancestor (p) " + @depth.to_s )
 		method_scans = []
@@ -288,7 +289,7 @@ class AsClassParser
 
 	def store_interface_members(doc)
 
-		return if doc == nil
+		return if doc.nil?
 
 		log_append( "Adding ancestor (i) " + @depth.to_s )
 		
@@ -315,7 +316,7 @@ class AsClassParser
 	
 	def store_static_members(doc)
 
-		return if doc == nil
+		return if doc.nil?
 
 		doc.each do |line|
 
@@ -366,7 +367,7 @@ class AsClassParser
 	# Adds all class members to our lists.
 	def add_doc(doc)
 
-		return if doc == nil
+		return if doc.nil?
 
 		store_all_class_members(doc)
 
@@ -380,7 +381,7 @@ class AsClassParser
 	# Adds all public and protected methods and properties to our lists.
 	def add_public_and_protected(doc)
 
-		return if doc == nil
+		return if doc.nil?
 
 		store_public_and_protected_class_members(doc)
 
@@ -392,7 +393,7 @@ class AsClassParser
 	# Adds all public instance methods and properties to our lists.
 	def add_public(doc)
 
-		return if doc == nil
+		return if doc.nil?
 
 		store_public_class_members(doc)
 
@@ -404,13 +405,13 @@ class AsClassParser
 	# Adds all interface methods and properties to our lists.
 	def add_interface(doc)
 
-		return if doc == nil
+		return if doc.nil?
 		
 		store_interface_members(doc)
 
 		next_docs = load_interface_parents(doc)
 		
-		unless next_docs == nil or next_docs.empty?
+		unless next_docs.nil? or next_docs.empty?
 			next_docs.each { |d| add_interface(d) }
 		end
 
@@ -557,7 +558,7 @@ class AsClassParser
 		# Check for explicit import statement.
 		doc.scan( /^\s*import\s+(([\w+\.]+)(\b#{class_name}\b))/)
 
-		unless $1 == nil
+		unless $1.nil?
 			p = $1.gsub(".","/")+".as"
 			return possible_paths << p
 		end
@@ -604,8 +605,8 @@ class AsClassParser
 	
 	# Determines whether or not the supplied document is an interface.
 	def is_interface(doc)
-		doc.scan(@extends_regexp)
-		if $6 == "interface"
+		doc.scan(@interface_regexp)
+		if $1 == "interface"
 			return true
 		end
 		return false
@@ -640,7 +641,7 @@ class AsClassParser
 	# Second element being the type of the reference.
 	def determine_type_globally(doc,reference)
 
-		return if doc == nil
+		return if doc.nil?
 
 		# TODO: Consider the logic of what we are doing here, specifically do we
 		# 	    need to introduce a 'public' only match as we are only interested
@@ -697,7 +698,7 @@ class AsClassParser
 		# Conditionals may cause problems...
 		type_regexp = /\s*(\b#{reference}\b)\s*:\s*(\w+)/
 
-		if doc == nil
+		if doc.nil?
 			log_append( "No doc for #{reference} !" )
 			return
 		end
@@ -744,7 +745,7 @@ class AsClassParser
 	def determine_type_all(doc,reference)
 
 		type = determine_type_locally(doc,reference)
-		type = determine_type_globally(doc,reference) if type == nil
+		type = determine_type_globally(doc,reference) if type.nil?
 
 		return type
 
@@ -789,7 +790,7 @@ class AsClassParser
 			# Reached the last item in the list.
 			type = determine_type_at_level(doc,find_type,depth)
 
-			return nil if type == nil
+			return nil if type.nil?
 			
 			log_append("Located "+ find_type + " as #{type[1]} ")
 			
@@ -802,7 +803,7 @@ class AsClassParser
 			# Recurse down.
 			type = determine_type_at_level(doc,find_type,depth)
 
-			return nil if type == nil
+			return nil if type.nil?
 
 			path = imported_class_to_file_path(type[0],type[1])
 
