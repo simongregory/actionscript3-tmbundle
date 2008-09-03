@@ -13,7 +13,7 @@ import flash.display.Sprite;
  *	@since ${TM_DATE}
  */
 public class ${TM_NEW_FILE_BASENAME} extends Sprite {
-		
+	
 	/**
 	 *	@constructor
 	 */

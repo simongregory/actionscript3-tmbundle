@@ -7,16 +7,16 @@
 		<keep-generated-actionscript>false</keep-generated-actionscript>
 		<warn-no-constructor>true</warn-no-constructor>
 		<warn-no-explicit-super-call-in-constructor>true</warn-no-explicit-super-call-in-constructor>
-      	<show-actionscript-warnings>true</show-actionscript-warnings>
+		<show-actionscript-warnings>true</show-actionscript-warnings>
 		<show-binding-warnings>true</show-binding-warnings>
-		<show-unused-type-selector-warnings>true</show-unused-type-selector-warnings>		
+		<show-unused-type-selector-warnings>true</show-unused-type-selector-warnings>
 		<debug>false</debug>
 
-		<!-- Example library linkage -->		
+		<!-- Example library linkage -->
 
 		<!-- for swc's
 		<library-path append="true">
-			<path-element>../lib/bin/</path-element>			
+			<path-element>../lib/bin/</path-element>
 		</library-path>
 		-->
 		

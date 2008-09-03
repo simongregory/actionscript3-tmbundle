@@ -1,28 +1,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<title>${TM_NEW_FILE_BASENAME}</title>
-		<script type="text/javascript" src="assets/common/js/swfobject.js"></script>
-		<!--script type="text/javascript" src="assets/common/js/swfaddress.js"></script-->		
-		<style type="text/css" media="screen">@import url(assets/common/css/main.css);</style>		
-	</head>
-	<body>
-		<div id="flash_content">
-			You need Flash 9+
-		</div>
-		
-		<script type="text/javascript">
-			var so = new SWFObject(
-				"${TM_NEW_FILE_BASENAME}.swf",
-				"${TM_NEW_FILE_BASENAME}", "100%", "100%", "9", "#FFFFFF" );
-				
-			so.addParam( "allowScriptAccess", "sameDomain" );
-			so.addParam( "scale", "noscale" );
-			//so.addVariable( "settings", "assets/common/xml/global_settings.xml" );
-			
-			so.write( "flash_content" );
-		</script>
-
-	</body>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>${TM_NEW_FILE_BASENAME}</title>
+	<script type="text/javascript" src="assets/common/js/swfobject.js"></script>
+	<!--script type="text/javascript" src="assets/common/js/swfaddress.js"></script-->
+	<style type="text/css" media="screen">@import url(assets/common/css/main.css);</style>
+</head>
+<body>
+	<div id="flash_content">
+		You need Flash 9+
+	</div>
+	<script type="text/javascript">
+		var attributes = {};
+		var flashvars = {};
+		var params = {};
+		params.scale =  "noscale";
+		params.bgcolor = "#FFFFFF";
+		params.allowScriptAccess = "sameDomain";
+		swfobject.embedSWF("${TM_NEW_FILE_BASENAME}.swf", "flash_content", "100%", "100%", "9.0.0","", flashvars, params, attributes);
+	</script>
+</body>
 </html>

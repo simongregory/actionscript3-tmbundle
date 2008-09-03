@@ -237,6 +237,10 @@
 					<string>#comments</string>
 				</dict>
 				<dict>
+					<key>include</key>
+					<string>#package-path</string>
+				</dict>
+				<dict>
 					<key>match</key>
 					<string>\b(\w+)\b\s*</string>
 					<key>name</key>
@@ -244,7 +248,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>[^\s\}a-zA-Z0-9]</string>
+					<string>[^\s}a-zA-Z0-9.]</string>
 					<key>name</key>
 					<string>invalid.illegal.unexpected-extends-character.actionscript.3</string>
 				</dict>
@@ -281,6 +285,10 @@
 					<string>\b(\w+)\b\s*</string>
 					<key>name</key>
 					<string>entity.name.type.class.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#package-path</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -355,7 +363,7 @@
 		<key>compiler-metadata</key>
 		<dict>
 			<key>begin</key>
-			<string>(\[)\s*\b(AccessibilityClass|ArrayElementType|Bindable|DataBindingInfo|DefaultBindingProperty|DefaultProperty|DefaultTriggerEvent|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|RequiresDataBinding|ResourceBundle|Style|Transient)\b</string>
+			<string>(\[)\s*\b(AccessibilityClass|ArrayElementType|Bindable|DataBindingInfo|DefaultBindingProperty|DefaultProperty|DefaultTriggerEvent|Effect|Embed|Event|Exclude|ExcludeClass|Frame|IconFile|Inspectable|InstanceType|Mixin|NonCommittingChangeEvent|RequiresDataBinding|ResourceBundle|SkinStates|SkinPart|Style|Transient)\b</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -851,6 +859,10 @@
 					<string>\b(\w+)\b\s*</string>
 					<key>name</key>
 					<string>entity.name.type.class.actionscript.3</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#package-path</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -1874,6 +1886,18 @@
 				<dict>
 					<key>include</key>
 					<string>#language-storage</string>
+				</dict>
+			</array>
+		</dict>
+		<key>package-path</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\b[\w.]+\.(\b|\*)</string>
+					<key>name</key>
+					<string>entity.name.package.actionscript.3</string>
 				</dict>
 			</array>
 		</dict>
