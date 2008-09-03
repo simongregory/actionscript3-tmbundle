@@ -50,9 +50,9 @@ if [ -n "$fullProjectPath" ]; then
 		mkdir -p "$projectPath/$projectName/deploy/assets/common/js";
 		mkdir -p "$projectPath/$projectName/lib/src";
 		mkdir -p "$projectPath/$projectName/lib/bin";
-		mkdir -p "$projectPath/$projectName/src";		
+		mkdir -p "$projectPath/$projectName/src";
 		
-		# This recursively creates all source code folders, 
+		# This recursively creates all source code folders,
 		# creating any missing directories along the way
 		mkdir -p "$classPathDirectory/core";
 		mkdir -p "$classPathDirectory/controllers";
@@ -78,7 +78,7 @@ if [ -n "$fullProjectPath" ]; then
 		# For the debug html version of the modify the file name.
 		TM_NEW_FILE_BASENAME="$projectName-debug";
 		
-		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "index.html" > "$projectPath/$projectName/deploy/index-debug.html";				
+		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "index.html" > "$projectPath/$projectName/deploy/index-debug.html";
 		# Copy static files.
 		
 		cp "main.css" "$projectPath/$projectName/deploy/assets/common/css/main.css";

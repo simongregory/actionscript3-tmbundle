@@ -86,7 +86,7 @@
 			<key>enabled</key>
 			<false/>
 			<key>value</key>
-			<string></string>
+			<string>/Developer/SDKs/flex_sdk_</string>
 			<key>variable</key>
 			<string>TM_FLEX_PATH</string>
 		</dict>
@@ -94,7 +94,7 @@
 			<key>enabled</key>
 			<false/>
 			<key>value</key>
-			<string>true</string>
+			<string>on</string>
 			<key>variable</key>
 			<string>TM_ASDOC_GENERATION</string>
 		</dict>
