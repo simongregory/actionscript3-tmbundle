@@ -65,7 +65,7 @@ class AsClassParser
 
 		# Type detection captures.		
 		@extends_regexp = /^\s*((dynamic|final)\s+)?(public)\s+((dynamic|final)\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/
-		@interface_regexp = /^\s*public\s+(interface)\s+(\w+)\s+/
+		@interface_regexp = /^\s*public\s+(interface)\s+(\w+)\b/
 		@interface_extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+\b((?m:.*))\{/ #}
 		@private_class_regexp = /^class\b/
 		
@@ -642,7 +642,7 @@ class AsClassParser
 	def determine_type_globally(doc,reference)
 
 		return if doc.nil?
-
+		
 		# TODO: Consider the logic of what we are doing here, specifically do we
 		# 	    need to introduce a 'public' only match as we are only interested
 		#       in public variables once @type_depth > 0 IF we are inspecting a
@@ -654,17 +654,28 @@ class AsClassParser
 		namespace = "private|protected|public" if @type_depth == 0		
 		namespace = "" if is_interface(doc)
 
-		# TODO: Method paramaeters are likely to need work for the accessor.
-		var_regexp = /^\s*(#{namespace})\s*\bvar\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
-
+		# Variables and Constants
+		var_regexp = /^\s*(#{namespace})\s+(var|const)\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
+		
 		doc.scan(var_regexp)
-		if $3 != nil
-		    log_append("Type determined as '#{$3}' in global scope.")
-		    return [doc,$3]
+		if $4 != nil
+		    log_append("Type determined as '#{$4}' in global scope.")
+		    return [doc,$4]
+		end
+		
+		# Statics.
+		var_regexp = /^\s*(#{namespace}|static)\s+(#{namespace}|static)\s+\bvar\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
+		
+		doc.scan(var_regexp)
+		if $4 != nil
+		    log_append("Type determined as '#{$4}' in global scope.")
+		    return [doc,$4]
 		end
 
+
 		# Also picks up single line methods.
-		get_regexp = /^\s*(#{namespace})\s*\bfunction\s+(\b(get)\b\s+)?\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
+		# TODO: public static function getInstance():IFacade {
+		get_regexp = /^\s*(#{namespace}|static)\s+(#{namespace}|static)?\s*\bfunction\s+(get\s+)?\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
 
 		doc.scan(get_regexp)
 		if $6 != nil
@@ -676,7 +687,7 @@ class AsClassParser
 			log_append("Type determined as '#{$6}' in global scope.")
 			return [doc,$6]
 		end
-
+		
 		@type_depth += 1
 
 		# Try the superclass.
