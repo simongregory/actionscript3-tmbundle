@@ -1,4 +1,8 @@
 #!/usr/bin/env ruby
+#
+#  Copyright 2008 Simon Gregory.
+#  Released under the Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License.
+#  See http://creativecommons.org/licenses/by-nc-sa/3.0/ for details.
 
 require File.dirname(__FILE__) + '/flex_mate'
 

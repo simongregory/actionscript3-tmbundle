@@ -1,4 +1,8 @@
 #!/usr/bin/env ruby -wKU
+#  
+#  Copyright 2008 Simon Gregory.
+#  Released under the Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License.
+#  See http://creativecommons.org/licenses/by-nc-sa/3.0/ for details.
 
 # Designed to scan from the caret location within the current document and 
 # output a string that can be used by the class parser to load and store the 
