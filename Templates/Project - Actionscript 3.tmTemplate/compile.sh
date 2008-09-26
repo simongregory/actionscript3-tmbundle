@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Before use this script needs to be made exectuable,
+# Use Bundles > Shell Script > Make Script Executable (ctrl-shift-command-x)
+
 # TextMate Project variables. Add to the tmproject vars to use the default compile scripts.
 # TM_FLEX_FILE_SPECS 	src/${TM_NEW_FILE_BASENAME}.mxml
 # TM_FLEX_OUTPUT 		deploy/${TM_NEW_FILE_BASENAME}.swf
