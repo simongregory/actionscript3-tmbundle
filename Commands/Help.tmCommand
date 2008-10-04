@@ -11,6 +11,8 @@ html_header "ActionScript 3 Bundle Help" "ActionScript 3"
 "$TM_SUPPORT_PATH/lib/markdown_to_help.rb" &lt;&lt;'EOF'
 # Installation
 
+## SDK
+
 This bundle is designed to work with the Flex SDK (not the Flash IDE). Therfore it is necessary to download and install the Flex SDK from [here](http://www.adobe.com/products/flex/flexdownloads/). Bundle commands will search the following directories in an attempt to find the sdk:
 
 * `/Developer/SDKs/flex_sdk_3`
@@ -34,7 +36,11 @@ This bundle is designed to work with the Flex SDK (not the Flash IDE). Therfore 
 
 If you do not place the Flex SDK in one of these directories then you need to set the TextMate shell variable `TM_FLEX_PATH` to your chosen directory. Please note that if you have added `[flex_sdk]/bin` to your [PATH](http://en.wikipedia.org/wiki/Environment_variable#Examples_of_UNIX_environment_variables") manually only the build and compile commands make use of it, and the documenation, source code, and configuration commands will fail.
 
+## Documentation 
+
 Documentation has to be installed separately for the documentation command to work, it can be downloaded [here](http://www.adobe.com/support/documentation/en/flex/), a zip file containing all documentation can be [downloaded here](http://www.adobe.com/go/flex_documentation_zip). Once downloaded please rename the unzipped directory `docs` and place it in your Flex SDK directory.
+
+## Flash Player
  
 A full archive of flash players can be found [here](http://www.adobe.com/go/tn_14266),
 debugger versions of the player are needed to trace output and display runtime errors.  
