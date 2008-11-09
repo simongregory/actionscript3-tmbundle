@@ -22,7 +22,7 @@ out = "this."
 
 i = TextMate::UI.menu(m) if m.size &gt; 0
 
-out += m[i] if i != nil
+out += i['data'] if i != nil
 
 TextMate.exit_insert_text(out)</string>
 	<key>input</key>
