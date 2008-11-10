@@ -98,6 +98,14 @@
 			<key>variable</key>
 			<string>TM_ASDOC_GENERATION</string>
 		</dict>
+		<dict>
+			<key>enabled</key>
+			<false/>
+			<key>value</key>
+			<string>build/launch.sh</string>
+			<key>variable</key>
+			<string>TM_FLEX_RUN_FILE</string>
+		</dict>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
