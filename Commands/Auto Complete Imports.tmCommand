@@ -9,16 +9,12 @@
 
 require ENV['TM_BUNDLE_SUPPORT']+'/lib/package_completion.rb'
 
-line = ENV['TM_CURRENT_LINE']
-word = STDIN.read.strip
-package_path = find_package(word)
+line   = ENV['TM_CURRENT_LINE']
+word   = STDIN.read.strip
+import = find_package(word)
+import = "import #{import}" unless line =~ /^\s*import/
 
-if line[/import/]
-	print package_path
-else
-	print "import " + package_path + ";"
-end
-</string>
+print "#{import};"</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
