@@ -6,16 +6,50 @@
 as3_doc = ENV['TM_ASDOC_GENERATION']
 @include_docs = as3_doc ? true : false
 
-@private_doc = "/**\n *	@private\n */"
-@inherit_doc = "/**\n *	@inheritDoc\n */"
-@constructor_doc = "/**\n *	@constructor\n */"
+@private_doc =
+"/**
+ *	@private
+ */"
+
+@inherit_doc =
+"/**
+ *	@inheritDoc
+ */"
+
+@constructor_doc = 
+"/**
+ *	@constructor
+ */"
+
 @interface_method = "function ${1:name}($2):${3:void};"
 @interface_getter = "function get ${1:name}():${2:Object};$0"
 @interface_setter = "function set ${1:name}(value:${2:Object}):void;$0"
-@method    = " function ${1:name}($2):${3:void}\n{\n\t$0${3/void$|(.+)/(?1:return null;)/}\n}"
-@override  = "override ${1:public} function ${2:methodName}($3):${4:void}\n{\n\tsuper.${2:methodName}();\n\t$0${4/void$|(.+)/(?1:return null;)/}\n}"
-@getter    = " function get ${1:name}():${2:Object}{\n\treturn ${3:_$1};\n}$0"
-@setter    = " function set ${1:name}(value:${2:Object}):void {\n\t${3:_$1} = value;\n}$0"
+
+@method = 
+" function ${1:name}($2):${3:void}
+{
+	$0${3/void$|(.+)/(?1:return null;)/}
+}"
+
+@override = 
+"override ${1:public} function ${2:methodName}($3):${4:void}
+{
+	super.${2:methodName}();
+
+	$0${4/void$|(.+)/(?1:return null;)/}
+}"
+
+@getter = 
+" function get ${1:name}():${2:Object}
+{
+	return ${3:_$1};
+}$0"
+
+@setter = 
+" function set ${1:name}(value:${2:Object}):void {
+	${3:_$1} = value;
+}$0"
+
 @variable  = " var _${1:variableName}:${2:Object};"
 @property  = " var ${1:propertyName}:${2:Object};"
 @namespace = " namespace ${1:nameSpaceName};"
@@ -25,7 +59,8 @@ as3_doc = ENV['TM_ASDOC_GENERATION']
 @static_method = "static" + @method
 @static_constant = "static" + @constant
 
-@class_doc = "/**
+@class_doc = 
+"/**
  *  ${1:Description}
  *    
  *  @langversion ActionScript ${2:3}
@@ -223,7 +258,6 @@ end
 def inherit_doc
 	@inherit_doc
 end
-
 
 # Private methods
 
