@@ -13,9 +13,10 @@
                Added to - Auto Complete Imports.
                         - Auto Complete @see.
                         - AS3 Template Parser.
-					    - Drag Import command.
-					    - Package snip.
-               TODO: Complie/Build/Run integration.</string>
+                        - Drag Import command.
+                        - Package snip.
+               TODO: Complie/Build/Run integration.
+                     Open Import</string>
 		<key>shellVariables</key>
 		<array>
 			<dict>
