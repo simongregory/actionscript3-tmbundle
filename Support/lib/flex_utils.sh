@@ -4,11 +4,13 @@
 . "$TM_SUPPORT_PATH/lib/webpreview.sh"
 
 #Search locations for the flex sdk
-FLEX_DIRS=( "/Developer/SDKs/flex_sdk_3" \
+FLEX_DIRS=( "/Developer/SDKs/flex_sdk_3.2.0" \
+			"/Developer/SDKs/flex_sdk_3.1.0" \
+			"/Developer/SDKs/flex_sdk_3.0.0" \
 			"/Applications/flex_sdk_3" \
 			"/Applications/Adobe Flex Builder 3/sdks/3.0.0" \
 			"/Applications/Adobe Flex Builder 3/sdks/2.0.1" \
-            "/Applications/flex_sdk_2" \
+			"/Applications/flex_sdk_2" \
 			"/Applications/FlexSDK2" \
 			"/Applications/Flex" \
 			"/Applications/FlexSDK2.0.1" \
@@ -184,7 +186,9 @@ require_var (){
 #Make sure a file exists at the defined location.
 require_file (){
 
-	if [[ !(-f "$2") ]]; then
+	#if [[ !(-f "$2") ]]; then
+	if [[ !(-f "$2") ]]; then		
+	#if [ -f "$2" ]; then 		
 
 		html_header "File not found";
 

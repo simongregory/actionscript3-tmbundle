@@ -15,6 +15,9 @@ html_header "ActionScript 3 Bundle Help" "ActionScript 3"
 
 This bundle is designed to work with the Flex SDK (not the Flash IDE). Therfore it is necessary to download and install the Flex SDK from [here](http://www.adobe.com/products/flex/flexdownloads/). Bundle commands will search the following directories in an attempt to find the sdk:
 
+* `/Developer/SDKs/flex_sdk_3.2.0`
+* `/Developer/SDKs/flex_sdk_3.1.0`
+* `/Developer/SDKs/flex_sdk_3.0.0`
 * `/Developer/SDKs/flex_sdk_3`
 * `/Applications/flex_sdk_3`
 * `/Applications/Adobe Flex Builder 3/sdks/3.0.0`
