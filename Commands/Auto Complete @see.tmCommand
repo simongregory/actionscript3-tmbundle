@@ -11,9 +11,9 @@ require ENV['TM_BUNDLE_SUPPORT']+'/lib/package_completion.rb'
 
 word = STDIN.read.strip
 
-package_path = find_package(word)
+class_path = find_package(word)
 
-print "@see " + package_path + ";"
+print "@see " + class_path + ";"
 </string>
 	<key>fallbackInput</key>
 	<string>word</string>

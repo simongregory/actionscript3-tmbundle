@@ -9,11 +9,22 @@
 
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/flex_env'
 
-words = `grep "^$TM_CURRENT_WORD\(" "$TM_BUNDLE_PATH/support/data/completions.txt"`.split("\n")
+# The scopes this command can be triggered from are auto-generated using the same 
+# data source completions.txt is derived from. As completions.txt doesn't include 
+# any methods which contain parameters we can safely insert a set of empty brackets
+# when a match is not found. 
+#
+# WARN: Custom methods with the same signature will be ignored in favour of the
+#       predetermined completions list.
+#
+# TODO: support.class.flash.actionscript.3, support.class.fl.actionscript.3, 
+#       support.class.mx.actionscript.3, support.class.top-level.actionscript.3
+#
+# DONE: support.function.top-level.actionscript.3, 
+#       support.function.flash.actionscript.3, support.function.fl.actionscript.3, 
+#       support.function.mx.actionscript.3, support.function.global.actionscript.3
 
-# The scope that this command is triggered from is auto-generated from the same 
-# data but does not include any methods which don't contain parameters. 
-# This means when the word list has no matches we can insert a set of empty brackets.
+words = `grep "^$TM_CURRENT_WORD\(" "$TM_BUNDLE_PATH/support/data/completions.txt"`.split("\n")
 
 TextMate.exit_insert_snippet("()${1:;}") if words.empty?
 
@@ -30,17 +41,7 @@ end
 snip = choice[ENV['TM_CURRENT_WORD'].length..-1]
 
 print FlexMate.snippetize_method_params(snip)
-
-
-# WARN: Custom methods with the same signature will be ignored in favour of the
-#       predetermined completions list.
-#
-# TODO: support.class.flash.actionscript.3, support.class.fl.actionscript.3, 
-#       support.class.mx.actionscript.3, support.class.top-level.actionscript.3
-#
-# DONE: support.function.top-level.actionscript.3, 
-#       support.function.flash.actionscript.3, support.function.fl.actionscript.3, 
-#       support.function.mx.actionscript.3, support.function.global.actionscript.3	</string>
+	</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
