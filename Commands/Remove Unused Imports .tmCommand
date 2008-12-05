@@ -23,20 +23,20 @@ multiline_comments = /\/\*(?:.|([\r\n]))*?\*\//
 file_without_comments.gsub!(multiline_comments, '')
 file_without_comments.gsub!(single_line_comments,'')
 
-#Collect all imported classes.
+# Collect all imported classes.
 found_imports = []
 file_without_comments.scan(/\bimport\s+.*\.(\w+?);/).each do | imported_class |
 	found_imports &lt;&lt; { 'class' =&gt; imported_class.to_s, 'count' =&gt; 0 } 
 end
 
-#Scan the document and usage count for each Import.
+# Scan the document and usage count for each Import.
 found_imports.each do |import|
     file_without_comments.scan(/\b#{import['class']}\b/).each do | found_instance |
         import['count'] += 1
     end
 end
 
-#remove import lines with only one reference.
+# Remove import lines with only one reference.
 to_remove = []
 found_imports.each do |import|
 	if import['count'] == 1
@@ -47,10 +47,10 @@ found_imports.each do |import|
 	end
 end
 
-#TODO: Remove duplicate imports.
+# TODO: Remove duplicate imports.
 
 if to_remove.empty?
-	puts "All Imports appear to be referenced.\nwild.card.* packages are not checked.\nReference repetitions (ie in comments) will not be removed."
+	TextMate.exit_show_tool_tip "All Imports appear to be referenced.\nwild.card.* packages are not checked.\nReference repetitions (ie in comments) will not be removed."
 else
     TextMate.exit_replace_document current_file	
 end 
@@ -62,7 +62,7 @@ end
 	<key>name</key>
 	<string>Remove Unused Imports </string>
 	<key>output</key>
-	<string>showAsTooltip</string>
+	<string>discard</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>uuid</key>
