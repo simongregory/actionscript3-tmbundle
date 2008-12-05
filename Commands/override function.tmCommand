@@ -27,7 +27,7 @@ TextMate.exit_insert_snippet( override_method )
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
-	<string>source.actionscript.3</string>
+	<string>source.actionscript.3 meta.class.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>override</string>
 	<key>uuid</key>
