@@ -32,7 +32,7 @@ word = TextMate::UI.request_string( :title => "ActionScript 3 Help Search",
                             		:prompt => "Enter a term to search for:",
                             		:button1 => "search") if word.empty?
 
-TextMate.exit_discard if !word
+TextMate.exit_discard if word.empty?
 
 word = word.gsub("&", "&amp;").gsub("<", "&lt;")
 
