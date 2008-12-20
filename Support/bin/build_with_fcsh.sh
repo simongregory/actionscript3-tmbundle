@@ -20,20 +20,6 @@ function checkForSpaces {
 	fi	
 }
 
-#Only check for iTerm when the OS is Tiger.
-if [[ "$OS" == 10.4.* ]]; then
-	
-	if find_app >/dev/null iTerm; then
-		#All is ok.
-		do_nothing_variable="TODO remove this by checking the negative"
-	else
-		echo "This command requires iTerm to be installed."
-		echo "See bundle help for more information."
-		exit 206;
-	fi
-
-fi
-
 #search for the flex install directory.
 set_flex_path -t
 
@@ -74,10 +60,6 @@ if [ "$TM_AS3_LIB_PATH" != "" ]; then
 	MXMLC_ARGS="$MXMLC_ARGS -sp+=$TM_AS3_LIB_PATH"
 fi
 	
-if [[ "$OS" != 10.4.* ]]; then
-    "$TM_BUNDLE_SUPPORT/lib/fcsh_terminal" "$FCSH" "$MXMLC_ARGS" >/dev/null; 
-else
-	osascript "$TM_BUNDLE_SUPPORT/lib/fsch_iTerm.applescript" "$FCSH" "$MXMLC_ARGS" >/dev/null;
-fi
+"$TM_BUNDLE_SUPPORT/lib/fcsh_terminal" "$FCSH" "$MXMLC_ARGS" >/dev/null; 
 
 exit 200;
