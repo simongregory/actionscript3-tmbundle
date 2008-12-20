@@ -12,6 +12,8 @@ set_flex_path;
 open -a "TextMate.app" "$TM_FLEX_PATH/frameworks/flex-config.xml";</string>
 	<key>input</key>
 	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>@C</string>
 	<key>name</key>
 	<string>Open flex-config.xml</string>
 	<key>output</key>
