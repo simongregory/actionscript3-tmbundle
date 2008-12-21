@@ -7,15 +7,11 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
 
-SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
-BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
-require SUPPORT + '/lib/exit_codes'
-require BUN_SUP + '/lib/as_declarations'
+t = SnippetBuilder.new
 
-TextMate.exit_insert_snippet( interface_snip )
-
-
+TextMate.exit_insert_snippet( t.interface )
 </string>
 	<key>input</key>
 	<string>none</string>

@@ -7,20 +7,10 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
-BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
-require SUPPORT + '/lib/ui'
-require SUPPORT + '/lib/exit_codes'
-require BUN_SUP + '/lib/as_declarations'
-
-ns = "private"
-
-snips = get_snippets(ns)
-snip = TextMate::UI.menu(snips)
-
-TextMate.exit_insert_text(ns) if snip == nil
-TextMate.exit_insert_snippet( snip['data'] )</string>
+SnippetController.namespace("private")
+</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>

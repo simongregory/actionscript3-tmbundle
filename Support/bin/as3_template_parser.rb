@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/package_completion.rb'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
 doc_gen = (ENV['TM_ASDOC_GENERATION'] != nil)
 ban_gen = (ENV['TM_AS3_BANNER_GENERATION'] != nil)
@@ -8,7 +8,7 @@ ban_gen = (ENV['TM_AS3_BANNER_GENERATION'] != nil)
 ENV['TM_YEAR'] = `date "+%Y"`.chop
 ENV['TM_DATE'] = `date +%d.%m.%Y`.chop
 
-common_src_directories = common_src_dir_list.gsub(":","|")
+common_src_directories = SourceTools.common_src_dir_list.gsub(":","|")
 
 new_file = ENV['TM_NEW_FILE']
 new_file_path = new_file.sub(/.*\/(#{common_src_directories})\//,"")

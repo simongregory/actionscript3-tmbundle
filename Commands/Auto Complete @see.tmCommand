@@ -7,11 +7,11 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/package_completion.rb'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
 word = STDIN.read.strip
 
-class_path = find_package(word)
+class_path = SourceTools.find_package(word)
 
 print "@see " + class_path + ";"
 </string>

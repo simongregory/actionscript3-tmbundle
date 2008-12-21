@@ -7,12 +7,12 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/package_completion.rb'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
 dir = ENV['TM_DIRECTORY']
 path = dir ? dir : ""
 
-common_src_dirs.each do |remove|
+SourceTools.common_src_dirs.each do |remove|
     path = path.gsub( /^.*\b#{remove}\b\//, "" );
 end
 

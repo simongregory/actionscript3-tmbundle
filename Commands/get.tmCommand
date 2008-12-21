@@ -7,14 +7,12 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
-BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
-require SUPPORT + '/lib/exit_codes'
-require BUN_SUP + '/lib/as_declarations'
+t = SnippetBuilder.new
 
-TextMate.exit_insert_snippet( interface_getter ) if ENV['TM_SCOPE'] =~ /interface/
-TextMate.exit_insert_snippet( getter )</string>
+TextMate.exit_insert_snippet( t.i_getter ) if ENV['TM_SCOPE'] =~ /interface/
+TextMate.exit_insert_snippet( t.getter )</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>

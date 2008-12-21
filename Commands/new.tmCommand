@@ -19,7 +19,7 @@ else
 	TextMate.exit_insert_text( "new\t" );
 end 
 
-c = AsClassParser.new
+c = ClassParser.new
 class_type = c.find_type(STDIN.read.strip,prop)
 class_type = "ClassInstance" if class_type == nil
 

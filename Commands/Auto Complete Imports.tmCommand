@@ -7,11 +7,11 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/package_completion.rb'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
 line   = ENV['TM_CURRENT_LINE']
 word   = STDIN.read.strip
-import = find_package(word)
+import = SourceTools.find_package(word)
 import = "import #{import}" unless line =~ /^\s*import/
 
 print "#{import};"</string>

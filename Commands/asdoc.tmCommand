@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -7,8 +7,7 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
 
-BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
-require BUN_SUP + '/lib/as_declarations'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
 line_number = ENV['TM_LINE_NUMBER'].to_i
 doc = STDIN.read.split("\n")
@@ -18,14 +17,16 @@ class_regexp = /\b(class|interface)\b/
 constructor_regexp = /public\s+function\s+([A-Z]\w+)\s*\(.*\)\s*$/
 override_regexp = /override.*function.*\(/
 
+t = SnippetBuilder.new
+
 if next_line =~ class_regexp
-	print class_doc
+	print t.class_doc().chomp
 elsif next_line =~ constructor_regexp
-	print constructor_doc
+	print t.doc("constructor").chomp
 elsif next_line =~ override_regexp
-	print inherit_doc	
+	print t.doc("inheritDoc").chomp	
 else
-	print private_doc
+	print t.doc("private").chomp
 end</string>
 	<key>input</key>
 	<string>document</string>
