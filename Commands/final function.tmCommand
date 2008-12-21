@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/env ruby -wKU
+	<string>#!/usr/bin/env ruby
 
-SUPPORT = "#{ENV['TM_SUPPORT_PATH']}"
-BUN_SUP = "#{ENV['TM_BUNDLE_SUPPORT']}"
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
-require SUPPORT + '/lib/exit_codes'
-require BUN_SUP + '/lib/as_declarations'
+t = SnippetBuilder.new
 
-method_name = STDIN.read
+TextMate.exit_insert_snippet( t.f_method ) if ENV['TM_SCOPE'] =~ /meta\.class/
+TextMate.exit_insert_snippet( t.f_class )
 
-TextMate.exit_insert_snippet( final_method )</string>
+</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
 	<string>selection</string>
 	<key>name</key>
-	<string>final function</string>
+	<string>final</string>
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
-	<string>source.actionscript.3 meta.class.actionscript.3</string>
+	<string>source.actionscript.3 meta.package.actionscript.3, meta.class.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>final</string>
 	<key>uuid</key>

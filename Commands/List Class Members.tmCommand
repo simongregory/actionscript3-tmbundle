@@ -11,10 +11,10 @@ require ENV['TM_BUNDLE_SUPPORT'] + '/lib/flex_env'
 
 ref = "this"
 
-c = AsClassParser.new
+c = ClassParser.new
 c.load(STDIN.read.strip,ref)
 
-a = AsCompletionsList.new(c)
+a = CompletionsList.new(c)
 
 m = a.list rescue []
 

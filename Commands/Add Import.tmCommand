@@ -7,14 +7,15 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/package_completion.rb'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
 word   = ENV['TM_CURRENT_WORD']
 doc    = STDIN.read.strip
-import = find_package(word)
+import = SourceTools.find_package(word)
 
 pkg = /^\s*package\s+([\w+\.]+)/
 cls = /^\s*(public|final)\s+(final|public)?\s*\bclass\b/
+mta = /^\s*\[(Style|Bindable|Event|Embed|SWF)/
 
 pre, imps, post = [], [], []
 a = pre
@@ -24,13 +25,13 @@ doc.split("\n").each do |line|
 	if line =~ pkg
 		pkg = nil
 		a = imps
-	elsif line =~ cls
+	elsif line =~ cls || line =~ mta
 		cls = nil
 		a = post
 	end
 end
 
-irgx = /#{import.gsub('.', '\.')}/
+irgx = /import\s+#{import.gsub('.', '\.')}/
 safe = 0
 indent = ""
 
@@ -40,7 +41,7 @@ imps.each_with_index do |line,index|
 	elsif line =~ /^\s*$/
 		safe = index
 	elsif line =~ /^(\s*)import\s+/
-		indent = "	"
+		indent = $1
 	end
 end
 
@@ -55,7 +56,7 @@ TextMate.exit_replace_document( pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.jo
 	<key>name</key>
 	<string>Import Class</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>openAsNewDocument</string>
 	<key>scope</key>
 	<string>source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3</string>
 	<key>uuid</key>
