@@ -2,73 +2,75 @@
 
 # Utility module which collects together common tasks used by commands within the
 # ActionScript 3 and Flex Bundles.
+#
 module FlexMate
 
 	class << self
-
-		# Fallback Search locations for the flex sdk if they are not specified in the 
-		# environmental variable TM_FLEX_SDK_SEARCH_PATHS
-		FLEX_DIRS = [ "/Developer/SDKs/flex_sdk_3",
-									"/Developer/SDKs/flex_sdk_3.0.2",
-									"/Applications/flex_sdk_3",
-									"/Applications/flex_sdk_2",
-									"/Applications/flex_sdk_2.0.1",
-									"/Applications/FlexSDK2",
-									"/Applications/Flex",
-									"/Applications/FlexSDK2.0.1",
-									"/Applications/Adobe Flex Builder 3/sdks/3.0.0",
-									"/Applications/Adobe Flex Builder 3/sdks/2.0.1",
-									"/Applications/Adobe Flex Builder 2/Flex SDK 2",
-									"/Developer/Applications/Adobe Flex Builder 2/Flex SDK 2",
-									"/Developer/SDKs/flex_sdk_2",
-									"/Developer/SDKs/Flex",
-									"/Developer/SDKs/FlexSDK2",
-									"/Developer/Applications/Flex",
-									"/Developer/Applications/flex_sdk_2",
-									"/Developer/Applications/FlexSDK2" ]
-
-		SDK_SRC_PATHS = [ "/frameworks/source/mx/", "/frameworks/projects/framework/src" ]
 		
-		LOG_FILE = "#{e_sh ENV['HOME']}/Library/Logs/TextMate ActionScript 3.log"
+		# ==================
+		# = TEXTMATE UTILS =
+		# ==================
+		
+		# Make sure an environment variable is set.
+		#
+		def require_var(evar)
+			if !ENV[evar]
 
-		#Return the first Flex SDK directory found in the list.
-		def dir_check
-		    return sdk_dir_arr.find { |dir| File.directory? dir }
-		end
+				puts html_head(:window_title => "Missing Environment Variable", :page_title => "Missing Environment Variable", :sub_title => "")
 
-		# Returns a : seperated list of locatons the flex sdk may commonly be found.
-		def sdk_dir_list
-			src_dirs = ENV['TM_FLEX_SDK_SEARCH_PATHS']
-			src_dirs = FLEX_DIRS.join(":") if src_dirs == nil
-			src_dirs
-		end
+				puts <<-HTMOUT
+					<h2>Environement var missing</h2>
+					<p>Please define the environment variable <code>#{evar}</code>.
+					<br><br>
+					Configuration help can be found <a href="tm-file://$TM_BUNDLE_SUPPORT/html/help.html#conf">here.</a></p>
+				HTMOUT
 
-		def sdk_dir_arr
-			sdk_dir_list.split(":")
-		end
+				TextMate.exit_show_html
 
-		def find_sdk
-	
-			user_path = ENV['TM_FLEX_PATH']
-			if user_path
-				return user_path if File.directory? user_path
 			end
-
-			return dir_check
-	
 		end
 
-		def find_sdk_src
-   
-			sdk_path = find_sdk
-			unless sdk_path == nil
-				SDK_SRC_PATHS.each { |sp|
-					p = sdk_path+sp
-					return p if File.directory? p
-				}
+		# Make sure a file exists at the defined location.
+		#
+		def require_file(file)
+
+			if !File.exist?(file)
+
+				puts html_head(:window_title => "File not found", :page_title => "File not found", :sub_title => "")
+
+				print <<-HTMOUT
+					<h2>#{file} 404</h2>
+					<p>The environment variable <code>#{file}</code> does not resolve to an actual file.
+					<br><br>
+					Configuration help can be found <a href="tm-file://#{ENV['TM_BUNDLE_SUPPORT']}/html/help.html#conf">here.</a></p>
+				HTMOUT
+
+				TextMate.exit_show_html
+
 			end
- 
 		end
+		
+		# Many of the commands only work from a project scope.
+		#
+		# This checks for the existence of a project, then sets $TM_PROJECT_DIR 
+		# to work from.
+		#
+		def cd_to_tmproj_root
+
+		  unless ENV['TM_PROJECT_FILEPATH']
+		      TextMate.exit_show_tool_tip "This Command should only be run from within a saved TextMate Project."
+		  end
+
+		  ENV['TM_PROJECT_DIR'] = File.dirname( ENV['TM_PROJECT_FILEPATH'] )
+
+		  #TODO: IS THIS EQUIVALENT POSSIBLE/USEFUL...
+		  `cd #{ENV['TM_PROJECT_DIR']}`
+
+		end
+		
+		# =================
+		# = SNIPPET UTILS =
+		# =================
 		
 		def snippetize_method_params(str)
 			i=0
@@ -79,39 +81,26 @@ module FlexMate
 			str
 		end
 		
-		# initilialize / clear the log.
-		def initialize_log
-			f = File.open(LOG_FILE, "w")
-			f.close			
-		end
-		
-		def write_to_log_file(text)
-			
-			initialize_log unless File.exist?(LOG_FILE)
-			
-			# Append text.
-		  f = File.open(LOG_FILE, "a")
-		  f.puts Time.now.strftime("\n[%m/%d/%Y %H:%M:%S]") + " TextMate::ActionScript 3.tmbundle"
-		  f.puts text
-		  f.flush
-		  f.close
-		
-		end
+		# ===============
+		# = UI + DIALOG =
+		# ===============
 		
 		# Show a DIALOG 2 tool tip if dialog 2 is available.
 		# Used where a tooltip needs to be displayed in conjunction with another
 		# exit type.
-		# TODO: Move to seperate ui and extend TextMate::UI
+		#
 		def tooltip(message)
 
 			return if message.to_s == ""
 			
-			if is_dialog2
+			if has_dialog2
 				`"$DIALOG" tooltip <<< "#{message}"`
 			end
 			
 		end
 		
+		# Invoke a completions dialog.
+		#
 		def complete(choices,filter=nil,exit_message=nil)
 			
 			if choices[0]['display'] == nil
@@ -124,7 +113,7 @@ module FlexMate
 				STDOUT.reopen(open('/dev/null'))
       	STDERR.reopen(open('/dev/null'))			
 
-				if is_dialog2
+				if has_dialog2
 
 					# "$DIALOG" help popup
 					# Presents the user with a list of items which can be filtered down by typing to select the item they want.
@@ -157,8 +146,8 @@ module FlexMate
 			    }					
 					
 					command = "#{TM_DIALOG} popup --wait"					
-					command << " --initial-filter #{e_sh filter}" if filter != nil
-					command << " --extra-chars '_'"
+					command << " --alreadyTyped #{e_sh filter}" if filter != nil
+					command << " --additionalWordCharacters '_'"
 
 					result = nil
 					
@@ -182,7 +171,6 @@ module FlexMate
 					to_insert = self.snippetize_method_params(to_insert)
 					to_insert += ";" if r['typeof'] == "void" 
 					
-					#`"$DIALOG" tooltip <<< "#{exit_message}"` unless exit_message == nil
 					self.tooltip exit_message
           
 					# Insert the snippet if necessary
@@ -197,6 +185,19 @@ module FlexMate
 
 		end
 		
+		# Returns true if Dialog 2 is available.
+		#
+		def has_dialog2
+			tm_dialog = e_sh ENV['DIALOG']
+			! tm_dialog.match(/2$/).nil? 
+		end
+		
+		# ======================
+		# = SYSTEM/ENVIRONMENT =
+		# ======================
+		
+		# Returns true if OS X 10.5 (Leopard) is available.
+		#
 		def check_for_leopard
 			
 			os = `defaults read /System/Library/CoreServices/SystemVersion ProductVersion`
@@ -206,32 +207,12 @@ module FlexMate
 			
 		end
 		
-		def is_dialog2
-			tm_dialog = e_sh ENV['DIALOG']
-			! tm_dialog.match(/2$/).nil? 
-		end
-		
 	end
 
 end   
 
 if __FILE__ == $0
-  
-  puts "\nsdk_dir_list:"
-  puts FlexMate.sdk_dir_list
-
-  puts "\nsdk_dir_arr:"
-  puts FlexMate.sdk_dir_arr
-  
-  puts "\ndir_check:"
-  puts FlexMate.dir_check.to_s
-
-  puts "\nfind_sdk:"
-  puts FlexMate.find_sdk.to_s
-
-  puts "\nfind_sdk_src:"
-  puts FlexMate.find_sdk_src
-	
+  	
   puts "\nsnippetize_method_params:"
   puts FlexMate.snippetize_method_params( "method(one:Number,two:String,three:*, four:Test=10, ...rest)")  
   puts FlexMate.snippetize_method_params( "method(one:Number,
@@ -242,14 +223,12 @@ if __FILE__ == $0
 	#TODO/FIX: Following line fails.
 	puts FlexMate.snippetize_method_params( "method(zero:Number,four:String=\"chalk\",six:String=BIG_EVENT,three:Boolean=true)")												
 
-  FlexMate.write_to_log_file("Test Text")
-
 	print "\ncheck_for_leopard: "
 	puts FlexMate.check_for_leopard
 
 	FlexMate.tooltip("Test Message")
 	
-	puts "\nis_dialog2:"
-	puts FlexMate.is_dialog2.to_s
+	puts "\nhas_dialog2:"
+	puts FlexMate.has_dialog2.to_s
    
 end
