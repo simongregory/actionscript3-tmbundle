@@ -5,11 +5,11 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh";
+	<string>#!/usr/bin/env ruby -wKU
 
-set_flex_path;
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
-open -a "TextMate.app" "$TM_FLEX_PATH/frameworks/flex-config.xml";</string>
+FlexMate::SDK.open_flex_config</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
