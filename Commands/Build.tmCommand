@@ -23,19 +23,11 @@ require_var "TM_FLEX_OUTPUT" "$TM_FLEX_OUTPUT"
 
 require_cmd "mxmlc" "If you have installed mxmlc, then you need to either update your &lt;tt&gt;PATH&lt;/tt&gt; or set the &lt;tt&gt;TM_FLEX_PATH&lt;/tt&gt; shell variable (please see bundle help)."
 
-### If the user is running Leopard the use fcsh via Terminal
+### If the user is running Leopard then use fcsh via Terminal
 OS=$(defaults read /System/Library/CoreServices/SystemVersion ProductVersion)
 if [[ "$OS" != 10.4.* ]]; then
 	build_with_fcsh.sh
 	exit;
-fi
-
-### When the user has iTerm use FCSH.
-if find_app &gt;/dev/null iTerm.app; then
-	if type -p fcsh &gt;/dev/null; then
-		build_with_fcsh.sh
-		exit;
-	fi
 fi
 
 ### MXMLC Compile Starts here.
