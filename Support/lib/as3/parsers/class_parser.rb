@@ -4,7 +4,7 @@
 #  Released under the Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License.
 #  See http://creativecommons.org/licenses/by-nc-sa/3.0/ for details.
 
-require File.dirname(__FILE__) + '/flex_mate'
+require File.dirname(__FILE__) + '/../../flex_mate'
 
 # A Utilty class to convert an ActionScript class into
 # list of it's constituent methods and properties.
@@ -17,11 +17,12 @@ require File.dirname(__FILE__) + '/flex_mate'
 #           #include files are not loaded and parsed.
 #           Internal classes are not supported.
 #
-# TODO's: - Multiline static methods.
+# TODO's: - DETERMINE TYPE NEEDS TO LOAD ALL INTERFACE EXTENDS.
+#         - Multiline static methods.
 #         - Check type of return statements.
 #         - Stoping local vars in other scopes from being picked up.
 #
-class AsClassParser
+class ClassParser
 	
 	private
 
@@ -45,11 +46,11 @@ class AsClassParser
 		@src_dirs          = ""
 		@methods           = []
 		@properties        = []
-		@getsets           = []		
+		@getsets           = []
 		@privates          = []
 		@static_properties = []
 		@static_methods    = []
-		@effects					 = []
+		@effects           = []
 		@events            = []
 		@styles            = []
 		@all_members       = []
@@ -57,17 +58,17 @@ class AsClassParser
 		
 		@mbr =[]
 
-		@pub = AsClassRegex.new("public")
-		@pro = AsClassRegex.new("protected|public")
-		@pri = AsClassRegex.new("private|protected|public")
+		@pub = AS3ClassRegex.new("public")
+		@pro = AS3ClassRegex.new("protected|public")
+		@pri = AS3ClassRegex.new("private|protected|public")
 
-		@pub_stat = AsClassRegex.new("public|static")
-		@pro_stat = AsClassRegex.new("protected|public|static")
-		@pri_stat = AsClassRegex.new("private|protected|public|static")
+		@pub_stat = AS3ClassRegex.new("public|static")
+		@pro_stat = AS3ClassRegex.new("protected|public|static")
+		@pri_stat = AS3ClassRegex.new("private|protected|public|static")
 		
-		@i_face = AsInterfaceRegex.new()
+		@i_face = AS3InterfaceRegex.new()
 
-		# Type detection captures.		
+		# Type detection captures.
 		@extends_regexp = /^\s*((dynamic|final)\s+)?(public)\s+((dynamic|final)\s+)?(class|interface)\s+(\w+)\s+(extends)\s+(\w+)/
 		@interface_regexp = /^\s*public\s+(interface)\s+(\w+)\b/
 		@interface_extends_regexp = /^\s*(public)\s+(dynamic\s+)?(final\s+)?(class|interface)\s+(\w+)\s+(extends)\s+\b((?m:.*))\{/ #}
@@ -89,7 +90,7 @@ class AsClassParser
 	# ===============================
 
 	# Storage caputure filters based on the scope of the
-	# item being processed. So, for 'this' all memebers and scopes,
+	# item being processed. So, for 'this' all members and scopes,
 	# for an instance of FooClass it's public members.
 
 	def store_all_class_members(doc)
@@ -343,6 +344,7 @@ class AsClassParser
 	# ====================
 
 	# Loads and returns the superclass of the supplied doc.
+	#
 	def load_parent(doc)
 
 		# Scan evidence of a superclass.
@@ -369,6 +371,7 @@ class AsClassParser
 	end
 		
 	# Adds all class members to our lists.
+	#
 	def add_doc(doc)
 
 		return if doc.nil?
@@ -383,6 +386,7 @@ class AsClassParser
  	end
 
 	# Adds all public and protected methods and properties to our lists.
+	#
 	def add_public_and_protected(doc)
 
 		return if doc.nil?
@@ -395,6 +399,7 @@ class AsClassParser
 	end
 
 	# Adds all public instance methods and properties to our lists.
+	#
 	def add_public(doc)
 
 		return if doc.nil?
@@ -407,6 +412,7 @@ class AsClassParser
 	end
 	
 	# Adds all interface methods and properties to our lists.
+	#
 	def add_interface(doc)
 
 		return if doc.nil?
@@ -422,6 +428,7 @@ class AsClassParser
 	end
 
 	# When processing interfaces we may need to load multiple parents.
+	#
 	def load_interface_parents(doc)
 		
 		doc.scan(@interface_extends_regexp)
@@ -431,21 +438,21 @@ class AsClassParser
 			extending = $7.gsub(/\n|\s/,'').split(",")
 			ex_str = extending.join("\n")
 			
-			#log_append("WARNING: Interfaces with more than one ancestor are not supported.")
-			#log_append("These interfaces could be missing from the output\n #{ex_str} \n\n" )
+			log_append("WARNING: Interfaces with more than one ancestor are not supported.")
+			log_append("These interfaces could be missing from the output\n #{ex_str} \n\n" )
 			
 			unless extending.empty?
 
 				#TODO: Load all the references found in extending.
-				exteding_interfaces = []
+				extending_interfaces = []
 				
 				extending.each do |ext|
 					p = imported_class_to_file_path(doc,ext)
 					c = load_class(p)
-					exteding_interfaces << c if c != nil
+					extending_interfaces << c if c != nil
 				end
-				 
-				return exteding_interfaces unless exteding_interfaces.empty?
+
+				return extending_interfaces unless extending_interfaces.empty?
 				
 			end
 		end
@@ -460,6 +467,7 @@ class AsClassParser
 	
 	# Collects all of the src directories into a list.
 	# The resulting list of dirs is then used when locating source files.
+	#
 	def create_src_list
 
 		if ENV['TM_PROJECT_DIRECTORY']
@@ -493,7 +501,7 @@ class AsClassParser
 		# Where we have access to the compressed flex 3 files use them,
 		# otherwise go looking for the sdk.
 		unless add_src_dir("#{cs}/frameworks/flex_3")
-			fx = FlexMate.find_sdk_src
+			fx = FlexMate::SDK.src
 			add_src_dir(fx)
 		end
 
@@ -502,6 +510,7 @@ class AsClassParser
  	end
 
 	# Helper for create_src_list
+	#
 	def add_src_dir(path)
 		if File.directory?(path)
 			@src_dirs += "#{path}\n"
@@ -513,6 +522,7 @@ class AsClassParser
 	# Finds the class in the file system.
 	# If successful the class is loaded and returned.
 	# paths is an array of relative class paths.
+	#
 	def load_class(paths)
 
 		urls= []
@@ -554,7 +564,9 @@ class AsClassParser
 	# is delared wildcarded imports are accumulated, alongside the classes package 
 	# path and returned.
 	#
-	# Returns an array of possible file paths, ie ["org/helvector/Foo.as"]
+	# Returns an array of possible relative file paths, such as:
+	# ["org/helvector/Foo.as","Foo.as"]
+	#
 	def imported_class_to_file_path(doc,class_name)
 
 		possible_paths = []
@@ -589,7 +601,8 @@ class AsClassParser
 	# ========================
 	
 	# Strips comments from the document. This is designed to leave whitespace in
-	# their place so the caret position remains correct.
+	# place so the caret position remains correct.
+	#
 	def strip_comments(doc)
 
 		multiline_comments = /\/\*(?:.|([\r\n]))*?\*\//
@@ -608,6 +621,7 @@ class AsClassParser
 	end
 	
 	# Determines whether or not the supplied document is an interface.
+	#
 	def is_interface(doc)
 		doc.scan(@interface_regexp)
 		if $1 == "interface"
@@ -616,7 +630,8 @@ class AsClassParser
 		return false
 	end
 	
-	# Load inlcudes references
+	# Load inlcudes references.
+	#
 	def load_includes(doc,uri)
 		
 		# TODO: We need to load included files but retain our caret position within
@@ -643,6 +658,7 @@ class AsClassParser
 	# Returns an array.
 	# First element being the document that contains the ref.
 	# Second element being the type of the reference.
+	#
 	def determine_type_globally(doc,reference)
 
 		return if doc.nil?
@@ -668,7 +684,7 @@ class AsClassParser
 		end
 		
 		# Statics.
-		var_regexp = /^\s*(#{namespace}|static)\s+(#{namespace}|static)\s+\bvar\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
+		var_regexp = /^\s*(#{namespace}static)\s+(#{namespace}static)\s+\bvar\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
 		
 		doc.scan(var_regexp)
 		if $4 != nil
@@ -676,12 +692,16 @@ class AsClassParser
 		    return [doc,$4]
 		end
 
-
 		# Also picks up single line methods.
 		# TODO: public static function getInstance():IFacade {
-		get_regexp = /^\s*(#{namespace}|static)\s+(#{namespace}|static)?\s*\bfunction\s+(get\s+)?\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
-
+		if namespace == ""
+			# Handle interfaces.
+			get_regexp = /^\s*\bfunction\s+(get\s+)?\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
+		else
+			get_regexp = /^\s*(#{namespace}|static)\s+(#{namespace}|static)?\s*\bfunction\s+(get\s+)?\b(#{reference})\b\s*\(.*\)\s*:\s*((\w+)|\*)/
+		end
 		doc.scan(get_regexp)
+		
 		if $6 != nil
 			if $6 == "void"
 				@return_type_void = true
@@ -708,6 +728,7 @@ class AsClassParser
 	#
 	# TODO: This makes the assumption that we're  within a method, which is in
 	#       no way guaranteed.
+	#
 	def determine_type_locally(doc,reference)
 
 		# Conditionals may cause problems...
@@ -757,6 +778,7 @@ class AsClassParser
 	end
 
 	# Searches both the local and global scopes for the type.
+	#
 	def determine_type_all(doc,reference)
 
 		type = determine_type_locally(doc,reference)
@@ -769,6 +791,7 @@ class AsClassParser
 	# Utility method for search_ancestor which uses the level to
 	# track the depth of recursion, if it's 0 then we are operating
 	# at a local level.
+	#
 	def determine_type_at_level(doc,reference,depth)
 		if reference =~ @static_member_regexp
 			return [doc,reference]
@@ -790,11 +813,13 @@ class AsClassParser
 	#
 	# doc is the current class document.
 	# property_chain is an array of properties to check - ie, propA.propB.propC
+	#
 	def search_ancestor(doc,property_chain,depth=0)
 
 		find_type = property_chain.shift
 		find_type = property_chain.shift if find_type =~ /this/
-
+		
+		# TODO: Test that this should no longer be needed.
 		if find_type =~ /(\s*(\w+\s*)?)\(.*\)/
 			#log_append("Stripped method call #{$1} #{find_type}")
 			find_type = $1
@@ -836,6 +861,7 @@ class AsClassParser
 	end
 	
 	# Attempts to find the type of the reference within the doc.
+	#
 	def determine_type(doc,reference)
 
 		# Class Members.
@@ -896,6 +922,7 @@ class AsClassParser
 
 	# Loads a full instance or class level member list for the class
 	# document using the reference to determine the type of the class.
+	#
 	def load(doc,reference)
 
 		# Set our depth counters to defaults.
@@ -955,6 +982,7 @@ class AsClassParser
 	end
 
 	# Returns the type of the reference within the doc.
+	#
 	def find_type(doc,reference)
 		type = determine_type(doc,reference)
 		return type[1].to_s if type != nil
@@ -962,6 +990,7 @@ class AsClassParser
 	end
 	
 	# Sets the location of the completions src directory.
+	#
 	def completion_src=(dir)
 		if File.directory?(dir)
 			@completion_src = dir
@@ -972,6 +1001,7 @@ class AsClassParser
 	
 	# Loads all the public methods, accessors and properties of the specified Class.
 	# Expects class ref to be in the format org.foo.BarClass
+	#
 	def load_reference(class_ref,include_meta=false)
 		@include_metadata = include_meta
 		path = [class_ref.gsub(".","/") + ".as"]
@@ -980,6 +1010,7 @@ class AsClassParser
 	end
 	
 	# Loads all the static members of the requested class.
+	#
 	def load_statics(doc,reference)
 		
 		path = imported_class_to_file_path(doc,reference)
@@ -993,48 +1024,56 @@ class AsClassParser
 	# ==================
 
 	# List of method names.
+	#
 	def methods
 		return if @methods.empty?
 		@methods.uniq.sort
 	end
 
 	# List of property names.
+	#
 	def properties
 		return if @properties.empty?
 		@properties.uniq.sort
 	end
 
 	# List of getter setter names.
+	#
 	def gettersetters
 		return if @getsets.empty?
 		@getsets.uniq.sort
 	end
 
 	# List of static property names.
+	#
 	def static_properties
 		return if @static_properties.empty?
 		@static_properties.uniq.sort
 	end
 
 	# List of static method names.
+	#
 	def static_methods
 		return if @static_methods.empty?
 		@static_methods.uniq.sort
 	end
 	
 	# List of effects described in the class meta-data.
+	#
 	def effects
 		return if @effects.empty?
 		@effects.uniq.sort
 	end
 
-	# List of events described in the class meta-data.	
+	# List of events described in the class meta-data.
+	#
 	def events
 		return if @events.empty?
 		@events.uniq.sort		
 	end
 	
 	# List of effects described in the class meta-data.
+	#
 	def styles
 		return if @styles.empty?
 		@styles.uniq.sort		
@@ -1053,24 +1092,29 @@ class AsClassParser
 	public
 	
 	# Log messages.
+	#
 	def log
 		@log
 	end
 	
 	# String to show in tooltip when the parsing has failed.
+	#
 	def exit_message
 		@exit_message
 	end
 
 	# Boolean set to true when a memeber is discovered as having a void return
 	# type.
+	#
 	def return_type_void
 		@return_type_void
 	end
 
 end
 
-class AsClassRegex
+# Container for regular expressions used to parse ActionScript 3 classes.
+#
+class AS3ClassRegex
 
 	attr_reader :vars
 	attr_reader :methods
@@ -1105,7 +1149,9 @@ class AsClassRegex
 
 end
 
-class AsInterfaceRegex
+# Container for regular expressions used to parse ActionScript 3 interfaces.
+#
+class AS3InterfaceRegex
 	
 	attr_reader :methods
 	attr_reader :getsets	
@@ -1120,7 +1166,9 @@ class AsInterfaceRegex
 		
 end
 
-class AsMember
+# Value Object to describe ActionScript 3 class members.
+#
+class AS3Member
 	attr_accessor :namespace
 	attr_accessor :name
 	attr_accessor :type
