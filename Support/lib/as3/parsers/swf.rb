@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
-#
+
 # Copied from the TextMate HTML Bundle
-#
 
 require "zlib"
 
@@ -25,16 +24,7 @@ if [1].pack('n') == "\001\000"
 end
 
 class Swf
-  
-	@bits
-	@width
-	@height
-	@version
-	@bgcolor
-	@buffer
-	@zip
-	@trace
-	
+  	
 	attr_reader :width
 	attr_reader :height
 	attr_reader :version
@@ -130,18 +120,3 @@ class Swf
 	end
   
 end
-
-file = ENV["TM_DROPPED_FILE"]
-name = file.match(/([^\/]+)\.swf$/)[1]
-swf  = Swf.new(file)
-
-print <<SWF
-/*
-filename	= "${1:#{name}.swf}"
-width		= "#{swf.width}"
-height		= "#{swf.height}"
-version		= "#{swf.version}"
-bgcolor		= "#{swf.bgcolor}"
-compressed	= "#{swf.zip}"
-*/
-SWF
