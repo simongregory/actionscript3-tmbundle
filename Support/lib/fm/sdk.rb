@@ -149,7 +149,22 @@ module FlexMate
 				end
 
 			end
-  
+      
+			# Attemps to locate and open the main compiler configuration file.
+			#
+			# This is normally found at {flex_sdk}/frameworks/flex-config.xml
+			#
+			def open_flex_config
+				
+				config = find_sdk + "/frameworks/flex-config.xml"
+
+				if File.exists?(config)
+					TextMate.go_to(:file => config)
+				else
+					TextMate.exit_show_tool_tip('Unable to locate Flex SDK and it\'s associated flex-config.xml file.')
+				end				
+			end
+
 		end
 		
 	end
@@ -158,6 +173,9 @@ end
 
 if __FILE__ == $0
   
+	require "#{ENV['TM_SUPPORT_PATH']}/lib/exit_codes"
+	require "#{ENV['TM_SUPPORT_PATH']}/lib/textmate"
+	
   puts "\nsdk_dir_list:"
   puts FlexMate::SDK.sdk_dir_list
 
@@ -172,5 +190,7 @@ if __FILE__ == $0
 
   puts "\nsrc:"
   puts FlexMate::SDK.src
-
+  
+	FlexMate::SDK.open_flex_config
+	
 end
