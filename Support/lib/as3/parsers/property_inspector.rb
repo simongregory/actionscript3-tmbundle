@@ -7,7 +7,8 @@
 # Designed to scan from the caret location within the current document and 
 # output a string that can be used by the class parser to load and store the 
 # properteries, methods etc of the resulting class reference.
-module AsPropertyInspector
+#
+module PropertyInspector
 
 		# Finds and returns a 'Property Chain' ie foo.bar.baz based on the 
 		# current line. 
@@ -15,6 +16,7 @@ module AsPropertyInspector
 		# Where it finds an object that has been type cast it's
 		# class is insterted into the chain not it's property name. So
 		# foo.( bar as Sprite ).baz becomes foo.Sprite.baz
+		#
 		def self.property_chain
 			
 			li = ENV['TM_LINE_INDEX'] 
@@ -116,8 +118,9 @@ module AsPropertyInspector
 		# Tests to see if the caret is currently at a class reference or a 
 		# property instance name.
 		#
-		# NOTE: Relies entierly on the convention that classes start with an 
+		# NOTE: Relies entirely on the convention that classes start with an 
 		# uppercase character.
+		#
 		def self.is_static
 
 			li = ENV['TM_LINE_INDEX'] 
@@ -148,6 +151,7 @@ module AsPropertyInspector
 		end
 		
 		# Return a boolean depending on whether the caret is just after a '.'
+		#
 		def self.at_dot
 			li = ENV['TM_LINE_INDEX'] 
 			ln = ENV['TM_CURRENT_LINE']
@@ -159,6 +163,7 @@ module AsPropertyInspector
 		
 		# Should autocompletion insert a dot before the completed statement.
 		# Deprecated, in favour of scope in the language file. 
+		#
 		def self.insert_dot
 			li = ENV['TM_LINE_INDEX'] 
 			ln = ENV['TM_CURRENT_LINE']
@@ -169,6 +174,7 @@ module AsPropertyInspector
 		end
 		
 		# Single access point to collect all information about the current scope.
+		#
 		def self.capture
 			
 			state = {
@@ -213,16 +219,16 @@ if __FILE__ == $0
 	EOF
 	
 	ENV['TM_LINE_INDEX'] = '48'
-	puts "Property Chain: " + AsPropertyInspector.property_chain.to_s
+	puts "Property Chain: " + PropertyInspector.property_chain.to_s
 	
 	ENV['TM_LINE_INDEX'] = '59'
-	puts "Is Static: " + AsPropertyInspector.is_static.to_s
-	puts "\nTODO: WRITE TESTS FOR AsPropertyInspector.capture\n"
+	puts "Is Static: " + PropertyInspector.is_static.to_s
+	puts "\nTODO: WRITE TESTS FOR PropertyInspector.capture\n"
 	puts "\nStarting Tests:"
 	
 	require "test/unit"
 	
-	class TestAsPropertyInspector < Test::Unit::TestCase
+	class TestPropertyInspector < Test::Unit::TestCase
 		
 		# ========================
 		# = property_chain Tests =
@@ -235,19 +241,19 @@ if __FILE__ == $0
 			EOF
 			
 			ENV['TM_LINE_INDEX']   = '19'
-			assert_equal 'basicProperty', AsPropertyInspector.property_chain
+			assert_equal 'basicProperty', PropertyInspector.property_chain
 
 			ENV['TM_LINE_INDEX']   = '20'
-			assert_equal 'basicProperty', AsPropertyInspector.property_chain
+			assert_equal 'basicProperty', PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX']   = '0'
-			assert_equal nil, AsPropertyInspector.property_chain
+			assert_equal nil, PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX']   = '5'
-			assert_equal nil, AsPropertyInspector.property_chain
+			assert_equal nil, PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX']   = '47'
-			assert_equal nil, AsPropertyInspector.property_chain
+			assert_equal nil, PropertyInspector.property_chain
 			
 		end
 		
@@ -258,7 +264,7 @@ if __FILE__ == $0
       simpleMethod()
 			EOF
 			
-			assert_equal 'simpleMethod', AsPropertyInspector.property_chain
+			assert_equal 'simpleMethod', PropertyInspector.property_chain
 			
 		end
 		
@@ -269,7 +275,7 @@ if __FILE__ == $0
       parameterisedMethodCall( "hello", world )
 			EOF
 			
-			assert_equal 'parameterisedMethodCall', AsPropertyInspector.property_chain
+			assert_equal 'parameterisedMethodCall', PropertyInspector.property_chain
 			
 		end
 
@@ -280,7 +286,7 @@ if __FILE__ == $0
       paramaterisedMethodCall( ["hello" , 'world' ], foo() )
 			EOF
 			
-			assert_equal 'paramaterisedMethodCall', AsPropertyInspector.property_chain
+			assert_equal 'paramaterisedMethodCall', PropertyInspector.property_chain
 
 		end
 		
@@ -291,13 +297,13 @@ if __FILE__ == $0
 			EOF
 			
 			ENV['TM_LINE_INDEX']   = '26'
-			assert_equal 'one.two.three.four', AsPropertyInspector.property_chain
+			assert_equal 'one.two.three.four', PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX']   = '44'
-			assert_equal 'one.two.three.four', AsPropertyInspector.property_chain
+			assert_equal 'one.two.three.four', PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX']   = '42'
-			assert_equal 'TypeCast', AsPropertyInspector.property_chain
+			assert_equal 'TypeCast', PropertyInspector.property_chain
 			
 		end
 				
@@ -308,7 +314,7 @@ if __FILE__ == $0
       ( hello as World )
 			EOF
 			
-			assert_equal 'World', AsPropertyInspector.property_chain
+			assert_equal 'World', PropertyInspector.property_chain
 			
 		end
 		
@@ -319,7 +325,7 @@ if __FILE__ == $0
       a.big.( hello as World ).here
 			EOF
 			
-			assert_equal 'a.big.World.here', AsPropertyInspector.property_chain
+			assert_equal 'a.big.World.here', PropertyInspector.property_chain
 			
 		end
 		
@@ -330,7 +336,7 @@ if __FILE__ == $0
       doSomething( /* with some (annoying) content*/ )
 			EOF
 			
-			assert_equal 'doSomething', AsPropertyInspector.property_chain
+			assert_equal 'doSomething', PropertyInspector.property_chain
 			
 		end
 		
@@ -341,16 +347,16 @@ if __FILE__ == $0
 			EOF
 			
 			ENV['TM_LINE_INDEX'] = '11'
-			assert_equal 'e', AsPropertyInspector.property_chain
+			assert_equal 'e', PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX'] = '69'
-			assert_equal 'TypicalEvent', AsPropertyInspector.property_chain
+			assert_equal 'TypicalEvent', PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX'] = '58'
-			assert_equal 'TypicalEvent', AsPropertyInspector.property_chain
+			assert_equal 'TypicalEvent', PropertyInspector.property_chain
 
 			ENV['TM_LINE_INDEX'] = '67'
-			assert_equal 'TypicalEvent.SAY_HELLO', AsPropertyInspector.property_chain
+			assert_equal 'TypicalEvent.SAY_HELLO', PropertyInspector.property_chain
 			
 		end
 		
@@ -363,20 +369,20 @@ if __FILE__ == $0
 			EOF
 			
 			ENV['TM_LINE_INDEX']   = '18'
-			assert_equal '.here', AsPropertyInspector.property_chain
+			assert_equal '.here', PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX']   = '13'
-			assert_equal nil, AsPropertyInspector.property_chain
+			assert_equal nil, PropertyInspector.property_chain
 			
 			ENV['TM_CURRENT_LINE'] = <<-EOF
       (navigationController as NavigationController).length).
 			EOF
 
 			ENV['TM_LINE_INDEX']   = '53'
-			assert_equal "NavigationController", AsPropertyInspector.property_chain			
+			assert_equal "NavigationController", PropertyInspector.property_chain			
 
 			ENV['TM_LINE_INDEX']   = '61'
-			assert_equal nil, AsPropertyInspector.property_chain			
+			assert_equal nil, PropertyInspector.property_chain			
 			
 		end
 		 
@@ -389,13 +395,13 @@ if __FILE__ == $0
 			EOF
 			
 			ENV['TM_LINE_INDEX'] = '0'
-			assert_equal "this", AsPropertyInspector.property_chain
+			assert_equal "this", PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX'] = '20'
-			assert_equal "this", AsPropertyInspector.property_chain
+			assert_equal "this", PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX'] = '40'
-			assert_equal "this", AsPropertyInspector.property_chain
+			assert_equal "this", PropertyInspector.property_chain
 			
 		end
 
@@ -408,25 +414,25 @@ if __FILE__ == $0
 			EOF
 			
 			ENV['TM_LINE_INDEX'] = '12'
-			assert_equal "_menu", AsPropertyInspector.property_chain
+			assert_equal "_menu", PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX'] = '31'
-			assert_equal "_menu.removeEventListener", AsPropertyInspector.property_chain
+			assert_equal "_menu.removeEventListener", PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX'] = '41'
-			assert_equal "MenuEvent", AsPropertyInspector.property_chain
+			assert_equal "MenuEvent", PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX'] = '42'
-			assert_equal nil, AsPropertyInspector.property_chain
+			assert_equal nil, PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX'] = '58'
-			assert_equal "handleMenuClosed", AsPropertyInspector.property_chain
+			assert_equal "handleMenuClosed", PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX'] = '59'
-			assert_equal "_menu.removeEventListener", AsPropertyInspector.property_chain
+			assert_equal "_menu.removeEventListener", PropertyInspector.property_chain
 			
 			ENV['TM_LINE_INDEX'] = '60'
-			assert_equal nil, AsPropertyInspector.property_chain
+			assert_equal nil, PropertyInspector.property_chain
 			
 		end
 		
@@ -443,31 +449,31 @@ if __FILE__ == $0
 			EOF
 			
 			ENV['TM_LINE_INDEX'] = '11'
-			assert_equal true, AsPropertyInspector.is_static
+			assert_equal true, PropertyInspector.is_static
 			
 			ENV['TM_LINE_INDEX'] = '10'
-			assert_equal true, AsPropertyInspector.is_static
+			assert_equal true, PropertyInspector.is_static
 			
 			ENV['TM_LINE_INDEX'] = '21'
-			assert_equal false, AsPropertyInspector.is_static
+			assert_equal false, PropertyInspector.is_static
 			
 			ENV['TM_LINE_INDEX'] = '24'
-			assert_equal false, AsPropertyInspector.is_static
+			assert_equal false, PropertyInspector.is_static
 			
 			ENV['TM_LINE_INDEX'] = '33'
-			assert_equal false, AsPropertyInspector.is_static
+			assert_equal false, PropertyInspector.is_static
 			
 			ENV['TM_LINE_INDEX'] = '31'
-			assert_equal false, AsPropertyInspector.is_static
+			assert_equal false, PropertyInspector.is_static
 			
 			ENV['TM_LINE_INDEX'] = '30'
-			assert_equal true, AsPropertyInspector.is_static
+			assert_equal true, PropertyInspector.is_static
 			
 			ENV['TM_LINE_INDEX'] = '46'
-			assert_equal false, AsPropertyInspector.is_static
+			assert_equal false, PropertyInspector.is_static
 			
 			ENV['TM_LINE_INDEX'] = '54'
-			assert_equal false, AsPropertyInspector.is_static
+			assert_equal false, PropertyInspector.is_static
 			
 		end
 
@@ -484,16 +490,16 @@ if __FILE__ == $0
 			EOF
 			
 			ENV['TM_LINE_INDEX'] = '6'
-			assert_equal false, AsPropertyInspector.insert_dot
+			assert_equal false, PropertyInspector.insert_dot
 			
 			ENV['TM_LINE_INDEX'] = '24'
-			assert_equal true, AsPropertyInspector.insert_dot
+			assert_equal true, PropertyInspector.insert_dot
 			
 			ENV['TM_LINE_INDEX'] = '15'
-			assert_equal false, AsPropertyInspector.insert_dot
+			assert_equal false, PropertyInspector.insert_dot
 			
 			ENV['TM_LINE_INDEX'] = '30'
-			assert_equal false, AsPropertyInspector.insert_dot
+			assert_equal false, PropertyInspector.insert_dot
 			
 		end
 		
@@ -511,7 +517,7 @@ if __FILE__ == $0
 
 			ENV['TM_LINE_INDEX'] = '20'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'StaticExample', c[:ref] 			
 			assert_equal true, c[:is_static]
@@ -524,7 +530,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '11'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'this', c[:ref] 			
 			assert_equal false, c[:is_static]
@@ -537,7 +543,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '15'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'this.foo', c[:ref] 			
 			assert_equal false, c[:is_static]
@@ -550,7 +556,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '23'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'one.two.three.foo', c[:ref]
 			assert_equal false, c[:is_static]
@@ -563,7 +569,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '27'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'one.Two.three', c[:ref] 			
 			assert_equal false, c[:is_static]
@@ -576,7 +582,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '26'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'BigOne.two.foo', c[:ref] 			
 			assert_equal false, c[:is_static]
@@ -595,7 +601,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '19'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'StaticExample', c[:ref] 			
 			assert_equal true, c[:is_static]
@@ -608,7 +614,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '10'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'this', c[:ref] 			
 			assert_equal false, c[:is_static]
@@ -621,7 +627,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '22'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'this', c[:ref] 			
 			assert_equal false, c[:is_static]
@@ -634,7 +640,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '17'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'this', c[:ref] 			
 			assert_equal false, c[:is_static]
@@ -647,7 +653,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '23'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'one.two.three', c[:ref] 			
 			assert_equal false, c[:is_static]
@@ -660,7 +666,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '30'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'one.Two.three', c[:ref] 			
 			assert_equal false, c[:is_static]
@@ -673,7 +679,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '25'
 
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
 
 			assert_equal 'BigOne.two', c[:ref] 			
 			assert_equal false, c[:is_static]
@@ -686,7 +692,7 @@ if __FILE__ == $0
 			
 			ENV['TM_LINE_INDEX'] = '38'
       
-			c = AsPropertyInspector.capture
+			c = PropertyInspector.capture
       
 			assert_equal 'BigOne.two.Three.Four', c[:ref] 			
 			assert_equal false, c[:is_static]
