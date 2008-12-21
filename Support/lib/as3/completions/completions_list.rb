@@ -1,13 +1,14 @@
 #!/usr/bin/env ruby -wKU
-#  
+  
 #  Copyright 2008 Simon Gregory.
 #  Released under the Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License.
 #  See http://creativecommons.org/licenses/by-nc-sa/3.0/ for details.
 
 # Data provider for DIALOG and DIALOG2 Menu's.
 #
-# Created to translate the values stored within an instance of AsClassParser.
-class AsCompletionsList
+# Created to translate the values stored within an instance of ClassParser.
+#
+class CompletionsList
 
 	private
 	
@@ -19,6 +20,7 @@ class AsCompletionsList
 	public
 	
 	# Creates a list of class members that can be used with the TextMate::UI.menu.
+	#
 	def list
 		@m = []		
 		add(@cp.properties)
@@ -30,6 +32,7 @@ class AsCompletionsList
 	end
 	
 	# Creates a list of class memebers that is compatible with DIALOG2
+	#
 	def list_d2
 		@m = []		
 		add_d2(@cp.properties)
@@ -41,6 +44,7 @@ class AsCompletionsList
 	end
 	
 	# List of overridable getters, setters and methods.
+	#
 	def overridables
 		@m = []
 		add(@cp.gettersetters)
@@ -49,13 +53,15 @@ class AsCompletionsList
 	end
 	
 	# List of properties.
+	#
 	def properties
 		@m = []
 		add(@cp.properties)
 		return @m
 	end
 	
-	# List of properities that can be used as attributes in a flex tag.
+	# List of properities that can be used as attributes in a mxml tag.
+	#
 	def attributes
 		@m = []
 		add(@cp.properties)
@@ -82,7 +88,7 @@ class AsCompletionsList
 	# = DIALOG =
 	# ==========
 	
-	def add items
+	def add(items)
 		return if items == nil
 	  if items.size > 0		
 			add_seperator if @m.size > 0
@@ -93,7 +99,7 @@ class AsCompletionsList
 	 	end
 	end
 	
-	def add_method items
+	def add_method(items)
 		return if items == nil
 		if items.size > 0
 			add_seperator if @m.size > 0
@@ -108,12 +114,12 @@ class AsCompletionsList
 		@m.push(menu_item('-'))
 	end	
 	
-	def menu_item member
+	def menu_item(member)
 		return nil if member.to_s == ""
 		{ 'title' => member, 'data' => member.to_s }
 	end
 	
-	def method_item member
+	def method_item(member)
 
 		return nil if member.to_s == ""
 		
@@ -133,7 +139,7 @@ class AsCompletionsList
 	# = DIALOG2 =
 	# ===========
 	
-	def add_d2 items, category='Property'
+	def add_d2(items, category='Property')
 		return if items == nil
 	  items.each do |i|
 			mi = menu_item_d2(i,category)
@@ -141,12 +147,12 @@ class AsCompletionsList
 		end			
 	end
 	
-	def menu_item_d2 member, category='Property'
+	def menu_item_d2(member, category='Property')
 		return nil if member.to_s == ""
 		{ 'display' => member, 'data' => member.to_s, 'match' => member.sub(/\W.*$/,""), 'image' => "#{category}" }
 	end
 	
-	def add_method_d2 items, category='Method'
+	def add_method_d2(items, category='Method')
 		return if items == nil
 		items.each do |i|
 			mi = method_item_d2(i,category)
@@ -154,7 +160,7 @@ class AsCompletionsList
 		end
 	end
 	
-	def method_item_d2 member, category='Method'
+	def method_item_d2(member, category='Method')
 
 		return nil if member.to_s == ""
 		
@@ -187,24 +193,24 @@ if __FILE__ == $0
 		
 	require "test/unit"
 	
-	class DummyClassParser
+	class MockClassParser
 		attr_accessor :properties, :gettersetters, :methods
 		attr_accessor :static_properties, :static_methods
 		attr_accessor :effects, :events, :styles
 	end              
 	                 
-	class TestAsCompletionsList < Test::Unit::TestCase
+	class TestCompletionsList < Test::Unit::TestCase
 				
 		def test_dialog
 			
-			c = DummyClassParser.new
+			c = MockClassParser.new
 			c.properties = [ "testProperty" ]
 			c.gettersetters = [ "testGetter", nil ]
 			c.methods = [ 'paramaterless():Boolean', 'methodWithParams(a:Number,b:String):void', 'willFailToList' ]
 			c.static_properties = [ "TEST_STATIC" ]
 			c.static_methods = [ 'staticMethod():void', "", nil, "willFailToList"]
 
-			l = AsCompletionsList.new(c)
+			l = CompletionsList.new(c)
 			
 			list = l.list
 			#list.each_with_index { |o,i| puts "#{i} Title: '#{o['title']}' Data: '#{o['data']}' Type: '#{o['typeof']}'" }
@@ -228,14 +234,14 @@ if __FILE__ == $0
 
 		def test_dialog_2
 			
-			c = DummyClassParser.new
+			c = MockClassParser.new
 			c.properties = [ "testProperty" ]
 			c.gettersetters = [ "testGetter", nil ]
 			c.methods = [ 'paramaterless():Boolean', 'methodWithParams(a:Number,b:String):void', 'willFailToList' ]
 			c.static_properties = [ "TEST_STATIC" ]
 			c.static_methods = [ 'staticMethod():void', "", nil, "willFailToList" ]
 
-			l = AsCompletionsList.new(c)
+			l = CompletionsList.new(c)
 			
 			list = l.list_d2
 			#list.each_with_index { |o,i| puts "#{i} Display: '#{o['display']}' Data: '#{o['data']}' Type: '#{o['typeof']}'" }
@@ -272,7 +278,7 @@ if __FILE__ == $0
 		
 		def test_attributes_d2
 			
-			c = DummyClassParser.new
+			c = MockClassParser.new
 			
 			c.properties    = [ "testProperty" ]
 			c.gettersetters = [ "testGetter", nil ]
@@ -280,7 +286,7 @@ if __FILE__ == $0
 			c.events        = [ 'testEvent' ]
 			c.styles        = [ 'testStyle' ]
 			
-			l = AsCompletionsList.new(c)
+			l = CompletionsList.new(c)
 			
 			list = l.attributes_d2			
 			
