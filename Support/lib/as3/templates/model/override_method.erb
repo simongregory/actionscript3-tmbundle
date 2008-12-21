@@ -1,0 +1,6 @@
+<%= asdoc %>override ${1:<%= ns %>} function ${2:<%= name %>}($3):${4:void}
+{
+	super.${2}();
+
+	$0${4/void$|(.+)/(?1:return null;)/}
+}
