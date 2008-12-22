@@ -20,14 +20,14 @@ module SnippetController
 				]
 
 		    if ns != "protected" 
-						ns += " static"
+						sns = "#{ns} static"
 		        snips += [
 		            { 'title' => '----'},
-								{ 'title' => 'static const',  	'data' => t.const("name", ns)    },
-								{ 'title' => 'static function', 'data' => t.method("name", ns)    },
-								{ 'title' => 'static get',  		'data' => t.getter("name", ns)    },
-								{ 'title' => 'static set',  		'data' => t.setter("name", ns)    },
-								{ 'title' => 'static var',  		'data' => t.var("name", ns)    },
+								{ 'title' => 'static const',  	'data' => t.const("name", sns)    },
+								{ 'title' => 'static function', 'data' => t.method("name", sns)    },
+								{ 'title' => 'static get',  		'data' => t.getter("name", sns)    },
+								{ 'title' => 'static set',  		'data' => t.setter("name", sns)    },
+								{ 'title' => 'static var',  		'data' => t.var("name", sns)    },
 		        ]
 		    end
     
