@@ -40,6 +40,12 @@
 					<string>#invalid</string>
 				</dict>
 				<dict>
+					<key>match</key>
+					<string>^\s*(?=\*)</string>
+					<key>name</key>
+					<string>comment.block.documentation.left-margin.asdoc</string>
+				</dict>
+				<dict>
 					<key>begin</key>
 					<string>\*\s*\w</string>
 					<key>end</key>

@@ -10,7 +10,7 @@
 	<key>name</key>
 	<string>Documentation Newline</string>
 	<key>scope</key>
-	<string>comment.block.documentation.asdoc</string>
+	<string>comment.block.documentation.asdoc -comment.block.documentation.left-margin.asdoc</string>
 	<key>uuid</key>
 	<string>A7B18CF0-68B7-438D-AD17-0441A0688D31</string>
 </dict>
