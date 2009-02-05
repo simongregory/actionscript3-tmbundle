@@ -18,7 +18,7 @@
 #           #include files are not loaded and parsed.
 #           Internal classes are not supported.
 #
-# TODO's: - DETERMINE TYPE NEEDS TO LOAD ALL INTERFACE EXTENDS.
+# TODO's: - 'DETERMINE TYPE' NEEDS TO LOAD ALL INTERFACE EXTENDS.
 #         - Multiline static methods.
 #         - Check type of return statements.
 #         - Stoping local vars in other scopes from being picked up.
@@ -420,7 +420,8 @@ class ClassParser
 		
 		store_interface_members(doc)
 
-		next_docs = load_interface_parents(doc)
+		ip = load_interface_parents(doc)
+	  next_docs = ip[:parents] || nil
 		
 		unless next_docs.nil? or next_docs.empty?
 			next_docs.each { |d| add_interface(d) }
@@ -437,10 +438,10 @@ class ClassParser
 		if $7
 			
 			extending = $7.gsub(/\n|\s/,'').split(",")
-			ex_str = extending.join("\n")
+			ex_str = extending.join("\n\t")
 			
-			log_append("WARNING: Interfaces with more than one ancestor are not supported.")
-			log_append("These interfaces could be missing from the output\n #{ex_str} \n\n" )
+			log_append( "WARNING: Interfaces with more than one ancestor are not fully tested or supported." )
+			log_append( "         These interfaces could be missing from the output\n\t#{ex_str}" )
 			
 			unless extending.empty?
 
@@ -453,7 +454,7 @@ class ClassParser
 					extending_interfaces << c if c != nil
 				end
 
-				return extending_interfaces unless extending_interfaces.empty?
+				return { :parents => extending_interfaces } unless extending_interfaces.empty?
 				
 			end
 		end
@@ -526,7 +527,7 @@ class ClassParser
 	#
 	def load_class(paths)
 
-		urls= []
+		urls=[]
 
 		@src_dirs.each do |d|
 
@@ -625,9 +626,7 @@ class ClassParser
 	#
 	def is_interface(doc)
 		doc.scan(@interface_regexp)
-		if $1 == "interface"
-			return true
-		end
+		return true if $1 == "interface"
 		return false
 	end
 	
@@ -643,7 +642,7 @@ class ClassParser
 		doc.each do |line|
 			if line =~ /^\s*include\s+"([\w.\/]+)";$/
 				include_path = File.dirname(uri)+"/#{$1}"
-				log_append("WARNING Not Loaded Include " + include_path)
+				log_append("WARNING #include not loaded " + include_path)
 			end
 		end
 		
@@ -654,7 +653,7 @@ class ClassParser
 	# = Type Locating Commands =
 	# ==========================
 
-	# Searches a document for the type of the specified property.
+	# Searches a class document for the type of the specified property.
 	#
 	# Returns an array.
 	# First element being the document that contains the ref.
@@ -662,17 +661,19 @@ class ClassParser
 	#
 	def determine_type_globally(doc,reference)
 
-		return if doc.nil?
+		return nil if doc.nil?
+		
+		log_append("Looking for '#{reference}'")
 		
 		# TODO: Consider the logic of what we are doing here, specifically do we
-		# 	    need to introduce a 'public' only match as we are only interested
+		#       need to introduce a 'public' only match as we are only interested
 		#       in public variables once @type_depth > 0 IF we are inspecting a
-		# 		a chain of property references. So in: thing.foo.bar thing is
+		#       a chain of property references. So in: thing.foo.bar thing is
 		#       local to the class and could be ppp (pp in the supers), but foo
 		#       can only be a public property.
 
 		namespace = "protected|public"
-		namespace = "private|protected|public" if @type_depth == 0		
+		namespace = "private|protected|public" if @type_depth == 0
 		namespace = "" if is_interface(doc)
 
 		# Variables and Constants
@@ -680,7 +681,7 @@ class ClassParser
 		
 		doc.scan(var_regexp)
 		if $4 != nil
-		    log_append("Type determined as '#{$4}' in global scope.")
+		    log_append("Type determined as '#{reference}:#{$4}' in global scope.")
 		    return [doc,$4]
 		end
 		
@@ -688,8 +689,9 @@ class ClassParser
 		var_regexp = /^\s*(#{namespace}static)\s+(#{namespace}static)\s+\bvar\s+\b(#{reference})\b\s*:\s*((\w+)|\*)/
 		
 		doc.scan(var_regexp)
+		
 		if $4 != nil
-		    log_append("Type determined as '#{$4}' in global scope.")
+		    log_append("Type determined as '#{reference}:#{$4}' in global scope.")
 		    return [doc,$4]
 		end
 
@@ -706,19 +708,58 @@ class ClassParser
 		if $6 != nil
 			if $6 == "void"
 				@return_type_void = true
-				log_append("Return Type determined as '#{$6}' (void) in global scope.")
+				log_append("Return Type determined as '#{reference}:#{$6}' (void) in global scope.")
 				return nil
 			end
-			log_append("Type determined as '#{$6}' in global scope.")
+			log_append("Type determined as '#{reference}:#{$6}' in global scope.")
 			return [doc,$6]
 		end
 		
 		@type_depth += 1
 
 		# Try the superclass.
-		next_doc = load_parent(doc);
-		determine_type_globally(next_doc,reference);
+		# TODO: IF WE ARE AN INTERFACE THEN WE MAY HAVE MULTIPLE EXTENDS THEREFORE 
+		#       WE NEED TO LOAD THEM ALL.
+		
+		# We check is_interface earlier in the method and set namespace accordingly.
+		if namespace == ""
+      
+      # TODO: Check how we track type_depth and it's implications.
+			ip = load_interface_parents(doc)
+			next_docs = ip[:parents] || nil unless ip.nil?
+		
+  		unless next_docs.nil? or next_docs.empty?
+				
+				log_append("Starting to recurse interface parents #{next_docs.size.to_s}")
+				
+  			next_docs.each do |d|
+	        
+					#THIS ISN'T WORKING BECAUSE load_interface_parents RETURNS AN ARRAY OF
+					#ITEMS WHEN RECURSING DOWN (IE THE 2ND TIME THIS CODE EXECUTES).
+					
+  			  found = determine_type_globally(d,reference) 
 
+  			  if found.instance_of? Array
+	
+  			    if found.size == 2
+  			      log_append("found[0] = \n#{found[0]} \nfound[1] = \n#{found[1]}")
+  			      break
+			      else
+			        log_append("Error Expected an Array with 2 elements got #{found.size}")
+			      end
+			
+			    end
+  			end
+
+  		else
+				nil
+			end
+			
+  	else
+  		next_doc = load_parent(doc);
+  		determine_type_globally(next_doc,reference)
+		end
+		
 	end
 
 	# Searches the local scope for a var declaration
@@ -827,32 +868,34 @@ class ClassParser
 		end
 
 		if property_chain.size == 0
-
-			# Reached the last item in the list.
+      
+			log_append("Finding '" + find_type + "' depth: " + depth.to_s + " (final chain item).")
+			
+			# Reached the last item in the property chain.
 			type = determine_type_at_level(doc,find_type,depth)
 
 			return nil if type.nil?
 			
-			log_append("Located "+ find_type + " as #{type[1]} ")
+			log_append("Located '"+ find_type + "' as #{type[1]} ")
 			
 			return type
 
 		else
 
-			log_append("Finding "+ find_type)
-
-			# Recurse down.
+			log_append("Finding '" + find_type + "' depth: " + depth.to_s)
+      
+			# Recurse through doc ancestors to locate type.
 			type = determine_type_at_level(doc,find_type,depth)
-
+      
 			return nil if type.nil?
 
 			path = imported_class_to_file_path(type[0],type[1])
 
 			log_append("Found '#{find_type}' here '#{path.join(", ")}'")
 			
-			#Reset loaded docs as we are running again.
+			# Reset loaded docs as we are running again.
 			@loaded_documents = []
-			
+
 			child_doc = load_class(path)
 
 			return search_ancestor(child_doc,property_chain, depth+=1)
@@ -887,29 +930,29 @@ class ClassParser
 		# Instance Members.
 		else
 
-		log_append("Determining type of '#{reference}'.")
+			log_append("Determining type of '#{reference}'.")
 
-		property_chain = [reference]
+			property_chain = [reference]
 		
-		if reference.match( /\./)
-			property_chain = reference.split(".")
-		end
-    
-		# Where casting has occoured we may have a short cut to exploit as the type
-		# we are searching for at that point in the chain will be referenced in the 
-		# local document.
-		shortcut = nil
-		property_chain.reverse.each do |p|
-			if p =~ @static_member_regexp
-				shortcut = p
-				break
+			if reference.match( /\./)
+				property_chain = reference.split(".")
 			end
-		end
-		
-		property_chain.slice!(0,property_chain.rindex(shortcut)) if shortcut
     
-		log_append("Ancestor list: "+property_chain.join(", "))
-		return search_ancestor(doc,property_chain)
+			# Where casting has occoured we may have a short cut to exploit as the type
+			# we are searching for at that point in the chain will be referenced in the 
+			# local document.
+			shortcut = nil
+			property_chain.reverse.each do |p|
+				if p =~ @static_member_regexp
+					shortcut = p
+					break
+				end
+			end
+		
+			property_chain.slice!(0,property_chain.rindex(shortcut)) if shortcut
+    	
+			log_append("Ancestor list: "+property_chain.join(", "))
+			return search_ancestor(doc,property_chain)
     
 		end
 
@@ -956,7 +999,7 @@ class ClassParser
 
 			if type != nil
 				
-				#Reset our loaded documents list.
+				# Reset our loaded documents list.
 				@loaded_documents = []
 
 				path = imported_class_to_file_path(type[0],type[1])
