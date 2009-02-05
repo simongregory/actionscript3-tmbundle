@@ -6,18 +6,19 @@ module FlexMate
 
     class << self
 	
-			# Fallback Search locations for the flex sdk if they are not specified in the 
-			# environmental variable TM_FLEX_SDK_SEARCH_PATHS. See 'Settings' bundle 
-			# preference for full list.
+			# Fallback Search locations for the flex sdk if they are not specified in
+			# the environmental variable TM_FLEX_SDK_SEARCH_PATHS. See the 'Settings' 
+			# bundle preference for the active list.
 			#
 			FLEX_DIRS = [ "/Developer/SDKs/flex_sdk_3",
-										"/Developer/SDKs/flex_sdk_3.0.2",
+                    "/Developer/SDKs/flex_sdk_3.2.0",										
+										"/Developer/SDKs/flex_sdk_3.1.0",
+                    "/Developer/SDKs/flex_sdk_3.0.2",										
 										"/Applications/flex_sdk_3",
 										"/Applications/flex_sdk_2",
 										"/Applications/flex_sdk_2.0.1",
-										"/Applications/FlexSDK2",
-										"/Applications/Flex",
 										"/Applications/FlexSDK2.0.1",
+										"/Applications/Flex",
 										"/Applications/Adobe Flex Builder 3/sdks/3.0.0",
 										"/Applications/Adobe Flex Builder 3/sdks/2.0.1",
 										"/Applications/Adobe Flex Builder 2/Flex SDK 2",
@@ -35,14 +36,14 @@ module FlexMate
 			# Return the first Flex SDK directory found in the list.
 			#
 			def dir_check
-			    return sdk_dir_arr.find { |dir| File.directory? dir }
+				return sdk_dir_arr.find { |dir| File.directory? dir }
 			end
 
-			# Returns a : seperated list of locatons the flex sdk may commonly be found.
+			# Returns a : seperated list of locations the flex sdk may commonly 
+			# be found.
 			#
 			def sdk_dir_list
-				src_dirs = ENV['TM_FLEX_SDK_SEARCH_PATHS']
-				src_dirs = FLEX_DIRS.join(":") if src_dirs == nil
+				src_dirs = ENV['TM_FLEX_SDK_SEARCH_PATHS'] || FLEX_DIRS.join(":")
 				src_dirs
 			end
     
@@ -86,10 +87,8 @@ module FlexMate
 			#
 			def set_tm_flex_path
 
-				if !ENV['TM_FLEX_PATH']
-					#tm_flex_path = dir_check
-					#puts tm_flex_path;
-					ENV['TM_FLEX_PATH'] = dir_check
+				unless ENV['TM_FLEX_PATH']
+					ENV['TM_FLEX_PATH'] = e_sh(dir_check)
 				end
 
 				if ENV['TM_FLEX_PATH']
@@ -137,15 +136,13 @@ module FlexMate
 			#
 			def add_flex_bin_to_path
 
-				if !ENV['TM_FLEX_PATH']
-					ENV['TM_FLEX_PATH'] = dir_check
-				end
+				set_tm_flex_path unless ENV['TM_FLEX_PATH']
 
 				if ENV['TM_FLEX_PATH']
-					`PATH="$PATH:$TM_FLEX_PATH/bin"`
-					return 0; #Succeed
+					ENV['PATH'] = "#{ENV['PATH']}:#{ENV['TM_FLEX_PATH']}/bin"
+					return true;
 				else
-					return 1; #Fail
+					return false;
 				end
 
 			end
