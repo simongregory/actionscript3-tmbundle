@@ -6,26 +6,24 @@
 module FlexMate
 
 	class << self
-		
+
 		# ==================
 		# = TEXTMATE UTILS =
 		# ==================
-		
+
 		# Make sure an environment variable is set.
 		#
 		def require_var(evar)
-			if !ENV[evar]
+			unless ENV[evar]
 
-				puts html_head(:window_title => "Missing Environment Variable", :page_title => "Missing Environment Variable", :sub_title => "")
+				TextMate::HTMLOutput.show(:title => "Missing Environment Variable", :sub_title => "" ) do |io|
 
-				puts <<-HTMOUT
-					<h2>Environement var missing</h2>
-					<p>Please define the environment variable <code>#{evar}</code>.
-					<br><br>
-					Configuration help can be found <a href="tm-file://$TM_BUNDLE_SUPPORT/html/help.html#conf">here.</a></p>
-				HTMOUT
+					io << '<h2>Environment var missing</h2>'
+					io << "<p>Please define the environment variable <code>#{evar}</code>.<br><br>"
+					io << configuration_help()
+					io <<	"</p>"
 
-				TextMate.exit_show_html
+        end
 
 			end
 		end
@@ -33,26 +31,68 @@ module FlexMate
 		# Make sure a file exists at the defined location.
 		#
 		def require_file(file)
+			unless File.exist?(file)
 
-			if !File.exist?(file)
+				TextMate::HTMLOutput.show(:title => "File not found", :sub_title => "" ) do |io|
 
-				puts html_head(:window_title => "File not found", :page_title => "File not found", :sub_title => "")
+					io << "<h2>#{file} 404</h2>"
+					io << "<p>The environment variable <code>#{file}</code> does not resolve to an actual file.<br><br>"
+					io << configuration_help()
+					io <<	"</p>"
 
-				print <<-HTMOUT
-					<h2>#{file} 404</h2>
-					<p>The environment variable <code>#{file}</code> does not resolve to an actual file.
-					<br><br>
-					Configuration help can be found <a href="tm-file://#{ENV['TM_BUNDLE_SUPPORT']}/html/help.html#conf">here.</a></p>
-				HTMOUT
-
-				TextMate.exit_show_html
+        end
 
 			end
 		end
-		
+
+		# Checks that the supplied environmental variables and files that they point
+		# to exist. When they don't a html window is invoked and each failure is
+		# listed.
+		#
+		def required_settings(settings={})
+
+			failed_evars = []
+			failed_files = []
+
+			files = settings[:files] || []
+			evars = settings[:evars] || []
+
+			files.each { |f|
+				failed_files << f unless File.exist?( ENV[f] || "" )
+			}
+
+			evars.each { |e|
+				failed_evars << e unless ENV[e]
+			}
+
+			unless failed_evars.empty? && failed_files.empty?
+
+				TextMate::HTMLOutput.show(:title => "Required Settings Missing", :sub_title => "" ) do |io|
+
+					io << "<h2>Required Setting Missing</h2>"
+
+					failed_files.each { |f| io << "<p>The environment variable <code>#{f}</code> does not resolve to an actual file.<br>" }
+					failed_evars.each { |e| io << "<p>The environment variable <code>#{e}</code> was not defined.<br>" }
+
+					io << configuration_help
+
+				end
+				
+				TextMate.exit_show_html
+
+			end
+
+		end
+
+		# Returns html link to configuration help.
+		#
+		def configuration_help
+			"Configuration help can be found <a href='tm-file://#{e_url(ENV['TM_SUPPORT_PATH'])}/html/help.html#conf'>here.</a>"
+		end
+
 		# Many of the commands only work from a project scope.
 		#
-		# This checks for the existence of a project, then sets $TM_PROJECT_DIR 
+		# This checks for the existence of a project, then sets $TM_PROJECT_DIR
 		# to work from.
 		#
 		def cd_to_tmproj_root
@@ -63,15 +103,15 @@ module FlexMate
 
 		  ENV['TM_PROJECT_DIR'] = File.dirname( ENV['TM_PROJECT_FILEPATH'] )
 
-		  #TODO: IS THIS EQUIVALENT POSSIBLE/USEFUL...
-		  `cd #{ENV['TM_PROJECT_DIR']}`
-
 		end
-		
+
 		# =================
 		# = SNIPPET UTILS =
 		# =================
 		
+		# Converts ActionScript 3 method paramaters and 'snippetises' them for use
+		# with TextMate.
+		#
 		def snippetize_method_params(str)
 			i=0
 			str.gsub!( /\n|\s/,"")
@@ -80,11 +120,11 @@ module FlexMate
 			}
 			str
 		end
-		
+
 		# ===============
 		# = UI + DIALOG =
 		# ===============
-		
+
 		# Show a DIALOG 2 tool tip if dialog 2 is available.
 		# Used where a tooltip needs to be displayed in conjunction with another
 		# exit type.
@@ -92,143 +132,147 @@ module FlexMate
 		def tooltip(message)
 
 			return if message.to_s == ""
-			
+
 			if has_dialog2
 				`"$DIALOG" tooltip <<< "#{message}"`
 			end
-			
+
 		end
-		
-		# Invoke a completions dialog.
+
+		# Invoke the completions dialog.
+		#
+		# This method is a customised version of the complete method found in ui.rb
+		# in the main support folder. It double checks incoming data, links 
+		# images to Dialog 2 and automatically snippetizes output when a method is
+		# selected by the user.
 		#
 		def complete(choices,filter=nil,exit_message=nil)
-			
+
 			if choices[0]['display'] == nil
 				puts "Error, was expecting Dialog2 compatable data."
 				exit
 			end
 
 			pid = fork do
-      	
+
 				STDOUT.reopen(open('/dev/null'))
-      	STDERR.reopen(open('/dev/null'))			
+				STDERR.reopen(open('/dev/null'))
 
 				if has_dialog2
 
-					# "$DIALOG" help popup
-					# Presents the user with a list of items which can be filtered down by typing to select the item they want.
-					# 
-					# popup usage:
-					# "$DIALOG" popup «options» <<<'{ suggestions = ( { title = "foo"; }, { title = "bar"; } ); }'
-					# 
-					# Options:
-					#  -f, --initial-filter       Sets the text which will be used for initial filtering of the suggestions.
-					#  -s, --static-prefix        A prefix which is used when filtering suggestions.
-					#  -e, --extra-chars          A string of extra characters which are allowed while typing.
-					#  -i, --case-insensitive     Case is ignored when comparing typed characters.
-					#  -x, --shell-cmd            When the user selects an item, this command will be passed the selection on STDIN, and the output will be written to the document.
-					#  -w, --wait                 Causes the command to not return until the user has selected an item (or cancelled).
-
-					# Although the above help command says to use 'title', it appears (if you
-					# look in the review ui.rb) that 'display' is needed.
-										
 					icon_dir = "#{BUN_SUP}/../icons"
-					
+
 					images = {
-			      "Method"   => "#{icon_dir}/Method.png",
-			      "Property" => "#{icon_dir}/Property.png",
-			      "Effect"   => "#{icon_dir}/Effect.png",
-			      "Event"    => "#{icon_dir}/Event.png",
-			      "Style"    => "#{icon_dir}/Style.png",
-			      "Constant" => "#{icon_dir}/Constant.png",
-			      "Getter"   => "#{icon_dir}/Getter.png",
-			      "Setter"   => "#{icon_dir}/Setter.png"
-			    }					
-					
-					command = "#{TM_DIALOG} popup --wait"					
+						"Method"   => "#{icon_dir}/Method.png",
+						"Property" => "#{icon_dir}/Property.png",
+						"Effect"   => "#{icon_dir}/Effect.png",
+						"Event"    => "#{icon_dir}/Event.png",
+						"Style"    => "#{icon_dir}/Style.png",
+						"Constant" => "#{icon_dir}/Constant.png",
+						"Getter"   => "#{icon_dir}/Getter.png",
+						"Setter"   => "#{icon_dir}/Setter.png"
+					}
+
+					`"$DIALOG" images --register  "#{images.to_plist}"`
+
+					command = "#{TM_DIALOG} popup --returnChoice"
 					command << " --alreadyTyped #{e_sh filter}" if filter != nil
 					command << " --additionalWordCharacters '_'"
-
+          
 					result = nil
-					
+
 					plist = { 'suggestions' => choices }
 					plist['images'] = images
-					
-					IO.popen(command, 'w+') do |io|
-            io << plist.to_plist
-            io.close_write
-            result = OSX::PropertyList.load io rescue nil
-          end
-					
+
+					::IO.popen(command, 'w+') do |io|
+						io << plist.to_plist
+						io.close_write
+						result = OSX::PropertyList.load io rescue nil
+					end
+
 					return nil if result == nil
 					return nil unless result.has_key? 'index'
-	        i = result['index'].to_i
+					i = result['index'].to_i
 					r = choices[i]
 					m = r['match']
-					
+
 					to_insert = r['data']
 					to_insert.sub!( "#{m}", "")
 					to_insert = self.snippetize_method_params(to_insert)
-					to_insert += ";" if r['typeof'] == "void" 
-					
-					self.tooltip exit_message
-          
-					# Insert the snippet if necessary
-          `"$DIALOG" x-insert #{e_sh to_insert}` unless to_insert.empty?
+					to_insert += ";" if r['typeof'] == "void"
 
+					self.tooltip exit_message
+
+					# Insert the snippet if necessary
+					`"$DIALOG" x-insert --snippet #{e_sh to_insert}` unless to_insert.empty?
+					
 				else
 
-					 self.tooltip "Dialog2 is required for this command.\n:)"
-					
+					self.tooltip "Dialog2 is required for this command.\n:)"
+
 				end
+
 			end
 
 		end
-		
+
 		# Returns true if Dialog 2 is available.
 		#
 		def has_dialog2
 			tm_dialog = e_sh ENV['DIALOG']
-			! tm_dialog.match(/2$/).nil? 
+			! tm_dialog.match(/2$/).nil?
 		end
-		
+
 		# ======================
 		# = SYSTEM/ENVIRONMENT =
 		# ======================
-		
+
 		# Returns true if OS X 10.5 (Leopard) is available.
 		#
 		def check_for_leopard
-			
+
 			os = `defaults read /System/Library/CoreServices/SystemVersion ProductVersion`
-			
+
 			return true if os =~ /10\.5\./
 			return false
-			
+
 		end
-		
+
 	end
 
-end   
+end
 
 if __FILE__ == $0
-  	
-  puts "\nsnippetize_method_params:"
-  puts FlexMate.snippetize_method_params( "method(one:Number,two:String,three:*, four:Test=10, ...rest)")  
-  puts FlexMate.snippetize_method_params( "method(one:Number,
-												  two:String,
-												  three:*,
-												  four:Test, ...rest);")
-	
+
+	require "../flex_env"
+
+	puts "\nsnippetize_method_params:"
+	puts FlexMate.snippetize_method_params( "method(one:Number,two:String,three:*, four:Test=10, ...rest)")
+	puts FlexMate.snippetize_method_params( "method(one:Number,
+												two:String,
+													three:*,
+														four:Test, ...rest);")
+
 	#TODO/FIX: Following line fails.
-	puts FlexMate.snippetize_method_params( "method(zero:Number,four:String=\"chalk\",six:String=BIG_EVENT,three:Boolean=true)")												
+	puts FlexMate.snippetize_method_params( "method(zero:Number,four:String=\"chalk\",six:String=BIG_EVENT,three:Boolean=true)")
 
 	print "\ncheck_for_leopard: "
 	puts FlexMate.check_for_leopard
 
 	FlexMate.tooltip("Test Message")
-	
+
 	puts "\nhas_dialog2:"
 	puts FlexMate.has_dialog2.to_s
-   
+
+	#ENV['TM_FLEX_FILE_SPECS'] = '/Users/simon/Desktop/golf_plus.xml'
+	#ENV['TM_FLEX_OUTPUT'] = '/Users/simon/Desktop/golf_plus.swf'
+	#
+	#v = ['TM_FLEX_OUTPUT']
+	#f = ['TM_FLEX_FILE_SPECS']
+	#s = { :files => f, :evars => v }
+	##s = {}
+	#
+	#FlexMate.required_settings(s)
+
+
 end
