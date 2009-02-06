@@ -45,7 +45,7 @@ imps.each_with_index do |line,index|
 	end
 end
 
-imps[safe] = "#{imps[safe]}\n#{indent}import #{import};"
+imps[safe] = "#{imps[safe]}\n#{indent}import #{import};\n"
 
 TextMate.exit_replace_document( pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n"))
 </string>
