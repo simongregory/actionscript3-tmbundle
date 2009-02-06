@@ -173,7 +173,7 @@ module FlexMate
 						"Setter"   => "#{icon_dir}/Setter.png"
 					}
 
-					`"$DIALOG" images --register  "#{images.to_plist}"`
+					`"$DIALOG" images --register  '#{images.to_plist}'`
 
 					command = "#{TM_DIALOG} popup --returnChoice"
 					command << " --alreadyTyped #{e_sh filter}" if filter != nil
