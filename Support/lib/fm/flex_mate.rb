@@ -131,10 +131,10 @@ module FlexMate
 		#
 		def tooltip(message)
 
-			return if message.to_s == ""
+			return unless message
 
 			if has_dialog2
-				`"$DIALOG" tooltip <<< "#{message}"`
+				`"$DIALOG" tooltip --text "#{message}"`
 			end
 
 		end
@@ -147,6 +147,8 @@ module FlexMate
 		# selected by the user.
 		#
 		def complete(choices,filter=nil,exit_message=nil)
+      
+			TextMate.exit_show_tool_tip("Completions need DIALOG2 to function.") unless self.has_dialog2
 
 			if choices[0]['display'] == nil
 				puts "Error, was expecting Dialog2 compatable data."
@@ -158,59 +160,52 @@ module FlexMate
 				STDOUT.reopen(open('/dev/null'))
 				STDERR.reopen(open('/dev/null'))
 
-				if has_dialog2
+				icon_dir = "#{BUN_SUP}/../icons"
 
-					icon_dir = "#{BUN_SUP}/../icons"
+				images = {
+					"Method"   => "#{icon_dir}/Method.png",
+					"Property" => "#{icon_dir}/Property.png",
+					"Effect"   => "#{icon_dir}/Effect.png",
+					"Event"    => "#{icon_dir}/Event.png",
+					"Style"    => "#{icon_dir}/Style.png",
+					"Constant" => "#{icon_dir}/Constant.png",
+					"Getter"   => "#{icon_dir}/Getter.png",
+					"Setter"   => "#{icon_dir}/Setter.png"
+				}
 
-					images = {
-						"Method"   => "#{icon_dir}/Method.png",
-						"Property" => "#{icon_dir}/Property.png",
-						"Effect"   => "#{icon_dir}/Effect.png",
-						"Event"    => "#{icon_dir}/Event.png",
-						"Style"    => "#{icon_dir}/Style.png",
-						"Constant" => "#{icon_dir}/Constant.png",
-						"Getter"   => "#{icon_dir}/Getter.png",
-						"Setter"   => "#{icon_dir}/Setter.png"
-					}
+				`"$DIALOG" images --register  '#{images.to_plist}'`
 
-					`"$DIALOG" images --register  '#{images.to_plist}'`
+				command = "#{TM_DIALOG} popup --returnChoice"
+				command << " --alreadyTyped #{e_sh filter}" if filter != nil
+				command << " --additionalWordCharacters '_'"
+         
+				result = nil
 
-					command = "#{TM_DIALOG} popup --returnChoice"
-					command << " --alreadyTyped #{e_sh filter}" if filter != nil
-					command << " --additionalWordCharacters '_'"
-          
-					result = nil
+				plist = { 'suggestions' => choices }
+				plist['images'] = images
 
-					plist = { 'suggestions' => choices }
-					plist['images'] = images
-
-					::IO.popen(command, 'w+') do |io|
-						io << plist.to_plist
-						io.close_write
-						result = OSX::PropertyList.load io rescue nil
-					end
-
-					return nil if result == nil
-					return nil unless result.has_key? 'index'
-					i = result['index'].to_i
-					r = choices[i]
-					m = r['match']
-
-					to_insert = r['data']
-					to_insert.sub!( "#{m}", "")
-					to_insert = self.snippetize_method_params(to_insert)
-					to_insert += ";" if r['typeof'] == "void"
-
-					self.tooltip exit_message
-
-					# Insert the snippet if necessary
-					`"$DIALOG" x-insert --snippet #{e_sh to_insert}` unless to_insert.empty?
-					
-				else
-
-					self.tooltip "Dialog2 is required for this command.\n:)"
-
+				::IO.popen(command, 'w+') do |io|
+					io << plist.to_plist
+					io.close_write
+					result = OSX::PropertyList.load io rescue nil
 				end
+
+				return nil if result == nil
+				return nil unless result.has_key? 'index'
+				
+				i = result['index'].to_i
+				r = choices[i]
+				m = r['match']
+
+				to_insert = r['data']
+				to_insert.sub!( "#{m}", "")
+				to_insert = self.snippetize_method_params(to_insert)
+				to_insert += ";" if r['typeof'] == "void"
+
+				# Insert the snippet if necessary
+				`"$DIALOG" x-insert --snippet #{e_sh to_insert}` unless to_insert.empty?
+
+				self.tooltip(exit_message)
 
 			end
 
