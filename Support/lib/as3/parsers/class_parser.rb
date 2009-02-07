@@ -30,7 +30,7 @@ class ClassParser
 	def initialize
 
 		@log = ""
-		@exit_message = ""
+		@exit_message = nil
 
 		#Used to track how far up the class ancestory we are.
 		@depth = 0
@@ -554,7 +554,7 @@ class ClassParser
 
 		as_file = File.basename(paths[0])
 
-		@exit_message = "Completions incomplete.\nThe class #{as_file.sub!(/\.as$/,'')} was not found."
+		@exit_message = "WARNING: Completions incomplete.\nThe class #{as_file.sub!(/\.as$/,'')} was not found."
 
 		log_append("Unable to load '#{as_file}'")
 
@@ -1212,10 +1212,10 @@ end
 
 # Value Object to describe ActionScript 3 class members.
 #
-class AS3Member
-	attr_accessor :namespace
-	attr_accessor :name
-	attr_accessor :type
-	attr_accessor :parameters
-	attr_accessor :storage_type
-end
+# class AS3Member
+# 	attr_accessor :namespace
+# 	attr_accessor :name
+# 	attr_accessor :type
+# 	attr_accessor :parameters
+# 	attr_accessor :storage_type
+# end
