@@ -11,7 +11,7 @@
 #
 # Detect if the import classs reference is within a comment block and if so comment the import out. 
 # Wildcarded.* packages are not checked.
-# Packages containing more than one class will not work.
+# Documents containing more than one class will not work.
 
 require ENV["TM_SUPPORT_PATH"] + "/lib/textmate.rb"
 require ENV["TM_SUPPORT_PATH"] + '/lib/exit_codes'
