@@ -7,11 +7,13 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
+copyright_holder = ENV['TM_ORGANIZATION_NAME'] || ENV['TM_FULLNAME']
+
 s = "/"
 
 puts "//AS3" + s * 75
 puts "// "
-puts "// Copyright " + `date "+%Y"`.chop + " " + ENV['TM_ORGANIZATION_NAME'] + "."
+puts "// Copyright " + `date "+%Y"`.chop + " " + copyright_holder + "."
 puts "// "
 puts s * 80</string>
 	<key>input</key>
