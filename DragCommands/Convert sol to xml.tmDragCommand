@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>command</key>
-	<string># .sol are flash cookies.
+	<string># .sol files are the flash equivalent of cookies.
+# You are likely to find them here ~/Library/Preferences/Macromedia/Flash Player/
+
 CONVERTED_XML=$("$TM_BUNDLE_SUPPORT/lib/sol2xml.py" -x "$TM_DROPPED_FILE")
 echo "$CONVERTED_XML"
 </string>
