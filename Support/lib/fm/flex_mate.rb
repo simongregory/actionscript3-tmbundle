@@ -23,7 +23,7 @@ module FlexMate
 					io << configuration_help()
 					io << "</p>"
 
-        end
+				end
 
 			end
 		end
@@ -40,9 +40,40 @@ module FlexMate
 					io << configuration_help()
 					io << "</p>"
 
-        end
+				end
 
 			end
+		end
+
+		# Preferences window
+		#
+		def opt_in_to_completions
+
+			# To revert for testing use:
+			#defaults write com.macromates.textmate.flexmate autocomplete_on 'false'
+
+			unless `defaults read com.macromates.textmate.flexmate autocomplete_on`.chop! == "true"
+
+				TextMate::HTMLOutput.show(:title => "Autocompletion Preferences", :sub_title => "" ) do |io|
+
+					io << "<h2>Enable Auto Completion</h2>"
+					io << "<p>Completion support is in an <b>experiemental alpha</b> state, which means:</p>"
+					io << "<ul>"
+					io << "<li>It will break.</li>"
+					io << "<li>Functionality will no doubt change.</li>"
+					io << "<li>Help and support is thin on the ground.</li>"
+					io << "<li>Feedback &amp; Patches are most welcome.</li>"
+					io << "</ul>"
+					io << "<p><div id='msg'>If you are happy with this state of affairs please click <a href='javascript:optIn()'>here</a> to enable it.</div>"
+					io << "</p>"
+					io << '<script type="text/javascript" charset="utf-8">function optIn(){TextMate.system(\'defaults write com.macromates.textmate.flexmate autocomplete_on true\', null); document.getElementById(\'msg\').innerText="Happy Coding!";}</script>'
+
+				end
+
+				TextMate.exit_show_html
+
+			end
+
 		end
 
 		# Checks that the supplied environmental variables and files that they point
@@ -237,6 +268,25 @@ module FlexMate
 			return true if os =~ /10\.5\./
 			return false
 
+		end
+
+		# ====================
+		# = User Preferences =
+		# ====================
+
+		def get_preference(key)
+			p = self.preferences
+			p.transaction { p[key] }
+		end
+
+		def set_preference(key,value)
+			p = self.preferences
+			p.transaction { p[key] = value }
+		end
+
+		def preferences
+			require "pstore"
+			PStore.new(File.expand_path( "~/Library/Preferences/com.macromates.textmate.flexmate"))
 		end
 
 	end

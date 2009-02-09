@@ -9,6 +9,7 @@ require SUPPORT + '/lib/escape'
 require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/textmate' 
 require SUPPORT + '/lib/ui'
+require SUPPORT + '/lib/tm/htmloutput'
 
 require BUN_SUP + '/fm/flex_mate'
 require BUN_SUP + '/fm/log'
