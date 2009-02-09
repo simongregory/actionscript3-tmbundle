@@ -1234,7 +1234,7 @@
 					<key>comment</key>
 					<string>AS3 Definition - statements</string>
 					<key>match</key>
-					<string>\b(if|else|while|do|for|each|in|case|switch|do|default)\b</string>
+					<string>\b(if|else|while|do|for|each|in|case|switch|do|default|with)\b</string>
 					<key>name</key>
 					<string>keyword.control.actionscript.3</string>
 				</dict>
