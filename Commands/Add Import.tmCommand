@@ -13,7 +13,7 @@ word   = ENV['TM_CURRENT_WORD']
 doc    = STDIN.read.strip
 import = SourceTools.find_package(word)
 
-pkg = /^\s*package\s+([\w+\.]+)/
+pkg = /^\s*package\b\s*([\w+\.]*)/
 cls = /^\s*(public|final)\s+(final|public)?\s*\bclass\b/
 mta = /^\s*\[(Style|Bindable|Event|Embed|SWF)/
 
