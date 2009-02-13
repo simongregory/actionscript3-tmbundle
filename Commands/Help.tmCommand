@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
-	<string>saveModifiedFiles</string>
+	<string>nop</string>
 	<key>command</key>
 	<string>. "$TM_SUPPORT_PATH/lib/webpreview.sh"
 html_header "ActionScript 3 Bundle Help" "ActionScript 3"
