@@ -1,5 +1,5 @@
 TextMate ActionScript 3 Bundle
-==============================
+------------------------------
 
 Installation
 ============
