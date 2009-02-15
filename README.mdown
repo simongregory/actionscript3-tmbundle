@@ -1,4 +1,4 @@
-ActionScript 3 TextMate Bundle
+TextMate ActionScript 3 Bundle
 ------------------------------
 
 Installation
