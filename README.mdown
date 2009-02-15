@@ -25,7 +25,6 @@ Conventions
 ActionScript formatting follows the guidelines Adobe use for the Flex SDK. They can be found [here](http://opensource.adobe.com/wiki/display/flexsdk/Coding+Conventions)
 
 
-
 Support
 =======
 
