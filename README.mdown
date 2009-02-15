@@ -19,6 +19,13 @@ To install via Git:
 
 Source can be viewed or forked via GitHub: [http://github.com/simongregory/actionscript3-tmbundle/tree/master](http://github.com/simongregory/actionscript3-tmbundle/tree/master)
 
+Conventions
+===========
+
+ActionScript formatting follows the guidelines Adobe use for the Flex SDK. They can be found [here](http://opensource.adobe.com/wiki/display/flexsdk/Coding+Conventions)
+
+
+
 Support
 =======
 
