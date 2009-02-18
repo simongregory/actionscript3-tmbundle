@@ -534,20 +534,31 @@ class ClassParser
 			paths.each do |path|
 
 				uri = d.chomp + "/" + path.chomp
+				as_uri = "#{uri}.as"
 
-				if @loaded_documents.include?(uri)
-					log_append("Already added #{uri}")
+				if @loaded_documents.include?(as_uri)
+					log_append("Already added #{as_uri}")
 					return nil 
 				end
 				
 				#FIX: The assumption that we'll only find one match.
-				if File.exists?(uri)
-					@loaded_documents << uri
+				if File.exists?(as_uri)
+					
+					@loaded_documents << as_uri
 					f = File.open(uri,"r" ).read.strip
-					f = load_includes(f,uri)
+					f = load_includes(f,as_uri)
 					return strip_comments(f)
-				end
+				
+				#where we find a mxml file exit and tell the user why.	
+				elsif File.exists?("#{uri}.mxml")
 
+					mxml_file = File.basename("#{uri}.mxml")
+					log_append("Failing with '#{mxml_file}' as we need an mxml parser first - anyone?")
+					@exit_message = "WARNING: #{mxml_file} couldn't be loaded (mxml files are not yet supported)."
+					return nil
+					
+				end
+				
 			end
 
 		end
@@ -567,7 +578,7 @@ class ClassParser
 	# path and returned.
 	#
 	# Returns an array of possible relative file paths, such as:
-	# ["org/helvector/Foo.as","Foo.as"]
+	# ["org/helvector/Foo","Foo"]
 	#
 	def imported_class_to_file_path(doc,class_name)
 
@@ -577,7 +588,7 @@ class ClassParser
 		doc.scan( /^\s*import\s+(([\w+\.]+)(\b#{class_name}\b))/)
 
 		unless $1.nil?
-			p = $1.gsub(".","/")+".as"
+			p = $1.gsub(".","/")
 			return possible_paths << p
 		end
 
@@ -587,14 +598,14 @@ class ClassParser
 
 		# Collect all wildcard imports here.
 		doc.each do |line|
-		 	possible_paths << $1.gsub(".","/")+class_name+".as" if line =~ wild
-			possible_paths << $1.gsub(".","/")+"/"+class_name+".as" if line =~ pckg
+		 	possible_paths << $1.gsub(".","/")+class_name if line =~ wild
+			possible_paths << $1.gsub(".","/")+"/"+class_name if line =~ pckg
 			break if line =~ cls
 		end
 
 		# Even though we are very likely to have a package path by this point
 		# add in a top level match for safetys sake.
-		return possible_paths << "#{class_name}.as"
+		return possible_paths << "#{class_name}"
 
 	end
 
