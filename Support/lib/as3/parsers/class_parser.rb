@@ -363,8 +363,8 @@ class ClassParser
 		doc.scan(/^\s*(public dynamic class Object)/)
 		
 		unless $1
-			log_append("Loading super class 'Object' 'Object.as'.")
-			return load_class(["Object.as"]) 
+			log_append("Loading super class 'Object' 'Object'.")
+			return load_class(["Object"]) 
 		end
 		
 		return nil
@@ -527,7 +527,7 @@ class ClassParser
 	#
 	def load_class(paths)
 
-		urls=[]
+		#urls=[]
 
 		@src_dirs.each do |d|
 
@@ -538,34 +538,34 @@ class ClassParser
 
 				if @loaded_documents.include?(as_uri)
 					log_append("Already added #{as_uri}")
-					return nil 
+					return nil
 				end
-				
+
 				#FIX: The assumption that we'll only find one match.
 				if File.exists?(as_uri)
 					
 					@loaded_documents << as_uri
-					f = File.open(uri,"r" ).read.strip
+					f = File.open(as_uri,"r" ).read.strip
 					f = load_includes(f,as_uri)
 					return strip_comments(f)
-				
-				#where we find a mxml file exit and tell the user why.	
+
+				#where we find a mxml file exit and tell the user why.
 				elsif File.exists?("#{uri}.mxml")
 
 					mxml_file = File.basename("#{uri}.mxml")
 					log_append("Failing with '#{mxml_file}' as we need an mxml parser first - anyone?")
 					@exit_message = "WARNING: #{mxml_file} couldn't be loaded (mxml files are not yet supported)."
 					return nil
-					
+
 				end
-				
+
 			end
 
 		end
 
 		as_file = File.basename(paths[0])
 
-		@exit_message = "WARNING: Completions incomplete.\nThe class #{as_file.sub!(/\.as$/,'')} was not found."
+		@exit_message = "WARNING: Completions incomplete.\nThe class #{as_file} was not found."
 
 		log_append("Unable to load '#{as_file}'")
 
@@ -1059,7 +1059,7 @@ class ClassParser
 	#
 	def load_reference(class_ref,include_meta=false)
 		@include_metadata = include_meta
-		path = [class_ref.gsub(".","/") + ".as"]
+		path = [class_ref.gsub(".","/")]
 		cdoc = load_class(path)
 		add_public(cdoc)
 	end
