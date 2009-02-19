@@ -40,10 +40,8 @@
 					<string>#invalid</string>
 				</dict>
 				<dict>
-					<key>match</key>
-					<string>^\s*(?=\*)</string>
-					<key>name</key>
-					<string>comment.block.documentation.left-margin.asdoc</string>
+					<key>include</key>
+					<string>#left-margin</string>
 				</dict>
 				<dict>
 					<key>begin</key>
@@ -536,6 +534,10 @@
 			<array>
 				<dict>
 					<key>include</key>
+					<string>#left-margin</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#invalid</string>
 				</dict>
 				<dict>
@@ -815,6 +817,18 @@
 					<string>^(?!\s*\*).*$\n?</string>
 					<key>name</key>
 					<string>invalid.illegal.missing-asterisk.asdoc</string>
+				</dict>
+			</array>
+		</dict>
+		<key>left-margin</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>^\s*(?=\*)</string>
+					<key>name</key>
+					<string>comment.block.documentation.left-margin.asdoc</string>
 				</dict>
 			</array>
 		</dict>
