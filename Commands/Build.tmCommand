@@ -58,7 +58,7 @@ fi
 	<key>name</key>
 	<string>Build</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>showAsHTML</string>
 	<key>scope</key>
 	<string>source.actionscript.3, text.xml.mxml, text.xml.flex-config, comment.block.documentation.asdoc</string>
 	<key>uuid</key>
