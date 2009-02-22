@@ -27,7 +27,7 @@ TextMate.exit_insert_snippet( sb.method(method_name) )
 	<key>output</key>
 	<string>openAsNewDocument</string>
 	<key>scope</key>
-	<string>source.actionscript.3</string>
+	<string>source.actionscript.3 -comment</string>
 	<key>tabTrigger</key>
 	<string>function</string>
 	<key>uuid</key>
