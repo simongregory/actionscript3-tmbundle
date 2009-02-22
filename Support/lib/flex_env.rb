@@ -22,3 +22,8 @@ require BUN_SUP + '/as3/templates/snippet_builder'
 require BUN_SUP + '/as3/templates/snippet_controller'
 require BUN_SUP + '/as3/templates/snippet_provider'
 require BUN_SUP + '/as3/tools/source_tools'
+
+#Branch specific requires
+require SUPPORT + '/lib/tm/process'
+require BUN_SUP + '/fm/compiler'
+require BUN_SUP + '/fm/mxmlc_exhaust'
