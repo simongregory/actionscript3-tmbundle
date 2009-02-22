@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#show the output window with current status and let in-page javascript handle the rest
+"$TM_BUNDLE_SUPPORT/bin/fcshd.rb" -view</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>@B</string>
+	<key>name</key>
+	<string>FCSH Daemon Status</string>
+	<key>output</key>
+	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml, text.xml.flex-config, comment.block.documentation.asdoc</string>
+	<key>uuid</key>
+	<string>629207C9-0E62-4D1C-A66D-2F8542D64C75</string>
+</dict>
+</plist>

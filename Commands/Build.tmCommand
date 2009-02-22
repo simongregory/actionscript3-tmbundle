@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -7,42 +7,49 @@
 	<key>bundleUUID</key>
 	<string>847E3C93-A096-4C8E-9EDA-3D313E4F0014</string>
 	<key>command</key>
-	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh"
+	<string># grab the utility functions and checks from the bundle
+. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh"
 
-cd_to_tmproj_root;
-try_to_add_flex_bin_to_PATH;
+# the relevant support scripts
+DAEMON="$TM_BUNDLE_SUPPORT/bin/fcshd.rb"
+SERVER="$TM_BUNDLE_SUPPORT/bin/fcshd.py"
+OUTPUT_PARSER="$TM_BUNDLE_SUPPORT/bin/parse_mxmlc_out.rb"
 
-### Use a custom build file if one has been defined.
-if [[ (-f "$TM_PROJECT_DIR/$TM_FLEX_BUILD_FILE") ]]; then
-	"$TM_PROJECT_DIR/$TM_FLEX_BUILD_FILE";
-	exit $?
-fi
+# Define $TM_PROJECT_DIR or warn the user if they're not working with a TM Project. 
+cd_to_tmproj_root
 
-require_file "TM_FLEX_FILE_SPECS" "$TM_FLEX_FILE_SPECS"
+# construct a compilation command based on our project settings
+AS_FILE=$TM_PROJECT_DIRECTORY/$TM_FLEX_FILE_SPECS
+SWF_FILE=$TM_PROJECT_DIRECTORY/$TM_FLEX_OUTPUT
+MXMLC_CMD="mxmlc -o=$SWF_FILE -file-specs=$AS_FILE"
+
+# make sure we have the files + paths needed for compilation
+try_to_add_flex_bin_to_PATH
+require_file "TM_FLEX_FILE_SPECS" "$AS_FILE"
 require_var "TM_FLEX_OUTPUT" "$TM_FLEX_OUTPUT"
 
-require_cmd "mxmlc" "If you have installed mxmlc, then you need to either update your &lt;tt&gt;PATH&lt;/tt&gt; or set the &lt;tt&gt;TM_FLEX_PATH&lt;/tt&gt; shell variable (please see bundle help)."
+# print the header to the output window
+"$DAEMON" -view
 
-### If the user is running Leopard then use fcsh via Terminal
-OS=$(defaults read /System/Library/CoreServices/SystemVersion ProductVersion)
-if [[ "$OS" != 10.4.* ]]; then
-	build_with_fcsh.sh
-	exit;
+# run the compiler and print filtered error messages
+"$DAEMON" -start &gt; /dev/null
+"$SERVER" "$MXMLC_CMD" 2&gt;&amp;1 | "$OUTPUT_PARSER"
+
+#echo ${PIPESTATUS[0]}
+
+# launch on success and update the header in the output window
+if [ ${PIPESTATUS[0]} -eq 0 ]; then
+	if [[ (-f "$TM_PROJECT_DIR/build/launch.sh") ]]; then
+		"$TM_PROJECT_DIR/build/launch.sh";
+	else
+		#killall Flash\ Player 2&gt; /dev/null
+		#open -a Flash\ Player "$SWF_FILE"
+		echo "Opening"
+	fi
+	"$DAEMON" -success
+else
+	"$DAEMON" -fail
 fi
-
-### MXMLC Compile Starts here.
-
-html_header "Building (mxmlc)" "$TM_FLEX_FILE_SPECS";
-
-mxmlc \
-	-sp+=$TM_AS3_LIB_PATH \
-	-file-specs="$TM_FLEX_FILE_SPECS" \
-	-output="$TM_FLEX_OUTPUT" \
-	-incremental=true \
-	-optimize=true 2&gt;&amp;1 | parse_mxmlc_out.rb;
-
-html_footer;
-exit_show_html;
 </string>
 	<key>input</key>
 	<string>none</string>

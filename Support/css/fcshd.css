@@ -1,0 +1,39 @@
+#status
+{
+  margin:0;
+}
+
+#status.up
+{
+/*  background-color:#450;*/
+	color: black;
+}
+
+#status.down
+{
+/*  background-color:#600;*/
+	colour: red;
+}
+
+#status.launching
+{
+/*  background-color:#a28700;*/
+	color: blue;
+}
+
+#status.unknown
+{
+	/*background-color:#a28700;*/
+	color: silver;
+}
+
+#controls
+{
+  text-align:left;
+  padding:8px 16px;
+}
+      
+#script-path
+{
+    display:none;
+}
