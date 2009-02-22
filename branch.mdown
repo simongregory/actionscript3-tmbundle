@@ -1,6 +1,5 @@
 Branch Info
 -----------
 
-Name: **streamline**.  
-Purpose: Leaner version of the bundle - with most of the items that I don't use removed.  
-Created by: Simon Gregory
+Name: **beta**.  
+Purpose: Ideas playground, for things like fdb support....
