@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string># Launches TM_FLEX_OUTPUT swf using fdb.
+
+. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh"
+
+cd_to_tmproj_root;
+try_to_add_flex_bin_to_PATH;
+
+require_var "TM_FLEX_DEBUG_URI" "$TM_FLEX_DEBUG_URI";
+
+require_cmd "fdb" "If you have installed fdb, then you need to either update your &lt;tt&gt;PATH&lt;/tt&gt; or set the &lt;tt&gt;TM_FLEX_PATH&lt;/tt&gt; shell variable (please see bundle help)."
+
+#WARNING: If this fails it may be because of a path failure (usually spaces)
+"fdb_terminal" "$TM_FLEX_PATH/bin/fdb" "run $TM_FLEX_DEBUG_URI" "nil" &gt;/dev/null;
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>@R</string>
+	<key>name</key>
+	<string>Start Debugger</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml</string>
+	<key>uuid</key>
+	<string>2DEA65C8-942D-47DF-A70D-7F924FE978AB</string>
+</dict>
+</plist>
