@@ -1,6 +1,9 @@
 Branch Info
------------
+===========
 
-Name: **streamline**.  
-Purpose: Leaner version of the bundle - with most of the items that I don't use removed.  
+**fcshd**  
+---------
+
+Experimental branch concentrating on integrating a `fcsh` deamon process into the TextMate build command.
+  
 Created by: Simon Gregory
