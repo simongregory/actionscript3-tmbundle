@@ -22,7 +22,7 @@ TextMate.exit_insert_snippet( t.interface )
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>interface</string>
+	<string>intf</string>
 	<key>uuid</key>
 	<string>C82DF1A6-B501-4FB8-9AD0-A2A53D9063D8</string>
 </dict>
