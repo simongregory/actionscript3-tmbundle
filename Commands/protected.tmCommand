@@ -21,7 +21,7 @@ SnippetController.namespace("protected")</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>protected</string>
+	<string>pro</string>
 	<key>uuid</key>
 	<string>B0161F85-8334-422F-805C-44D93821A739</string>
 </dict>

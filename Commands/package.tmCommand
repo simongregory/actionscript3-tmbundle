@@ -36,7 +36,7 @@ print "package${1:#{path}}
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>package</string>
+	<string>pac</string>
 	<key>uuid</key>
 	<string>3B521F0F-E01A-49E6-9D6A-43D697D8B5E0</string>
 </dict>

@@ -21,7 +21,7 @@ SnippetController.namespace("public")</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>public</string>
+	<string>pub</string>
 	<key>uuid</key>
 	<string>0DFD0813-F534-4A15-AA77-B4FD3E9E14B6</string>
 </dict>

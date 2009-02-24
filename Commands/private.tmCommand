@@ -22,7 +22,7 @@ SnippetController.namespace("private")
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>private</string>
+	<string>pri</string>
 	<key>uuid</key>
 	<string>F64569D4-CA0B-4D07-8300-06C7758A4442</string>
 </dict>

@@ -24,7 +24,7 @@ TextMate.exit_insert_snippet( t.getter )</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>get</string>
+	<string>g</string>
 	<key>uuid</key>
 	<string>BD40BBDD-9455-460B-926F-B33DD998365C</string>
 </dict>

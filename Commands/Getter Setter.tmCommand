@@ -63,6 +63,8 @@ public function set ' + accessor_name + '(value:${2:' + class_type + '}):void
 	<string>insertAsSnippet</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>gs</string>
 	<key>uuid</key>
 	<string>96C15F92-2DB6-439E-BDC6-7775B78A4C34</string>
 </dict>

@@ -23,7 +23,7 @@ TextMate.exit_insert_snippet( t.class(nil,ns) )
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
-	<string>class</string>
+	<string>cla</string>
 	<key>uuid</key>
 	<string>7F2CED83-3918-4980-9C7E-5868E8438177</string>
 </dict>
