@@ -29,7 +29,7 @@ TextMate.exit_insert_snippet( sb.method(method_name) )
 	<key>scope</key>
 	<string>source.actionscript.3 -comment</string>
 	<key>tabTrigger</key>
-	<string>function</string>
+	<string>fun</string>
 	<key>uuid</key>
 	<string>FD8D1AF2-5F4D-4DEC-8917-C5DC42B0D332</string>
 </dict>
