@@ -2,6 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>comment</key>
+	<string>The majority of items in the language repository are automatically generated and may not be complete.
+			  Please post to the TM list if you spot anything thats missing.</string>
 	<key>firstLineMatch</key>
 	<string>flex-config</string>
 	<key>foldingStartMarker</key>
@@ -1012,7 +1015,7 @@
 		<key>external-library-path</key>
 		<dict>
 			<key>begin</key>
-			<string>&lt;external-library-path&gt;</string>
+			<string>&lt;external-library-path( append="true")?&gt;</string>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
@@ -1040,7 +1043,7 @@
 		<key>externs</key>
 		<dict>
 			<key>begin</key>
-			<string>&lt;externs&gt;</string>
+			<string>&lt;externs( append="true")?&gt;</string>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
@@ -1408,7 +1411,7 @@
 		<key>include-libraries</key>
 		<dict>
 			<key>begin</key>
-			<string>&lt;include-libraries&gt;</string>
+			<string>&lt;include-libraries( append="true")?&gt;</string>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
@@ -1436,7 +1439,7 @@
 		<key>include-resource-bundles</key>
 		<dict>
 			<key>begin</key>
-			<string>&lt;include-resource-bundles&gt;</string>
+			<string>&lt;include-resource-bundles( append="true")?&gt;</string>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
@@ -1464,7 +1467,7 @@
 		<key>includes</key>
 		<dict>
 			<key>begin</key>
-			<string>&lt;includes&gt;</string>
+			<string>&lt;includes( append="true")?&gt;</string>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
@@ -2548,7 +2551,7 @@
 		<key>runtime-shared-libraries</key>
 		<dict>
 			<key>begin</key>
-			<string>&lt;runtime-shared-libraries&gt;</string>
+			<string>&lt;runtime-shared-libraries( append="true")?&gt;</string>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
@@ -2764,7 +2767,7 @@
 		<key>source-path</key>
 		<dict>
 			<key>begin</key>
-			<string>&lt;source-path&gt;</string>
+			<string>&lt;source-path( append="true")?&gt;</string>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
@@ -2936,7 +2939,7 @@
 		<key>theme</key>
 		<dict>
 			<key>begin</key>
-			<string>&lt;theme&gt;</string>
+			<string>&lt;theme( append="true")?&gt;</string>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
