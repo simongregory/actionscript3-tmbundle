@@ -1,0 +1,343 @@
+<flex-config>
+   <!-- benchmark: output performance benchmark-->
+   <benchmark>boolean</benchmark>
+	
+   <compiler>
+      <!-- compiler.accessible: generate an accessible SWF-->
+      <accessible>false</accessible>
+      <!-- compiler.actionscript-file-encoding: specifies actionscript file encoding. If there is no BOM in the AS3 source files, the compiler will use this file encoding.-->
+      <actionscript-file-encoding>string</actionscript-file-encoding>
+
+      <!-- compiler.allow-source-path-overlap: checks if a source-path entry is a subdirectory of another source-path entry. It helps make the package names of MXML components unambiguous.-->
+      <allow-source-path-overlap>false</allow-source-path-overlap>
+      <!-- compiler.as3: use the ActionScript 3 class based object model for greater performance and better error reporting. In the class based object model most built-in functions are implemented as fixed methods of classes.-->
+      <as3>true</as3>
+      <!-- compiler.context-root: path to replace {context.root} tokens for service channel endpoints-->
+      <context-root>context-path</context-root>
+
+      <!-- compiler.debug: generates a movie that is suitable for debugging-->
+      <debug>false</debug>
+
+      <defaults-css-files>
+         <filename>string</filename>
+         <filename>string</filename>
+      </defaults-css-files>
+
+      <!-- compiler.defaults-css-url: defines the location of the default style sheet. Setting this option overrides the implicit use of the defaults.css style sheet in the framework.swc file.-->
+      <defaults-css-url>string</defaults-css-url>
+
+      <!-- compiler.define: define a global AS3 conditional compilation definition, e.g. -define=CONFIG::debugging,true or -define+=CONFIG::debugging,true (to append to existing definitions in flex-config.xml) -->
+      <define>
+         <name>string</name>
+         <value>string</value>
+      </define>
+
+      <!-- compiler.es: use the ECMAScript edition 3 prototype based object model to allow dynamic overriding of prototype properties. In the prototype based object model built-in functions are implemented as dynamic properties of prototype objects.-->
+      <es>false</es>
+
+      <!-- compiler.external-library-path: list of SWC files or directories to compile against but to omit from linking-->
+      <external-library-path>
+         <path-element>libs/player/playerglobal.swc</path-element>
+      </external-library-path>
+
+      <fonts>
+         <!-- compiler.fonts.advanced-anti-aliasing: enables advanced anti-aliasing for embedded fonts, which provides greater clarity for small fonts.-->
+         <advanced-anti-aliasing>true</advanced-anti-aliasing>
+         <!-- compiler.fonts.flash-type: enables FlashType for embedded fonts, which provides greater clarity for small fonts.-->
+         <flash-type>boolean</flash-type>
+
+         <languages>
+            <!-- compiler.fonts.languages.language-range: a range to restrict the number of font glyphs embedded into the SWF-->
+            <language-range>
+               <lang>string</lang>
+               <range>string</range>
+               <range>string</range>
+            </language-range>
+         </languages>
+
+         <!-- compiler.fonts.local-fonts-snapshot: File containing system font data produced by flex2.tools.FontSnapshot.-->
+         <local-fonts-snapshot>${flexlib}/macFonts.ser</local-fonts-snapshot>
+         <!-- compiler.fonts.managers: Compiler font manager classes, in policy resolution order-->
+         <managers>
+            <manager-class>flash.fonts.JREFontManager</manager-class>
+            <manager-class>flash.fonts.AFEFontManager</manager-class>
+            <manager-class>flash.fonts.BatikFontManager</manager-class>
+         </managers>
+         <!-- compiler.fonts.max-cached-fonts: sets the maximum number of fonts to keep in the server cache.  The default value is 20.-->
+         <max-cached-fonts>20</max-cached-fonts>
+         <!-- compiler.fonts.max-glyphs-per-face: sets the maximum number of character glyph-outlines to keep in the server cache for each font face. The default value is 1000.-->
+         <max-glyphs-per-face>1000</max-glyphs-per-face>
+      </fonts>
+      <!-- compiler.headless-server: a flag to set when Flex is running on a server without a display-->
+      <headless-server>boolean</headless-server>
+
+      <!-- compiler.include-libraries: a list of libraries (SWCs) to completely include in the SWF-->
+      <include-libraries>
+         <library>string</library>
+         <library>string</library>
+      </include-libraries>
+
+      <!-- compiler.incremental: enables incremental compilation-->
+      <incremental>boolean</incremental>
+
+      <!-- compiler.keep-all-type-selectors: disables the pruning of unused CSS type selectors-->
+      <keep-all-type-selectors>boolean</keep-all-type-selectors>
+
+      <!-- compiler.keep-as3-metadata: keep the specified metadata in the SWF-->
+      <keep-as3-metadata>
+         <name>string</name>
+         <name>string</name>
+      </keep-as3-metadata>
+
+      <!-- compiler.keep-generated-actionscript: save temporary source files generated during MXML compilation-->
+      <keep-generated-actionscript>false</keep-generated-actionscript>
+      <!-- compiler.library-path: list of SWC files or directories that contain SWC files-->
+      <library-path>
+         <path-element>libs</path-element>
+         <path-element>libs/player</path-element>
+         <path-element>locale/{locale}</path-element>
+      </library-path>
+      <!-- compiler.locale: specifies the locale for internationalization-->
+      <locale>
+         <locale-element>en_US</locale-element>
+      </locale>
+      <mxml>
+         <!-- compiler.mxml.compatibility-version: specifies a compatibility version. e.g. -compatibility-version=2.0.1-->
+         <compatibility-version>version</compatibility-version>
+
+      </mxml>
+      <namespaces>
+         <!-- compiler.namespaces.namespace: Specify a URI to associate with a manifest of components for use as MXML elements-->
+         <namespace>
+            <uri>http://www.adobe.com/2006/mxml</uri>
+            <manifest>mxml-manifest.xml</manifest>
+         </namespace>
+      </namespaces>
+      <!-- compiler.optimize: Enable post-link SWF optimization-->
+      <optimize>true</optimize>
+      <!-- compiler.services: path to Flex Data Services configuration file-->
+      <services>filename</services>
+
+      <!-- compiler.show-actionscript-warnings: runs the AS3 compiler in a mode that detects legal but potentially incorrect code-->
+      <show-actionscript-warnings>true</show-actionscript-warnings>
+      <!-- compiler.show-binding-warnings: toggle whether warnings generated from data binding code are displayed-->
+      <show-binding-warnings>true</show-binding-warnings>
+      <!-- compiler.show-shadowed-device-font-warnings: toggles whether warnings are displayed when an embedded font name shadows a device font name-->
+      <show-shadowed-device-font-warnings>true</show-shadowed-device-font-warnings>
+      <!-- compiler.show-unused-type-selector-warnings: toggle whether warnings generated from unused CSS type selectors are displayed-->
+      <show-unused-type-selector-warnings>true</show-unused-type-selector-warnings>
+      <!-- compiler.source-path: list of path elements that form the roots of ActionScript class hierarchies-->
+      <source-path>
+         <path-element>string</path-element>
+         <path-element>string</path-element>
+      </source-path>
+
+      <!-- compiler.strict: runs the AS3 compiler in strict error checking mode.-->
+      <strict>true</strict>
+      <!-- compiler.theme: list of CSS or SWC files to apply as a theme-->
+      <theme>
+         <filename>string</filename>
+         <filename>string</filename>
+      </theme>
+
+      <!-- compiler.use-resource-bundle-metadata: determines whether resources bundles are included in the application.-->
+      <use-resource-bundle-metadata>true</use-resource-bundle-metadata>
+      <!-- compiler.verbose-stacktraces: save callstack information to the SWF for debugging-->
+      <verbose-stacktraces>false</verbose-stacktraces>
+      <!-- compiler.warn-array-tostring-changes: Array.toString() format has changed.-->
+      <warn-array-tostring-changes>false</warn-array-tostring-changes>
+      <!-- compiler.warn-assignment-within-conditional: Assignment within conditional.-->
+      <warn-assignment-within-conditional>true</warn-assignment-within-conditional>
+      <!-- compiler.warn-bad-array-cast: Possibly invalid Array cast operation.-->
+      <warn-bad-array-cast>true</warn-bad-array-cast>
+      <!-- compiler.warn-bad-bool-assignment: Non-Boolean value used where a Boolean value was expected.-->
+      <warn-bad-bool-assignment>true</warn-bad-bool-assignment>
+      <!-- compiler.warn-bad-date-cast: Invalid Date cast operation.-->
+      <warn-bad-date-cast>true</warn-bad-date-cast>
+      <!-- compiler.warn-bad-es3-type-method: Unknown method.-->
+      <warn-bad-es3-type-method>true</warn-bad-es3-type-method>
+      <!-- compiler.warn-bad-es3-type-prop: Unknown property.-->
+      <warn-bad-es3-type-prop>true</warn-bad-es3-type-prop>
+      <!-- compiler.warn-bad-nan-comparison: Illogical comparison with NaN. Any comparison operation involving NaN will evaluate to false because NaN != NaN.-->
+      <warn-bad-nan-comparison>true</warn-bad-nan-comparison>
+      <!-- compiler.warn-bad-null-assignment: Impossible assignment to null.-->
+      <warn-bad-null-assignment>true</warn-bad-null-assignment>
+      <!-- compiler.warn-bad-null-comparison: Illogical comparison with null.-->
+      <warn-bad-null-comparison>true</warn-bad-null-comparison>
+      <!-- compiler.warn-bad-undefined-comparison: Illogical comparison with undefined.  Only untyped variables (or variables of type *) can be undefined.-->
+      <warn-bad-undefined-comparison>true</warn-bad-undefined-comparison>
+      <!-- compiler.warn-boolean-constructor-with-no-args: Boolean() with no arguments returns false in ActionScript 3.0.  Boolean() returned undefined in ActionScript 2.0.-->
+      <warn-boolean-constructor-with-no-args>false</warn-boolean-constructor-with-no-args>
+      <!-- compiler.warn-changes-in-resolve: __resolve is no longer supported.-->
+      <warn-changes-in-resolve>false</warn-changes-in-resolve>
+      <!-- compiler.warn-class-is-sealed: Class is sealed.  It cannot have members added to it dynamically.-->
+      <warn-class-is-sealed>true</warn-class-is-sealed>
+      <!-- compiler.warn-const-not-initialized: Constant not initialized.-->
+      <warn-const-not-initialized>true</warn-const-not-initialized>
+      <!-- compiler.warn-constructor-returns-value: Function used in new expression returns a value.  Result will be what the function returns, rather than a new instance of that function.-->
+      <warn-constructor-returns-value>false</warn-constructor-returns-value>
+      <!-- compiler.warn-deprecated-event-handler-error: EventHandler was not added as a listener.-->
+      <warn-deprecated-event-handler-error>false</warn-deprecated-event-handler-error>
+      <!-- compiler.warn-deprecated-function-error: Unsupported ActionScript 2.0 function.-->
+      <warn-deprecated-function-error>true</warn-deprecated-function-error>
+      <!-- compiler.warn-deprecated-property-error: Unsupported ActionScript 2.0 property.-->
+      <warn-deprecated-property-error>true</warn-deprecated-property-error>
+      <!-- compiler.warn-duplicate-argument-names: More than one argument by the same name.-->
+      <warn-duplicate-argument-names>true</warn-duplicate-argument-names>
+      <!-- compiler.warn-duplicate-variable-def: Duplicate variable definition -->
+      <warn-duplicate-variable-def>true</warn-duplicate-variable-def>
+      <!-- compiler.warn-for-var-in-changes: ActionScript 3.0 iterates over an object's properties within a "for x in target" statement in random order.-->
+      <warn-for-var-in-changes>false</warn-for-var-in-changes>
+      <!-- compiler.warn-import-hides-class: Importing a package by the same name as the current class will hide that class identifier in this scope.-->
+      <warn-import-hides-class>true</warn-import-hides-class>
+      <!-- compiler.warn-instance-of-changes: Use of the instanceof operator.-->
+      <warn-instance-of-changes>true</warn-instance-of-changes>
+      <!-- compiler.warn-internal-error: Internal error in compiler.-->
+      <warn-internal-error>true</warn-internal-error>
+      <!-- compiler.warn-level-not-supported: _level is no longer supported. For more information, see the flash.display package.-->
+      <warn-level-not-supported>true</warn-level-not-supported>
+      <!-- compiler.warn-missing-namespace-decl: Missing namespace declaration (e.g. variable is not defined to be public, private, etc.).-->
+      <warn-missing-namespace-decl>true</warn-missing-namespace-decl>
+      <!-- compiler.warn-negative-uint-literal: Negative value will become a large positive value when assigned to a uint data type.-->
+      <warn-negative-uint-literal>true</warn-negative-uint-literal>
+      <!-- compiler.warn-no-constructor: Missing constructor.-->
+      <warn-no-constructor>false</warn-no-constructor>
+      <!-- compiler.warn-no-explicit-super-call-in-constructor: The super() statement was not called within the constructor.-->
+      <warn-no-explicit-super-call-in-constructor>false</warn-no-explicit-super-call-in-constructor>
+      <!-- compiler.warn-no-type-decl: Missing type declaration.-->
+      <warn-no-type-decl>true</warn-no-type-decl>
+      <!-- compiler.warn-number-from-string-changes: In ActionScript 3.0, white space is ignored and '' returns 0. Number() returns NaN in ActionScript 2.0 when the parameter is '' or contains white space.-->
+      <warn-number-from-string-changes>false</warn-number-from-string-changes>
+      <!-- compiler.warn-scoping-change-in-this: Change in scoping for the this keyword.  Class methods extracted from an instance of a class will always resolve this back to that instance.  In ActionScript 2.0 this is looked up dynamically based on where the method is invoked from.-->
+      <warn-scoping-change-in-this>false</warn-scoping-change-in-this>
+      <!-- compiler.warn-slow-text-field-addition: Inefficient use of += on a TextField.-->
+      <warn-slow-text-field-addition>true</warn-slow-text-field-addition>
+      <!-- compiler.warn-unlikely-function-value: Possible missing parentheses.-->
+      <warn-unlikely-function-value>true</warn-unlikely-function-value>
+      <!-- compiler.warn-xml-class-has-changed: Possible usage of the ActionScript 2.0 XML class.-->
+      <warn-xml-class-has-changed>false</warn-xml-class-has-changed>
+   </compiler>
+   <!-- debug-password: the password to include in debuggable SWFs-->
+   <debug-password></debug-password>
+   <!-- default-background-color: default background color (may be overridden by the application code)-->
+   <default-background-color>0x869CA7</default-background-color>
+   <!-- default-frame-rate: default frame rate to be used in the SWF.-->
+   <default-frame-rate>24</default-frame-rate>
+   <!-- default-script-limits: default script execution limits (may be overridden by root attributes)-->
+   <default-script-limits>
+      <max-recursion-depth>1000</max-recursion-depth>
+      <max-execution-time>60</max-execution-time>
+   </default-script-limits>
+   <!-- default-size: default application size (may be overridden by root attributes in the application)-->
+   <default-size>
+      <width>500</width>
+      <height>375</height>
+   </default-size>
+   <!-- externs: a list of symbols to omit from linking when building a SWF-->
+   <externs>
+      <symbol>string</symbol>
+      <symbol>string</symbol>
+   </externs>
+
+   <frames>
+      <!-- frames.frame: A SWF frame label with a sequence of classnames that will be linked onto the frame.-->
+      <frame>
+         <label>string</label>
+         <classname>string</classname>
+      </frame>
+
+   </frames>
+   <!-- include-resource-bundles: a list of resource bundles to include in the output SWC-->
+   <include-resource-bundles>
+      <bundle>string</bundle>
+      <bundle>string</bundle>
+   </include-resource-bundles>
+
+   <!-- includes: a list of symbols to always link in when building a SWF-->
+   <includes>
+      <symbol>string</symbol>
+      <symbol>string</symbol>
+   </includes>
+
+   <!-- link-report: Output a XML-formatted report of all definitions linked into the application.-->
+   <link-report>filename</link-report>
+
+   <!-- load-config: load a file containing configuration options-->
+   <load-config>${flexlib}/${configname}-config.xml</load-config>
+   <!-- load-externs: an XML file containing <def>, <pre>, and <ext> symbols to omit from linking when building a SWF-->
+   <load-externs>filename</load-externs>
+
+   <metadata>
+      <!-- metadata.contributor: A contributor's name to store in the SWF metadata-->
+      <contributor>name</contributor>
+
+      <!-- metadata.creator: A creator's name to store in the SWF metadata-->
+      <creator>unknown</creator>
+      <!-- metadata.date: The creation date to store in the SWF metadata-->
+      <date>text</date>
+
+      <!-- metadata.description: The default description to store in the SWF metadata-->
+      <description>http://www.adobe.com/products/flex</description>
+      <!-- metadata.language: The language to store in the SWF metadata (i.e. EN, FR)-->
+      <language>EN</language>
+      <!-- metadata.localized-description: A localized RDF/XMP description to store in the SWF metadata-->
+      <localized-description>
+         <text>string</text>
+         <lang>string</lang>
+         <lang>string</lang>
+      </localized-description>
+
+      <!-- metadata.localized-title: A localized RDF/XMP title to store in the SWF metadata-->
+      <localized-title>
+         <title>string</title>
+         <lang>string</lang>
+         <lang>string</lang>
+      </localized-title>
+
+      <!-- metadata.publisher: A publisher's name to store in the SWF metadata-->
+      <publisher>unknown</publisher>
+      <!-- metadata.title: The default title to store in the SWF metadata-->
+      <title>Adobe Flex 3 Application</title>
+   </metadata>
+   <!-- output: the filename of the SWF movie to create-->
+   <output>filename</output>
+
+   <!-- raw-metadata: XML text to store in the SWF metadata (overrides metadata.* configuration)-->
+   <raw-metadata>text</raw-metadata>
+
+   <!-- resource-bundle-list: prints a list of resource bundles to a file for input to the compc compiler to create a resource bundle SWC file. -->
+   <resource-bundle-list>filename</resource-bundle-list>
+
+   <!-- runtime-shared-libraries: a list of runtime shared library URLs to be loaded before the application starts-->
+   <runtime-shared-libraries>
+      <url>string</url>
+      <url>string</url>
+   </runtime-shared-libraries>
+
+   <runtime-shared-library-path>
+      <path-element>libs/framework.swc</path-element>
+      <rsl-url>framework_3.0.0.477.swz</rsl-url>
+      <policy-file-url></policy-file-url>
+      <rsl-url>framework_3.0.0.477.swf</rsl-url>
+      <policy-file-url></policy-file-url>
+   </runtime-shared-library-path>
+
+   <!-- static-link-runtime-shared-libraries: statically link the libraries specified by the -runtime-shared-libraries-path option.-->
+   <static-link-runtime-shared-libraries>true</static-link-runtime-shared-libraries>
+   <static-rsls>true</static-rsls>
+
+   <!-- target-player: specifies the version of the player the application is targeting. Features requiring a later version will not be compiled into the application. The minimum value supported is "9.0.0".-->
+   <target-player>version</target-player>
+
+   <!-- use-network: toggle whether the SWF is flagged for access to network resources-->
+   <use-network>true</use-network>
+   <!-- verify-digests: verifies the libraries loaded at runtime are the correct ones.-->
+   <verify-digests>boolean</verify-digests>
+
+   <!-- version: display the build version of the program-->
+   <version>boolean</version>
+
+   <!-- warnings: toggle the display of warnings-->
+   <warnings>boolean</warnings>
+
+</flex-config>
