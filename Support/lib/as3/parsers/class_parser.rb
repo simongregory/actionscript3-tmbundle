@@ -1047,6 +1047,46 @@ class ClassParser
 		# TODO: Check type of method return statements.
 
 	end
+	
+	# Returns a list of class paths that satisfy reference or word.
+	#
+	def path_list(doc, reference, word)
+		
+		#TODO: Work on reference / word dominance.
+		reference = word if reference == "this" && word
+	
+		type = find_type(doc, reference)
+	  paths = imported_class_to_file_path(doc, type)
+		
+	  #unless type
+		#		type = find_type(doc, word)
+		#		paths += imported_class_to_file_path(doc, type) unless type
+	  #end
+
+		create_src_list()
+		existing_paths = []
+
+		@src_dirs.each do |d|
+
+			paths.each do |path|
+
+				uri = d.chomp + "/" + path.chomp
+				as = "#{uri}.as"
+				mx = "#{uri}.mxml"
+
+				if File.exists?(as)
+					existing_paths << as
+				elsif File.exists?(mx)
+					existing_paths << mx
+				end
+
+			end
+
+		end
+
+		existing_paths.uniq
+
+	end
 
 	# Returns the type of the reference within the doc.
 	#
