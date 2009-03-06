@@ -1052,16 +1052,19 @@ class ClassParser
 	#
 	def path_list(doc, reference, word)
 		
-		#TODO: Work on reference / word dominance.
-		reference = word if reference == "this" && word
-	
-		type = find_type(doc, reference)
-	  paths = imported_class_to_file_path(doc, type)
+		#Where the word and ref don't match and it 
+		#looks like a Class name switch to it.
+		if reference != word
+			if word =~ /^[A-Z]/
+				reference = word
+			end
+		end
 		
-	  #unless type
-		#		type = find_type(doc, word)
-		#		paths += imported_class_to_file_path(doc, type) unless type
-	  #end
+		type = find_type(doc, reference)
+		
+		return [] unless type
+		
+	  paths = imported_class_to_file_path(doc, type)
 
 		create_src_list()
 		existing_paths = []
