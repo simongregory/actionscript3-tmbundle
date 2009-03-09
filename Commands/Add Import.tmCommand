@@ -38,14 +38,13 @@ indent = ""
 imps.each_with_index do |line,index|
 	if line =~ irgx
 		TextMate.exit_show_tool_tip("#{word} already imported")
-	elsif line =~ /^\s*$/
-		safe = index
 	elsif line =~ /^(\s*)import\s+/
 		indent = $1
+		safe = index
 	end
 end
 
-imps[safe] = "#{imps[safe]}\n#{indent}import #{import};\n"
+imps[safe] = "#{imps[safe]}\n#{indent}import #{import};"
 
 TextMate.exit_replace_document( pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n"))
 </string>
