@@ -51,6 +51,13 @@ end
 
 imps[safe] = "#{imps[safe]}\n#{indent}import #{import};"
 
+pid = fork do
+	STDOUT.reopen(open('/dev/null'))
+	STDERR.reopen(open('/dev/null'))
+	`sleep .1;open "txmt://open?line=#{ENV['TM_LINE_NUMBER'].to_i+1}&amp;column=#{ENV['TM_COLUMN_NUMBER']}"`
+end
+
+
 TextMate.exit_replace_document( pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n"))
 </string>
 	<key>input</key>
