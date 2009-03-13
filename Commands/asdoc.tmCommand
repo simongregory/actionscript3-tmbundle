@@ -20,7 +20,7 @@ override_regexp = /override.*function.*\(/
 method_regex = /(public|private|protected)\s+function\s+(\w+)\s*\(/
 
 def scan_for_method(doc,name)
-	m_rgx = /^\s*(override\s+)?(public|private|protected)\s+function\s+\b#{name}\b\s*\(((?m:[^)]+))\)\s*:\s*(\w+)/
+	m_rgx = /^\s*(override\s+)?(public|private|protected)\s+function\s+\b#{name}\b\s*\(((?m:[^)]*))\)\s*:\s*(\w+)/
 	doc.scan( m_rgx )
 	if $2 != nil
 		returns = "#{$4}"
@@ -29,11 +29,12 @@ def scan_for_method(doc,name)
 	{:params =&gt; params, :returns =&gt; returns}
 end
 
-def generate_method_doc(sig)	
-	args = sig[:params].split(',')
+def generate_method_doc(sig)
+	args = (sig[:params]) ? sig[:params].split(',') : []
 	puts "/**"
 	args.each { |e|
-		arg =  e.split(':') 	
+		arg =  e.split(':')
+		puts " *	@private" if arg.length !- 2 	
 		name = arg[0]
 		type = arg[1].sub(/=.*$/,'')
 		puts " *	@param #{name} #{type}"
