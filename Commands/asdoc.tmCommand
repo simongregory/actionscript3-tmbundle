@@ -34,7 +34,7 @@ def generate_method_doc(sig)
 	puts "/**"
 	args.each { |e|
 		arg =  e.split(':')
-		puts " *	@private" if arg.length !- 2 	
+		puts " *	@private" if arg.length != 2 	
 		name = arg[0]
 		type = arg[1].sub(/=.*$/,'')
 		puts " *	@param #{name} #{type}"
