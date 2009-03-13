@@ -40,7 +40,7 @@ module FlexMate
 				
 				require ENV['TM_SUPPORT_PATH'] + '/lib/tm/htmloutput'
 				
-        TextMate::HTMLOutput.show(
+        r = TextMate::HTMLOutput.show(
 					:title => "Documentation for ‘#{word}’",
 				  :sub_title => "ActionScript 3 / Flex Dictionary"
 				) do |io|
@@ -53,7 +53,7 @@ module FlexMate
         end
 				
 				require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
-        TextMate.exit_show_html
+        TextMate.exit_show_html(r)
 				
 			end
 			
@@ -101,11 +101,13 @@ class LangReference
 		
 		IO.readlines(@toc).each do |line|
 			if line =~ @exact_rgx
-				p = cp($1)
-				@found << { :href => "#{@path}/#{$1}", :hit => 'exact', :title => p, :class => p.split('.').pop()}
+				m = $1
+				p = cp(m)
+				@found << { :href => "#{@path}/#{m}", :hit => 'exact', :title => p, :class => p.split('.').pop()}
 			elsif line =~ @partial_rgx
-				p = cp($1)
-				@found << { :href => "#{@path}/#{$1}", :hit => 'partial', :title => p, :class => p.split('.').pop()}
+				m = $1
+				p = cp(m)
+				@found << { :href => "#{@path}/#{m}", :hit => 'partial', :title => p, :class => p.split('.').pop()}
 			end
 		end
 
@@ -114,7 +116,7 @@ class LangReference
 		if @found.size == 1
 
 			out << "<b>#{word}</b> Found, redirecting..."
-			out << "<meta http-equiv='refresh' content='0; tm-file://#{@found[0][:href]}}'>"
+			out << "<meta http-equiv='refresh' content='0; tm-file://#{@found[0][:href]}'>"
 						
 		elsif @found.size > 0
 			
