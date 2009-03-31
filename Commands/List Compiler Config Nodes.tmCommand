@@ -7,12 +7,15 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
 
-require "rexml/document"
+require 'rexml/document'
 require ENV['TM_SUPPORT_PATH'] + '/lib/ui'
+require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
 
 scope = ENV['TM_SCOPE'].split(" ").pop().sub('meta.scope.','').gsub('.','/')
 data = File.new( ENV['TM_BUNDLE_SUPPORT']+"/data/flex-config.xml" )
 conf = REXML::Document.new data
+
+TextMate.exit_insert_snippet "&lt;flex-config&gt;\n\t$0\n&lt;/flex-config&gt;" if scope == 'text/xml/flex-config'
 
 choices = []
 
@@ -25,7 +28,8 @@ TextMate::UI.complete(choices.uniq, :extra_chars =&gt; '-') do |choice|
 	"&gt;$0&lt;/#{n}&gt;"
 end
 
-print '&lt;'</string>
+print '&lt;'
+</string>
 	<key>input</key>
 	<string>none</string>
 	<key>name</key>
