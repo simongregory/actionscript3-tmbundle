@@ -7,6 +7,7 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby
 
+require ENV['TM_SUPPORT_PATH']   + '/lib/escape'
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/fm/asd'
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/fm/sdk'
 
