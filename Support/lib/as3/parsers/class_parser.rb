@@ -504,7 +504,7 @@ class ClassParser
 		# otherwise go looking for the sdk.
 		unless add_src_dir("#{cs}/frameworks/flex_3")
 			fx = FlexMate::SDK.src
-			add_src_dir(fx)
+			add_src_dir(fx) unless fx.nil?
 		end
 
 		#log_append( "src_dirs " + @src_dirs )
