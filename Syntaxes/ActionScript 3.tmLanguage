@@ -34,6 +34,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#included</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#embedded-in-mxml</string>
 		</dict>
 		<dict>
@@ -727,6 +731,87 @@
 			<string>(import)\s+(.*?)((;)|$)</string>
 			<key>name</key>
 			<string>storage.type.import.actionscript.3</string>
+		</dict>
+		<key>included</key>
+		<dict>
+			<key>begin</key>
+			<string>//AS3_INCLUDE_FILE</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>comment.line.double-slash.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>Supporting ActionScript files that contain loose code is a big headache, and may well be impossible to do
+			if we want to keep all the goodies provided by the package, class and method level scopes. So without spending too
+			much time on this I can only think of imposing arbitary begin and end patters where users want to see syntax colouring
+			within include files.</string>
+			<key>contentName</key>
+			<string>meta.included.actionscript.3</string>
+			<key>end</key>
+			<string>//AS3_INCLUDE_FILE</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>comment.line.double-slash.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>text.html.asdoc</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#regexp</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#numbers</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variables</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#compiler-metadata</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#language-elements</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#support-classes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#language-storage</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#methods-all</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-block</string>
+				</dict>
+			</array>
 		</dict>
 		<key>interface</key>
 		<dict>
