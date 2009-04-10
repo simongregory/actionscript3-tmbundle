@@ -1,5 +1,0 @@
-Branch Info
------------
-
-Name: **beta**.  
-Purpose: Ideas playground, for things like fdb support....

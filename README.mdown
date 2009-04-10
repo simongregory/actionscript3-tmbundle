@@ -1,6 +1,16 @@
 TextMate ActionScript 3 Bundle
 ------------------------------
 
+Beta Branch
+===========
+
+This development branch follows 'master' and is intended for experimental work, which currently includes:
+
+ * Tidy Command
+ * FDB Support
+    * Set breakpoints using  `/*>BP<*/`
+    * Start Debugger - Parses current doc for breakpoints and sets them in a fdb session.
+
 Installation
 ============
 
