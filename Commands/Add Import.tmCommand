@@ -15,6 +15,9 @@ doc    = STDIN.read.strip
 import = SourceTools.find_package(word)
 cla    = import.split('.').pop()
 
+line_num = ENV['TM_LINE_NUMBER']
+line_idx = ENV['TM_LINE_INDEX']
+
 doc[line] = doc[line].gsub(word, cla)
 
 pkg = /^\s*package\b\s*([\w+\.]*)/
@@ -51,7 +54,15 @@ end
 
 imps[safe] = "#{imps[safe]}\n#{indent}import #{import};"
 
-TextMate.exit_replace_document( pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n"))
+print pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n")
+
+line_idx = (line_idx.to_i-word.length)+(import.split(".")[-1].length)+1
+
+pid = fork do
+	STDOUT.reopen(open('/dev/null'))
+	STDERR.reopen(open('/dev/null'))
+	TextMate.go_to(:line =&gt; line_num.to_i+1, :column =&gt; line_idx)
+end
 </string>
 	<key>input</key>
 	<string>document</string>
@@ -60,7 +71,7 @@ TextMate.exit_replace_document( pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.jo
 	<key>name</key>
 	<string>Import Class</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>replaceDocument</string>
 	<key>scope</key>
 	<string>source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3</string>
 	<key>uuid</key>
