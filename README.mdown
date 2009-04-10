@@ -1,6 +1,17 @@
 TextMate ActionScript 3 Bundle
 ------------------------------
 
+Streamline Branch
+=================
+
+This is my personal development branch and is loosely based on a slimmed down version of 'master' and may also have 'beta' changes too, 'master' differences are:
+
+ * There's only one Build command.
+ * Help dynamically lists `TM_FLEX_SDK_SEARCH_PATHS` (this is ready to push to master but git-svn doesn't work)
+ * Format fsch Terminal Output is gone.
+ * List Class Members is gone (+ should go from master too)
+ * Auto parameter recognition in asdoc command is being worked on.
+
 Installation
 ============
 
