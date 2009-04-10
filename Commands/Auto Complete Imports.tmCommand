@@ -9,12 +9,21 @@
 
 require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
+scope  = ENV['TM_SCOPE']
 line   = ENV['TM_CURRENT_LINE']
 word   = STDIN.read.strip
-import = SourceTools.find_package(word)
-import = "import #{import}" unless line =~ /^\s*import/
+cp     = SourceTools.find_package(word)
 
-print "#{import};"</string>
+if scope =~ /asdoc/
+	cp = "@see #{cp}"
+else
+	cp = "import #{cp}" unless line =~ /^\s*import/
+end
+
+print "#{cp};"
+
+
+</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
@@ -26,7 +35,7 @@ print "#{import};"</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript.3 meta.package.actionscript.3, source.actionscript.3.embedded.mxml</string>
+	<string>source.actionscript.3 meta.package.actionscript.3, source.actionscript.3.embedded.mxml, comment.block.documentation.asdoc</string>
 	<key>uuid</key>
 	<string>783EB172-C2CF-44B1-A804-E06EBA9EB6DB</string>
 </dict>
