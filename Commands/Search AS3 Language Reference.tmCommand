@@ -5,9 +5,14 @@
 	<key>beforeRunningCommand</key>
 	<string>saveModifiedFiles</string>
 	<key>command</key>
-	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh";
-set_flex_path;
-asd.rb;
+	<string>#!/usr/bin/env ruby
+
+require ENV['TM_SUPPORT_PATH']   + '/lib/escape'
+require ENV['TM_BUNDLE_SUPPORT'] + '/lib/fm/asd'
+require ENV['TM_BUNDLE_SUPPORT'] + '/lib/fm/sdk'
+
+FlexMate::SDK.set_tm_flex_path
+FlexMate::ASD.find(STDIN.read.strip)
 </string>
 	<key>fallbackInput</key>
 	<string>word</string>
