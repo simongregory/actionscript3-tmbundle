@@ -1,13 +1,13 @@
 TextMate ActionScript 3 Bundle
-------------------------------
+==============================
 
 Compiler Branch
 ---------------
 
-Experimental refactoring the 'Build' command to use TM Process. This is work in progress and currently fires up mxmlc within the process and the fcsh wrapper isn't used.
+Branch of 'master' with experimental refactoring of the 'Build' command to use TM Process. This is work in progress and currently fires up mxmlc within the process and the fcsh wrapper isn't used.
 
 Installation
-============
+------------
 
 To install via Subversion:
 
@@ -25,24 +25,24 @@ To install via Git:
 Source can be viewed or forked via GitHub: [http://github.com/simongregory/actionscript3-tmbundle/tree/master](http://github.com/simongregory/actionscript3-tmbundle/tree/master)
 
 Conventions
-===========
+-----------
 
 ActionScript formatting follows the guidelines Adobe use for the Flex SDK. They can be found [here](http://opensource.adobe.com/wiki/display/flexsdk/Coding+Conventions).
 
 For Bundle Conventions please follow the TextMate conventions outlined [here](http://svn.textmate.org/trunk/Conventions.txt).
 
 Support
-=======
+-------
 
 Please use the TextMate Users mailing list [http://lists.macromates.com/listinfo/textmate](http://lists.macromates.com/listinfo/textmate).
 
 Maintainer
-==========
+----------
 
 [Simon Gregory](http://blog.simonregory.com)
 
 License
-=======
+-------
 
 If not otherwise specified (see below), files in this project fall under the following license:
 
