@@ -1,4 +1,0 @@
-Compiler Branch Info
---------------------
-
-Experimental refactoring the 'Build' command to use TM Process. This is work in progress and currently fires up mxmlc within the process and the fcsh wrapper isn't used.
