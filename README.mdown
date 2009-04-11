@@ -2,7 +2,7 @@ TextMate ActionScript 3 Bundle
 ==============================
 
 Beta Branch
-===========
+-----------
 
 This development branch follows 'master' and is intended for experimental work, which currently includes:
 
