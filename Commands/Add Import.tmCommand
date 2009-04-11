@@ -10,8 +10,15 @@
 require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
 word   = ENV['TM_CURRENT_WORD']
+line   = ENV['TM_CURRENT_LINE']
 doc    = STDIN.read.strip
 import = SourceTools.find_package(word)
+cla    = import.split('.').pop()
+
+line_num = ENV['TM_LINE_NUMBER']
+line_idx = ENV['TM_LINE_INDEX']
+
+doc[line] = doc[line].gsub(word, cla)
 
 pkg = /^\s*package\b\s*([\w+\.]*)/
 cls = /^\s*(public|final)\s+(final|public)?\s*\bclass\b/
@@ -36,18 +43,27 @@ safe = 0
 indent = ""
 
 imps.each_with_index do |line,index|
-	if line =~ irgx
+	if line =~ irgx		
+		TextMate.exit_insert_text(cla.sub(word,'')) if word != cla
 		TextMate.exit_show_tool_tip("#{word} already imported")
-	elsif line =~ /^\s*$/
-		safe = index
 	elsif line =~ /^(\s*)import\s+/
 		indent = $1
+		safe = index
 	end
 end
 
-imps[safe] = "#{imps[safe]}\n#{indent}import #{import};\n"
+imps[safe] = "#{imps[safe]}\n#{indent}import #{import};"
 
-TextMate.exit_replace_document( pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n"))
+print pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n")
+
+line_idx = (line_idx.to_i-word.length)+(import.split(".")[-1].length)+1
+
+pid = fork do
+	STDOUT.reopen(open('/dev/null'))
+	STDERR.reopen(open('/dev/null'))
+	TextMate.go_to(:line =&gt; line_num.to_i+1, :column =&gt; line_idx)
+end
+
 </string>
 	<key>input</key>
 	<string>document</string>
@@ -56,7 +72,7 @@ TextMate.exit_replace_document( pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.jo
 	<key>name</key>
 	<string>Import Class</string>
 	<key>output</key>
-	<string>openAsNewDocument</string>
+	<string>replaceDocument</string>
 	<key>scope</key>
 	<string>source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3</string>
 	<key>uuid</key>

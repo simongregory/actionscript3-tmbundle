@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -wKU
+
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
+word = ENV['TM_CURRENT_WORD']
+
+p = PropertyInspector.capture
+w = ClassParser.new
+
+paths = w.path_list(STDIN.read.strip, p[:ref], word)
+
+TextMate.exit_show_tool_tip("#{word} not resolved.") if paths.empty?
+	
+if paths.size == 1
+	target = paths[0]
+else
+	i = TextMate::UI.menu(paths)
+	TextMate.exit_discard() if i == nil
+	target = paths[i]
+end
+
+TextMate.exit_show_tool_tip("Intrinsic Class") if target =~ /ActionScript 3.tmbundle/
+
+TextMate.exit_show_tool_tip("Current file") if ENV['TM_FILEPATH'] == "#{target}"
+
+TextMate.go_to :file =&gt; "#{target}"
+</string>
+	<key>input</key>
+	<string>document</string>
+	<key>keyEquivalent</key>
+	<string>@D</string>
+	<key>name</key>
+	<string>Open...</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>uuid</key>
+	<string>B6FCC22E-E524-4C0B-8869-972AB3FB1492</string>
+</dict>
+</plist>

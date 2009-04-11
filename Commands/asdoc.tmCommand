@@ -10,12 +10,38 @@
 require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
 line_number = ENV['TM_LINE_NUMBER'].to_i
-doc = STDIN.read.split("\n")
-next_line = doc[line_number].to_s
+doc = STDIN.read
+doc_a = doc.split("\n")
+next_line = doc_a[line_number].to_s
 
 class_regexp = /\b(class|interface)\b/
 constructor_regexp = /public\s+function\s+([A-Z]\w+)\s*\(.*\)\s*$/
 override_regexp = /override.*function.*\(/
+method_regex = /(public|private|protected)\s+function\s+(\w+)\s*\(/
+
+def scan_for_method(doc,name)
+	m_rgx = /^\s*(override\s+)?(public|private|protected)\s+function\s+\b#{name}\b\s*\(((?m:[^)]*))\)\s*:\s*(\w+)/
+	doc.scan( m_rgx )
+	if $2 != nil
+		returns = "#{$4}"
+		params = $3.gsub(/(\s|\n)/,'') if $3 != nil
+	end
+	{:params =&gt; params, :returns =&gt; returns}
+end
+
+def generate_method_doc(sig)
+	args = (sig[:params]) ? sig[:params].split(',') : []
+	puts "/**"
+	args.each { |e|
+		arg =  e.split(':')
+		puts " *	@private" if arg.length != 2 	
+		name = arg[0]
+		type = arg[1].sub(/=.*$/,'')
+		puts " *	@param #{name} #{type}"
+	}
+	puts " *	@return #{sig[:returns]}" unless sig[:returns] == 'void'
+	print " */"	
+end 
 
 t = SnippetBuilder.new
 
@@ -24,10 +50,14 @@ if next_line =~ class_regexp
 elsif next_line =~ constructor_regexp
 	print t.doc("constructor").chomp
 elsif next_line =~ override_regexp
-	print t.doc("inheritDoc").chomp	
+	print t.doc("inheritDoc").chomp
+elsif next_line =~ method_regex
+	sig = scan_for_method(doc,$2)
+	generate_method_doc(sig)
 else
 	print t.doc("private").chomp
-end</string>
+end
+</string>
 	<key>input</key>
 	<string>document</string>
 	<key>name</key>

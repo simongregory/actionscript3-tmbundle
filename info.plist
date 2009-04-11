@@ -18,13 +18,10 @@
 			<string>72E85582-E1CC-4142-94DC-51566510D868</string>
 			<string>3DD9FC6E-C354-4193-AE52-C618B3C3DCA6</string>
 			<string>------------------------------------</string>
-			<string>A067C9B0-B479-4EAB-9D4C-14063F0225B9</string>
-			<string>------------------------------------</string>
 			<string>9D7FFA75-08E0-45C4-B982-13EC187D167E</string>
 			<string>6B04E224-64D5-489F-B84A-2CCC416A0A82</string>
 			<string>783EB172-C2CF-44B1-A804-E06EBA9EB6DB</string>
 			<string>96C15F92-2DB6-439E-BDC6-7775B78A4C34</string>
-			<string>04AD9871-4675-48E0-8C90-840056BD12FC</string>
 			<string>3558CE1A-BA5A-4242-AF49-C9D28E57B032</string>
 			<string>141B7716-9CE1-4358-ABC9-671D3AEF8871</string>
 			<string>18FA32FA-FB74-4EB9-A0D3-8699BD77E2A2</string>
@@ -32,7 +29,6 @@
 			<string>373CDD32-464D-4911-9B0D-4AF4F79C71AF</string>
 			<string>------------------------------------</string>
 			<string>45379A16-14A8-42D8-9F2B-0AE11724360E</string>
-			<string>E0B852A8-0CB4-4A3C-A3F4-6C4B5EB45181</string>
 			<string>6DBEF3A7-0EF3-4B92-A54F-5CA621C79AD0</string>
 			<string>------------------------------------</string>
 			<string>D5F09730-851C-42B9-B06E-9F89F3226E2D</string>
@@ -102,8 +98,6 @@
 					<string>CFE8E938-F614-4B41-8EDB-748EB30EF0DC</string>
 					<string>------------------------------------</string>
 					<string>33712CB3-7897-4B93-821E-F35F8FD13BA2</string>
-					<string>------------------------------------</string>
-					<string>C4242EF8-9102-49B6-99C6-F4504651D627</string>
 				</array>
 				<key>name</key>
 				<string>Debug</string>
@@ -148,17 +142,6 @@
 				</array>
 				<key>name</key>
 				<string>Metadata</string>
-			</dict>
-			<key>A067C9B0-B479-4EAB-9D4C-14063F0225B9</key>
-			<dict>
-				<key>items</key>
-				<array>
-					<string>424AF1F7-45B9-495D-8C87-77E96DF237A7</string>
-					<string>63F2D823-98B1-44C7-8186-1F5AB1190AE4</string>
-					<string>23635FAF-4191-46E1-B534-D03EBD87A3D3</string>
-				</array>
-				<key>name</key>
-				<string>Build using...</string>
 			</dict>
 			<key>B45FE658-8AE1-4484-8F79-C076A5579014</key>
 			<dict>

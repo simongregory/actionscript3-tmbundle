@@ -486,21 +486,9 @@ class ClassParser
 
 		if ENV['TM_PROJECT_DIRECTORY']
 
-			src_list = '"src"'
-			
-			# This isn't working properly yet as it only matches the top level lib
-			# within the Proj.
-			#if ENV['TM_AS3_USUAL_SRC_DIRS'] != nil
-			#	src_a = ENV['TM_AS3_USUAL_SRC_DIRS'].split(":")
-			#	src_list = '"' + src_a.pop() + '"'
-			#	src_a.each do |d|
-			#		src_list += ' -or -name "'+d+'"'
-			#	end
-			#end
-			
-			# Note Errors are redirected and suppressed (ie Permissions Errors)
-			@src_dirs = `find -d "$TM_PROJECT_DIRECTORY" -maxdepth 5 -name #{src_list} -print 2>/dev/null`
-			
+			src_list = (ENV['TM_AS3_USUAL_SRC_DIRS'] != nil) ? ENV['TM_AS3_USUAL_SRC_DIRS'].gsub(':','|') : "src"
+			@src_dirs = `find -dE "$TM_PROJECT_DIRECTORY" -maxdepth 5 -regex '.*\/(#{src_list})' -print 2>/dev/null`
+
 		end
 
 		cs = "#{@completion_src}/data/completions"
@@ -516,7 +504,7 @@ class ClassParser
 		# otherwise go looking for the sdk.
 		unless add_src_dir("#{cs}/frameworks/flex_3")
 			fx = FlexMate::SDK.src
-			add_src_dir(fx)
+			add_src_dir(fx) unless fx.nil?
 		end
 
 		#log_append( "src_dirs " + @src_dirs )
@@ -1045,6 +1033,49 @@ class ClassParser
 		end
 
 		# TODO: Check type of method return statements.
+
+	end
+	
+	# Returns a list of class paths that satisfy reference or word.
+	#
+	def path_list(doc, reference, word)
+		
+		#Where the word and ref don't match and it 
+		#looks like a Class name switch to it.
+		if reference != word
+			if word =~ /^[A-Z]/
+				reference = word
+			end
+		end
+		
+		type = find_type(doc, reference)
+		
+		return [] unless type
+		
+	  paths = imported_class_to_file_path(doc, type)
+
+		create_src_list()
+		existing_paths = []
+
+		@src_dirs.each do |d|
+
+			paths.each do |path|
+
+				uri = d.chomp + "/" + path.chomp
+				as = "#{uri}.as"
+				mx = "#{uri}.mxml"
+
+				if File.exists?(as)
+					existing_paths << as
+				elsif File.exists?(mx)
+					existing_paths << mx
+				end
+
+			end
+
+		end
+
+		existing_paths.uniq
 
 	end
 

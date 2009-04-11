@@ -13,7 +13,7 @@ dir = ENV['TM_DIRECTORY']
 path = dir ? dir : ""
 
 SourceTools.common_src_dirs.each do |remove|
-    path = path.gsub( /^.*\b#{remove}\b\//, "" );
+    path = path.gsub( /^.*\b#{remove}\b(\/|$)/, "" );
 end
 
 path = path.gsub( "/", ".")
