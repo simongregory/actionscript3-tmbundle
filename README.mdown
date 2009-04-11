@@ -1,6 +1,11 @@
 TextMate ActionScript 3 Bundle
 ------------------------------
 
+fcshd Branch
+------------
+
+Experimental branch concentrating on integrating a `fcsh` deamon process into the TextMate build command.
+
 Installation
 ============
 

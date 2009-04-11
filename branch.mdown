@@ -1,9 +1,0 @@
-Branch Info
-===========
-
-**fcshd**  
----------
-
-Experimental branch concentrating on integrating a `fcsh` deamon process into the TextMate build command.
-  
-Created by: Simon Gregory
