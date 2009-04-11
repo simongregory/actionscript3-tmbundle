@@ -2,9 +2,9 @@ TextMate ActionScript 3 Bundle
 ==============================
 
 Mnemonic Branch
-===============
+---------------
 
-Branch of 'streamline' in which the bundle item triggers are short and sweet, just like they are in the orginal ActionScript.tmbundle. The official branch of the ActionScript 3 bundle follows the TextMate [guidelines](http://manual.macromates.com/en/bundles#tab_triggers), the theory being that there's nothing to learn because after a couple of characters are typed users can then reach for esc to complete, then hit tab to expand. However an increasing number of bundles do use this approach - for example [this](http://ciaranwal.sh/2008/02/20/textmate-tip-the-ruby-bundle).
+Branch of 'streamline' in which the bundle item triggers are short and sweet, just like they are in the original ActionScript.tmbundle. The official branch of the ActionScript 3 bundle follows the TextMate [guidelines](http://manual.macromates.com/en/bundles#tab_triggers), the theory being that there's nothing to learn because after a couple of characters are typed users can then reach for esc to complete, then hit tab to expand. However an increasing number of bundles do use this approach - for example [this](http://ciaranwal.sh/2008/02/20/textmate-tip-the-ruby-bundle).
 
 Installation
 ------------
