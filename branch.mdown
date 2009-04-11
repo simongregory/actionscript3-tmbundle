@@ -1,9 +1,0 @@
-Mnemonic Branch Info
---------------------
-
-Branch in which the bundle item triggers are short and sweet, as they are in the 
-orginal ActionScript.tmbundle. They're not like this because I'm following the 
-TextMate [guidelines](http://manual.macromates.com/en/bundles#tab_triggers). 
-However an increasing number of bundles do use this approach -
-for example [this](http://ciaranwal.sh/2008/02/20/textmate-tip-the-ruby-bundle). 
-
