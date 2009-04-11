@@ -1,5 +1,5 @@
 TextMate ActionScript 3 Bundle
-------------------------------
+==============================
 
 Mnemonic Branch
 ===============
@@ -7,7 +7,7 @@ Mnemonic Branch
 Branch of 'streamline' in which the bundle item triggers are short and sweet, just like they are in the orginal ActionScript.tmbundle. The official branch of the ActionScript 3 bundle follows the TextMate [guidelines](http://manual.macromates.com/en/bundles#tab_triggers), the theory being that there's nothing to learn because after a couple of characters are typed users can then reach for esc to complete, then hit tab to expand. However an increasing number of bundles do use this approach - for example [this](http://ciaranwal.sh/2008/02/20/textmate-tip-the-ruby-bundle).
 
 Installation
-============
+------------
 
 To install via Subversion:
 
@@ -25,24 +25,24 @@ To install via Git:
 Source can be viewed or forked via GitHub: [http://github.com/simongregory/actionscript3-tmbundle/tree/master](http://github.com/simongregory/actionscript3-tmbundle/tree/master)
 
 Conventions
-===========
+-----------
 
 ActionScript formatting follows the guidelines Adobe use for the Flex SDK. They can be found [here](http://opensource.adobe.com/wiki/display/flexsdk/Coding+Conventions).
 
 For Bundle Conventions please follow the TextMate conventions outlined [here](http://svn.textmate.org/trunk/Conventions.txt).
 
 Support
-=======
+-------
 
 Please use the TextMate Users mailing list [http://lists.macromates.com/listinfo/textmate](http://lists.macromates.com/listinfo/textmate).
 
 Maintainer
-==========
+----------
 
 [Simon Gregory](http://blog.simonregory.com)
 
 License
-=======
+-------
 
 If not otherwise specified (see below), files in this project fall under the following license:
 
