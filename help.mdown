@@ -2,7 +2,7 @@
 
 ## SDK
 
-This bundle is designed to work with the Flex SDK (not the Flash IDE). Therfore it is necessary to download and install the Flex SDK from [here](http://www.adobe.com/products/flex/flexdownloads/). Bundle commands will search the following directories in an attempt to find the sdk:
+This bundle is designed to work with the Flex SDK (to build using the Flash IDE you should also install the [Flash.tmbundle](http://github.com/simongregory/flash-tmbundle/tree/master)) For full functionality it is necessary to download and install the Flex SDK from [here](http://www.adobe.com/products/flex/flexdownloads/). Bundle commands will search the following directories in an attempt to find the sdk:
 
 ${FLEX-PATH-LIST}
 
@@ -10,7 +10,7 @@ If you do not place the Flex SDK in one of these directories then you need to se
 
 ## Documentation 
 
-Documentation has to be installed separately for the documentation command to work, it can be downloaded [here](http://www.adobe.com/support/documentation/en/flex/), a zip file containing all documentation can be [downloaded here](http://www.adobe.com/go/flex_documentation_zip). Once downloaded please rename the unzipped directory `docs` and place it in your Flex SDK directory.
+Documentation is not included with the sdk so has to be installed separately for the documentation command to work. You can download it [here](http://www.adobe.com/support/documentation/en/flex/), a zip file containing all documentation can be [downloaded here](http://www.adobe.com/go/flex_documentation_zip). Once downloaded please rename the unzipped directory `docs` and place it in your Flex SDK directory.
 
 ## Flash Player
  
@@ -18,6 +18,12 @@ A full archive of flash players can be found [here](http://www.adobe.com/go/tn_1
 debugger versions of the player are needed to trace output and display runtime errors.  
 
 # Commands
+
+## Auto Complete
+
+**Target:** Current Line  
+**Key Equivalent:**  ⌥⎋  
+Currently in an experimental state but **may** provide full auto completion based on the current property chain.
 
 ## Auto Complete Function
 
@@ -43,8 +49,13 @@ Builds the currently active project. The project needs to be correctly configure
 **Key Equivalent:** ⇧⌘B  
 Compiles using mxmlc.
 
-## Documentation for word
-	
+## Documentation Block 
+
+**Tab Trigger:** doc  
+By default this will open an Asdoc block. When invoked one a line directly preceeding a class or method statement output will act appropriately.
+
+## Documentation for Word / Selection
+
 **Target:** Current Word  
 **Key Equivalent:** ⌃H  
 Searches the help files for the selected word. 
@@ -53,15 +64,21 @@ Searches the help files for the selected word.
 
 **Target:** Current Word  
 **Key Equivalent:** ⌃⌥G  
-Creates a get set method pair from the selected word. If there is no current word then the command searches the document for private and protected variables and presents them as a list. Selecting an item from the list will generate the accessor. 
+Creates a get set method pair from the selected word. If there is no current word then the command searches the document for private and protected variables and presents them as a list. Selecting an item from the list will generate the accessor.
 
-## Open Super Class
+## Import Class 
 
-**Target:** Current Document  
+**Target:** Current Word  
+**Key Equivalent:** ⇧⌘I  
+Generates and inserts an Import statement based on the word the caret is currently placed at. The word may be a full or partial class name, where more than one match is found a list will be presented to choose from.
+
+## Open...
+
+**Target:** Current Word  
 **Key Equivalent:** ⇧⌘D  
-Attempts to locate the current Classes super class and open it.  
+Attempts to locate the class the caret is currently on and open it.  
 
-## Remove Unused Imports 
+## Remove Unused Imports
 
 **Target:** Current Document  
 **Key Equivalent:**	⇧⌃I  
@@ -87,14 +104,10 @@ The project directory relative path to the file to compile. Ideally this should 
 The project directory relative path of the swf file to create when you compile. Ideally this should be a [Project Dependent Variable](?project_dependent_variables).
 
 * `TM_FLEX_BUILD_FILE`  
-The project directory relative path to the build file you wish to use to override default behavior.
+The project directory relative path to the build file you wish to use to override default behavior (triggered by  ⌘B).
 
 * `TM_FLEX_RUN_FILE`  
 The project directory relative path to the file you wish to execute to override default run behavior (triggered by  ⌘R).
-
-* `TM_AS3_LIB_PATH`  
-default: `/Users/Shared/AS3Lib`  
-The path to a central ActionScript 3/Flex library, this path is added to the compiler arguments when running a build.
 
 * `TM_ORGANIZATION_NAME`  
 Name used in copyright notices in most templates.
