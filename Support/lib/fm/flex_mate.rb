@@ -140,13 +140,13 @@ module FlexMate
 		# = AUTOCOMPLETION SHORTCUTS =
 		# ============================
 		
-		# The scopes this method should can be triggered from are auto-generated using the same 
+		# The scopes this method should be triggered from are auto-generated using the same 
 		# data source completions.txt is derived from. As completions.txt doesn't include 
 		# any methods which contain parameters we can safely insert a set of empty brackets
 		# when a match is not found. 
 		#
-		# WARN: Custom methods with the same signature will be ignored in favour of the
-		#       predetermined completions list.
+		# Custom methods with the same signature will be ignored in favour of the
+		# predetermined completions list.
 		#
 		# TODO: support.class.flash.actionscript.3, support.class.fl.actionscript.3, 
 		#       support.class.mx.actionscript.3, support.class.top-level.actionscript.3
@@ -178,7 +178,9 @@ module FlexMate
 			
 		end
 		
-		# 
+		# Auto completes the import statement for the given word. Where word is partial,
+		# or multiple matches are found a list of possible completions is presented
+		# to the user for selection. 
 		#
 		def complete_import(word)
 			

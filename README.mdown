@@ -9,7 +9,6 @@ This is my working copy of the bundle, the version I use to develop with. Essent
 'master' differences:
 
  * There's only one Build command.
- * Help dynamically lists `TM_FLEX_SDK_SEARCH_PATHS` (this is ready to push to master but git-svn is resisting)
  * Format fsch Terminal Output is gone.
  * List Class Members is gone (+ should go from master too)
  * Auto parameter recognition in asdoc command is being worked on.
