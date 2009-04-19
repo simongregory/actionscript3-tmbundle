@@ -11,6 +11,6 @@ require BUN_SUP_LIB + '/fm/sdk'
 paths = ""
 FlexMate::SDK.sdk_dir_arr.each{ |e| paths << "* \`#{e}\`\n" }
 
-doc = IO.read(BUN_SUP_LIB+'/../help.mdown')
+doc = IO.read(BUN_SUP_LIB+'/../../help.mdown')
 
 print doc.sub('${FLEX-PATH-LIST}', paths )

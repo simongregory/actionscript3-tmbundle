@@ -9,6 +9,8 @@
 
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/flex_env'
 
+FlexMate.complete_by_scope if ENV['TM_SCOPE'] =~ /support\.function\.(top-level|flash|fl|mx|global)\.actionscript\.3/
+
 FlexMate.opt_in_to_completions
 
 p = PropertyInspector.capture
