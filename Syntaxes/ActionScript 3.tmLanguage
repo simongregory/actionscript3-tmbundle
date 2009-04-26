@@ -1958,6 +1958,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#strings</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#comments</string>
 				</dict>
 				<dict>
