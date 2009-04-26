@@ -84,12 +84,14 @@ module FlexMate
 
 			failed_evars = []
 			failed_files = []
-
+			
+			base_path = settings[:base_path] || ''
 			files = settings[:files] || []
 			evars = settings[:evars] || []
 
-			files.each { |f|
-				failed_files << f unless File.exist?( ENV[f] || "" )
+			files.each { |f|				
+				failed_files << f unless ENV[f]
+				failed_files << f unless File.exist?( base_path + '/' + ENV[f].to_s || "" )
 			}
 
 			evars.each { |e|
@@ -98,14 +100,14 @@ module FlexMate
 
 			unless failed_evars.empty? && failed_files.empty?
 
-				TextMate::HTMLOutput.show(:title => "Required Settings Missing", :sub_title => "" ) do |io|
+				TextMate::HTMLOutput.show(:title => "Missing Settings", :sub_title => "" ) do |io|
 
-					io << "<h2>Required Setting Missing</h2>"
+					io << "<h2>Missing Settings</h2>"
 
 					failed_files.each { |f| io << "<p>The environment variable <code>#{f}</code> does not resolve to an actual file.<br>" }
 					failed_evars.each { |e| io << "<p>The environment variable <code>#{e}</code> was not defined.<br>" }
 
-					io << configuration_help
+					io << '<br/>'+configuration_help
 
 				end
 
@@ -121,21 +123,46 @@ module FlexMate
 			"Configuration help can be found <a href='tm-file://#{e_url(ENV['TM_SUPPORT_PATH'])}/html/help.html#conf'>here.</a>"
 		end
 
-		# Many of the commands only work from a project scope.
+		# As many of the commands only work from a project scope this runs a check
+		# that TM_PROJECT_DIRECTORY exist before continuing.
 		#
-		# This checks for the existence of a project, then sets $TM_PROJECT_DIR
-		# to work from.
-		#
-		def cd_to_tmproj_root
+		def require_tmproj
 
-			unless ENV['TM_PROJECT_FILEPATH']
+			unless ENV['TM_PROJECT_DIRECTORY']
 				TextMate.exit_show_tool_tip "This Command should only be run from within a saved TextMate Project."
 			end
 
-			ENV['TM_PROJECT_DIR'] = File.dirname( ENV['TM_PROJECT_FILEPATH'] )
-
 		end
+		
+		# When using fcsh a path will fail if it contains a space.
+		#
+		def check_valid_paths(paths)
+			
+			paths.each { |p|
+				if p =~ /\s/
+				
+					TextMate::HTMLOutput.show(:title => "FCSH Path Error", :sub_title => "" ) do |io|
 
+						io << "<h2>FCSH Path Error</h2>"
+						io << "<p>Warning fsch cannot handle paths containing a space."
+						io << " "
+						io << "/path_to/app.mxml works"
+						io << "/path to/app.mxml fails as there is a space between path and to"
+						io << " "
+						io << "The path that caused the problem was"
+						io << " "
+						io << "#{p}"
+						io << " "
+						io << "See bundle help for more information."		
+						io << "</p>"
+
+					end
+				
+				end
+			}
+			
+		end
+		
 		# ============================
 		# = AUTOCOMPLETION SHORTCUTS =
 		# ============================
