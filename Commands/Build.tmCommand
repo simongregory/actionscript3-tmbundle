@@ -44,7 +44,7 @@ if ENV['TM_PROJECT_DIRECTORY']
 
 	file_specs  = bp + '/' + ENV['TM_FLEX_FILE_SPECS']
 	flex_output = bp + '/' + ENV['TM_FLEX_OUTPUT']
-	fcsh        = ENV['TM_FLEX_PATH'] + '/bin/fcsh'
+	fcsh        = e_sh(ENV['TM_FLEX_PATH'] + '/bin/fcsh')
 
 	FlexMate.check_valid_paths([file_specs,flex_output,fcsh])
 
