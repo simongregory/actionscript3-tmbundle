@@ -1,0 +1,137 @@
+# Installation
+
+## SDK
+
+This bundle is designed to work with the Flex SDK (to build using the Flash IDE you should also install the [Flash.tmbundle](http://github.com/simongregory/flash-tmbundle/tree/master)) For full functionality it is necessary to download and install the Flex SDK from [here](http://www.adobe.com/products/flex/flexdownloads/). Bundle commands will search the following directories in an attempt to find the sdk:
+
+${FLEX-PATH-LIST}
+
+If you do not place the Flex SDK in one of these directories then you need to set the TextMate shell variable `TM_FLEX_PATH` to your chosen directory. Please note that if you have added `[flex_sdk]/bin` to your [PATH](http://en.wikipedia.org/wiki/Environment_variable#Examples_of_UNIX_environment_variables) manually only the build and compile commands make use of it, and the documenation, source code, and configuration commands will fail.
+
+## Documentation 
+
+Documentation is not included with the sdk so has to be installed separately for the documentation command to work. You can download it [here](http://www.adobe.com/support/documentation/en/flex/), a zip file containing all documentation can be [downloaded here](http://www.adobe.com/go/flex_documentation_zip). Once downloaded please rename the unzipped directory `docs` and place it in your Flex SDK directory.
+
+## Flash Player
+ 
+A full archive of flash players can be found [here](http://www.adobe.com/go/tn_14266),
+debugger versions of the player are needed to trace output and display runtime errors.  
+
+# Commands
+
+## Auto Complete
+
+**Target:** Current Line  
+**Key Equivalent:**  ⌥⎋  
+Currently in an experimental state but **may** provide full auto completion based on the current property chain.
+
+## Auto Complete Function
+
+**Target:** Current Word  
+**Key Equivalent:**  ⌥⎋  
+Attempts to auto complete the function you have partially typed.
+
+## Auto Complete Import
+
+**Target:** Current Word  
+**Key Equivalent:**  ⌥⎋  
+Attempts to auto complete the import statement for the word you have partially typed.
+
+## Build
+
+**Target:** Active Project  
+**Key Equivalent:**  ⌘B  
+Builds the currently active project. The project needs to be correctly configured by setting the `TM_FLEX_FILE_SPECS` and `TM_FLEX_OUTPUT` environmental variables. See the configuration options below.
+
+## Compile Current Class
+
+**Target:** Selected file or the active file if it doesn't belong to a project.  
+**Key Equivalent:** ⇧⌘B  
+Compiles using mxmlc.
+
+## Documentation Block 
+
+**Tab Trigger:** doc  
+By default this will open an Asdoc block. When invoked one a line directly preceeding a class or method statement output will act appropriately.
+
+## Documentation for Word / Selection
+
+**Target:** Current Word  
+**Key Equivalent:** ⌃H  
+Searches the help files for the selected word. 
+
+## Getter/Setter
+
+**Target:** Current Word  
+**Key Equivalent:** ⌃⌥G  
+Creates a get set method pair from the selected word. If there is no current word then the command searches the document for private and protected variables and presents them as a list. Selecting an item from the list will generate the accessor.
+
+## Import Class 
+
+**Target:** Current Word  
+**Key Equivalent:** ⇧⌘I  
+Generates and inserts an Import statement based on the word the caret is currently placed at. The word may be a full or partial class name, where more than one match is found a list will be presented to choose from.
+
+## Open...
+
+**Target:** Current Word  
+**Key Equivalent:** ⇧⌘D  
+Attempts to locate the class the caret is currently on and open it.  
+
+## Remove Unused Imports
+
+**Target:** Current Document  
+**Key Equivalent:**	⇧⌃I  
+Removes any import statements who's class is *not referenced* elsewhere in the document. Please note that wildcarded.* packages are not removed and that packages containing more than one class will not work.
+
+## Run Project
+
+**Target:** Current Project  
+**Key Equivalent:**	⌘R  
+See the configuration options below.  
+
+# Configuration Options
+
+These environment variables allow you to define or customise the behavior of certain commands. For help on setting them up please see [TextMate help](?environment_variables).
+
+* `TM_FLEX_PATH`  
+The path to your Flex SDK installation directory. If it is not in one of the default locations (see Installation section).
+
+* `TM_FLEX_FILE_SPECS`  
+The project directory relative path to the file to compile. Ideally this should be a [Project Dependent Variable](?project_dependent_variables)
+
+* `TM_FLEX_OUTPUT`  
+The project directory relative path of the swf file to create when you compile. Ideally this should be a [Project Dependent Variable](?project_dependent_variables).
+
+* `TM_FLEX_BUILD_FILE`  
+The project directory relative path to the build file you wish to use to override default behavior (triggered by  ⌘B).
+
+* `TM_FLEX_RUN_FILE`  
+The project directory relative path to the file you wish to execute to override default run behavior (triggered by  ⌘R).
+
+* `TM_ORGANIZATION_NAME`  
+Name used in copyright notices in most templates.
+
+* `TM_ASDOC_GENERATION`
+If you would like asdoc blocks automatically inserted when using commands, snippets, and templates then enable this variable and set this value to anything. Please note this feature is currently being added and therefore not always available.
+
+* `TM_AS3_BANNER_GENERATION`
+To have code banners inserted into the class templates set the value of this variable to anything.
+
+# Known Issues
+
+* fsch doesn't accept escaped or quoted directory names properly, if they have space it fails.  
+The only solution is to use paths that don't contain spaces.
+
+# Contributors
+
+[Simon Gregory](http://blog.simongregory.com)  
+Chris Jenkins  
+[Daniel Parnell](http://blog.danielparnell.com/?p=22)  
+[Theo Hultberg](http://blog.iconara.net/2007/02/23/textmate-flex-tips/)  
+[Mark Llobrera](http://www.dirtystylus.com/blog/)  
+[Joachim](http://www.4d.be/)  
+ChromaticRain  
+[Thomas Aylott](http://subtlegradient.com/)  
+Jeremy Sachs   
+Luke Daley
