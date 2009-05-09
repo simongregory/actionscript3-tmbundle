@@ -44,13 +44,18 @@ if ENV['TM_PROJECT_DIRECTORY']
 
 	file_specs  = bp + '/' + ENV['TM_FLEX_FILE_SPECS']
 	flex_output = bp + '/' + ENV['TM_FLEX_OUTPUT']
-	fcsh        = e_sh(ENV['TM_FLEX_PATH'] + '/bin/fcsh')
+	fcsh       = e_sh(ENV['TM_FLEX_PATH'] + '/bin/fcsh')
 
 	FlexMate.check_valid_paths([file_specs,flex_output,fcsh])
 
 	mxmlc_args="mxmlc -o=#{flex_output} -file-specs=#{file_specs}"
 
-	`#{e_sh ENV['TM_BUNDLE_SUPPORT']}/lib/fcsh_terminal \"#{fcsh}\" \"#{mxmlc_args}\" &gt;/dev/null;`	
+	`#{e_sh ENV['TM_BUNDLE_SUPPORT']}/lib/fcsh_terminal \"#{fcsh}\" \"#{mxmlc_args}\" &gt;/dev/null;`
+
+else
+	TextMate.exit_show_tool_tip "Building current file is not yet working..."
+	#mxmlc -file-specs="$TM_FLEX_FILE_SPECS" -output="$TM_FLEX_OUTPUT" -optimize=true 2&gt;&amp;1 | parse_mxmlc_out.rb;
+
 end
 
 # TODO: When no TM Project Dir is found compile the current class instead.
