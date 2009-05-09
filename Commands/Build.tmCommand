@@ -9,24 +9,24 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-SUPPORT = ENV['TM_SUPPORT_PATH']
-BUN_SUP = ENV['TM_BUNDLE_SUPPORT']
-
-require SUPPORT + '/lib/exit_codes'
-require SUPPORT + '/lib/escape'
-require SUPPORT + '/lib/textmate'
-require SUPPORT + '/lib/web_preview'
-require SUPPORT + '/lib/tm/htmloutput'
-
-require BUN_SUP + '/lib/fm/flex_mate'
-require BUN_SUP + '/lib/fm/sdk'
-
-# Start by trying to add the Flex SDK bin to $PATH then testing for fcsh.
-FlexMate::SDK.add_flex_bin_to_path
-
-TextMate.require_cmd "fcsh"
-
 if ENV['TM_PROJECT_DIRECTORY']
+
+	SUPPORT = ENV['TM_SUPPORT_PATH']
+	BUN_SUP = ENV['TM_BUNDLE_SUPPORT']
+
+	require SUPPORT + '/lib/exit_codes'
+	require SUPPORT + '/lib/escape'
+	require SUPPORT + '/lib/textmate'
+	require SUPPORT + '/lib/web_preview'
+	require SUPPORT + '/lib/tm/htmloutput'
+
+	require BUN_SUP + '/lib/fm/flex_mate'
+	require BUN_SUP + '/lib/fm/sdk'
+
+	# Start by trying to add the Flex SDK bin to $PATH then testing for fcsh.
+	FlexMate::SDK.add_flex_bin_to_path
+
+	TextMate.require_cmd "fcsh"
 
 	bp = ENV['TM_PROJECT_DIRECTORY']
 	
@@ -51,14 +51,20 @@ if ENV['TM_PROJECT_DIRECTORY']
 	mxmlc_args="mxmlc -o=#{flex_output} -file-specs=#{file_specs}"
 
 	`#{e_sh ENV['TM_BUNDLE_SUPPORT']}/lib/fcsh_terminal \"#{fcsh}\" \"#{mxmlc_args}\" &gt;/dev/null;`
-
+	
 else
-	TextMate.exit_show_tool_tip "Building current file is not yet working..."
-	#mxmlc -file-specs="$TM_FLEX_FILE_SPECS" -output="$TM_FLEX_OUTPUT" -optimize=true 2&gt;&amp;1 | parse_mxmlc_out.rb;
+	
+	require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
+
+	STDOUT.sync = true
+
+	c = FlexMate::Compiler.new
+	c.build
+	
+	#TODO: Get the html window to show immediately.
+	TextMate.exit_show_html
 
 end
-
-# TODO: When no TM Project Dir is found compile the current class instead.
 </string>
 	<key>input</key>
 	<string>none</string>
@@ -67,7 +73,7 @@ end
 	<key>name</key>
 	<string>Build</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>showAsHTML</string>
 	<key>scope</key>
 	<string>source.actionscript.3, text.xml.mxml, text.xml.flex-config, comment.block.documentation.asdoc</string>
 	<key>uuid</key>
