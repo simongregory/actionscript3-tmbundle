@@ -782,7 +782,7 @@
 		<key>included</key>
 		<dict>
 			<key>begin</key>
-			<string>//AS3_INCLUDE_FILE</string>
+			<string>\/\/AS3_INCLUDE_FILE</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>0</key>
@@ -799,7 +799,7 @@
 			<key>contentName</key>
 			<string>meta.included.actionscript.3</string>
 			<key>end</key>
-			<string>//AS3_INCLUDE_FILE</string>
+			<string>\/\/AS3_INCLUDE_FILE</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>0</key>
