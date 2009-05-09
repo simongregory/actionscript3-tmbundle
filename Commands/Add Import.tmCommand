@@ -63,7 +63,6 @@ pid = fork do
 	STDERR.reopen(open('/dev/null'))
 	TextMate.go_to(:line =&gt; line_num.to_i+1, :column =&gt; line_idx)
 end
-
 </string>
 	<key>input</key>
 	<string>document</string>

@@ -5,15 +5,18 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh"
+	<string>
+if [ "$TM_PROJECT_DIRECTORY" == "" ]; then
+	exit_show_tool_tip "This Command should only be run from within a saved TextMate Project.";
+fi
 
-cd_to_tmproj_root;
+cd "$TM_PROJECT_DIRECTORY"
 
 TM_FLEX_RUN_FILE=${TM_FLEX_RUN_FILE:=build/launch.sh}
 
 # Look for a custom 'run' script.
-if [[ (-f "$TM_PROJECT_DIR/$TM_FLEX_RUN_FILE") ]]; then
-	"$TM_PROJECT_DIR/$TM_FLEX_RUN_FILE";
+if [[ (-f "$TM_PROJECT_DIRECTORY/$TM_FLEX_RUN_FILE") ]]; then
+	"$TM_PROJECT_DIRECTORY/$TM_FLEX_RUN_FILE";
 	exit $?
 else
 	open "deploy/index.html";
@@ -35,7 +38,7 @@ exit 0;
 	<key>name</key>
 	<string>Run</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>showAsHTML</string>
 	<key>scope</key>
 	<string>source.actionscript.3, text.xml.mxml, text.xml</string>
 	<key>uuid</key>
