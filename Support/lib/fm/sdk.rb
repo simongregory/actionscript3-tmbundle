@@ -11,13 +11,12 @@ module FlexMate
 			# bundle preference for the active list.
 			#
 			FLEX_DIRS = [ "/Developer/SDKs/flex_sdk_3",
+                    "/Developer/SDKs/flex_sdk_3.3.0",
                     "/Developer/SDKs/flex_sdk_3.2.0",										
 										"/Developer/SDKs/flex_sdk_3.1.0",
                     "/Developer/SDKs/flex_sdk_3.0.2",										
 										"/Applications/flex_sdk_3",
 										"/Applications/flex_sdk_2",
-										"/Applications/flex_sdk_2.0.1",
-										"/Applications/FlexSDK2.0.1",
 										"/Applications/Flex",
 										"/Applications/Adobe Flex Builder 3/sdks/3.0.0",
 										"/Applications/Adobe Flex Builder 3/sdks/2.0.1",
