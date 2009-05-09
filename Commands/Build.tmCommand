@@ -13,7 +13,8 @@ require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
 STDOUT.sync = true
 
-FlexMate::Compiler.build 
+c = FlexMate::Compiler.new
+c.build
 </string>
 	<key>input</key>
 	<string>none</string>
