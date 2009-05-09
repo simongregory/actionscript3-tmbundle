@@ -2,7 +2,7 @@ TextMate ActionScript 3 Bundle
 ==============================
 
 Streamline Branch
-=================
+-----------------
 
 This is my working copy of the bundle, the version I use to develop with. Essentially it is a slimmed down version of the 'master' branch with a little 'beta' flavor, and is used for maintenance, tweaks and minor feature improvements.
 

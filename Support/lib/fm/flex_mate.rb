@@ -225,6 +225,68 @@ module FlexMate
 			
 		end
 
+		# ============================
+		# = AUTOCOMPLETION SHORTCUTS =
+		# ============================
+		
+		# The scopes this method should be triggered from are auto-generated using the same 
+		# data source completions.txt is derived from. As completions.txt doesn't include 
+		# any methods which contain parameters we can safely insert a set of empty brackets
+		# when a match is not found. 
+		#
+		# Custom methods with the same signature will be ignored in favour of the
+		# predetermined completions list.
+		#
+		# TODO: support.class.flash.actionscript.3, support.class.fl.actionscript.3, 
+		#       support.class.mx.actionscript.3, support.class.top-level.actionscript.3
+		#
+		# DONE: support.function.top-level.actionscript.3, 
+		#       support.function.flash.actionscript.3, support.function.fl.actionscript.3, 
+		#       support.function.mx.actionscript.3, support.function.global.actionscript.3
+		#
+    def complete_by_scope
+
+			words = `grep "^$TM_CURRENT_WORD\(" "$TM_BUNDLE_PATH/support/data/completions.txt"`.split("\n")
+
+			TextMate.exit_insert_snippet("()${1:;}") if words.empty?
+
+			if words.size > 1
+
+				i = TextMate::UI.menu(words)
+				TextMate.exit_discard() if i == nil
+				choice = words[i]
+
+			else
+				choice = words.pop
+			end
+
+			snip = choice[ENV['TM_CURRENT_WORD'].length..-1]
+			snip = FlexMate.snippetize_method_params(snip)
+			
+			TextMate.exit_insert_snippet(snip)
+			
+		end
+		
+		# Auto completes the import statement for the given word. Where word is partial,
+		# or multiple matches are found a list of possible completions is presented
+		# to the user for selection. 
+		#
+		def complete_import(word)
+			
+			scope  = ENV['TM_SCOPE']
+			line   = ENV['TM_CURRENT_LINE']
+			cp     = SourceTools.find_package(word)
+      
+			if scope =~ /asdoc/
+				cp = "@see #{cp}"
+			else
+				cp = "import #{cp}" unless line =~ /^\s*import/
+			end
+
+			TextMate.exit_insert_snippet("#{cp};")
+			
+		end
+
 		# =================
 		# = SNIPPET UTILS =
 		# =================
