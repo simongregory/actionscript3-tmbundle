@@ -5,32 +5,59 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>
-if [ "$TM_PROJECT_DIRECTORY" == "" ]; then
-	exit_show_tool_tip "This Command should only be run from within a saved TextMate Project.";
-fi
+	<string>#!/usr/bin/env ruby
 
-cd "$TM_PROJECT_DIRECTORY"
+SUPPORT = ENV['TM_SUPPORT_PATH']
 
-TM_FLEX_RUN_FILE=${TM_FLEX_RUN_FILE:=build/launch.sh}
+require SUPPORT + '/lib/exit_codes'
+require SUPPORT + '/lib/escape'
+require SUPPORT + '/lib/textmate'
+require SUPPORT + '/lib/web_preview'
+require SUPPORT + '/lib/tm/htmloutput'
+require SUPPORT + '/lib/tm/process'
 
-# Look for a custom 'run' script.
-if [[ (-f "$TM_PROJECT_DIRECTORY/$TM_FLEX_RUN_FILE") ]]; then
-	"$TM_PROJECT_DIRECTORY/$TM_FLEX_RUN_FILE";
-	exit $?
+proj = ENV['TM_PROJECT_DIRECTORY']
+run_file = ENV['TM_FLEX_RUN_FILE'] || 'build/launch.sh'
+proj_run_file="#{proj}/#{run_file}"
+
+def run(uri)
+  
+  if File.executable?(uri)
+    puts "&lt;h2&gt;Executing&lt;/h2&gt;&lt;pre&gt;#{File.basename(uri)}&lt;/pre&gt;"
+    cmd = e_sh(uri)
+  else
+    puts "&lt;h2&gt;Opening...&lt;/h2&gt;&lt;pre&gt;#{File.basename(uri)}&lt;/pre&gt;"
+    cmd = "open #{e_sh(uri)}"
+  end
+  
+  TextMate::Process.run(cmd) do |str|
+    STDOUT &lt;&lt; str
+  end
+  
+end
+
+def to_swf(f)	
+	f.sub(/\.(mxml|as)/, ".swf")
+end
+
+puts html_head( :window_title =&gt; "ActionScript 3 Run Command",
+                :page_title =&gt; "Run" )
+
+if File.exist?(run_file)
+  run(run_file)
+elsif File.exist?(proj_run_file)
+  run(proj_run_file)
 else
-	open "deploy/index.html";
-	
-	#Or you could use...
-	#open -a Safari "deploy/index.html";
-	#open -a Firefox "deploy/index.html";
-	#open "$TM_FLEX_OUTPUT"
-	#open -a SAFlashPlayerDbgRel_en "$TM_FLEX_OUTPUT"
-	#open -a SAFlashPlayer "$TM_FLEX_OUTPUT"
-fi
+  fp = ENV['TM_FILEPATH']
+  swf = to_swf(fp)
+  if fp != swf
+    run(swf) 
+  else
+    puts "&lt;h2&gt;Error&lt;/h2&gt;&lt;p&gt;No file found to run.&lt;/p&gt;"
+  end
+end
 
-exit 0;
-</string>
+html_footer</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
