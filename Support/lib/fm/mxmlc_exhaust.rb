@@ -83,8 +83,10 @@ class MxmlcExhaust
 			    return
 			end
 
-			if str =~ /\.swf \([0-9]/
-			    puts "<br/>#{str}<br/>"
+			if str =~ /^(.*\.swf)( \([0-9].*$)/
+			    cmd = "open #{e_sh($1)}"
+          puts '<script type="text/javascript" charset="utf-8">function openSwf(){TextMate.system(\''+cmd+'\', null);}</script>'
+			    puts "<br/><a href='javascript:openSwf()' title='Click to run (if there is space in the file path this may not work).'>#{$1}</a>#{$2}<br/>"
 			end
 
 		rescue TypeError
