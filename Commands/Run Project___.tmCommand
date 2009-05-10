@@ -9,11 +9,8 @@
 
 SUPPORT = ENV['TM_SUPPORT_PATH']
 
-require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/escape'
-require SUPPORT + '/lib/textmate'
 require SUPPORT + '/lib/web_preview'
-require SUPPORT + '/lib/tm/htmloutput'
 require SUPPORT + '/lib/tm/process'
 
 proj = ENV['TM_PROJECT_DIRECTORY']
