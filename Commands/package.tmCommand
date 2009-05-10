@@ -22,7 +22,7 @@ path = " "+ path if path != ""
 
 print "package${1:#{path}}
 {	
-\$2
+\$0
 }"
 
 
