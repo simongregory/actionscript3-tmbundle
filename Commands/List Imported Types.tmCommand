@@ -34,7 +34,7 @@ TextMate.exit_insert_text(out)</string>
 	<key>input</key>
 	<string>document</string>
 	<key>name</key>
-	<string>List Imported Types</string>
+	<string>Imported Types</string>
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
