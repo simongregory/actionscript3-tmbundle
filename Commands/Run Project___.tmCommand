@@ -15,7 +15,11 @@ require SUPPORT + '/lib/tm/process'
 
 proj = ENV['TM_PROJECT_DIRECTORY']
 run_file = ENV['TM_FLEX_RUN_FILE'] || 'build/launch.sh'
-proj_run_file="#{proj}/#{run_file}"
+flex_out = ENV['TM_FLEX_OUTPUT']
+
+proj_run_file = proj ? "#{proj}/#{run_file}" : ""
+proj_default  = proj ? "#{proj}/deploy/index.html" : ""
+proj_flex_out = proj ? "#{proj}/#{flex_out}" : ""
 
 def run(uri)
   
@@ -44,10 +48,14 @@ if File.exist?(run_file)
   run(run_file)
 elsif File.exist?(proj_run_file)
   run(proj_run_file)
+elsif File.exist?(proj_default)
+  run(proj_default)
+elsif File.exist?(proj_flex_out)
+  run(proj_flex_out)  
 else
   fp = ENV['TM_FILEPATH']
   swf = to_swf(fp)
-  if fp != swf
+  if fp != swf &amp;&amp; File.exist?(swf)
     run(swf) 
   else
     puts "&lt;h2&gt;Error&lt;/h2&gt;&lt;p&gt;No file found to run.&lt;/p&gt;"
