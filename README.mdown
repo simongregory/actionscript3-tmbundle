@@ -4,13 +4,12 @@ TextMate ActionScript 3 Bundle
 Sg Branch
 -----------------
 
-My work in progress version of the bundle, the version I use to develop with. Essentially it slims down the 'master' branch with and adds a little alpha and beta flavor. Maintenance, tweaks and feature improvements will be found here first - but won't be guaranteed to make to the 'main' branch.
+My work in progress branch of the bundle, the version I use on a day to day basis whilst developing. Essentially it slims down the 'master' branch and adds a little alpha and beta flavor. Maintenance, tweaks and feature improvements will be found here first - but won't be guaranteed to make it into the official bundle.
 
 'master' differences:
 
  * There's only one Build command.
  * Format fsch Terminal Output is gone.
- * List Class Members is gone (+ should go from master too)
  * Auto parameter recognition in asdoc command is being worked on.
  * Tidy command.
  * FDB Support
