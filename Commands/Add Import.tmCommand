@@ -38,7 +38,7 @@ doc.split("\n").each do |line|
 	end
 end
 
-irgx = /^\s*import\s+#{import.gsub('.', '\.')}/
+irgx = /^\s*import\s+#{import.gsub('.', '\.')}(\s|;)/
 safe = 0
 indent = ""
 
