@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -wKU
+
+# Create a class level block that inherits from the dropped file.
+
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
+
+current_file = ENV['TM_FILEPATH']
+dropped_file = ENV['TM_DROPPED_FILEPATH']
+
+path = File.dirname(dropped_file)
+
+SourceTools.common_src_dirs.each do |remove|
+    path = path.gsub( /^.*\b#{remove}\b(\/|$)/, "" );
+end
+
+path.gsub!('/','.')
+
+super_class = File.basename(dropped_file, '.as')
+sub_class = File.basename(current_file,'.as')
+
+print "import #{path}.#{super_class};
+
+public class #{sub_class} extends #{super_class}
+{
+	public function #{sub_class}()
+	{
+		super();
+	}
+}"
+
+</string>
+	<key>draggedFileExtensions</key>
+	<array>
+		<string>as</string>
+	</array>
+	<key>input</key>
+	<string>selection</string>
+	<key>name</key>
+	<string>Subclass</string>
+	<key>output</key>
+	<string>insertAsSnippet</string>
+	<key>scope</key>
+	<string>source.actionscript.3</string>
+	<key>uuid</key>
+	<string>28790E89-861F-47A4-B89E-A674D4559EDE</string>
+</dict>
+</plist>
