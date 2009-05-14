@@ -71,11 +71,11 @@ puts found_methods.to_s unless found_methods.empty?
 		<string>as</string>
 	</array>
 	<key>name</key>
-	<string>implement interface</string>
+	<string>Implement Interface</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript</string>
+	<string>source.actionscript.3</string>
 	<key>uuid</key>
 	<string>BD9BDFFC-C963-4F93-9EDF-104E784D8461</string>
 </dict>
