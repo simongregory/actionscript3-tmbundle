@@ -4,18 +4,20 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-package ${TM_CLASS_PATH} {
+package ${TM_CLASS_PATH}
+{
 
 /**
- *	Description
- *
- *	@langversion ActionScript 3.0
- *	@playerversion Flash 9.0
- *
- *	@author ${TM_FULLNAME}
- *	@since  ${TM_DATE}
+ * Description
+ * 
+ * @langversion ActionScript 3.0
+ * @playerversion Flash 9.0
+ * 
+ * @author ${TM_FULLNAME}
+ * @since  ${TM_DATE}
  */
-public interface ${TM_NEW_FILE_BASENAME} {
+public interface ${TM_NEW_FILE_BASENAME}
+{
 	
 	//--------------------------------------
 	//  PUBLIC METHODS

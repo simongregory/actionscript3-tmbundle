@@ -4,18 +4,20 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-package ${TM_CLASS_PATH} {
+package ${TM_CLASS_PATH}
+{
 
 /**
- *	Class description.
- *
- *	@langversion ActionScript 3.0
- *	@playerversion Flash 9.0
- *
- *	@author ${TM_FULLNAME}
- *	@since  ${TM_DATE}
+ * Class description.
+ * 
+ * @langversion ActionScript 3.0
+ * @playerversion Flash 9.0
+ * 
+ * @author ${TM_FULLNAME}
+ * @since  ${TM_DATE}
  */
-public class ${TM_NEW_FILE_BASENAME} extends Object {
+public class ${TM_NEW_FILE_BASENAME} extends Object
+{
 	
 	//--------------------------------------
 	// CLASS CONSTANTS
@@ -26,7 +28,7 @@ public class ${TM_NEW_FILE_BASENAME} extends Object {
 	//--------------------------------------
 	
 	/**
-	 *	@constructor
+	 * @constructor
 	 */
 	public function ${TM_NEW_FILE_BASENAME}()
 	{

@@ -15,11 +15,7 @@ current_file = ENV['TM_FILEPATH']
 dropped_file = ENV['TM_DROPPED_FILEPATH']
 
 path = File.dirname(dropped_file)
-
-SourceTools.common_src_dirs.each do |remove|
-    path = path.gsub( /^.*\b#{remove}\b(\/|$)/, "" );
-end
-
+path = SourceTools.truncate_to_src(path)
 path.gsub!('/','.')
 
 super_class = File.basename(dropped_file, '.as')
