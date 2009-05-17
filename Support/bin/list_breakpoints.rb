@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -wKU
+# encoding: utf-8
 
 # Collect all break points from the current textmate document.
 # Breakpoints are specified as /*>BP<*/
