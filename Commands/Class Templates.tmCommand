@@ -9,26 +9,17 @@
 
 require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
-templates = ENV['TM_BUNDLE_PATH']+'/Templates'
-filter    = /Project/
-found = []
+bundles = ENV['TM_AS3_TEMPLATE_BUNDLES'].split('|')
 
-Dir.entries(templates).each do |filename|
-  next if filename =~ filter
-  template_path = templates+'/'+filename+'/class.as'
-  if File.exists? template_path
-    found &lt;&lt; { 'title' =&gt; filename.sub('.tmTemplate',''), 'data' =&gt; template_path }
-  end
-end
+templates = FlexMate::BundleTool.class_template_search(bundles)
+selection = TextMate::UI.menu(templates)
 
-result = TextMate::UI.menu(found)
+TextMate.exit_discard if selection.nil?
 
-TextMate.exit_discard if result.nil?
-
-d = IO.read(result['data'])
+doc = IO.read(selection['data'])
 m = ActionScript3TemplateMachine.new
 m.snippetize = true
-c = m.process(d)
+c = m.process(doc)
 
 TextMate.exit_insert_snippet(c)</string>
 	<key>input</key>
@@ -36,7 +27,7 @@ TextMate.exit_insert_snippet(c)</string>
 	<key>name</key>
 	<string>Class Templates</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>afterSelectedText</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

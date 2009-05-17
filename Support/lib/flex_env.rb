@@ -16,6 +16,7 @@ require BUN_SUP + '/fm/flex_mate'
 require BUN_SUP + '/fm/log'
 require BUN_SUP + '/fm/sdk'
 require BUN_SUP + '/fm/template_machine'
+require BUN_SUP + '/fm/bundle_tool'
 
 require BUN_SUP + '/as3/completions/completions_list'
 require BUN_SUP + '/as3/parsers/class_parser'

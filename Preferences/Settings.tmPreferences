@@ -39,6 +39,14 @@
 				<key>value</key>
 				<string>src:source:test:lib:AS3Lib</string>
 			</dict>
+			<dict>
+				<key>comment</key>
+				<string>Pipe seperated list of Bundles to search when finding templates.</string>
+				<key>name</key>
+				<string>TM_AS3_TEMPLATE_BUNDLES</string>
+				<key>value</key>
+				<string>ActionScript 3|Flex</string>
+			</dict>
 		</array>
 	</dict>
 	<key>uuid</key>
