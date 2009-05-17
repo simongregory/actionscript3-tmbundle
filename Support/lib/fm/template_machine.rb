@@ -134,6 +134,7 @@ class ActionScript3TemplateMachine < TemplateMachine
     #when invoked from a template TM_NEW_FILE will be set.
     if ENV['TM_NEW_FILE']
       cp = ENV['TM_NEW_FILE'].sub("#{file_name}",'')
+      cp.sub!(/\/$/,'')
       return convert_path(cp).gsub( "/", ".")      
     end
     
