@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -wKU
+# encoding: utf-8
 
 module FlexMate
 
@@ -8,7 +9,7 @@ module FlexMate
 			
 			# Search documentation for the following.
 			#
-			def find(word=nil)
+			def find(word='')
 				
 				word = request_search_term if word.empty?
 				TextMate.exit_discard if word.empty?
@@ -219,6 +220,9 @@ if __FILE__ == $0
 	ENV['TM_BUNDLE_SUPPORT'] = '/Users/simon/Documents/code/git/actionscript3-tmbundle/Support'
 	ENV['TM_FLEX_PATH'] = '/Developer/SDKs/flex_sdk_3.2.0'
 	
-	FlexMate::ASD.find('Stage')
+	#FlexMate::ASD.find('Stage')	
+	#FlexMate::ASD.find()
+	
+	puts FlexMate::ASD.request_search_term()
 
 end
