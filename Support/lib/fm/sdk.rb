@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -wKU
+# encoding: utf-8
 
 module FlexMate
 
@@ -27,10 +28,12 @@ module FlexMate
 										"/Developer/SDKs/FlexSDK2",
 										"/Developer/Applications/Flex",
 										"/Developer/Applications/flex_sdk_2",
-										"/Developer/Applications/FlexSDK2" ]
+										"/Developer/Applications/FlexSDK2"
+      ]
 
 			SDK_SRC_PATHS = [ "/frameworks/source/mx/", 
-												"/frameworks/projects/framework/src" ]
+												"/frameworks/projects/framework/src"
+			]
 		
 			# Return the first Flex SDK directory found in the list.
 			#
