@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby -wKU
 # encoding: utf-8
 
 # Parses output from the mxmlc compiler and html formats it for use with the

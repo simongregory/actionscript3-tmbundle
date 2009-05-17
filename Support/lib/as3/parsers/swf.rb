@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 # Copied from the TextMate HTML Bundle and under the TextMate license which can
 # be found here http://svn.textmate.org/trunk/LICENSE

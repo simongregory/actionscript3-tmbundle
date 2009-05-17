@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -wKU
+# encoding: utf-8
 
 # Utility module which collects together common tasks used by commands within the
 # ActionScript 3 and Flex Bundles.

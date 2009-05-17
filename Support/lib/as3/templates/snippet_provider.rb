@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -wKU
+# encoding: utf-8
 
 # Data provider for SnippetBuilder. Encapsulates paths to the various 
 # erb templates.

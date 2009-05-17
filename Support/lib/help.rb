@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -wKU
+# encoding: utf-8
 
 # Generates the ActionScript 3 Bundle help document. 
 # Takes the help.mdown doc and injects the list of paths searched
