@@ -321,7 +321,7 @@ module FlexMate
 		#
 		def register_completion_images
 
-			icon_dir = "#{BUN_SUP}/../icons"
+			icon_dir = File.expand_path(File.dirname(__FILE__)) + "/../../icons"
 
 			images = {
 				"Method"   => "#{icon_dir}/Method.png",

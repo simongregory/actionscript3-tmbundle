@@ -47,7 +47,7 @@ FlexMate.tooltip "No completions."</string>
 	<key>name</key>
 	<string>Auto Complete</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>afterSelectedText</string>
 	<key>scope</key>
 	<string>source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3, source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3 meta.scope.following.dot.actionscript.3</string>
 	<key>uuid</key>

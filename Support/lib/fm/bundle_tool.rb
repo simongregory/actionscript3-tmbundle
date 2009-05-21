@@ -104,6 +104,7 @@ if __FILE__ == $0
   puts FlexMate::BundleTool.find_bundle('ActionScript 3.tmbundle')
   puts FlexMate::BundleTool.find_bundle('Flex.tmbundle')
   puts FlexMate::BundleTool.find_bundle('Flash.tmbundle')
+  puts FlexMate::BundleTool.find_bundle('zzzzzz')
 
   puts "\n--- All ActionScript 3 and Flex Templates"
   FlexMate::BundleTool.class_template_search(['ActionScript 3', 'Flex']).each { |t|
