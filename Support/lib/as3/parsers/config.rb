@@ -94,6 +94,7 @@ class ConfigUtil
       puts "#{cp}-config.xml"
     end
   end
+
 end
 
 class FlexConfig
@@ -169,6 +170,10 @@ if __FILE__ == $0
         <namespace>
             <uri>http://www.vw.co.uk/2009/vw/gti</uri>
             <manifest>GTI-manifest.xml</manifest>
+        </namespace>
+        <namespace>
+            <uri>http://www.vw.co.uk/2009/vw/site</uri>
+            <manifest>VW-manifest.xml</manifest>
         </namespace>
     </namespaces>
   </compiler>

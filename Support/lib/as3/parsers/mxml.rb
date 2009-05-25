@@ -20,42 +20,107 @@
 #
 ################################################################################
 
-# STUB
-
-# A Utilty class to convert a mxml document into
-# list of it's constituent methods, properties, etc.
-#
-class MxmlParser
-  def initialize(args)
-    
-  end
-  
-  
-end
-
 # A object representing the information on class members found within a
-# mxml document. 
+# mxml document.
+#
+# This is work in progress and parsing on looks at any xml in the document (script
+# tags are ignored).
 #
 class MxmlDoc
+  
   attr_accessor :super_class
   attr_accessor :properties
-  attr_accessor :methods
-  attr_accessor :accessors
+  
+  def initialize(doc)
+    require 'rexml/document'
+    @source = REXML::Document.new doc
 
-  def initialize(args)
+    @super_class = @source.root.name
+    @super_namespace = @source.root.namespace
+    @properties = []
     
+    @mxml_ns = "http://www.adobe.com/2006/mxml"
+    @script = ""
+    
+    add_members(@source.root)
   end
-
+  
+  def to_s
+    s = []
+    s << "super_class: #{super_class}\n"
+    s << "super_namespace: #{@super_namespace}\n\n"
+    properties.each { |e| s << e.to_s + "\n\n" }
+    s << "Script:\n#{@script}"
+    s.to_s
+  end
+  
+  protected
+  
+  # Currently adds all properties found in the XML portion of the document. This
+  # should be expanded to include methods, etc.
+  #
+  def add_members(node)
+    
+    if node.name() == 'Script'
+      @script << "#{node.children.to_s}\n"
+    elsif node.attributes['id']
+      properties << MemberToken.new(node.attributes['id'], node.name,node.namespace)
+    end
+    
+    node.elements.each { |child|
+    		add_members(child) 	
+    }
+        
+  end
+    
 end
 
 # Class member token.
 #
 class MemberToken
+
   attr_accessor :name
   attr_accessor :type
   attr_accessor :signature
+  attr_accessor :ns
+
+  def initialize(name,type,ns='',signature='')
+    @name = name
+    @type = type
+    @signature = signature
+    @ns = ns
+  end
+  
+  def to_s
+    "Name:#{name} Type:#{type} Namespace:#{ns}"
+  end
+  
 end
 
 if __FILE__ == $0
-  puts "TODO"
+
+  doc = '<?xml version="1.0" encoding="utf-8"?>
+<vw:GTIApplication
+    xmlns="http://www.adobe.com/2006/mxml"
+    xmlns:vw="http://www.vw.co.uk/2009/vw/gti"
+    xmlns:test="uk.co.vw.test.*">
+
+    <Style source="/../resources/style/main.css" />
+    
+    <Script><![CDATA[import uk.co.vw.foo.Bar;]]></Script>
+    <Script>import uk.co.vw.bar.Foo;</Script>
+        
+    <vw:SiteView id="siteView" />
+
+    <vw:DialogContainer id="dialogContainer" />
+    
+    <Canvas id="underlay"/>
+    
+    <test:Box id="test" />
+
+</vw:GTIApplication>'
+
+  mxp = MxmlDoc.new(doc)
+  puts mxp.to_s
+  
 end
