@@ -124,7 +124,7 @@ class ActionScript3TemplateMachine < TemplateMachine
   # Use the current file name to determine the new class name.
   #
   def class_name
-    return file_name.sub(/.as$/,'')
+    return file_name.sub(/.as$/,'') rescue 'Unknown'
   end
   
   # Use the available environmental variables to determine the file class path.
