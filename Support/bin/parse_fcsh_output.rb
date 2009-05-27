@@ -1,73 +1,36 @@
 #!/usr/bin/env ruby -wKU
+# encoding: utf-8
 
-SUPPORT        = ENV['TM_SUPPORT_PATH']
-BUNDLE_SUPPORT = ENV['TM_BUNDLE_SUPPORT']
+SUPPORT = ENV['TM_SUPPORT_PATH']
+BUN_SUP = File.expand_path(File.dirname(__FILE__)) + '/..'
 
 require SUPPORT + '/lib/exit_codes'
 require SUPPORT + '/lib/textmate'
 require SUPPORT + '/lib/web_preview'
+require BUN_SUP + '/lib/fm/mxmlc_exhaust'
 
-puts html_head(:window_title => "ActionScript 3", :page_title => "Format fcsh Output", :sub_title => "__" );
+puts html_head(:window_title => "ActionScript 3", :page_title => "Format fcsh Output" );
 
-fsch_output_script = "#{BUNDLE_SUPPORT}/lib/read_fcsh_terminal_output"
-
-fcsh_output=`"#{fsch_output_script}"`
+fcsh_output = `"#{BUN_SUP}/lib/read_fcsh_terminal_output"`
 
 TextMate.exit_show_tool_tip fcsh_output if fcsh_output =~ /fcsh terminal window not found./
 
-lastCompile=[]
+compile = []
 
-#Flag to determine how many instances of (fcsh) we have encountered.
-foundFirst=0
-#Work up from the bottom of the file, mark the first (fcsh) store intermediate lines, then work up to the next (fcsh).
+#flag to determine how many instances of (fcsh) we have encountered
+store = false
+
+#starting at the bottom of the file, mark the first (fcsh), store intermediate 
+#lines, then stop at the next (fcsh)
 fcsh_output.split( "\n" ).reverse.each do |line|
     if line =~ /^\(fcsh\)/
-        break if foundFirst == 1
-        foundFirst=1
-    elsif foundFirst == 1
-        lastCompile.push(line)
+        break if store
+        store = true
+    elsif store
+        compile << line
     end
 end
 
-#TODO: Generic link regex.
-error_and_warn_regex =  /(\/.*?)(\(([0-9]+)\)|):.*(Error|Warning):\s*(.*)$/
-config_file_regex = /(^Loading configuration file )(.*)$/
-recompile_file_regex = /(^Recompile: )(.*)$/
-reason_file_regex = /(^.*, )(.*,)(.*)$/
-error_count = 0;
-lastCompile.reverse.each do |line|
-
-    match = error_and_warn_regex.match( line )
-    unless match === nil
-        print 'Error <a title="Click to show error." href="txmt://open?url=file://' + match[8] + '&line='+ match[3]+'" >'+match[5]+'</a> at line ' + match[3] + ' in <a title="'+match[1]+'" href="'+match[1]+'">'+File.basename( match[1] )+'</a><br/>'
-        error_count += 1
-        next
-    end
-
-    match = config_file_regex.match( line )
-    unless match === nil
-        print 'Loading configuration file: <a title="Click to open '+match[2]+'" href="txmt://open?url=file://'+match[2]+'" >' + File.basename( match[2] )+'</a><br/>'
-        next
-    end
-
-    match = recompile_file_regex.match( line )
-    unless match === nil
-        print 'Recompiling: <a title="Click to open '+match[2]+'" href="txmt://open?url=file://'+match[2]+'" >' + File.basename( match[2] )+'</a><br/>'
-        next
-    end
-
-    match = reason_file_regex.match(line)
-    unless match === nil
-        print match[1]+'<a title="Click to open '+match[2]+'" href="txmt://open?url=file://'+match[2]+'" >' + File.basename( match[2] )+'</a> '+match[3]+'<br/>'
-        next
-    end
-
-    if line =~ /\.swf \([0-9]/
-        puts "<br/>" +line + "<br/>"
-    end
-    
-    #Uncomment this to show all output.
-    #puts line + "<br/>"
-end
-
-print "<br>Build complete, #{error_count} error(s) occured.</code>"
+ex = MxmlcExhaust.new
+compile.reverse.each { |ln| ex.line(ln) }
+ex.complete

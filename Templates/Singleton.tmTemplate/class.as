@@ -4,27 +4,25 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-package ${TM_CLASS_PATH} {
+package ${TM_CLASS_PATH}
+{
 
 import flash.events.EventDispatcher;
 
 /**
- *	Singleton description.
- *
- *	@langversion ActionScript 3.0
- *	@playerversion Flash 9.0
- *
- *	@author ${TM_FULLNAME}
- *	@since  ${TM_DATE}
+ * Singleton.
+ * 
+ * @langversion ActionScript 3.0
+ * @playerversion Flash 9.0
+ * 
+ * @author ${TM_FULLNAME}
+ * @since  ${TM_DATE}
  */
-public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
+public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher
+{
 	
 	//--------------------------------------
 	// CLASS CONSTANTS
-	//--------------------------------------
-	
-	//--------------------------------------
-	//  SINGLETON CONSTRUCTION
 	//--------------------------------------
 	
 	private static var _instance:${TM_NEW_FILE_BASENAME};
@@ -42,13 +40,17 @@ public class ${TM_NEW_FILE_BASENAME} extends EventDispatcher {
 		return _instance;
 	}
 	
+	//---------------------------------------
+	// CONSTRUCTOR
+	//---------------------------------------
+	
 	/**
-	 *	@constructor
+	 * @constructor
 	 */
 	public function ${TM_NEW_FILE_BASENAME}()
 	{
 		super();
-		if( _instance != null ) throw new Error( "Error:${TM_NEW_FILE_BASENAME} already initialised." );
+		if( _instance != null ) throw new Error("Error:${TM_NEW_FILE_BASENAME} already initialised.");
 		if( _instance == null ) _instance = this;
 	}
 	

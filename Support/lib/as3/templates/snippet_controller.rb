@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -wKU
+# encoding: utf-8
 
 # UI for public, protected, private and static snippets. 
 #

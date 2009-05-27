@@ -84,11 +84,11 @@ Attempts to locate the class the caret is currently on and open it.
 **Key Equivalent:**	⇧⌃I  
 Removes any import statements who's class is *not referenced* elsewhere in the document. Please note that wildcarded.* packages are not removed and that packages containing more than one class will not work.
 
-## Run Project
+## Run
 
-**Target:** Current Project  
+**Target:** Current Project or Document  
 **Key Equivalent:**	⌘R  
-See the configuration options below.  
+Attempts to open or execute `TM_FLEX_RUN_FILE`, `TM_FLEX_OUTPUT`, `TM_PROJECT_DIRECTORY/deploy/index.html`, or `TM_FILEPATH.swf`.
 
 # Configuration Options
 
@@ -107,7 +107,7 @@ The project directory relative path of the swf file to create when you compile. 
 The project directory relative path to the build file you wish to use to override default behavior (triggered by  ⌘B).
 
 * `TM_FLEX_RUN_FILE`  
-The project directory relative path to the file you wish to execute to override default run behavior (triggered by  ⌘R).
+The full, or project directory relative, path to the file you wish to open or execute to override default run behavior (triggered by  ⌘R).
 
 * `TM_ORGANIZATION_NAME`  
 Name used in copyright notices in most templates.

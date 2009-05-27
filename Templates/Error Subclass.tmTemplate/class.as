@@ -4,18 +4,20 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-package ${TM_CLASS_PATH} {
+package ${TM_CLASS_PATH}
+{
 
 /**
- * 	Error subclass description.
- *
- * 	@langversion ActionScript 3.0
- *	@playerversion Flash 9.0
- *
- *	@author ${TM_FULLNAME}
- * 	@since  ${TM_DATE}
- */	
-public class ${TM_NEW_FILE_BASENAME} extends Error {
+ * Error subclass.
+ * 
+ * @langversion ActionScript 3.0
+ * @playerversion Flash 9.0
+ * 
+ * @author ${TM_FULLNAME}
+ * @since  ${TM_DATE}
+ */
+public class ${TM_NEW_FILE_BASENAME} extends Error
+{
 	
 	//--------------------------------------
 	// CLASS CONSTANTS
@@ -26,8 +28,8 @@ public class ${TM_NEW_FILE_BASENAME} extends Error {
 	//--------------------------------------
 	
 	/**
-	 *	@constructor
-	 *	@param message The message that describes this error.
+	 * @constructor
+	 * @param message The message that describes this error.
 	 */
 	public function ${TM_NEW_FILE_BASENAME}(message:String)
 	{

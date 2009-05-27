@@ -102,7 +102,15 @@
 			<key>enabled</key>
 			<false/>
 			<key>value</key>
-			<string>build/launch.sh</string>
+			<string>on</string>
+			<key>variable</key>
+			<string>TM_AS3_BANNER_GENERATION</string>
+		</dict>
+		<dict>
+			<key>enabled</key>
+			<false/>
+			<key>value</key>
+			<string></string>
 			<key>variable</key>
 			<string>TM_FLEX_RUN_FILE</string>
 		</dict>

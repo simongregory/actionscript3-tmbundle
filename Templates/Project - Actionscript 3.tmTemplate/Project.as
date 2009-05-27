@@ -1,21 +1,29 @@
-package {
+//AS3///////////////////////////////////////////////////////////////////////////
+// 
+// Copyright ${TM_YEAR} ${TM_ORGANIZATION_NAME:-$TM_FULLNAME}
+// 
+////////////////////////////////////////////////////////////////////////////////
+
+package
+{
 
 import flash.events.Event;
 import flash.display.Sprite;
 
 /**
- *	Application entry point for ${TM_NEW_FILE_BASENAME}.
- *
- *	@langversion ActionScript 3.0
- *	@playerversion Flash 9.0
- *
- *	@author ${TM_FULLNAME}
- *	@since ${TM_DATE}
+ * Application entry point for ${TM_NEW_FILE_BASENAME}.
+ * 
+ * @langversion ActionScript 3.0
+ * @playerversion Flash 9.0
+ * 
+ * @author ${TM_FULLNAME}
+ * @since ${TM_DATE}
  */
-public class ${TM_NEW_FILE_BASENAME} extends Sprite {
+public class ${TM_NEW_FILE_BASENAME} extends Sprite
+{
 	
 	/**
-	 *	@constructor
+	 * @constructor
 	 */
 	public function ${TM_NEW_FILE_BASENAME}()
 	{
@@ -24,7 +32,7 @@ public class ${TM_NEW_FILE_BASENAME} extends Sprite {
 	}
 
 	/**
-	 *	Initialize stub.
+	 * Initialize stub.
 	 */
 	private function initialize(event:Event):void
 	{

@@ -69,7 +69,6 @@ if [ -n "$fullProjectPath" ]; then
 		# Customise file variables for the new project and rename
 		# files to match the project name.
 		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "Project.tmproj.xml" > "$projectPath/$projectName/$projectName.tmproj";
-		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "compile.sh" > "$projectPath/$projectName/build/compile.sh";
 		perl -pe 's/\%\{([^}]*)\}/$ENV{$1}/g' < "build.xml" > "$projectPath/$projectName/build/build.xml";
 		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "Project-config.xml" > "$projectPath/$projectName/src/$projectName-config.xml";
 		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "Project.as" > "$projectPath/$projectName/src/$projectName.as";
@@ -79,15 +78,12 @@ if [ -n "$fullProjectPath" ]; then
 		TM_NEW_FILE_BASENAME="$projectName-debug";
 		
 		perl -pe 's/\$\{([^}]*)\}/$ENV{$1}/g' < "index.html" > "$projectPath/$projectName/deploy/index-debug.html";
-		# Copy static files.
-		
+
+		# Copy static files.		
 		cp "main.css" "$projectPath/$projectName/deploy/assets/common/css/main.css";
 		cp "swfaddress.js" "$projectPath/$projectName/deploy/assets/common/js/swfaddress.js";
 		cp "swfobject.js" "$projectPath/$projectName/deploy/assets/common/js/swfobject.js";
 		
-		# switch off custom compile.sh (disabled so projects will compile independently of a .tmproj file as these are ignored by svn).
-		#mv "$projectPath/$projectName/build/compile.sh" "$projectPath/$projectName/build/compile(rename_to_enable).sh";
-			
 		# Open the project in TextMate.
 		open -a "TextMate.app" "$projectPath/$projectName/$projectName.tmproj";
 		

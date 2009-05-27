@@ -9,90 +9,25 @@
 
 require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
 
-templates = ENV['TM_BUNDLE_PATH']+'/Templates'
-filter    = /Project/
-found = []
+bundles = ENV['TM_AS3_TEMPLATE_BUNDLES'].split('|')
 
-Dir.entries(templates).each do |filename|
-	next if filename =~ filter
-	template_path = templates+'/'+filename+'/class.as'
-	if File.exists? template_path
-		found &lt;&lt; { 'title' =&gt; filename.sub('.tmTemplate',''), 'data' =&gt; template_path } 
-	end
-end
+templates = FlexMate::BundleTool.class_template_search(bundles)
+selection = TextMate::UI.menu(templates)
 
-result = TextMate::UI.menu(found)
+TextMate.exit_discard if selection.nil?
 
-TextMate.exit_discard if result.nil?
+doc = IO.read(selection['data'])
+m = ActionScript3TemplateMachine.new
+m.snippetize = true
+c = m.process(doc)
 
-dir = ENV['TM_DIRECTORY']
-path = dir ? dir : ""
-
-SourceTools.common_src_dirs.each do |remove|
-    path = path.gsub( /^.*\b#{remove}\b(\/|$)/, "" );
-end
-
-class_p   = path.gsub( "/", ".")
-full_name = ENV['TM_FULLNAME']
-c_holder  = ENV['TM_ORGANIZATION_NAME'] || ENV['TM_FULLNAME']
-c_name	 = ENV['TM_FILENAME'].sub(/.as$/,'') || 'ClassName'
-date      = `date +%d.%m.%Y`.chop
-year      = `date +%Y`.chop
-doc       = IO.read(result['data'])
-
-doc.gsub!('${TM_YEAR}', year )
-doc.gsub!('${TM_ORGANIZATION_NAME:-$TM_FULLNAME}', c_holder)
-doc.gsub!('${TM_CLASS_PATH}',class_p)
-doc.gsub!('${TM_FULLNAME}',full_name)
-doc.gsub!('${TM_DATE}',date)
-doc.gsub!('${TM_NEW_FILE_BASENAME}', "${1:#{c_name}}")
-
-doc_gen = (ENV['TM_ASDOC_GENERATION'] != nil)
-ban_gen = (ENV['TM_AS3_BANNER_GENERATION'] != nil)
-doc_regexp = /(^\s*\/\*)|(^\s*\*).*$/
-ban_regexp = /^\s*\/\//
-
-removed = false
-in_plate = doc.split("\n")
-out_plate = ""
-
-in_plate.each do |line|
-	
-	if line =~ doc_regexp
-
-		if doc_gen
-			out_plate += line + "\n"
-		else
-			removed = true
-		end
-		
-	elsif line =~ ban_regexp
-
-		if ban_gen
-			out_plate += line + "\n"
-		else
-			removed = true
-		end
-		
-	else
-		
-		if removed == true
-			next if (line =~ /^\s*$/ )
-		end
-		out_plate += line + "\n"
-		removed = false
-		
-	end
-
-end
-
-TextMate.exit_insert_snippet( out_plate )</string>
+TextMate.exit_insert_snippet(c)</string>
 	<key>input</key>
 	<string>none</string>
 	<key>name</key>
 	<string>Class Templates</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>afterSelectedText</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -wKU
+# encoding: utf-8
 
 # ActionScript 3 utility methods for inspecting source directories, paths and
 # packages.
@@ -40,12 +41,8 @@ module SourceTools
 		
 			if file =~ /\b#{word}\w*\.(as|mxml)$/
 			
-				path = file.sub( project, "" );
-			
-				common_src_dirs.each do |remove|
-					path = path.gsub( /^.*\b#{remove}\b\//, '' );
-				end
-
+				path = file.sub( project, "")			
+				path = truncate_to_src(path)
 				path = path.gsub(/\.(as|mxml)$/,'').gsub( "/", ".").sub(/^\./,'')
 
 				if path =~ /\.#{word}$/
@@ -108,7 +105,16 @@ module SourceTools
 		{ :exact_matches => e, :partial_matches => p }
 	
 	end
-
+  
+  # Takes the path and truncates it to the last matching 'common_src_dir'.
+  #
+  def self.truncate_to_src(path)
+    common_src_dirs.each do |remove|
+      path = path.gsub( /^.*\b#{remove}\b(\/|$)/, '' );
+    end
+    path
+  end
+  
 	# Finds, and where sucessful returns, the package path for the specified 
 	# class (word is used as parameter here as it may be a partial class name).
 	# Packages paths are resolved via doc_dictionary.xml, which contains flash, fl, 

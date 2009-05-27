@@ -5,29 +5,64 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>. "$TM_BUNDLE_SUPPORT/lib/flex_utils.sh"
+	<string>#!/usr/bin/env ruby
 
-cd_to_tmproj_root;
+SUPPORT = ENV['TM_SUPPORT_PATH']
 
-TM_FLEX_RUN_FILE=${TM_FLEX_RUN_FILE:=build/launch.sh}
+require SUPPORT + '/lib/escape'
+require SUPPORT + '/lib/web_preview'
+require SUPPORT + '/lib/tm/process'
 
-# Look for a custom 'run' script.
-if [[ (-f "$TM_PROJECT_DIR/$TM_FLEX_RUN_FILE") ]]; then
-	"$TM_PROJECT_DIR/$TM_FLEX_RUN_FILE";
-	exit $?
+proj = ENV['TM_PROJECT_DIRECTORY']
+run_file = ENV['TM_FLEX_RUN_FILE'] || 'build/launch.sh'
+flex_out = ENV['TM_FLEX_OUTPUT']
+
+proj_run_file = proj ? "#{proj}/#{run_file}" : ""
+proj_default  = proj ? "#{proj}/deploy/index.html" : ""
+proj_flex_out = proj ? "#{proj}/#{flex_out}" : ""
+
+def run(uri)
+  
+  if File.executable?(uri)
+    puts "&lt;h2&gt;Executing&lt;/h2&gt;&lt;pre&gt;#{File.basename(uri)}&lt;/pre&gt;"
+    cmd = e_sh(uri)
+  else
+    puts "&lt;h2&gt;Opening...&lt;/h2&gt;&lt;pre&gt;#{File.basename(uri)}&lt;/pre&gt;"
+    cmd = "open #{e_sh(uri)}"
+  end
+  
+  TextMate::Process.run(cmd) do |str|
+    STDOUT &lt;&lt; str
+  end
+  
+end
+
+def to_swf(f)	
+	f.sub(/\.(mxml|as)/, ".swf")
+end
+
+puts html_head( :window_title =&gt; "ActionScript 3 Run Command",
+                :page_title =&gt; "Run" )
+
+if File.exist?(run_file)
+  run(run_file)
+elsif File.exist?(proj_run_file)
+  run(proj_run_file)
+elsif File.exist?(proj_default)
+  run(proj_default)
+elsif File.exist?(proj_flex_out)
+  run(proj_flex_out)  
 else
-	open "deploy/index.html";
-	
-	#Or you could use...
-	#open -a Safari "deploy/index.html";
-	#open -a Firefox "deploy/index.html";
-	#open "$TM_FLEX_OUTPUT"
-	#open -a SAFlashPlayerDbgRel_en "$TM_FLEX_OUTPUT"
-	#open -a SAFlashPlayer "$TM_FLEX_OUTPUT"
-fi
+  fp = ENV['TM_FILEPATH']
+  swf = to_swf(fp)
+  if fp != swf &amp;&amp; File.exist?(swf)
+    run(swf) 
+  else
+    puts "&lt;h2&gt;Error&lt;/h2&gt;&lt;p&gt;No file found to run.&lt;/p&gt;"
+  end
+end
 
-exit 0;
-</string>
+html_footer</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
@@ -35,7 +70,7 @@ exit 0;
 	<key>name</key>
 	<string>Run</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>showAsHTML</string>
 	<key>scope</key>
 	<string>source.actionscript.3, text.xml.mxml, text.xml</string>
 	<key>uuid</key>

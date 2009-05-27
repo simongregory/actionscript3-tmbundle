@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>command</key>
@@ -36,7 +36,7 @@ doc.scan(package_regexp).each do | line |
 end
 
 doc.scan(property_regexp).each do | line |
-    found_properties &lt;&lt; "${2:public function} " + line[0] + line[1] + " {\n\t\n}\n\n"
+    found_properties &lt;&lt; "${2:public function} " + line[0] + line[1] + "\n{\n\t\n}\n\n"
 end
 
 doc.scan(function_regexp).each do | line |
@@ -71,11 +71,11 @@ puts found_methods.to_s unless found_methods.empty?
 		<string>as</string>
 	</array>
 	<key>name</key>
-	<string>implement interface</string>
+	<string>Implement Interface</string>
 	<key>output</key>
 	<string>insertAsSnippet</string>
 	<key>scope</key>
-	<string>source.actionscript</string>
+	<string>source.actionscript.3</string>
 	<key>uuid</key>
 	<string>BD9BDFFC-C963-4F93-9EDF-104E784D8461</string>
 </dict>

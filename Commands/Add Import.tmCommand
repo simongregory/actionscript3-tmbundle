@@ -21,7 +21,7 @@ line_idx = ENV['TM_LINE_INDEX']
 doc[line] = doc[line].gsub(word, cla)
 
 pkg = /^\s*package\b\s*([\w+\.]*)/
-cls = /^\s*(public|final)\s+(final|public)?\s*\bclass\b/
+cls = /^\s*(public|final)\s+(final|public)?\s*\b(class|interface)\b/
 mta = /^\s*\[(Style|Bindable|Event|Embed|SWF)/
 
 pre, imps, post = [], [], []
@@ -38,7 +38,7 @@ doc.split("\n").each do |line|
 	end
 end
 
-irgx = /^\s*import\s+#{import.gsub('.', '\.')}/
+irgx = /^\s*import\s+#{import.gsub('.', '\.')}(\s|;)/
 safe = 0
 indent = ""
 
@@ -73,7 +73,7 @@ end
 	<key>output</key>
 	<string>replaceDocument</string>
 	<key>scope</key>
-	<string>source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3</string>
+	<string>source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3, meta.interface.actionscript.3</string>
 	<key>uuid</key>
 	<string>B42093AC-0F65-4760-856C-23E51A54CD84</string>
 </dict>

@@ -28,6 +28,7 @@ meta_data = [
 { 'title' =&gt; 'InstanceType', 'data' =&gt; '[InstanceType("${2:package.Class}")]$0' },
 { 'title' =&gt; 'Mixin', 'data' =&gt; '[Mixin]$0' },
 { 'title' =&gt; 'NonCommittingChangeEvent', 'data' =&gt; '[NonCommittingChangeEvent("${1:eventName}")]$0' },
+{ 'title' =&gt; 'RemoteClass', 'data' =&gt; '[RemoteClass(alias="$1")]$0' },
 { 'title' =&gt; 'Style', 'data' =&gt; '[Style(name="${1:styleName}",type="${2:dataType}")]$0' },
 { 'title' =&gt; 'Transient', 'data' =&gt; '[Transient]$0' }
 ]
