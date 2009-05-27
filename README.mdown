@@ -8,14 +8,10 @@ My work in progress branch of the bundle, the version I use on a day to day basi
 
 'master' differences:
 
- * There's only one Build command.
- * Format fsch Terminal Output is gone.
- * Auto parameter recognition in asdoc command is being worked on.
  * Tidy command.
  * FDB Support
     * Set breakpoints using  `/*>BP<*/`
     * Start Debugger - Parses current doc for breakpoints and sets them in a fdb session.
- * Rewrote Run command in ruby and made it a little more intelligent.
  
 Installation
 ------------
