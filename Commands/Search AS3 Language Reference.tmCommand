@@ -19,7 +19,6 @@ if scope =~ /text\.xml\.flex-config/
 	TextMate.exit_show_tool_tip FlexConfigDoc.new.find(scope)
 end
 
-
 FlexMate::SDK.set_tm_flex_path
 FlexMate::ASD.find(STDIN.read.strip)
 </string>

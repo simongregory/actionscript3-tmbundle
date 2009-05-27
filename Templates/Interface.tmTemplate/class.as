@@ -8,7 +8,7 @@ package ${TM_CLASS_PATH}
 {
 
 /**
- * Description
+ * Interface describing the contract for...
  * 
  * @langversion ActionScript 3.0
  * @playerversion Flash 9.0

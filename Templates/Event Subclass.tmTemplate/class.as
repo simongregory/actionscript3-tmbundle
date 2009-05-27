@@ -10,7 +10,7 @@ package ${TM_CLASS_PATH}
 import flash.events.Event;
 
 /**
- * Event subclass description.
+ * Event subclass.
  * 
  * @langversion ActionScript 3.0
  * @playerversion Flash 9.0

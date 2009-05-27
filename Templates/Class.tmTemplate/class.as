@@ -8,7 +8,7 @@ package ${TM_CLASS_PATH}
 {
 
 /**
- * Class description.
+ * Class.
  * 
  * @langversion ActionScript 3.0
  * @playerversion Flash 9.0
