@@ -22,11 +22,15 @@ if ENV['TM_PROJECT_DIRECTORY']
 
   bp = ENV['TM_PROJECT_DIRECTORY']
   
-  # TODO check for custom build files and execute them where they exist.
-  #custom = "#{bp}/#{ENV['TM_FLEX_BUILD_FILE']}"  
-  #if File.executable?(custom)
-  # `#{e_sh(custom)}`
-  #end
+  #Check for custom build files and execute them where they exist.
+  custom = "#{bp}/#{ENV['TM_FLEX_BUILD_FILE']}"
+  if File.file?(custom) && File.executable?(custom)
+    require SUPPORT + '/lib/tm/process'
+    TextMate::Process.run(custom) do |str|
+      STDOUT << str
+    end
+    TextMate.exit_show_html
+  end
   
   s = { :files => ['TM_FLEX_FILE_SPECS'], 
         :evars => ['TM_FLEX_OUTPUT'],
@@ -57,4 +61,4 @@ else
   #TODO: Get the html window to show immediately.
   TextMate.exit_show_html
 
-end  
+end
