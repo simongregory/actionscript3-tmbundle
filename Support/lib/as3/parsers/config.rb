@@ -27,8 +27,17 @@ class ConfigParser
 
   attr_accessor :flex_config
 
-  def initialize
+  def initialize(auto_find=false)
     @flex_config = FlexConfig.new
+
+    if auto_find
+      config_path = ConfigUtil.new.find
+      if config_path
+        load(File.new(config_path))
+        @flex_config.file_path = config_path
+      end
+    end
+    
   end
 
   def load(doc)
@@ -46,6 +55,13 @@ class ConfigParser
      flex_config.paths.each { |e| s << e.to_s }
      flex_config.namespaces.each { |e| s << e.to_s }
      s
+  end
+  
+  def src_paths
+    p = []
+    flex_config.paths.each { |e| p << e.paths if e.type == 'source-path'
+    }
+    p.flatten.uniq
   end
 
   protected
@@ -91,8 +107,10 @@ class ConfigUtil
     build_file = ENV['TM_FLEX_FILE_SPECS'] || ''
     unless build_file.empty?
       cp = build_file.sub(/\.(as|mxml)$/,'')
-      puts "#{cp}-config.xml"
+      proj = ENV['TM_PROJECT_DIRECTORY'] || ''
+      return "#{proj}/#{cp}-config.xml"
     end
+    return ''
   end
 
 end
@@ -101,6 +119,7 @@ class FlexConfig
 
   attr_accessor :namespaces
   attr_accessor :paths
+  attr_accessor :file_path
 
   def initialize()
     @paths = []
@@ -127,7 +146,7 @@ end
 
 class PathElements
 
-  attr_accessor :path_elements
+  attr_accessor :paths
   attr_reader :type
 
   def initialize(type,node)
@@ -178,18 +197,22 @@ if __FILE__ == $0
     </namespaces>
   </compiler>
 </flex-config>'
-
-  cp = ConfigParser.new
-  cp.load(test_config)
   
-  puts cp.to_s
+  cp = ConfigParser.new(false)
+  cp.load(test_config)
 
+  puts cp.to_s
+  
+  puts "\n"
+  puts cp.src_paths
+  puts "\n"
+  
   cu = ConfigUtil.new
   
   ENV['TM_FLEX_FILE_SPECS'] = 'src/Foo.mxml'
-  cu.find
+  puts cu.find
 
   ENV['TM_FLEX_FILE_SPECS'] = 'src/Bar.as'
-  cu.find
+  puts cu.find
   
 end
