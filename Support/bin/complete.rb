@@ -12,6 +12,9 @@ TextMate.exit_show_tool_tip("No property found.") if p[:ref] == nil
 
 c = ClassParser.new
 
+#cp = ConfigParser.new(true)
+#cp.src_paths.each { |p| puts p }  
+
 if p[:is_static]
 	c.load_statics(STDIN.read.strip,p[:ref])
 else
