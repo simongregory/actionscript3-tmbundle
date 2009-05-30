@@ -84,8 +84,8 @@ module FlexMate
  
 			end
 		
-			# Search FLEX_DIRS list for the Flex SDK, if it exists then set it to the the TM_FLEX_PATH variable.
-			# returns 0 for success, 1 for failure.
+			# Search FLEX_DIRS list for the Flex SDK, if it exists then set it to the 
+			# the TM_FLEX_PATH variable. Returns 0 for success, 1 for failure.
 			#
 			def set_tm_flex_path
 
@@ -119,7 +119,9 @@ module FlexMate
 			          TexMate.exit_show_tool_tip;
 			      end
 
-			      puts html_head(:window_title => "Help files 404", :page_title => "Help files 404", :sub_title => "")
+			      puts html_head(:window_title => "Help files 404", 
+			                     :page_title => "Help files 404",
+			                     :sub_title => "")
 
 			      print <<-HTMOUT
 			              <h2>Help not found</h2>
@@ -163,7 +165,15 @@ module FlexMate
 					TextMate.exit_show_tool_tip('Unable to locate Flex SDK and it\'s associated flex-config.xml file.')
 				end				
 			end
-
+      
+      # Attempts to locate the mx source code and open it in TextMate.
+      #
+      # This is normally found at {flex_sdk}/frameworks/flex-config.xml
+      #
+      def open_mx_source
+        `open -a "TextMate.app" "#{src}";`
+      end
+      
 		end
 		
 	end
@@ -191,5 +201,7 @@ if __FILE__ == $0
   puts FlexMate::SDK.src
   
 	FlexMate::SDK.open_flex_config
+	
+	FlexMate::SDK.open_mx_source
 	
 end
