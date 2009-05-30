@@ -12,12 +12,14 @@ class FlexConfigDoc
   end
 
   def find(scope)
-    scope = scope.split(" ").pop().sub('meta.tag.xml.flex-config.','').gsub('.','\.')
-    rgx = / #{scope}: /
-    REXML::XPath.match(@doc, '//comment()').each { |e|
-      c = e.to_s
-      return c.sub(rgx,'') if c =~ rgx
-    }
+    if scope
+      scope = scope.split(" ").pop().sub('meta.tag.xml.flex-config.','').gsub('.','\.')
+      rgx = / #{scope}: /
+      REXML::XPath.match(@doc, '//comment()').each { |e|
+        c = e.to_s
+        return c.sub(rgx,'') if c =~ rgx
+      }
+    end
     return 'No documentation found.'
   end
 end
@@ -29,7 +31,7 @@ if __FILE__ == $0
   class FlexConfigDocTest < Test::Unit::TestCase
 
     def test_find
-      
+
       checks = [
         { :node => 'meta.tag.xml.flex-config.compiler.warn-number-from-string-changes',
           :help => "In ActionScript 3.0, white space is ignored and '' returns 0. Number() returns NaN in ActionScript 2.0 when the parameter is '' or contains white space."
@@ -42,6 +44,9 @@ if __FILE__ == $0
         },
         { :node => 'meta.tag.xml.flex-config.frames.frame',
           :help => 'A SWF frame label with a sequence of classnames that will be linked onto the frame.'
+        },
+        { :node => nil,
+          :help => 'No documentation found.'
         }
       ]
 
