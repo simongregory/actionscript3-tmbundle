@@ -9,7 +9,8 @@
 
 # Create a class level block that inherits from the dropped file.
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/add_lib'
+require 'as3/source_tools'
 
 current_file = ENV['TM_FILEPATH']
 dropped_file = ENV['TM_DROPPED_FILEPATH']

@@ -385,7 +385,10 @@ end
 
 if __FILE__ == $0
 
-	require "../flex_env"
+  require ENV['TM_SUPPORT_PATH'] + '/lib/escape'
+  require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
+  require ENV['TM_SUPPORT_PATH'] + '/lib/ui'
+  require ENV['TM_SUPPORT_PATH'] + '/lib/textmate'
 
 	puts "\nsnippetize_method_params:"
 	puts FlexMate.snippetize_method_params( "method(one:Number,two:String,three:*, four:Test=10, ...rest)")
@@ -400,10 +403,11 @@ if __FILE__ == $0
 	print "\ncheck_for_leopard: "
 	puts FlexMate.check_for_leopard
 
-	FlexMate.tooltip("Test Message")
-
 	puts "\nhas_dialog2:"
 	puts FlexMate.has_dialog2.to_s
+	
+	#FIX: This test hangs TM.
+	#FlexMate.tooltip("Test Message")  
 
 	#ENV['TM_FLEX_FILE_SPECS'] = '/Users/simon/Desktop/golf_plus.xml'
 	#ENV['TM_FLEX_OUTPUT'] = '/Users/simon/Desktop/golf_plus.swf'

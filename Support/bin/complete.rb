@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-require ENV['TM_BUNDLE_SUPPORT'] + '/lib/flex_env'
+require ENV['TM_BUNDLE_SUPPORT'] + '/lib/c_env'
 
 FlexMate.complete_by_scope if ENV['TM_SCOPE'] =~ /support\.function\.(top-level|flash|fl|mx|global)\.actionscript\.3/
 

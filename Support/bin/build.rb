@@ -1,19 +1,21 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
+require ENV['TM_SUPPORT_PATH'] + '/lib/escape'
+require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
+require ENV['TM_SUPPORT_PATH'] + '/lib/textmate'
+require ENV['TM_SUPPORT_PATH'] + '/lib/tm/process'
+
+require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
+
+require 'fm/flex_mate'
+require 'fm/sdk'
+require 'fm/compiler'
+
 if ENV['TM_PROJECT_DIRECTORY']
 
-  SUPPORT = ENV['TM_SUPPORT_PATH']
-  BUN_SUP = ENV['TM_BUNDLE_SUPPORT']
-
-  require SUPPORT + '/lib/exit_codes'
-  require SUPPORT + '/lib/escape'
-  require SUPPORT + '/lib/textmate'
-  require SUPPORT + '/lib/web_preview'
-  require SUPPORT + '/lib/tm/htmloutput'
-
-  require BUN_SUP + '/lib/fm/flex_mate'
-  require BUN_SUP + '/lib/fm/sdk'
+  require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
+  require ENV['TM_SUPPORT_PATH'] + '/lib/tm/htmloutput'
 
   # Start by trying to add the Flex SDK bin to $PATH then testing for fcsh.
   FlexMate::SDK.add_flex_bin_to_path
@@ -24,8 +26,7 @@ if ENV['TM_PROJECT_DIRECTORY']
   
   #Check for custom build files and execute them where they exist.
   custom = "#{bp}/#{ENV['TM_FLEX_BUILD_FILE']}"
-  if File.file?(custom) && File.executable?(custom)
-    require SUPPORT + '/lib/tm/process'
+  if File.file?(custom) && File.executable?(custom)    
     TextMate::Process.run(custom) do |str|
       STDOUT << str
     end
@@ -51,8 +52,6 @@ if ENV['TM_PROJECT_DIRECTORY']
   
 else
   
-  require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
-
   STDOUT.sync = true
 
   c = FlexMate::Compiler.new

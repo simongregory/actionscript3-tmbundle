@@ -7,7 +7,13 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
+require ENV['TM_SUPPORT_PATH'] + '/lib/escape'
+require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
+require ENV['TM_SUPPORT_PATH'] + '/lib/ui'
+
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/add_lib'
+require 'fm/bundle_tool'
+require 'fm/template_machine'
 
 bundles = ENV['TM_AS3_TEMPLATE_BUNDLES'].split('|')
 

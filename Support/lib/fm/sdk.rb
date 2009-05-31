@@ -4,7 +4,9 @@
 module FlexMate
 
   module SDK
-
+    
+    require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
+    
     class << self
 
       # Fallback Search locations for the flex sdk if they are not specified in
@@ -156,6 +158,8 @@ module FlexMate
       # This is normally found at {flex_sdk}/frameworks/flex-config.xml
       #
       def open_flex_config
+                
+        require ENV['TM_SUPPORT_PATH'] + '/lib/textmate'        
 
         config = find_sdk + "/frameworks/flex-config.xml"
 
@@ -181,9 +185,6 @@ module FlexMate
 end
 
 if __FILE__ == $0
-
-  require "#{ENV['TM_SUPPORT_PATH']}/lib/exit_codes"
-  require "#{ENV['TM_SUPPORT_PATH']}/lib/textmate"
 
   puts "\nsdk_dir_list:"
   puts FlexMate::SDK.sdk_dir_list

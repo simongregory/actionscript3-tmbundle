@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby -wKU
 # encoding: utf-8
 
-require File.expand_path(File.dirname(__FILE__)) + '/../lib/flex_env'
+require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
+require 'fm/template_machine'
 
 m = ActionScript3TemplateMachine.new
 c = m.process(STDIN.read)
