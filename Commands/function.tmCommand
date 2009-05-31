@@ -7,7 +7,7 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/snip_env'
 
 sb = SnippetBuilder.new
 
@@ -21,7 +21,8 @@ TextMate.exit_insert_snippet( sb.method(method_name) )
 	<key>input</key>
 	<string>selection</string>
 	<key>keyEquivalent</key>
-	<string>$</string>
+	<string>$
+</string>
 	<key>name</key>
 	<string>function</string>
 	<key>output</key>

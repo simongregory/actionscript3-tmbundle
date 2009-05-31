@@ -7,7 +7,7 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT'] + '/lib/flex_env'
+require ENV['TM_BUNDLE_SUPPORT'] + '/lib/c_env'
 
 current_line = ENV['TM_CURRENT_LINE']
 type_match = /^.*\b(\w+)\b\s*=/

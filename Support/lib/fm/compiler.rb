@@ -3,119 +3,120 @@
 
 module FlexMate
 
-	class Compiler
+  class Compiler
 
-		require SUPPORT + '/lib/web_preview'
-			
-		# Run mxmlc to compile a swf adapting to the current environment as 
-		# necessary.
-		#
-		def build
+    # Run mxmlc to compile a swf adapting to the current environment as
+    # necessary.
+    #
+    def build
 
-			FlexMate::SDK.add_flex_bin_to_path
-			TextMate.require_cmd('mxmlc')
+      FlexMate::SDK.add_flex_bin_to_path
+      TextMate.require_cmd('mxmlc')
 
-			cmd = MxmlcCommand.new
-			cmd.file_specs = get_file_specs
-			cmd.o = get_flex_output(cmd.file_specs)
+      cmd = MxmlcCommand.new
+      cmd.file_specs = get_file_specs
+      cmd.o = get_flex_output(cmd.file_specs)
 
-			puts html_head( :window_title => "ActionScript 3 Build Command",
-											:page_title => "Build (mxmlc)",
-											:sub_title => cmd.file_specs_name )
+      require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
 
-			puts "<h2>Building...</h2>"
-			puts "<p><pre>-file-specs=#{cmd.file_specs}"
-			puts "-o=#{cmd.o}</pre></p>"
+      puts html_head( :window_title => "ActionScript 3 Build Command",
+                      :page_title => "Build (mxmlc)",
+                      :sub_title => cmd.file_specs_name )
 
-			exhaust = get_exhaust
-			
-			TextMate::Process.run(cmd.line) do |str|
-				STDOUT << exhaust.line(str)
-			end
+      puts "<h2>Building...</h2>"
+      puts "<p><pre>-file-specs=#{cmd.file_specs}"
+      puts "-o=#{cmd.o}</pre></p>"
 
-			exhaust.complete
+      exhaust = get_exhaust
 
-			html_footer
+      TextMate::Process.run(cmd.line) do |str|
+        STDOUT << exhaust.line(str)
+      end
 
-		end
-		
-		# Create the object responsible for parsing the compiler output.
-		#
-		def get_exhaust
-			MxmlcExhaust.new
-		end
-		
-		private
-		
-		# Inspects the available environmental variables and gathers the settings 
-		# necessary for the compiler to run. 
-		#
-		def get_file_specs
+      exhaust.complete
 
-			proj_dir = ENV['TM_PROJECT_DIRECTORY']
-			file_specs = ENV['TM_FLEX_FILE_SPECS']
+      html_footer
 
-			if proj_dir && file_specs
-				file_specs = proj_dir + '/' + file_specs
-				return file_specs if File.exist?(file_specs)
-			end
+    end
 
-			if proj_dir
-				file_specs = guess_file_specs(proj_dir)
-				return file_specs unless file_specs.nil? 
-			end
+    # Create the object responsible for parsing the compiler output.
+    #
+    def get_exhaust
+      require 'fm/mxmlc_exhaust'
+      MxmlcExhaust.new
+    end
 
-			file_specs = ENV['TM_FILEPATH']
+    private
 
-		end
+    # Inspects the available environmental variables and gathers the settings
+    # necessary for the compiler to run.
+    #
+    def get_file_specs
 
-		# When TM_FLEX_OUTPUT and TM_PROJECT_DIRECTORY are defined use them to 
-		# build flex output. Otherwise derive the output from the file specs.
-		#
-		def get_flex_output(fs)
-			
-			flex_output = ENV['TM_FLEX_OUTPUT']
-			proj_dir = ENV['TM_PROJECT_DIRECTORY']
-			
-			if flex_output && proj_dir
-				return proj_dir + '/' + flex_output
-			end
-			
-			fs.sub(/\.(mxml|as)/, ".swf")
-			
-		end
+      proj_dir = ENV['TM_PROJECT_DIRECTORY']
+      file_specs = ENV['TM_FLEX_FILE_SPECS']
 
-		# Where we have Project Directory but no TM_FLEX_FILE_SPECS set take a look
-		# inside the src/ dir and see if we can work out which file should be
-		# compiled.
-		#
-		def guess_file_specs(proj_dir)
+      if proj_dir && file_specs
+        file_specs = proj_dir + '/' + file_specs
+        return file_specs if File.exist?(file_specs)
+      end
 
-			#TODO: Link to src dir list.
-			possible_src_dirs = ['src','source']
+      if proj_dir
+        file_specs = guess_file_specs(proj_dir)
+        return file_specs unless file_specs.nil?
+      end
 
-			src_dir = ""
-			fs = []
+      file_specs = ENV['TM_FILEPATH']
 
-			possible_src_dirs.each do |d|
+    end
 
-				src_dir = proj_dir + '/' + d
+    # When TM_FLEX_OUTPUT and TM_PROJECT_DIRECTORY are defined use them to
+    # build flex output. Otherwise derive the output from the file specs.
+    #
+    def get_flex_output(fs)
 
-				if File.exist?(src_dir)
+      flex_output = ENV['TM_FLEX_OUTPUT']
+      proj_dir = ENV['TM_PROJECT_DIRECTORY']
 
-					Dir.foreach(src_dir) do |f|
-						fs << src_dir + '/' + f if f =~ /\.(as|mxml)$/
-					end
+      if flex_output && proj_dir
+        return proj_dir + '/' + flex_output
+      end
 
-				end
+      fs.sub(/\.(mxml|as)/, ".swf")
 
-			end
+    end
 
-			return fs[0] if fs.size == 1
+    # Where we have Project Directory but no TM_FLEX_FILE_SPECS set take a look
+    # inside the src/ dir and see if we can work out which file should be
+    # compiled.
+    #
+    def guess_file_specs(proj_dir)
 
-		end
+      #TODO: Link to src dir list.
+      possible_src_dirs = SourceTools.common_src_dirs
 
-	end
+      src_dir = ""
+      fs = []
+
+      possible_src_dirs.each do |d|
+
+        src_dir = proj_dir + '/' + d
+
+        if File.exist?(src_dir)
+
+          Dir.foreach(src_dir) do |f|
+            fs << src_dir + '/' + f if f =~ /\.(as|mxml)$/
+          end
+
+        end
+
+      end
+
+      return fs[0] if fs.size == 1
+
+    end
+
+  end
 
 end
 
@@ -123,23 +124,30 @@ end
 #
 class MxmlcCommand
 
-	attr_accessor :file_specs
-	attr_accessor :o	
+  attr_accessor :file_specs
+  attr_accessor :o
 
-	def line
-		"mxmlc -file-specs=#{e_sh file_specs} -o=#{e_sh o}"
-	end
+  def line
+    "mxmlc -file-specs=#{e_sh file_specs} -o=#{e_sh o}"
+  end
 
-	def file_specs_name
-		File.basename(file_specs)
-	end
-	
+  def file_specs_name
+    File.basename(file_specs)
+  end
+
 end
 
 if __FILE__ == $0
 
-	require "../flex_env"
+  require ENV['TM_SUPPORT_PATH'] + '/lib/escape'
+  require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
+  require ENV['TM_SUPPORT_PATH'] + '/lib/textmate'
+  require ENV['TM_SUPPORT_PATH'] + '/lib/tm/process'
 
-	FlexMate::Compiler.build
+  require '../add_lib'
+  require 'fm/sdk'
+  require 'as3/source_tools'
+
+  FlexMate::Compiler.new.build
 
 end

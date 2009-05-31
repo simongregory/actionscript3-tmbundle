@@ -7,9 +7,9 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/flex_env'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/snip_env'
 
-SnippetController.namespace("protected")</string>
+AS3Snippets.namespace("protected")</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>
