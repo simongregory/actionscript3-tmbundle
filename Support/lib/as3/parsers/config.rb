@@ -37,7 +37,7 @@ class ConfigParser
         @flex_config.file_path = config_path
       end
     end
-    
+
   end
 
   def load(doc)
@@ -49,14 +49,14 @@ class ConfigParser
     add_root(node) if node.name() == 'flex-config'
 
   end
-  
+
   def to_s
      s = ""
      flex_config.paths.each { |e| s << e.to_s }
      flex_config.namespaces.each { |e| s << e.to_s }
      s
   end
-  
+
   def src_paths
     p = []
     flex_config.paths.each { |e| p << e.paths if e.type == 'source-path' }
@@ -74,7 +74,7 @@ class ConfigParser
   end
 
   def add_compiler(node)
-    
+
     node.elements.each { |child|
       name = child.name()
       if name =~ /(library-path|source-path|external-library-path)/
@@ -83,13 +83,13 @@ class ConfigParser
         add_namespaces(child)
       end
     }
-    
+
   end
 
   def add_namespaces(node)
     node.elements.each { |child|
       name = child.name()
-      if name =~ /namespace/ 
+      if name =~ /namespace/
         flex_config.namespaces << Namespace.new(child)
       end
     }
@@ -136,7 +136,7 @@ class Namespace
     @uri = node.elements['uri'][0] rescue ''
     @manifest = node.elements['manifest'][0] rescue ''
   end
-  
+
   def to_s
     "uri: #{uri}\nmanifest: #{manifest}"
   end
@@ -196,20 +196,20 @@ if __FILE__ == $0
     </namespaces>
   </compiler>
 </flex-config>'
-  
+
   require "test/unit"
-  
+
   class TestConfigParser < Test::Unit::TestCase
     def test_case_name
       cp = ConfigParser.new(false)
       cp.load(TEST_CONFIG)
-      
+
       find_paths = [ '../lib/actionscript/springseed/src/',
                      '../lib/actionscript/layerglue/src/',
                      '../lib/actionscript/puremvc/src/',
                      '../lib/actionscript/papervision/src/' ]
 
-      found_paths = cp.src_paths      
+      found_paths = cp.src_paths
       find_paths.each { |p| assert(found_paths.include?(p), 'Missing Path') }
     end
   end
@@ -222,14 +222,14 @@ if __FILE__ == $0
       proj = ENV['TM_PROJECT_DIRECTORY']+'/' || ''
       assert_equal("#{proj}src/Foo-config.xml", cu.find)
     end
-    
+
     def test_find_as_config
       cu = ConfigUtil.new
       ENV['TM_FLEX_FILE_SPECS'] = 'src/Bar.as'
       proj = ENV['TM_PROJECT_DIRECTORY']+'/' || ''
-      assert_equal("#{proj}src/Bar-config.xml", cu.find)      
+      assert_equal("#{proj}src/Bar-config.xml", cu.find)
     end
 
   end
-  
+
 end
