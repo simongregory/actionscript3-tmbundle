@@ -29,6 +29,7 @@
 class MxmlDoc
 
   attr_accessor :super_class
+  attr_accessor :super_namespace
   attr_accessor :properties
 
   def initialize(doc)
@@ -53,7 +54,7 @@ class MxmlDoc
     s << "Script:\n#{@script}"
     s.to_s
   end
-
+  
   protected
 
   # Currently adds all properties found in the XML portion of the document. This
@@ -99,7 +100,7 @@ end
 
 if __FILE__ == $0
 
-  doc = '<?xml version="1.0" encoding="utf-8"?>
+  TEST_DOC = '<?xml version="1.0" encoding="utf-8"?>
 <vw:GTIApplication
     xmlns="http://www.adobe.com/2006/mxml"
     xmlns:vw="http://www.vw.co.uk/2009/vw/gti"
@@ -119,8 +120,52 @@ if __FILE__ == $0
     <test:Box id="test" />
 
 </vw:GTIApplication>'
+  
+  require "test/unit"
+  
+  class TestMxmlDoc < Test::Unit::TestCase
 
-  mxp = MxmlDoc.new(doc)
-  puts mxp.to_s
+    def test_super_class
+      mxp = MxmlDoc.new(TEST_DOC)       
+      assert_equal("GTIApplication", mxp.super_class)
+    end
+    
+    def test_super_namespace
+      mxp = MxmlDoc.new(TEST_DOC)       
+      assert_equal("http://www.vw.co.uk/2009/vw/gti", mxp.super_namespace)
+    end
+    
+    def test_properties
+      mxp = MxmlDoc.new(TEST_DOC)
+      assert_equal(4, mxp.properties.length)
+      
+      tok = find_item(mxp.properties, 'underlay')
+      assert_equal('underlay', tok.name)
+      assert_equal('Canvas', tok.type)
+      assert_equal('http://www.adobe.com/2006/mxml', tok.ns)
+
+      tok = find_item(mxp.properties, 'siteView')      
+      assert_equal('siteView', tok.name)
+      assert_equal('SiteView', tok.type)
+      assert_equal('http://www.vw.co.uk/2009/vw/gti', tok.ns)
+      
+      tok = find_item(mxp.properties, 'dialogContainer')      
+      assert_equal('dialogContainer', tok.name)
+      assert_equal('DialogContainer', tok.type)
+      assert_equal('http://www.vw.co.uk/2009/vw/gti', tok.ns)
+      
+      tok = find_item(mxp.properties, 'test')      
+      assert_equal('test', tok.name)
+      assert_equal('Box', tok.type)
+      assert_equal('uk.co.vw.test.*', tok.ns)
+
+    end
+    
+    def find_item(a,id)
+      t = a.select {|o| o.name == id }
+      t[0]
+    end
+    
+  end
 
 end
