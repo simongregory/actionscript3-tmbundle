@@ -7,7 +7,7 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/c_env'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/snip_env'
 
 t = SnippetBuilder.new
 
@@ -20,7 +20,7 @@ TextMate.exit_insert_snippet( t.o_method )
 	<key>name</key>
 	<string>override function</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>openAsNewDocument</string>
 	<key>scope</key>
 	<string>source.actionscript.3 meta.class.actionscript.3</string>
 	<key>tabTrigger</key>
