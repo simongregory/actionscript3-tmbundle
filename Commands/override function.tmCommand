@@ -20,7 +20,7 @@ TextMate.exit_insert_snippet( t.o_method )
 	<key>name</key>
 	<string>override function</string>
 	<key>output</key>
-	<string>openAsNewDocument</string>
+	<string>discard</string>
 	<key>scope</key>
 	<string>source.actionscript.3 meta.class.actionscript.3</string>
 	<key>tabTrigger</key>
