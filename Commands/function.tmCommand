@@ -21,12 +21,11 @@ TextMate.exit_insert_snippet( sb.method(method_name) )
 	<key>input</key>
 	<string>selection</string>
 	<key>keyEquivalent</key>
-	<string>$
-</string>
+	<string>$</string>
 	<key>name</key>
 	<string>function</string>
 	<key>output</key>
-	<string>openAsNewDocument</string>
+	<string>discard</string>
 	<key>scope</key>
 	<string>source.actionscript.3 -comment</string>
 	<key>tabTrigger</key>
