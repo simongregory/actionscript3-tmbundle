@@ -64,7 +64,7 @@ module SourceTools
   #
   def self.search_bundle_paths(word)
 
-    help_toc = File.dirname(__FILE__) + '/../../../data/doc_dictionary.xml'
+    help_toc = File.dirname(__FILE__) + '/../../data/doc_dictionary.xml'
 
     best_paths = []
     package_paths = []
