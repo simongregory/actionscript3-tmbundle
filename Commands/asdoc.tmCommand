@@ -34,14 +34,14 @@ def generate_method_doc(sig)
 	puts "/**"
 	args.each { |e|
 		arg =  e.split(':')
-		puts " *	@private" if arg.length != 2 	
+		puts " * @private" if arg.length != 2
 		name = arg[0]
 		type = arg[1].sub(/=.*$/,'')
-		puts " *	@param #{name} #{type}"
+		puts " * @param #{name} #{type}"
 	}
-	puts " *	@private" if args.empty?
-	puts " *	@return #{sig[:returns]}" unless sig[:returns] == 'void'
-	print " */"	
+	puts " * @private" if args.empty?
+	puts " * @return #{sig[:returns]}" unless sig[:returns] == 'void'
+	print " */"
 end 
 
 method_regex = /(public|private|protected)\s+function\s+(\w+)\s*\(/
@@ -61,14 +61,14 @@ def generate_method_doc(sig)
 	puts "/**"
 	args.each { |e|
 		arg =  e.split(':')
-		puts " *	@private" if arg.length != 2 	
+		puts " * @private" if arg.length != 2
 		name = arg[0]
 		type = arg[1].sub(/=.*$/,'')
-		puts " *	@param #{name} #{type}"
+		puts " * @param #{name} #{type}"
 	}
-	puts " *	@private" if args.empty?
-	puts " *	@return #{sig[:returns]}" unless sig[:returns] == 'void'
-	print " */"	
+	puts " * @private" if args.empty?
+	puts " * @return #{sig[:returns]}" unless sig[:returns] == 'void'
+	print " */"
 end
 
 t = SnippetBuilder.new
