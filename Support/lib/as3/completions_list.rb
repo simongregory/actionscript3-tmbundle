@@ -253,7 +253,7 @@ if __FILE__ == $0
 			c = MockClassParser.new
 			c.properties = [ "testProperty" ]
 			c.gettersetters = [ "testGetter", nil ]
-			c.methods = [ 'paramaterless():Boolean', 'methodWithParams(a:Number,b:String):void', 'willFailToList' ]
+			c.methods = [ 'paramaterless():Boolean', 'methodWithParams(a:Number,b:String):void', 'willFailToList', ' setBody( body:Object ):void' ]
 			c.static_properties = [ "TEST_STATIC" ]
 			c.static_methods = [ 'staticMethod():void', "", nil, "willFailToList" ]
 
@@ -282,13 +282,15 @@ if __FILE__ == $0
 			assert_equal('void', 																list[3]['typeof'])
 			assert_equal('Method', 														  list[3]['image'])
 			
-			assert_equal('TEST_STATIC',   		 									list[4]['display'])
-			assert_equal('TEST_STATIC',   		 									list[4]['match'])
-			assert_equal('Property', 														list[4]['image'])
+			assert_equal('setBody( body:Object )', 							list[4]['data'])
+			
+			assert_equal('TEST_STATIC',   		 									list[5]['display'])
+			assert_equal('TEST_STATIC',   		 									list[5]['match'])
+			assert_equal('Property', 														list[5]['image'])
 						
-			assert_equal('staticMethod()', 		 									list[5]['display'])			
-			assert_equal('staticMethod', 		 										list[5]['match'])			
-			assert_equal('Method', 															list[5]['image'])
+			assert_equal('staticMethod()', 		 									list[6]['display'])			
+			assert_equal('staticMethod', 		 										list[6]['match'])			
+			assert_equal('Method', 															list[6]['image'])
 			
 		end
 		
