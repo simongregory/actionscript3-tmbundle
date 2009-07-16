@@ -319,7 +319,7 @@ class ClassParser
 			    @getsets << $2.to_s
 			elsif line =~ @i_face.methods
 				if $5 != nil and $2 != nil
-					@methods << "#{$1.to_s}(#{$2.to_s}):#{$5.to_s}"
+					@methods << "#{$1.to_s}(#{$2.to_s}):#{$5.to_s}"					
 				else
 					method_scans << $1
 				end		
@@ -434,7 +434,7 @@ class ClassParser
 		store_interface_members(doc)
 
 		ip = load_interface_parents(doc)
-	  next_docs = ip[:parents] || nil
+	  next_docs = ip[:parents] || nil if ip
 		
 		unless next_docs.nil? or next_docs.empty?
 			next_docs.each { |d| add_interface(d) }
