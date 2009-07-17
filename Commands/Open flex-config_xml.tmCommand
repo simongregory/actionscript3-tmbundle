@@ -5,11 +5,17 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/env ruby -wKU
+	<string># This command passes the script to Ruby via a heredoc, rather than using a shebang.
+# The reason for this is so that .textmate_init is sourced, which allows the SDK class
+# pick up the flex sdk if the user has added it's bin to their $PATH. 
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/fm/sdk'
+ruby &lt;&lt;-'RUBY'
 
-FlexMate::SDK.open_flex_config</string>
+  require ENV['TM_BUNDLE_SUPPORT']+'/lib/fm/sdk'
+  FlexMate::SDK.open_flex_config
+
+RUBY
+</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
