@@ -92,7 +92,6 @@ module FlexMate
     #
     def guess_file_specs(proj_dir)
 
-      #TODO: Link to src dir list.
       possible_src_dirs = SourceTools.common_src_dirs
 
       src_dir = ""
@@ -111,8 +110,15 @@ module FlexMate
         end
 
       end
-
-      return fs[0] if fs.size == 1
+      
+      #TODO: Where multiple matches are found, should we
+      #
+      #      * Default to the first in the list.
+      #      * Present a list of files to compile to the user to choose from.
+      #      * Check TM_FILEPATH to see if it's sat in src or test and compile accordingly.
+      #
+      # return fs[0] if fs.size == 1
+      return fs[0] unless fs[0] == nil
 
     end
 
