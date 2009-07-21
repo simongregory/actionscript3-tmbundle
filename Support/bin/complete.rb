@@ -3,11 +3,10 @@
 
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/c_env'
 
-#Moved because rescue catches TextMate.exit_insert_snippet.
-FlexMate.complete_by_scope if ENV['TM_SCOPE'] =~ /support\.function\.(top-level|flash|fl|mx|global)\.actionscript\.3/
-
 begin
-
+  
+  FlexMate.complete_by_scope if ENV['TM_SCOPE'] =~ /support\.function\.(top-level|flash|fl|mx|global)\.actionscript\.3/
+  
 	FlexMate.opt_in_to_completions
 
 	p = PropertyInspector.capture
@@ -31,11 +30,16 @@ begin
 	m = a.list_d2
 	if m.size > 0
 		FlexMate.complete(m,p[:filter],c.exit_message)
-		#exit
+		exit
 	else
 		FlexMate.tooltip c.exit_message || 'No completions.'
 	end
+	
+rescue SystemExit	=> e
 
+  #recognise and pass on any legitimate exit messages (ie TextMate.exit_type)
+  exit e.status
+  
 rescue Exception => e
 	
 	require ENV['TM_SUPPORT_PATH'] + '/lib/tm/htmloutput'
