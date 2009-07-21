@@ -7,7 +7,11 @@
 	<key>bundleUUID</key>
 	<string>847E3C93-A096-4C8E-9EDA-3D313E4F0014</string>
 	<key>command</key>
-	<string>build.rb
+	<string># This command defaults to compiling using mxmlc.
+# If you wish to use FCSH, and benifit from it's caching, then set an env var TM_FLEX_USE_FCSH to anything.
+# I'd also recommend that you set the command Output (below) to 'Discard'
+
+build.rb
 </string>
 	<key>input</key>
 	<string>none</string>
@@ -16,7 +20,7 @@
 	<key>name</key>
 	<string>Build</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>showAsHTML</string>
 	<key>scope</key>
 	<string>source.actionscript.3, text.xml.mxml, text.xml.flex-config, comment.block.documentation.asdoc</string>
 	<key>uuid</key>

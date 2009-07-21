@@ -11,8 +11,9 @@ require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
 require 'fm/flex_mate'
 require 'fm/sdk'
 require 'fm/compiler'
+require 'as3/source_tools'
 
-if ENV['TM_PROJECT_DIRECTORY']
+if ENV['TM_PROJECT_DIRECTORY'] && ENV['TM_FLEX_USE_FCSH']
 
   require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
   require ENV['TM_SUPPORT_PATH'] + '/lib/tm/htmloutput'
@@ -23,6 +24,25 @@ if ENV['TM_PROJECT_DIRECTORY']
   TextMate.require_cmd "fcsh"
 
   bp = ENV['TM_PROJECT_DIRECTORY']
+
+  # Simple euristic: take the first *.as|mxml file in the root folder
+  # and use it if no TM_FLEX_FILE_SPECS is set - from Davide 'Folletto' Casali 
+  if !ENV['TM_FLEX_FILE_SPECS']
+
+    src_dir = ENV['TM_PROJECT_DIRECTORY']
+    src_prefix = ''
+    if File.exist?(ENV['TM_PROJECT_DIRECTORY']+'/src')
+      src_dir = ENV['TM_PROJECT_DIRECTORY']+'/src'
+      src_prefix = 'src/'
+    end
+    
+    Dir.chdir(src_dir)
+    Dir['*.as','*.mxml'].sort.each do |name|	
+  		ENV['TM_FLEX_FILE_SPECS'] = src_prefix+name #File.expand_path(name) # full path
+  		ENV['TM_FLEX_OUTPUT'] = name[/(.*)\.(as|mxml)$/, 1] + ".swf"
+  		break
+  	end
+  end
   
   #Check for custom build files and execute them where they exist.
   custom = "#{bp}/#{ENV['TM_FLEX_BUILD_FILE']}"
@@ -49,6 +69,8 @@ if ENV['TM_PROJECT_DIRECTORY']
   
   `osascript -e 'tell application "Terminal" to activate'` unless ENV['TM_FLEX_BACKGROUND_TERMINAL']
   `#{e_sh ENV['TM_BUNDLE_SUPPORT']}/lib/fcsh_terminal \"#{fcsh}\" \"#{mxmlc_args}\" >/dev/null;`
+
+  TextMate.exit_discard
   
 else
   
