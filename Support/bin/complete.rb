@@ -3,9 +3,10 @@
 
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/c_env'
 
-begin
+#Moved because rescue catches TextMate.exit_insert_snippet.
+FlexMate.complete_by_scope if ENV['TM_SCOPE'] =~ /support\.function\.(top-level|flash|fl|mx|global)\.actionscript\.3/
 
-	FlexMate.complete_by_scope if ENV['TM_SCOPE'] =~ /support\.function\.(top-level|flash|fl|mx|global)\.actionscript\.3/
+begin
 
 	FlexMate.opt_in_to_completions
 
