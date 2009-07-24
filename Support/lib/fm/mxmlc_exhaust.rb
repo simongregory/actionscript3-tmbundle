@@ -16,7 +16,8 @@ class MxmlcExhaust
   # otherwise the error counter will be inaccurate.
   #
   def initialize()
-
+    
+    @line_count = 0
     @error_count = 0
     @last_match = ""
 
@@ -31,7 +32,7 @@ class MxmlcExhaust
   # links back to source and configuration files where appropriate.
   #
   def line(str)
-
+    @line_count += 1
     match = @error_and_warn_regex.match(str)
 
     begin
@@ -105,6 +106,7 @@ class MxmlcExhaust
   # formatted html that describes the number of errors encountered.
   #
   def complete
+    print "<br/> WARNING no output recieved" if @line_count == 0
     err = (@error_count == 1) ?  "error" : "errors"
     print "<br/>Build complete, #{ @error_count.to_s } #{err} occured."
   end
