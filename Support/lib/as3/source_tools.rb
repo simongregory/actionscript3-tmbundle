@@ -72,9 +72,14 @@ module SourceTools
     # Open Help dictionary and find matching lines
     toc = ::IO.readlines(help_toc)
     toc.each do |line|
-      if line =~ /href='([a-zA-Z0-9\/]*\b#{word}\w*)\.html'/
 
-        path = $1.gsub( "/", ".")
+      if line =~ /href='([a-zA-Z0-9\/]*\b#{word}\w*)\.html'|([a-zA-Z0-9\/]*\/package\.html##{word}\w*)\(\)'/
+
+        if $2
+          path = $2.gsub('package.html#', '').gsub('/', '.')
+        else          
+            path = $1.gsub('/', '.')
+        end
 
         if path =~ /(^|\.)#{word}$/
           best_paths << path
