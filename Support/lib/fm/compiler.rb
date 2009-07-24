@@ -82,6 +82,12 @@ module FlexMate
         return proj_dir + '/' + flex_output
       end
 
+      #TODO: Link to usual src dirs and improve sub with a regexp that
+      #matches src backwards from the end of line.
+      if File.exist?( proj_dir + '/bin' )
+        fs.sub!('src','bin')
+      end
+      
       fs.sub(/\.(mxml|as)/, ".swf")
 
     end

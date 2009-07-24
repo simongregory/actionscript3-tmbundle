@@ -38,8 +38,17 @@ if ENV['TM_PROJECT_DIRECTORY'] && ENV['TM_FLEX_USE_FCSH']
     
     Dir.chdir(src_dir)
     Dir['*.as','*.mxml'].sort.each do |name|	
+  		
   		ENV['TM_FLEX_FILE_SPECS'] = src_prefix+name #File.expand_path(name) # full path
-  		ENV['TM_FLEX_OUTPUT'] = name[/(.*)\.(as|mxml)$/, 1] + ".swf"
+  		
+  		#TODO: Link to usual src dirs and improve sub with a regexp that
+      #matches src backwards from the end of line.
+      if File.exist?( ENV['TM_PROJECT_DIRECTORY'] + '/bin' )
+        ENV['TM_FLEX_OUTPUT'] = 'bin/'+name.sub(/\.(as|mxml)$/, '.swf')
+      else
+        ENV['TM_FLEX_OUTPUT'] = name.sub(/\.(as|mxml)$/, '.swf')
+      end
+      
   		break
   	end
   end
