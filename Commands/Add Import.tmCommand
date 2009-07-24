@@ -69,7 +69,7 @@ end
 	<key>keyEquivalent</key>
 	<string>@I</string>
 	<key>name</key>
-	<string>Import Class</string>
+	<string>Import</string>
 	<key>output</key>
 	<string>replaceDocument</string>
 	<key>scope</key>
