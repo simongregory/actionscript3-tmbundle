@@ -46,7 +46,7 @@ module PropertyInspector
     end
 
     # Stop looking when we hit these chars.
-    stop_match = /[\s=;,:"']/
+    stop_match = /[\[\s=;,:"']/
 
     # Casting using the as operator.
     as_regexp = /\bas\b\s+(\w+)/
@@ -449,6 +449,19 @@ if __FILE__ == $0
 
       ENV['TM_LINE_INDEX'] = '60'
       assert_equal nil, PropertyInspector.property_chain
+
+    end
+
+    def test_within_array
+      
+      ENV['TM_SCOPE'] = 'source.actionscript.3'
+
+      ENV['TM_CURRENT_LINE'] = <<-EOF
+      menuHeader.filters = [FilterCollection.];
+      EOF
+
+      ENV['TM_LINE_INDEX'] = '45'
+      assert_equal "FilterCollection", PropertyInspector.property_chain
 
     end
 
