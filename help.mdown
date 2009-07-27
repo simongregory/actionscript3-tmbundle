@@ -112,26 +112,37 @@ The full, or project directory relative, path to the file you wish to open or ex
 * `TM_ORGANIZATION_NAME`  
 Name used in copyright notices in most templates.
 
-* `TM_ASDOC_GENERATION`
+* `TM_ASDOC_GENERATION`  
 If you would like asdoc blocks automatically inserted when using commands, snippets, and templates then enable this variable and set this value to anything. Please note this feature is currently being added and therefore not always available.
 
-* `TM_AS3_BANNER_GENERATION`
+* `TM_AS3_BANNER_GENERATION`  
 To have code banners inserted into the class templates set the value of this variable to anything.
+
+* `TM_FLEX_USE_FCSH`  
+Set this property to anything if you wish to compile using fcsh. This will give you the added benefit of compiler caching and should be noticeably faster, especially on larger projects.
+
+* `TM_FLEX_BACKGROUND_TERMINAL`  
+If you are compiling using fcsh and the terminal setting this to anything will stop the switch from TextMate to the Terminal when you build.
 
 # Known Issues
 
 * fsch doesn't accept escaped or quoted directory names properly, if they have space it fails.  
 The only solution is to use paths that don't contain spaces.
 
-# Contributors
+# Maintainer
 
 [Simon Gregory](http://blog.simongregory.com)  
-Chris Jenkins  
-[Daniel Parnell](http://blog.danielparnell.com/?p=22)  
-[Theo Hultberg](http://blog.iconara.net/2007/02/23/textmate-flex-tips/)  
-[Mark Llobrera](http://www.dirtystylus.com/blog/)  
-[Joachim](http://www.4d.be/)  
-ChromaticRain  
+
+# Contributors
+
+In alphabetical order.
+
 [Thomas Aylott](http://subtlegradient.com/)  
+ChromaticRain  
+Luke Daley  
+[Theo Hultberg](http://blog.iconara.net/2007/02/23/textmate-flex-tips/)  
+Chris Jenkins  
+[Mark Llobrera](http://www.dirtystylus.com/blog/)  
 Jeremy Sachs   
-Luke Daley
+[Joachim](http://www.4d.be/)  
+[Daniel Parnell](http://blog.danielparnell.com/?p=22)   
