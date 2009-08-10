@@ -24,7 +24,7 @@
 #
 class Manifest
   def initialize(doc)
-    require 'rexml/document'
+    #require 'rexml/document'
     @doc = doc
   end
   
@@ -35,6 +35,13 @@ class Manifest
     res = @doc.scan(rgx)
     res
     
+  end
+  
+  def classes
+    rgx = /<component\s+id="(\w+)"\s+class="([\w.]+)"/
+    cls = []
+    @doc.each { |line|  cls << $1 if line =~ rgx }
+    cls
   end
   
 end
@@ -85,5 +92,5 @@ if __FILE__ == $0
    m = Manifest.new(manifest)
    puts m.find_class('RaceData')[0][1]
    puts m.find_class('Sizing')[0][1]
-  
+   puts m.classes
 end
