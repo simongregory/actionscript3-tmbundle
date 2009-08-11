@@ -23,7 +23,7 @@
 # A object representing the information on class members found within a
 # mxml document.
 #
-# This is work in progress and parsing on looks at any xml in the document (script
+# This is work in progress and parsing only looks at any xml in the document (script
 # tags are ignored).
 #
 class MxmlDoc
