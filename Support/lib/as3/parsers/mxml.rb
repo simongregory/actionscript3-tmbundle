@@ -23,13 +23,14 @@
 # A object representing the information on class members found within a
 # mxml document.
 #
-# This is work in progress and parsing on looks at any xml in the document (script
+# This is work in progress and parsing only looks at any xml in the document (script
 # tags are ignored).
 #
 class MxmlDoc
 
   attr_accessor :super_class
   attr_accessor :super_namespace
+  attr_accessor :namespaces
   attr_accessor :properties
 
   def initialize(doc)
@@ -39,7 +40,9 @@ class MxmlDoc
     @super_class = @source.root.name
     @super_namespace = @source.root.namespace
     @properties = []
-
+    
+    parse_namespaces
+    
     @mxml_ns = "http://www.adobe.com/2006/mxml"
     @script = ""
 
@@ -50,9 +53,14 @@ class MxmlDoc
     s = []
     s << "super_class: #{super_class}\n"
     s << "super_namespace: #{@super_namespace}\n\n"
+    s << "namespaces: #{@namespaces}\n\n"
     properties.each { |e| s << e.to_s + "\n\n" }
     s << "Script:\n#{@script}"
     s.to_s
+  end
+  
+  def get_namespace_with_prefix(id)
+    @namespaces.find { |ns| (ns[:prefix] == id) }
   end
   
   protected
@@ -73,7 +81,32 @@ class MxmlDoc
     }
 
   end
-
+  
+  # Lists all the namespaces defined in the root node of doc.
+  #
+  def parse_namespaces
+    
+    @namespaces = []
+    
+    @source.root.namespaces.each { |ns|
+      pf = ( ns[0]  == 'xmlns' ) ? '' : ns[0]
+      nm = ns[1]
+      @namespaces << { :prefix => pf, :name => nm, }
+    }
+    
+    #ns_regexp = /xmlns:?(\w+)?=([\'\"])([\w.*\/:]+)([\'\"])/
+    #ns = []
+    #doc.each { |line| 
+    #  if line =~ ns_regexp
+    #    ns << { :prefix => "#{$1}", :name => $2, }
+    #    puts $1
+    #  end
+    #}
+    
+    # @namespaces = ns.uniq
+    
+  end
+  
 end
 
 # Class member token.
@@ -99,7 +132,7 @@ class MemberToken
 end
 
 if __FILE__ == $0
-
+  
   TEST_DOC = '<?xml version="1.0" encoding="utf-8"?>
 <vw:GTIApplication
     xmlns="http://www.adobe.com/2006/mxml"
@@ -126,13 +159,21 @@ if __FILE__ == $0
   class TestMxmlDoc < Test::Unit::TestCase
 
     def test_super_class
-      mxp = MxmlDoc.new(TEST_DOC)       
+      mxp = MxmlDoc.new(TEST_DOC)
       assert_equal("GTIApplication", mxp.super_class)
     end
     
     def test_super_namespace
-      mxp = MxmlDoc.new(TEST_DOC)       
+      mxp = MxmlDoc.new(TEST_DOC)
       assert_equal("http://www.vw.co.uk/2009/vw/gti", mxp.super_namespace)
+    end
+    
+    def test_namespaces
+      mxp = MxmlDoc.new(TEST_DOC)
+      assert_equal(3, mxp.namespaces.length)
+      assert_equal('http://www.vw.co.uk/2009/vw/gti', mxp.get_namespace_with_prefix('vw')[:name])
+      assert_equal('http://www.adobe.com/2006/mxml', mxp.get_namespace_with_prefix('')[:name])
+      assert_equal('uk.co.vw.test.*', mxp.get_namespace_with_prefix('test')[:name])
     end
     
     def test_properties
