@@ -161,5 +161,32 @@ module SourceTools
     end
 
   end
-
+  
+  # Takes the path paramater and lists all classes found within that directory.
+  #
+  # Path can be either a package declaration, ie org.helvector.core.* or a file
+  # path.
+  #
+  def self.list_package(path)
+    
+    #if path is a package declaration convert it to a file path.
+    path.gsub!('.','/') unless path =~ /\//
+    path.sub!(/\/\*$/,'')
+    
+    unless File.exist?(path)
+      path = ENV['TM_PROJECT_DIRECTORY'] + "/src/" + path
+    end
+    
+    return nil unless File.exist?(path)
+    
+    classes = []
+    
+    Dir.foreach(path) do |f|
+      classes << File.basename(f,$1) if f =~ /(\.(as|mxml))$/
+    end
+    
+    classes
+    
+  end
+  
 end
