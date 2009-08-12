@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/c_env'
+require ENV['TM_SUPPORT_PATH'] + '/lib/tm/htmloutput'
 
 begin
   
@@ -41,8 +42,6 @@ rescue SystemExit	=> e
   exit e.status
   
 rescue Exception => e
-	
-	require ENV['TM_SUPPORT_PATH'] + '/lib/tm/htmloutput'
 	
   html_out = TextMate::HTMLOutput.show(
     :title => "AutoCompletion Error",
