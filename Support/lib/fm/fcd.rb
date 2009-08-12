@@ -3,6 +3,8 @@
 
 # Lookup terms in the flex compiler config doc.
 #
+# This is used by the documentation for word/selection command.
+#
 class FlexConfigDoc
   def initialize()
     require "rexml/document"
