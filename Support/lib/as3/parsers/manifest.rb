@@ -23,74 +23,98 @@
 # Utility class for working with ActionScript manifest files.
 #
 class Manifest
+
   def initialize(doc)
-    #require 'rexml/document'
-    @doc = doc
+    @doc = strip_comments(doc)
   end
   
-  def find_class(c)
+  def find_class(id)
     
-    rgx = /<component\s+id="(#{c})"\s+class="([\w.]+)"/
+    rgx = /<component\s+id=["'](#{id})["']\s+class=["']([\w.]+)["']/
     res = []
     res = @doc.scan(rgx)
-    res
+
+    return nil if res.empty?
+    
+    res[0][1]
     
   end
-  
+    
   def classes
-    rgx = /<component\s+id="(\w+)"\s+class="([\w.]+)"/
+
+    rgx = /<component\s+id=["'](\w+)["']\s+class=["']([\w.]+)["']/
     cls = []
     @doc.each { |line|  cls << $1 if line =~ rgx }
     cls
+    
   end
+  
+  protected
+  
+  # Strips comments from the document.
+	#
+	def strip_comments(doc)
+
+		multiline_comments = /<!--(?:.|([\r\n]))*?-->/
+		doc.gsub!(multiline_comments,'')
+		
+		single_line_comments = /<!--.*-->/
+		return doc.gsub(single_line_comments,'')
+
+	end
   
 end
 
 if __FILE__ == $0
   
-  manifest = '<?xml version="1.0"?>
+  TEST_MANIFEST = '<?xml version="1.0"?>
 <componentPackage>
   <component id="ApplicationMediator" class="org.helvector.game.view.mediators.ApplicationMediator" />
-  <component id="ApplicationProxy" class="org.helvector.game.model.proxies.ApplicationProxy" />
-  <component id="BackButton" class="org.helvector.game.view.controls.BackButton" />
-  <component id="BaseGame" class="org.helvector.game.gametype.BaseGame" />
-  <component id="BaseMediator" class="org.helvector.game.view.mediators.BaseMediator" />
-  <component id="CSSToTextFormatUtil" class="org.helvector.game.utils.CSSToTextFormatUtil" />
-  <component id="CarProduct" class="org.helvector.game.model.structure.CarProduct" />
-  <component id="FooterView" class="org.helvector.game.view.components.FooterView" />
-  <component id="GtiButtonDownFilter" class="org.helvector.game.view.controls.filters.GtiButtonDownFilter" />
-  <component id="HowToPlayDialogMediator" class="org.helvector.game.view.mediators.dialogs.HowToPlayDialogMediator" />
-  <component id="InitialLoadProportions" class="org.helvector.game.io.InitialLoadProportions" />
-  <component id="IntroPageViewEvent" class="org.helvector.game.view.events.IntroPageViewEvent" />
-  <component id="InviteFriendsDelegateProxy" class="org.helvector.game.model.proxies.domain.InviteFriendsDelegateProxy" />
-  <component id="InviteFriendsDialogViewEvent" class="org.helvector.game.events.InviteFriendsDialogViewEvent" />
-  <component id="JoinLeagueDialogEvent" class="org.helvector.game.view.events.JoinLeagueDialogEvent" />
+  <component id="ApplicationProxy" class=\'org.helvector.game.model.proxies.ApplicationProxy\' />
+  <!-- <component id="HowToPlayDialogMediator" class="org.helvector.game.view.mediators.dialogs.HowToPlayDialogMediator" /> -->
+  <component id=\'InitialLoadProportions\' class="org.helvector.game.io.InitialLoadProportions" />
   <component id="LapTimes" class="org.helvector.game.view.controls.game.LapTimes" />
+  <!--
   <component id="LeaderBoardEntryVO" class="org.helvector.game.model.domain.local.LeaderBoardEntryVO" />
-  <component id="LeaderBoardTableView" class="org.helvector.game.view.controls.LeaderBoardTableView" />
-  <component id="LeaveRaceDialogStructure" class="org.helvector.game.model.structure.dialogs.LeaveRaceDialogStructure" />
-  <component id="PageIdToViewMap" class="org.helvector.game.maps.PageIdToViewMap" />
-  <component id="PageIds" class="org.helvector.game.constants.PageIds" />
-  <component id="PreRacePageProxy" class="org.helvector.game.model.proxies.PreRacePageProxy" />
-  <component id="QualifiedTime" class="org.helvector.game.constants.QualifiedTime" />
-  <component id="RaceCompleteEvent" class="org.helvector.game.view.events.RaceCompleteEvent" />
-  <component id="RaceData" class="org.helvector.game.constants.RaceData" />
+  -->
+  <component id="RaceData" 
+             class="org.helvector.game.constants.RaceData" />
   <component id="RaceVO" class="org.helvector.game.model.domain.local.RaceVO" />
   <component id="RemoteServices" class="org.helvector.game.io.RemoteServices" />
-  <component id="RemotingErrors" class="org.helvector.game.io.remoting.RemotingErrors" />
-  <component id="Sizing" class="org.helvector.game.constants.Sizing" />
-  <component id="SoundActions" class="org.helvector.game.constants.SoundActions" />
-  <component id="SoundControlCommand" class="org.helvector.game.controller.SoundControlCommand" />
-  <component id="SpeedEvent" class="org.helvector.game.events.SpeedEvent" />
-  <component id="TimeFormatter" class="org.helvector.game.utils.TimeFormatter" />
-  <component id="Tracking" class="org.helvector.game.constants.Tracking" />
   <component id="TrackingCallCommand" class="org.helvector.game.controller.TrackingCallCommand" />
   <component id="UserProxy" class="org.helvector.game.model.proxies.domain.UserProxy" />
-  <component id="UserVO" class="org.helvector.game.model.domain.local.UserVO" />
 </componentPackage>'
   
-   m = Manifest.new(manifest)
-   puts m.find_class('RaceData')[0][1]
-   puts m.find_class('Sizing')[0][1]
-   puts m.classes
+   require "test/unit"
+
+   class TestMxmlDoc < Test::Unit::TestCase
+
+     def test_find_class
+       
+       m = Manifest.new(TEST_MANIFEST)
+
+       found = m.find_class('RaceData')       
+       assert_equal('org.helvector.game.constants.RaceData',found)
+       
+       found = m.find_class('DummyClass')
+       assert_equal(nil,found)
+
+       found = m.find_class('ApplicationProxy')
+       assert_equal('org.helvector.game.model.proxies.ApplicationProxy',found)
+       
+     end
+     
+     def test_classes
+      
+      m = Manifest.new(TEST_MANIFEST)
+      c = m.classes
+      
+      assert_equal('ApplicationMediator', c[0])
+      assert_equal('ApplicationProxy', c[1])
+      assert_equal('InitialLoadProportions', c[2])
+      assert_equal('LapTimes', c[3])
+      assert_equal('RaceData', c[4])
+      
+     end
+   end
 end
