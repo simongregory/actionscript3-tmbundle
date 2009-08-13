@@ -86,7 +86,7 @@ module FlexMate
       
       #TODO: Link to usual src dirs and improve sub with a regexp that
       #matches src backwards from the end of line.
-      if File.exist?( proj_dir + '/bin' )
+      if File.exist?( proj_dir.to_s + '/bin' )
         fx_out.sub!('src','bin')
       end
       
