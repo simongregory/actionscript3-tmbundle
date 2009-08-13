@@ -62,7 +62,7 @@ class ConfigParser
     flex_config.paths.each { |e| p << e.paths if e.type == 'source-path' }
     p.flatten.uniq
   end
-
+  
   protected
 
   def add_root(node)
@@ -109,7 +109,7 @@ class ConfigUtil
       proj = ENV['TM_PROJECT_DIRECTORY']+'/' || ''
       return "#{proj}#{cp}-config.xml"
     end
-    return ''
+    return nil
   end
 
 end
@@ -124,7 +124,44 @@ class FlexConfig
     @paths = []
     @namespaces = []
   end
+  
+  def manifest(uri)
+    ns = @namespaces.find { |e| (e.uri == uri) }
+    ns.manifest rescue nil
+  end
+  
+  # Returns a list of classes for the given uri. The uri is cross referenced
+  # with any known namespaces, if one isn't found then we *assume* that a 
+  # package declaration has been given and check for classes in it's directory.
+  #
+  def class_list(uri)
 
+    name = manifest(uri)
+    c = []
+    
+    if name.nil?
+
+      #At this point if we come across a uri containing a url it's likely 
+      #that manifest is referenced in another document (ie the main flex 
+      #config) - so ignore them.
+      c += SourceTools.list_package(uri) if uri !~ /^http/
+      
+    else
+      
+      #TODO: Need to do some work here looking up the manifest file. For now this
+      #use case expects the manifest to be in the root of src.
+      manifest_uri = ENV['TM_PROJECT_DIRECTORY'] + "/src/" + name.to_s
+      manifest_doc = IO.read(manifest_uri)
+      m = Manifest.new(manifest_doc)
+      
+      c = m.classes
+      
+    end
+    
+    c
+    
+  end
+  
 end
 
 class Namespace
