@@ -43,7 +43,6 @@ class MxmlDoc
     
     parse_namespaces
     
-    @mxml_ns = "http://www.adobe.com/2006/mxml"
     @script = ""
 
     add_members(@source.root)
