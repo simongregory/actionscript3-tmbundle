@@ -30,7 +30,7 @@ module PropertyInspector
   # current line.
   #
   # Where it finds an object that has been type cast it's
-  # class is insterted into the chain not it's property name. So
+  # class is inserted into the chain not it's property name. So
   # foo.( bar as Sprite ).baz becomes foo.Sprite.baz
   #
   def self.property_chain
@@ -185,6 +185,7 @@ module PropertyInspector
     ln = ENV['TM_CURRENT_LINE']
     la = ln.split("")
     i = li.to_i-1
+    return false if la.length <= i
     return false if la[i] =~ /(\.|\s)/
     return true
   end
@@ -230,18 +231,17 @@ end
 
 if __FILE__ == $0
 
-  ENV['TM_CURRENT_LINE'] = <<-EOF
-  basicMethod( One(one), [[two,three], "four"] )    Sprite.
-  EOF
-
-  ENV['TM_LINE_INDEX'] = '48'
-  puts "Property Chain: " + PropertyInspector.property_chain.to_s
-
-  ENV['TM_LINE_INDEX'] = '59'
-  puts "Is Static: " + PropertyInspector.is_static.to_s
-  puts "\nTODO: WRITE TESTS FOR PropertyInspector.capture\n"
-  puts "\nStarting Tests:"
-
+  #ENV['TM_CURRENT_LINE'] = <<-EOF
+  #basicMethod( One(one), [[two,three], "four"] )    Sprite.
+  #EOF
+  #
+  #ENV['TM_LINE_INDEX'] = '48'
+  #puts "Property Chain: " + PropertyInspector.property_chain.to_s
+  #
+  #ENV['TM_LINE_INDEX'] = '59'
+  #puts "Is Static: " + PropertyInspector.is_static.to_s
+  #puts "\n"
+    
   require "test/unit"
 
   class TestPropertyInspector < Test::Unit::TestCase
@@ -719,7 +719,7 @@ if __FILE__ == $0
       BigOne(one).two.(z as Three).(x as Four).foo
       EOF
 
-      ENV['TM_LINE_INDEX'] = '38'
+      ENV['TM_LINE_INDEX'] = '48'
 
       c = PropertyInspector.capture
 
