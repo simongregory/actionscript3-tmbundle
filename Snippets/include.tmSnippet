@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>inlcude ${1:filename.as};</string>
+	<string>include ${1:filename.as};</string>
 	<key>name</key>
 	<string>include</string>
 	<key>scope</key>
