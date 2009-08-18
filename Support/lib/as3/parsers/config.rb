@@ -144,7 +144,10 @@ class FlexConfig
       #At this point if we come across a uri containing a url it's likely 
       #that manifest is referenced in another document (ie the main flex 
       #config) - so ignore them.
-      c += SourceTools.list_package(uri) if uri !~ /^http/
+      pkg_c = SourceTools.list_package(uri) if uri !~ /^http/
+      
+      #TODO: Warn the user no classes were found?
+      c += pkg_c unless pkg_c.nil?
       
     else
       
