@@ -3,8 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>content</key>
-	<string>with (${1:${2:shape}.graphics}) {
-	${3:beginFill(${4:0x000000},1)};$0
+	<string>with ($1)
+{
+	$0
 }
 
 </string>
