@@ -62,6 +62,18 @@ class MxmlDoc
     @namespaces.find { |ns| (ns[:prefix] == id) }
   end
   
+  # Boolean indicating wether or not the document has a default namesapce 
+  # specified.
+  #
+  def using_default_namespace
+    return true if get_namespace_with_prefix('')
+    false
+  end
+  
+  def default_namespace_uri
+    get_namespace_with_prefix('')[:name]
+  end
+  
   protected
 
   # Currently adds all properties found in the XML portion of the document. This
@@ -172,7 +184,9 @@ if __FILE__ == $0
       assert_equal(3, mxp.namespaces.length)
       assert_equal('http://www.vw.co.uk/2009/vw/gti', mxp.get_namespace_with_prefix('vw')[:name])
       assert_equal('http://www.adobe.com/2006/mxml', mxp.get_namespace_with_prefix('')[:name])
+      assert_equal('http://www.adobe.com/2006/mxml', mxp.default_namespace_uri)
       assert_equal('uk.co.vw.test.*', mxp.get_namespace_with_prefix('test')[:name])
+      assert_equal(true,mxp.using_default_namespace)
     end
     
     def test_properties
