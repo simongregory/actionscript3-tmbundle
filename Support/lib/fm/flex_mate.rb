@@ -90,9 +90,11 @@ module FlexMate
 			files = settings[:files] || []
 			evars = settings[:evars] || []
 
+      base_path += '/' unless base_path =~ /\/$/
+      
 			files.each { |f|				
 				failed_files << f unless ENV[f]
-				failed_files << f unless File.exist?( base_path + '/' + ENV[f].to_s || "" )
+				failed_files << f unless File.exist?( base_path + ENV[f].to_s || "" )
 			}
 
 			evars.each { |e|
