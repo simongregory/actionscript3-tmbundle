@@ -7,6 +7,11 @@ require SUPPORT + '/lib/escape'
 require SUPPORT + '/lib/web_preview'
 require SUPPORT + '/lib/tm/process'
 
+require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
+
+require 'fm/settings'
+require 'as3/source_tools'
+
 proj = ENV['TM_PROJECT_DIRECTORY']
 run_file = ENV['TM_FLEX_RUN_FILE'] || 'build/launch.sh'
 flex_out = ENV['TM_FLEX_OUTPUT']
@@ -31,10 +36,6 @@ def run(uri)
   
 end
 
-def to_swf(f)	
-	f.sub(/\.(mxml|as)/, ".swf")
-end
-
 puts html_head( :window_title => "ActionScript 3 Run Command",
                 :page_title => "Run" )
 
@@ -44,12 +45,13 @@ elsif File.exist?(proj_run_file)
   run(proj_run_file)
 elsif File.exist?(proj_default)
   run(proj_default)
-elsif File.exist?(proj_flex_out)
+elsif File.file?(proj_flex_out)
   run(proj_flex_out)  
 else
-  fp = ENV['TM_FILEPATH']
-  swf = to_swf(fp)
-  if fp != swf && File.exist?(swf)
+
+  swf = FlexMate::Settings.new.flex_output
+  
+  if File.exist?(swf)
     run(swf) 
   else
     puts "<h2>Error</h2><p>No file found to run.</p>"
