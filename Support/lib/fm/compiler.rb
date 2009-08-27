@@ -79,23 +79,25 @@ module FlexMate
       TextMate.require_cmd(bin)
       
       s = FlexMate::Settings.new
-
-      { :files => s.file_specs, :evars => s.flex_output }
-
+			
       ENV['TM_FLEX_FILE_SPECS'] = s.file_specs
       ENV['TM_FLEX_OUTPUT'] = s.flex_output
+
+			#WARN: Access s.flex_output after this point will fail. This is because 
+			#      settings expects TM_FLEX_OUTPUT to be relative to the project root
+			#      + we've just set it to a full path.
       
       FlexMate.required_settings({ :files => ['TM_FLEX_FILE_SPECS'],
                                    :evars => ['TM_FLEX_OUTPUT'] })
       
       cmd = MxmlcCommand.new
-      cmd.file_specs = s.file_specs
-      cmd.o = s.flex_output      
+      cmd.file_specs = ENV['TM_FLEX_FILE_SPECS']
+      cmd.o = ENV['TM_FLEX_OUTPUT']
       
       fcsh = e_sh(ENV['TM_FLEX_PATH'] + '/bin/fcsh')
 
       #Make sure there are no spaces for fcsh to trip up on.
-      FlexMate.check_valid_paths([s.file_specs,s.flex_output,fcsh])
+      FlexMate.check_valid_paths([cmd.file_specs,cmd.o,fcsh])
       
       init_html(bin,cmd)
       
