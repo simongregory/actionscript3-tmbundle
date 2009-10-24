@@ -13,8 +13,8 @@ module FlexMate
     # sets the value based on the closest file to the root of the filesystem. To
     # combat this, and enable users to collect files from places outside of the
     # normal project we also check the location of the 'tmproj' file and assume
-    # that if there is one, it has been placed in the root of the flex/actionscript
-    # project.
+    # that if there is one, it has been placed in the root of the
+    # flex/actionscript project.
     #
     def proj_root
 
@@ -63,10 +63,11 @@ module FlexMate
 
       fx_out = file_specs.sub(/\.(mxml|as)/, ".swf")
 
-      #TODO: Link to usual src dirs and improve sub with a regexp that
-      #matches src backwards (ie foo/src/bar/src/class) from the end of line.
       if File.exist?( proj_dir.to_s + '/bin' )
-        fx_out.sub!('src','bin')
+        #match src backwards from the end of line. This covers us in these
+        #cases foo/src/bar/src/class.
+        sd = SourceTools.common_src_dir_list.reverse.gsub(':','|')
+        fx_out.reverse!.sub!(/(#{sd})/,'nib').reverse!
       end
 
       fx_out
