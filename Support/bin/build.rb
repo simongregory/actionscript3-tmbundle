@@ -27,7 +27,7 @@ if File.file?(custom)
   TextMate.exit_show_html
 end
   
-if ENV['TM_PROJECT_DIRECTORY'] && ENV['TM_FLEX_USE_FCSH']
+if ENV['TM_PROJECT_DIRECTORY'] && (ENV['TM_FLEX_USE_FCSH'] == 'true')
   
   #Requires are needed by FlexMate.required_settings + check_valid_paths
   require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
