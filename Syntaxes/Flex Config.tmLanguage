@@ -1543,7 +1543,7 @@
 		<key>keep-as-three-metadata</key>
 		<dict>
 			<key>begin</key>
-			<string>&lt;keep-as3-metadata&gt;</string>
+			<string>&lt;keep-as3-metadata( append="true")?&gt;</string>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
