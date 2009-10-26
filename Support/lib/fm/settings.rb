@@ -87,6 +87,13 @@ module FlexMate
       return nil
     end
     
+    # Boolean to indicate if we are compiling a swc instead of a swf.
+    #
+    def is_swc
+      return true if flex_output =~ /\.swc/ rescue false
+      return false
+    end
+    
     protected
     
     # Where we have Project Directory but no TM_FLEX_FILE_SPECS set take a look
@@ -253,6 +260,31 @@ if __FILE__ == $0
       ENV['TM_FLEX_OUTPUT'] = 'abc/Test.swf'
       
       assert_equal('/foo/bar/pro ject/abc/Test.swf', s.flex_output)
+      
+    end
+    
+    def test_is_swc
+      
+      clear_tm_env
+      
+      s = FlexMate::Settings.new
+      
+      ENV['TM_PROJECT_DIRECTORY'] = '/foo/bar/project'
+      ENV['TM_FLEX_OUTPUT'] = 'abc/Test.swc'
+      
+      assert_equal(true, s.is_swc)
+      
+      clear_tm_env
+      
+      ENV['TM_PROJECT_DIRECTORY'] = '/foo/bar/pro ject'
+      ENV['TM_FLEX_OUTPUT'] = 'abc/Test.swf'
+      
+      assert_equal(false, s.is_swc)
+      
+      clear_tm_env
+      
+      assert_equal(false, s.is_swc)
+      
       
     end
     
