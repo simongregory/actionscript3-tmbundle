@@ -189,6 +189,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#compiler-metadata-custom</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#language-elements</string>
 				</dict>
 				<dict>
@@ -401,6 +405,43 @@
 				</dict>
 			</array>
 		</dict>
+		<key>compiler-metadata-custom</key>
+		<dict>
+			<key>begin</key>
+			<string>(\[)\s*\b(\w+)\b</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.meta-data.begin.actionscript.3</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.type.meta-data.custom.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\])</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.meta-data.end.actionscript.3</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>storage.type.meta-data.custom.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#strings</string>
+				</dict>
+			</array>
+		</dict>
 		<key>compiler-metadata-swf</key>
 		<dict>
 			<key>begin</key>
@@ -493,6 +534,10 @@
 				<dict>
 					<key>include</key>
 					<string>#compiler-metadata</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#compiler-metadata-custom</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -837,6 +882,10 @@
 				<dict>
 					<key>include</key>
 					<string>#compiler-metadata</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#compiler-metadata-custom</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -2018,6 +2067,10 @@
 				<dict>
 					<key>include</key>
 					<string>#compiler-metadata-swf</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#compiler-metadata-custom</string>
 				</dict>
 				<dict>
 					<key>include</key>
