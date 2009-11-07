@@ -9,6 +9,7 @@ class MxmlcExhaust
   attr_accessor :print_output
   attr_reader :error_count
   attr_reader :line_count
+  attr_reader :input
   
   # Constants to track switches in matches (to prettify output).
   CONFIGURATION_MATCH    = "configuration_match"
@@ -24,7 +25,8 @@ class MxmlcExhaust
     @line_count = 0
     @error_count = 0
     @last_match = ""
-    @print_output = false
+    @print_output = false 
+    @input = []
 
     @error_and_warn_regex = /(\/.*?)(\(([0-9]+)\)|):.*(Error|Warning):\s*(.*)$/
     @config_file_regex    = /(^Loading configuration file )(.*)$/
@@ -37,6 +39,7 @@ class MxmlcExhaust
   # links back to source and configuration files where appropriate.
   #
   def line(str)
+    @input << str
     output = parse_line(str)
     print output if print_output
     output
@@ -83,7 +86,7 @@ class MxmlcExhaust
         @last_match = ERROR_WARN_MATCH
         return out
       end
-
+      
       match = @config_file_regex.match(str)
       unless match === nil
           out << "<br/>" if @last_match != CONFIGURATION_MATCH
@@ -115,6 +118,13 @@ class MxmlcExhaust
           cmd = "open #{e_sh($1)}"
           out << '<script type="text/javascript" charset="utf-8">function openSwf(){TextMate.system(\''+cmd+'\', null);}</script>'
           out << "<br/><a href='javascript:openSwf()' title='Click to run (if there is space in the file path this may not work).'>#{$1}</a>#{$2}<br/>"
+      elsif str =~ /Error:/
+        out << "<pre>#{str}</pre>"
+        @error_count += 1
+      elsif str =~ /^\s*$/
+        out << "<!-- empty -->"
+      elsif str =~ /^(Copyright|Version|Adobe)/
+         out << "#{str}<br/>"
       end
 
     rescue TypeError
@@ -152,6 +162,26 @@ if __FILE__ == $0
         {
           :in => "deploy/CompileTest.swf (417 bytes)",
           :out => "<script type=\"text/javascript\" charset=\"utf-8\">function openSwf(){TextMate.system('open deploy/CompileTest.swf', null);}</script><br/><a href='javascript:openSwf()' title='Click to run (if there is space in the file path this may not work).'>deploy/CompileTest.swf</a> (417 bytes)<br/>"
+        },
+        {
+          :in => "Error: could not find source for class BlahBlah:mxml",
+          :out => "<pre>Error: could not find source for class BlahBlah:mxml</pre>"
+        },
+        {
+          :in => " ",
+          :out => "<!-- empty -->"
+        },
+        {
+          :in => "Adobe Compc (Flex Component Compiler)",
+          :out => "Adobe Compc (Flex Component Compiler)<br/>"
+        },
+        {
+          :in => "Version 3.4.0 build 9271",
+          :out => "Version 3.4.0 build 9271<br/>"
+        },
+        {
+          :in => "Copyright (c) 2004-2007 Adobe Systems, Inc. All rights reserved.",
+          :out => "Copyright (c) 2004-2007 Adobe Systems, Inc. All rights reserved.<br/>"
         }
       ]
     end
@@ -159,13 +189,15 @@ if __FILE__ == $0
     def test_exhaust
       
       exhaust = MxmlcExhaust.new
-
+      
       in_out.each { |e|
-        assert_equal(e[:out], exhaust.line(e[:in])) 
+        assert_equal(e[:out], exhaust.line(e[:in]))
       }
       
-      assert_equal(1, exhaust.error_count)
-      assert_equal(in_out.length, exhaust.line_count)
+      assert_equal(2, exhaust.error_count)
+      assert_equal(in_out.length, exhaust.line_count) 
+      
+      assert_equal(in_out.map { |e| e[:in] }.to_s, exhaust.input.to_s)
       
     end
     
