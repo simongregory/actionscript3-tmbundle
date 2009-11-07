@@ -94,6 +94,19 @@ module FlexMate
       return false
     end
     
+    # A list of classes found in the project.
+    #
+    def list_classes
+      SourceTools.list_all_classes.join(' ')
+    end
+    
+    def source_path
+      pr = proj_root
+      SourceTools.common_src_dirs.each do |d| 
+        return "#{pr}/#{d}" if File.exist?("#{pr}/#{d}")
+      end  
+    end
+    
     protected
     
     # Where we have Project Directory but no TM_FLEX_FILE_SPECS set take a look

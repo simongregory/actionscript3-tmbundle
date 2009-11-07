@@ -9,22 +9,18 @@ module FlexMate
       FlexMate::SDK.add_flex_bin_to_path
     end
 
-    # Run mxmlc to compile a swf adapting to the current environment as
+    # Run mxmlc or compc to compile a swf adapting to the current environment as
     # necessary.
     #
     def build
       
-      bin = 'mxmlc'
-      
-      TextMate.require_cmd(bin)
-      
       s = FlexMate::Settings.new
       
-      cmd = MxmlcCommand.new
-      cmd.file_specs = s.file_specs
-      cmd.o = s.flex_output
-      
-      init_html(bin,cmd)
+      cmd = build_tool(s)
+
+      TextMate.require_cmd(cmd.name)
+            
+      init_html(cmd)
       
       exhaust = get_exhaust
 
@@ -33,7 +29,14 @@ module FlexMate
       end
 
       STDOUT << exhaust.complete
-
+      
+      STDOUT << '<br/><br/><div class="raw_out"><span class="showhide">'
+      STDOUT << "<a href=\"javascript:hideElement('raw_out')\" id='raw_out_h' style='display: none;'>&#x25BC; Hide Raw Output</a>"
+      STDOUT << "<a href=\"javascript:showElement('raw_out')\" id='raw_out_s' style=''>&#x25B6; Show Raw Output</a>"
+      STDOUT << '</span></div>'
+      STDOUT << '<div class="inner" id="raw_out_b" style="display: none;"><br/>'
+      STDOUT << "<code>#{exhaust.input.to_s}</code><br/>"      
+      
       html_footer
 
     end
@@ -42,17 +45,16 @@ module FlexMate
     
     # Print initial html header.
     #
-    def init_html(bin,cmd)
+    def init_html(cmd)
       
       require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
 
       puts html_head( :window_title => "ActionScript 3 Build Command",
-                      :page_title => "Build (#{bin})",
+                      :page_title => "Build (#{cmd.name})",
                       :sub_title => cmd.file_specs_name )
 
       puts "<h2>Building...</h2>"
-      puts "<p><pre>-file-specs=#{cmd.file_specs}"
-      puts "-o=#{cmd.o}</pre></p>"      
+      puts "<p><pre>#{cmd.to_s}</pre></p>"
       
     end
     
@@ -61,6 +63,13 @@ module FlexMate
     def get_exhaust
       require 'fm/mxmlc_exhaust'
       MxmlcExhaust.new
+    end
+    
+    # Create the command responsible for compiling the source.
+    #
+    def build_tool(settings)
+        return CompcCommand.new(settings) if settings.is_swc
+        return MxmlcCommand.new(settings)
     end
 
   end
@@ -79,27 +88,25 @@ module FlexMate
       TextMate.require_cmd(bin)
       
       s = FlexMate::Settings.new
-			
+      
       ENV['TM_FLEX_FILE_SPECS'] = s.file_specs
       ENV['TM_FLEX_OUTPUT'] = s.flex_output
-
-			#WARN: Access s.flex_output after this point will fail. This is because 
-			#      settings expects TM_FLEX_OUTPUT to be relative to the project root
-			#      + we've just set it to a full path.
+      
+      #WARN: Accessing s.flex_output after this point will fail. This is because 
+      #      settings expects TM_FLEX_OUTPUT to be relative to the project root
+      #      + we've just set it to a full path.
       
       FlexMate.required_settings({ :files => ['TM_FLEX_FILE_SPECS'],
                                    :evars => ['TM_FLEX_OUTPUT'] })
       
-      cmd = MxmlcCommand.new
-      cmd.file_specs = ENV['TM_FLEX_FILE_SPECS']
-      cmd.o = ENV['TM_FLEX_OUTPUT']
+      cmd = build_tool(s)
       
       fcsh = e_sh(ENV['TM_FLEX_PATH'] + '/bin/fcsh')
-
+      
       #Make sure there are no spaces for fcsh to trip up on.
       FlexMate.check_valid_paths([cmd.file_specs,cmd.o,fcsh])
       
-      init_html(bin,cmd)
+      init_html(cmd)
       
       `osascript -e 'tell application "Terminal" to activate'` unless ENV['TM_FLEX_BACKGROUND_TERMINAL']
       `#{e_sh ENV['TM_BUNDLE_SUPPORT']}/lib/fcsh_terminal \"#{fcsh}\" \"#{cmd.line}\" >/dev/null;`
@@ -109,21 +116,57 @@ module FlexMate
     end
     
   end
+
 end
 
-# Object to encapsulate a mxmlc command with arguments.
+# Object to encapsulate a mxmlc command and its arguments.
 #
 class MxmlcCommand
   
-  attr_accessor :file_specs
-  attr_accessor :o
+  attr_reader :file_specs
+  attr_reader :o
+  attr_reader :name
+  
+  def initialize(settings)
+    @name = 'mxmlc'
+    @o = settings.flex_output
+    @file_specs = settings.file_specs
+  end
 
   def line
-    "mxmlc -file-specs=#{e_sh file_specs} -o=#{e_sh o}"
+    "#{name} -file-specs=#{e_sh file_specs} -o=#{e_sh o}"
   end
 
   def file_specs_name
     File.basename(file_specs)
+  end
+  
+  def to_s
+    "-file-specs=#{file_specs}\n-o=#{e_sh o}"
+  end
+
+end
+
+# Object to encapsulate a compc command and its arguments.
+#
+class CompcCommand < MxmlcCommand
+  
+  attr_reader :include_classes
+  attr_reader :source_path
+  
+  def initialize(settings)
+    super(settings)
+    @name = 'compc'
+    @include_classes = settings.list_classes
+    @source_path = settings.source_path
+  end  
+  
+  def line
+    "#{name} -source-path+=#{e_sh source_path} -o=#{e_sh o} #{include_classes}"
+  end
+  
+  def to_s
+    "#{name} -source-path+=#{e_sh source_path} -o=#{e_sh o}\n-include-classes=#{include_classes}"
   end
 
 end

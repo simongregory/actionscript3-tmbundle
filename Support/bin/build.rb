@@ -7,7 +7,7 @@ require ENV['TM_SUPPORT_PATH'] + '/lib/textmate'
 require ENV['TM_SUPPORT_PATH'] + '/lib/tm/process'
 
 require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
-
+require 'find'
 require 'fm/flex_mate'
 require 'fm/sdk'
 require 'fm/compiler'
