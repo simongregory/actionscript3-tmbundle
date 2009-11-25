@@ -48,8 +48,8 @@ if [ -n "$fullProjectPath" ]; then
 		mkdir -p "$projectPath/$projectName/build";
 		mkdir -p "$projectPath/$projectName/deploy/assets/common/css";
 		mkdir -p "$projectPath/$projectName/deploy/assets/common/js";
-		mkdir -p "$projectPath/$projectName/lib/src";
-		mkdir -p "$projectPath/$projectName/lib/bin";
+		mkdir -p "$projectPath/$projectName/libs/src";
+		mkdir -p "$projectPath/$projectName/libs/bin";
 		mkdir -p "$projectPath/$projectName/src";
 		
 		# This recursively creates all source code folders,
