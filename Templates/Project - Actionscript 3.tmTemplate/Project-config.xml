@@ -16,13 +16,13 @@
 
 		<!-- for swc's
 		<library-path append="true">
-			<path-element>../lib/bin/</path-element>
+			<path-element>../libs/bin/</path-element>
 		</library-path>
 		-->
 		
 		<!-- for src
 		<source-path append="true">
-			<path-element>../lib/src/</path-element>
+			<path-element>../libs/src/</path-element>
 		</source-path>
 		-->
 		
