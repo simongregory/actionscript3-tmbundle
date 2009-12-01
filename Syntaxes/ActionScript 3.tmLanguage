@@ -2093,7 +2093,7 @@
 		<key>package-signature</key>
 		<dict>
 			<key>begin</key>
-			<string>(package)\s+</string>
+			<string>(package)</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -2103,7 +2103,7 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>([\w\.]+)?</string>
+			<string>\s+([\w\.]+)?</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>1</key>
