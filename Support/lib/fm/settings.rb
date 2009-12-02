@@ -34,6 +34,8 @@ module FlexMate
       
       proj_dir = proj_root
       file_specs = ENV['TM_FLEX_FILE_SPECS']
+      
+      return file_specs if file_specs && File.exist?(file_specs)
 
       if proj_dir && file_specs
         file_specs = proj_dir + '/' + file_specs
@@ -55,15 +57,20 @@ module FlexMate
     def flex_output
 
       flex_output = ENV['TM_FLEX_OUTPUT']
+      
       proj_dir = proj_root
-
+      
+      # As this could be called more than once, and the value of TM_FLEX_OUTPUT
+      # stands a chance of being set in between, we need to make sure that we
+      # dont unecessarily prepend the proj_dir.
       if flex_output && proj_dir
+        return flex_output if flex_output.include? proj_dir 
         return proj_dir + '/' + flex_output
       end
 
       fx_out = file_specs.sub(/\.(mxml|as)/, ".swf")
-
-      if File.exist?( proj_dir.to_s + '/bin' )
+      
+      if !proj_dir.empty? && File.exist?( proj_dir.to_s + '/bin' )
         #match src backwards from the end of line. This covers us in these
         #cases foo/src/bar/src/class.
         sd = SourceTools.common_src_dir_list.reverse.gsub(':','|')
@@ -99,7 +106,9 @@ module FlexMate
     def list_classes
       SourceTools.list_all_classes.join(' ')
     end
-    
+
+    # Locates the first conventional src path found.
+    #
     def source_path
       pr = proj_root
       SourceTools.common_src_dirs.each do |d| 
@@ -273,6 +282,10 @@ if __FILE__ == $0
       ENV['TM_FLEX_OUTPUT'] = 'abc/Test.swf'
       
       assert_equal('/foo/bar/pro ject/abc/Test.swf', s.flex_output)
+      
+      ENV['TM_FLEX_OUTPUT'] = s.flex_output
+      
+      assert_equal('/foo/bar/pro ject/abc/Test.swf', s.flex_output)      
       
     end
     
