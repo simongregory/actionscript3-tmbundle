@@ -34,6 +34,12 @@ module SourceTools
 
     best_paths = []
     package_paths = []
+    
+    #TODO:Remove when TextMate.each_text_file has been fixed
+    actual_version = ::IO.read(ENV['TM_SUPPORT_PATH'] + '/version').to_i
+    if actual_version >= 11788
+      ENV['TM_SELECTED_FILES'] = nil
+    end
 
     # Collect all .as and .mxml files with a filename that contains the search
     # term. When used outside a project this step is skipped.
