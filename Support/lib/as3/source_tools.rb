@@ -35,15 +35,9 @@ module SourceTools
     best_paths = []
     package_paths = []
     
-    #TODO:Remove when TextMate.each_text_file has been fixed
-    actual_version = ::IO.read(ENV['TM_SUPPORT_PATH'] + '/version').to_i
-    if actual_version >= 11788
-      ENV['TM_SELECTED_FILES'] = nil
-    end
-
     # Collect all .as and .mxml files with a filename that contains the search
     # term. When used outside a project this step is skipped.
-    TextMate.each_text_file do |file|
+    TextMate.each_text_file_in_project do |file|
 
       if file =~ /\b#{word}\w*\.(as|mxml)$/
 
@@ -51,7 +45,6 @@ module SourceTools
         path = truncate_to_src(path)
         path = path.gsub(/\.(as|mxml)$/,'').gsub( "/", ".").sub(/^\./,'')
 
-        # if path =~ /\.#{word}$/
         if path =~ /\b#{word}$/
           best_paths << path
         else
