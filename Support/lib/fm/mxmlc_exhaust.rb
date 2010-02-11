@@ -69,12 +69,12 @@ class MxmlcExhaust
       unless match === nil
         out << "<br/>" if @last_match != ERROR_WARN_MATCH
         if match[3] == nil
-          out << 'Error ' + match[5] +
+          out << match[4] + ' ' + match[5] +
                 ' in <a title="'+match[1] +
                 '" href="txmt://open?url=file://' + match[1] + '">' +
                 File.basename( match[1] ) + '</a><br/>'
         else
-          out << 'Error <a title="Click to show error." href="txmt://open?url=file://' + match[1] +
+          out << match[4] + ' <a title="Click to show error." href="txmt://open?url=file://' + match[1] +
                 '&line='+ match[3] +
                 '" >' + match[5] +
                 '</a> at line ' + match[3] +
@@ -183,6 +183,15 @@ if __FILE__ == $0
           :in => "Copyright (c) 2004-2007 Adobe Systems, Inc. All rights reserved.",
           :out => "Copyright (c) 2004-2007 Adobe Systems, Inc. All rights reserved.<br/>"
         }
+        # Added the following after getting problematic output when compiling the RobotLegs helvector gallery, but couldn't work out what the problem was.
+        #,{
+        #  :in => "/Users/simon/src/helvector/robotlegs-framework/src/org/robotlegs/base/CommandMap.as(64): col: 19 Warning: The super() statement will be executed prior to entering this constructor.  Add a call to super() within the constructor if you want to explicitly control when it is executed.",
+        #  :out => "???"
+        #},
+        #{
+        #  :in => "public function CommandMap(eventDispatcher:IEventDispatcher, injector:IInjector, reflector:IReflector)",
+        #  :out => ""
+        #}
       ]
     end
     
