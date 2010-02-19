@@ -45,7 +45,7 @@
 				<key>name</key>
 				<string>TM_AS3_TEMPLATE_BUNDLES</string>
 				<key>value</key>
-				<string>ActionScript 3|Flex|ActionScript 3 PureMVC|ActionScript 3 Springseed</string>
+				<string>ActionScript 3|Flex|ActionScript 3 PureMVC|ActionScript 3 Springseed|ActionScript 3 Robotlegs</string>
 			</dict>
 		</array>
 	</dict>

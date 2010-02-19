@@ -68,8 +68,11 @@ module FlexMate
               end
             end
           }
+          found << { 'title' => '---' } if found.any?
         }
 
+        found.pop if found.last['title'] == '---'
+        
         found
       end
 
