@@ -29,7 +29,7 @@ accessor_match   = txt.scan(/^\W*(private|protected|public){0,1}\W*var\W*\_(#{ac
 class_type       = "Object"
 
 if accessor_match.empty?
-    print ""	
+    print ""
 else
     class_type = accessor_match[0][2]
 end
@@ -39,8 +39,8 @@ print 'private var ${1:_' + accessor_name + '}:${2:' + class_type + '};
 ' if accessor_match.empty?
 
 print 'public function get ' + accessor_name + '():${2:' + class_type + '}
-{ 
-	return ${1:_' + accessor_name + '}; 
+{
+	return ${1:_' + accessor_name + '};
 }
 
 public function set ' + accessor_name + '(value:${2:' + class_type + '}):void
