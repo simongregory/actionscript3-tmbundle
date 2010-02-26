@@ -1,0 +1,51 @@
+package flash.filesystem {
+	import flash.net.FileReference;
+	import flash.desktop.Icon;
+	public class File extends FileReference {
+		public static function get applicationDirectory():File;
+		public static function get applicationStorageDirectory():File;
+		public static function get desktopDirectory():File;
+		public static function get documentsDirectory():File;
+		public function get exists():Boolean;
+		public function get icon():Icon;
+		public function get isDirectory():Boolean;
+		public function get isHidden():Boolean;
+		public function get isPackage():Boolean;
+		public function get isSymbolicLink():Boolean;
+		public static function get lineEnding():String;
+		public function get nativePath():String;
+		public function set nativePath(value:String):void;
+		public function get parent():File;
+		public static function get separator():String;
+		public static function get systemCharset():String;
+		public function get url():String;
+		public function set url(value:String):void;
+		public static function get userDirectory():File;
+		public function File(path:String = null);
+		public function browseForDirectory(title:String):void;
+		public function browseForOpen(title:String, typeFilter:Array = null):void;
+		public function browseForOpenMultiple(title:String, typeFilter:Array = null):void;
+		public function browseForSave(title:String):void;
+		public override function cancel():void;
+		public function canonicalize():void;
+		public function clone():File;
+		public function copyTo(newLocation:FileReference, overwrite:Boolean = false):void;
+		public function copyToAsync(newLocation:FileReference, overwrite:Boolean = false):void;
+		public function createDirectory():void;
+		public static function createTempDirectory():File;
+		public static function createTempFile():File;
+		public function deleteDirectory(deleteDirectoryContents:Boolean = false):void;
+		public function deleteDirectoryAsync(deleteDirectoryContents:Boolean = false):void;
+		public function deleteFile():void;
+		public function deleteFileAsync():void;
+		public function getDirectoryListing():Array;
+		public function getDirectoryListingAsync():void;
+		public function getRelativePath(ref:FileReference, useDotDot:Boolean = false):String;
+		public static function getRootDirectories():Array;
+		public function moveTo(newLocation:FileReference, overwrite:Boolean = false):void;
+		public function moveToAsync(newLocation:FileReference, overwrite:Boolean = false):void;
+		public function moveToTrash():void;
+		public function moveToTrashAsync():void;
+		public function resolvePath(path:String):File;
+	}
+}

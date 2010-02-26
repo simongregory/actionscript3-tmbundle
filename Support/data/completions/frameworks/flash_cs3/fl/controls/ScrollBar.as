@@ -1,0 +1,71 @@
+﻿package fl.controls
+{
+import fl.controls.BaseButton;
+import fl.controls.LabelButton;
+import fl.controls.ScrollBarDirection;
+import fl.core.UIComponent;
+import fl.core.InvalidationType;
+import fl.events.ComponentEvent;
+import fl.events.ScrollEvent;
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.events.TimerEvent;
+import flash.text.TextField;
+import flash.text.TextFormat;
+import flash.utils.Timer;
+import fl.controls.TextInput;
+public class ScrollBar extends UIComponent
+{
+		public static const WIDTH : Number;
+		private var _pageSize : Number;
+		private var _pageScrollSize : Number;
+		private var _lineScrollSize : Number;
+		private var _minScrollPosition : Number;
+		private var _maxScrollPosition : Number;
+		private var _scrollPosition : Number;
+		private var _direction : String;
+		private var thumbScrollOffset : Number;
+		protected var inDrag : Boolean;
+		protected var upArrow : BaseButton;
+		protected var downArrow : BaseButton;
+		protected var thumb : LabelButton;
+		protected var track : BaseButton;
+		private static var defaultStyles : Object;
+		protected static const DOWN_ARROW_STYLES : Object;
+		protected static const THUMB_STYLES : Object;
+		protected static const TRACK_STYLES : Object;
+		protected static const UP_ARROW_STYLES : Object;
+		public function get width () : Number;
+		public function get height () : Number;
+		public function get enabled () : Boolean;
+		public function set enabled (value:Boolean) : Void;
+		public function get scrollPosition () : Number;
+		public function set scrollPosition (newScrollPosition:Number) : Void;
+		public function get minScrollPosition () : Number;
+		public function set minScrollPosition (value:Number) : Void;
+		public function get maxScrollPosition () : Number;
+		public function set maxScrollPosition (value:Number) : Void;
+		public function get pageSize () : Number;
+		public function set pageSize (value:Number) : Void;
+		public function get pageScrollSize () : Number;
+		public function set pageScrollSize (value:Number) : Void;
+		public function get lineScrollSize () : Number;
+		public function set lineScrollSize (value:Number) : Void;
+		public function get direction () : String;
+		public function set direction (value:String) : Void;
+		public static function getStyleDefinition () : Object;
+		public function ScrollBar ();
+		public function setSize (width:Number, height:Number) : void;
+		public function setScrollProperties (pageSize:Number, minScrollPosition:Number, maxScrollPosition:Number, pageScrollSize:Number =0) : void;
+		protected function configUI () : void;
+		protected function draw () : void;
+		protected function scrollPressHandler (event:ComponentEvent) : void;
+		protected function thumbPressHandler (event:MouseEvent) : void;
+		protected function handleThumbDrag (event:MouseEvent) : void;
+		protected function thumbReleaseHandler (event:MouseEvent) : void;
+		public function setScrollPosition (newScrollPosition:Number, fireEvent:Boolean =true) : void;
+		protected function setStyles () : void;
+		protected function updateThumb () : void;
+}
+}

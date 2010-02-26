@@ -1,0 +1,57 @@
+package flash.display {
+	import flash.events.EventDispatcher;
+	import flash.geom.Rectangle;
+	import flash.geom.Point;
+	public class NativeWindow extends EventDispatcher {
+		public function get active():Boolean;
+		public function get alwaysInFront():Boolean;
+		public function set alwaysInFront(value:Boolean):void;
+		public function get bounds():Rectangle;
+		public function set bounds(value:Rectangle):void;
+		public function get closed():Boolean;
+		public function get displayState():String;
+		public function get height():Number;
+		public function set height(value:Number):void;
+		public function get maximizable():Boolean;
+		public function get maxSize():Point;
+		public function set maxSize(value:Point):void;
+		public function get menu():NativeMenu;
+		public function set menu(value:NativeMenu):void;
+		public function get minimizable():Boolean;
+		public function get minSize():Point;
+		public function set minSize(value:Point):void;
+		public function get resizable():Boolean;
+		public function get stage():Stage;
+		public static function get supportsMenu():Boolean;
+		public static function get supportsNotification():Boolean;
+		public function get systemChrome():String;
+		public static function get systemMaxSize():Point;
+		public static function get systemMinSize():Point;
+		public function get title():String;
+		public function set title(value:String):void;
+		public function get transparent():Boolean;
+		public function get type():String;
+		public function get visible():Boolean;
+		public function set visible(value:Boolean):void;
+		public function get width():Number;
+		public function set width(value:Number):void;
+		public function get x():Number;
+		public function set x(value:Number):void;
+		public function get y():Number;
+		public function set y(value:Number):void;
+		public function NativeWindow(initOptions:NativeWindowInitOptions);
+		public function activate():void;
+		public function close():void;
+		public function globalToScreen(globalPoint:Point):Point;
+		public function maximize():void;
+		public function minimize():void;
+		public function notifyUser(type:String):void;
+		public function orderInBackOf(window:NativeWindow):Boolean;
+		public function orderInFrontOf(window:NativeWindow):Boolean;
+		public function orderToBack():Boolean;
+		public function orderToFront():Boolean;
+		public function restore():void;
+		public function startMove():Boolean;
+		public function startResize(edgeOrCorner:String):Boolean;
+	}
+}
