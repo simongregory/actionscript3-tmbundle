@@ -49,9 +49,12 @@ elsif File.file?(proj_flex_out)
   run(proj_flex_out)  
 else
 
-  swf = FlexMate::Settings.new.flex_output
+  s= FlexMate::Settings.new
+  swf = s.flex_output
   
-  if File.exist?(swf)
+  if s.is_swc
+    puts "<h2>Warning</h2><p>SWC files won't run!</p>"
+  elsif File.exist?(swf)
     run(swf) 
   else
     puts "<h2>Error</h2><p>No file found to run.</p>"
