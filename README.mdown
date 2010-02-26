@@ -1,8 +1,26 @@
-TextMate ActionScript 3 Bundle
-==============================
+# TextMate ActionScript 3 Bundle
 
-Installation
-------------
+A TextMate bundle for working with [ActionScript 3][as3_wiki].
+
+Features:
+
+ * Autocompletion system (experimental)
+ * MXMLC and FCSH Build Commands.
+ * ActionScript 3 and Flex documentation search.
+ * Drag and Drop of imports, includes, embed assets, css, xml.
+ * ASDoc Support.
+ * Class and Component Templates.
+ * Shortcut's to open Super Class, Code Behind and Import file.
+
+# Installation
+
+Via download:
+
+ * Open this [link][bundle_zip]  
+ * Unzip the download  
+ * Rename the folder to ActionScript 3.tmbundle  
+ * Double-click  
+ * TextMate handles the rest!  
 
 To install via Git:
 
@@ -10,31 +28,215 @@ To install via Git:
 		git clone git://github.com/simongregory/actionscript3-tmbundle.git "ActionScript 3.tmbundle"
 		osascript -e 'tell app "TextMate" to reload bundles'
 
-Source can be viewed or forked via GitHub: [http://github.com/simongregory/actionscript3-tmbundle/tree/master](http://github.com/simongregory/actionscript3-tmbundle/tree/master)
+Source can be viewed and forked via [GitHub][repo_master]
 
-Conventions
------------
+## SDK
 
-ActionScript formatting follows the guidelines Adobe use for the Flex SDK. They can be found [here](http://opensource.adobe.com/wiki/display/flexsdk/Coding+Conventions).
+This bundle is designed to work with the Flex SDK (to build using the Flash IDE 
+you should also install the [Flash.tmbundle][flash_bundle]). For full functionality
+it is necessary to download and install the [Flex SDK][flex_sdk]. Bundle commands
+will search the following directories to attempt to find the SDK automatically:
 
-For Bundle Conventions please follow the TextMate conventions outlined [here](http://svn.textmate.org/trunk/Conventions.txt).
+**This list only shows when this document is viewed via Bundles > ActionScript 3 > Help**
 
-Support
--------
+If you do not place the Flex SDK in one of these directories then you need to set
+the TextMate shell variable `TM_FLEX_PATH` to your chosen directory. Please note
+that if you have added `[flex_sdk]/bin` to your [PATH][unix_path] manually only
+the build and compile commands make use of it, and the documentation, source code,
+and configuration commands will fail.
 
-Please use the TextMate Users mailing list [http://lists.macromates.com/listinfo/textmate](http://lists.macromates.com/listinfo/textmate).
+## Documentation 
 
-Maintainer
-----------
+Documentation is not included with the SDK so has to be installed separately for
+the documentation command to work. You can download it from [this page][flex_docs],
+or directly as a [zip file][flex_docs_zip]. Once downloaded please rename the 
+unzipped directory `docs` and place it in your Flex SDK directory.
 
-[Simon Gregory](http://blog.simonregory.com)
+## Flash Player
 
-License
--------
+A full archive of flash players can be found [here][flash_player_archive],
+debugger versions of the player are needed to trace output and display runtime
+errors.
+
+# Conventions
+
+ActionScript formatting follows the [guidelines][flex_coding_conventions] Adobe
+use for the Flex SDK.
+
+For Bundle conventions please follow the TextMate [conventions][tm_conventions].
+
+# Commands
+
+## Auto Complete
+
+**Target:** Current Line  
+**Key Equivalent:**  ⌥⎋  
+Currently in an experimental state but **may** provide full auto completion based on the current property chain.
+
+## Auto Complete Function
+
+**Target:** Current Word  
+**Key Equivalent:**  ⌥⎋  
+Attempts to auto complete the function you have partially typed.
+
+## Auto Complete Import
+
+**Target:** Current Word  
+**Key Equivalent:**  ⌥⎋  
+Attempts to auto complete the import statement for the word you have partially typed.
+
+## Build
+
+**Target:** Active Project  
+**Key Equivalent:**  ⌘B  
+Builds the currently active project. The project needs to be correctly configured by setting the `TM_FLEX_FILE_SPECS` and `TM_FLEX_OUTPUT` environmental variables. See the configuration options below.
+
+## Compile Current Class
+
+**Target:** Selected file or the active file if it doesn't belong to a project.  
+**Key Equivalent:** ⇧⌘B  
+Compiles using mxmlc.
+
+## Documentation Block 
+
+**Tab Trigger:** doc  
+By default this will open an Asdoc block. When invoked one a line directly preceeding a class or method statement output will act appropriately.
+
+## Documentation for Word / Selection
+
+**Target:** Current Word  
+**Key Equivalent:** ⌃H  
+Searches the help files for the selected word. 
+
+## Getter/Setter
+
+**Target:** Current Word  
+**Key Equivalent:** ⌃⌥G  
+Creates a get set method pair from the selected word. If there is no current word then the command searches the document for private and protected variables and presents them as a list. Selecting an item from the list will generate the accessor.
+
+## Import Class 
+
+**Target:** Current Word  
+**Key Equivalent:** ⇧⌘I  
+Generates and inserts an Import statement based on the word the caret is currently placed at. The word may be a full or partial class name, where more than one match is found a list will be presented to choose from.
+
+## Open...
+
+**Target:** Current Word  
+**Key Equivalent:** ⇧⌘D  
+Attempts to locate the class the caret is currently on and open it.  
+
+## Remove Unused Imports
+
+**Target:** Current Document  
+**Key Equivalent:**	⇧⌃I  
+Removes any import statements who's class is *not referenced* elsewhere in the document. Please note that wildcarded.* packages are not removed and that packages containing more than one class will not work.
+
+## Run
+
+**Target:** Current Project or Document  
+**Key Equivalent:**	⌘R  
+Attempts to open or execute `TM_FLEX_RUN_FILE`, `TM_FLEX_OUTPUT`, `TM_PROJECT_DIRECTORY/deploy/index.html`, or `TM_FILEPATH.swf`.
+
+# Configuration Options
+
+These environment variables allow you to define or customise the behaviour of 
+certain commands. For help on setting them up please see [TextMate help](?environment_variables).
+To view the defaults for certain variable look at **TextMate > Bundles > ActionScript 3 > Settings**.
+
+* `TM_FLEX_PATH`  
+The path to your Flex SDK installation directory. If it is not in one of the 
+default locations (see Installation section).
+
+* `TM_FLEX_FILE_SPECS`  
+The project directory relative path to the file to compile. Ideally this should
+be a [Project Dependent Variable](?project_dependent_variables)
+
+* `TM_FLEX_OUTPUT`  
+The project directory relative path of the swf file to create when you compile.
+Ideally this should be a [Project Dependent Variable](?project_dependent_variables).
+
+* `TM_FLEX_BUILD_FILE`  
+The project directory relative path to the build file you wish to use to override
+default behaviour (triggered by  ⌘B).
+
+* `TM_FLEX_RUN_FILE`  
+The full, or project directory relative, path to the file you wish to open or
+execute to override default run behaviour (triggered by  ⌘R).
+
+* `TM_ORGANIZATION_NAME`  
+Name used in copyright notices in most templates.
+
+* `TM_ASDOC_GENERATION`  
+If you would like asdoc blocks automatically inserted when using commands,
+snippets, and templates then enable this variable and set this value to anything.
+Please note this feature is currently being added and therefore not always
+available.
+
+* `TM_AS3_BANNER_GENERATION`  
+To have code banners inserted into the class templates set the value of this
+variable to anything.
+
+* `TM_FLEX_USE_FCSH`  
+Set this property to anything if you wish to compile using fcsh. This will give
+you the added benefit of compiler caching and should be noticeably faster, 
+especially on larger projects.
+
+* `TM_FLEX_BACKGROUND_TERMINAL`  
+If you are compiling using fcsh and the terminal setting this to anything will
+stop the switch from TextMate to the Terminal when you build.
+
+* `TM_AS3_USUAL_SRC_DIRS`  
+Colon separated list of directories within which the bundle may find source files.
+
+* `TM_AS3_TEMPLATE_BUNDLES`  
+Pipe separated list of Bundles to search when finding templates.
+
+* `TM_FLEX_SDK_SEARCH_PATHS`
+Colon separated list of directories the bundle uses to try and locate the Flex 
+SDK when it has not been explicitly defined by the user in `TM_FLEX_PATH`.
+
+# Known Issues
+
+* fsch doesn't accept escaped or quoted directory names properly, if they have 
+space it fails. The only solution is to use paths that don't contain spaces.
+
+# Support
+
+ * [Issue tracker][issue_tracker]
+ * [Repository][repo]
+
+For general questions please use the [TextMate Users mailing list][tm_mailing_list].  
+Bugs and issues should be reported via the [issue tracker][issue_tracker].  
+Source can be viewed and forked via the [GitHub repository][repo].  
+
+# Maintainer
+
+[Simon Gregory][sg_blog]
+
+# Contributors
+
+Chris Jenkins  
+Christian Swinehart  
+ChromaticRain  
+[Daniel Parnell][daniel_parnell]  
+[Gabriel Laet][gabriel_laet]  
+Jeremy Sachs   
+[Joachim][joachim]  
+[Kristopher Joseph][kristoferjoseph]  
+[Lars van de Kerkhoff][specialunderwear]  
+[Leo Soto][leo_soto]  
+[Lucas Dupin][lucasdupin]  
+Luke Daley  
+[Mark Llobrera][mark_llobrera]  
+[Theo Hultberg][theo]  
+[Thomas Aylott][thomas_aylott]  
+
+# License
 
 If not otherwise specified (see below), files in this project fall under the following license:
 
-		Copyright 2009 Simon Gregory
+		Copyright 2007-2010 Simon Gregory
 
 		Permission is hereby granted, free of charge, to any person obtaining a copy
 		of this software and associated documentation files (the "Software"), to deal
@@ -55,3 +257,33 @@ If not otherwise specified (see below), files in this project fall under the fol
 		THE SOFTWARE.
 
 An exception is made for files in readable text which contain their own license information, or files where an accompanying file exists (in the same directory) with a “-license” suffix added to the base-name name of the original file, and an extension of txt, html, or similar.
+
+[bundle_zip]: http://github.com/simongregory/actionscript3.tmbundle/zipball/master
+[issue_tracker]: http://github.com/simongregory/actionscript3.tmbundle/issues
+[repo]: http://github.com/simongregory/actionscript3.tmbundle/
+[repo_master]: http://github.com/simongregory/actionscript3.tmbundle/tree/master
+[sg_blog]: http://blog.simonregory.com
+[tm_conventions]: http://svn.textmate.org/trunk/Conventions.txt
+[tm_env_vars]: http://manual.macromates.com/en/environment_variables
+[tm_mailing_list]: http://lists.macromates.com/listinfo/textmate
+[adobe_flash]: http://www.adobe.com/products/flashplayer/
+[adobe_flash_tool]: http://www.adobe.com/products/flash/
+[flex_coding_conventions]: http://opensource.adobe.com/wiki/display/flexsdk/Coding+Conventions
+[as3_wiki]: http://en.wikipedia.org/wiki/ActionScript#ActionScript_3.0
+[flash_bundle]: http://github.com/simongregory/flash-tmbundle/tree/master
+[flex_sdk]: http://www.adobe.com/products/flex/flexdownloads/
+[unix_path]: http://en.wikipedia.org/wiki/Environment_variable#Examples_of_UNIX_environment_variables
+[flex_docs]: http://www.adobe.com/support/documentation/en/flex/
+[flex_docs_zip]: http://www.adobe.com/go/flex_documentation_zip
+[flash_player_archive]: http://www.adobe.com/go/tn_14266
+
+[thomas_aylott]: http://subtlegradient.com/
+[theo]: http://blog.iconara.net/2007/02/23/textmate-flex-tips/
+[mark_llobrera]: http://www.dirtystylus.com/blog/
+[joachim]: http://www.4d.be/
+[daniel_parnell]: http://blog.danielparnell.com/?p=22
+[specialunderwear]: http://github.com/specialunderwear
+[kristoferjoseph]: http://github.com/kristoferjoseph
+[lucasdupin]: http://github.com/lucasdupin
+[gabriel_laet]: http://github.com/gabriel-laet
+[leo_soto]: http://code.google.com/p/flex-compiler-shell-daemon/
