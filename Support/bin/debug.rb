@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby -wKU
+# encoding: utf-8
+
+require ENV['TM_SUPPORT_PATH'] + '/lib/escape'
+require ENV['TM_SUPPORT_PATH'] + '/lib/textmate'
+require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
+require ENV['TM_SUPPORT_PATH'] + '/lib/tm/htmloutput'
+
+require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
+
+require 'find'
+require 'fm/flex_mate'
+require 'fm/sdk'
+require 'fm/settings'
+
+def start_fdb
+  
+  FlexMate::SDK.add_flex_bin_to_path
+  
+  bin = 'fdb'
+  
+  TextMate.require_cmd(bin)
+  
+  # We're forcing the user to set TM_FLEX_DEBUG_URI (for file:// and http://) 
+  # here, although it would be entirely possible to fall back to TM_FLEX_OUTPUT
+  # if it wasn't set.
+  # 
+  FlexMate.required_settings({ :evars => ['TM_FLEX_DEBUG_URI'] })
+  
+  fdb = e_sh(ENV['TM_FLEX_PATH'] + '/bin/fdb')
+  cmd = "run " + ENV['TM_FLEX_DEBUG_URI']
+  
+  `osascript -e 'tell application "Terminal" to activate'` #unless ENV['TM_FLEX_BACKGROUND_TERMINAL']
+  `#{e_sh ENV['TM_BUNDLE_SUPPORT']}/bin/fdb_terminal \"#{fdb}\" \"#{cmd}\" "nil" >/dev/null;`
+  
+end
+
+start_fdb
