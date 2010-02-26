@@ -112,8 +112,9 @@ module FlexMate
     def source_path
       pr = proj_root
       SourceTools.common_src_dirs.each do |d| 
-        return "#{pr}/#{d}" if File.exist?("#{pr}/#{d}")
-      end  
+        return "#{pr}/#{d}" if File.directory?("#{pr}/#{d}")
+      end
+      nil
     end
     
     protected
@@ -215,10 +216,10 @@ if __FILE__ == $0
       
       assert_equal('/Foo/Bar/TestProject/src/Test-config.xml',
                    FlexMate::Settings.new.compiler_config)
-
-       ENV['TM_PROJECT_FILEPATH'] = '/Foo/Bar/TestProject/baz.tmproj'
-
-       assert_equal('/Foo/Bar/TestProject/src/Test-config.xml',
+      
+      ENV['TM_PROJECT_FILEPATH'] = '/Foo/Bar/TestProject/baz.tmproj'
+      
+      assert_equal('/Foo/Bar/TestProject/src/Test-config.xml',
                     FlexMate::Settings.new.compiler_config)
       
     end
@@ -231,7 +232,7 @@ if __FILE__ == $0
       ENV['TM_PROJECT_DIRECTORY'] = p = cases_dir + '/a'
       assert_equal(p + '/src/App.mxml', s.file_specs)
       
-      ENV['TM_PROJECT_DIRECTORY'] = p = cases_dir + '/b'      
+      ENV['TM_PROJECT_DIRECTORY'] = p = cases_dir + '/b'
       assert_equal(p + '/source/App.as', s.file_specs )
 
       ENV['TM_PROJECT_DIRECTORY'] = p = cases_dir + '/c'
@@ -247,7 +248,7 @@ if __FILE__ == $0
       assert_equal(nil, s.file_specs)
 
       ENV['TM_FLEX_FILE_SPECS'] = 'abc/Test.as'
-      assert_equal(nil, s.file_specs)      
+      assert_equal(nil, s.file_specs)
 
     end
     
@@ -285,7 +286,7 @@ if __FILE__ == $0
       
       ENV['TM_FLEX_OUTPUT'] = s.flex_output
       
-      assert_equal('/foo/bar/pro ject/abc/Test.swf', s.flex_output)      
+      assert_equal('/foo/bar/pro ject/abc/Test.swf', s.flex_output)
       
     end
     
@@ -311,6 +312,34 @@ if __FILE__ == $0
       
       assert_equal(false, s.is_swc)
       
+      
+    end 
+    
+    def test_source_path
+      
+      clear_tm_env
+      
+      s = FlexMate::Settings.new
+      
+      assert_equal(nil, s.source_path)
+      
+      clear_tm_env
+      
+      ENV['TM_PROJECT_DIRECTORY'] = cases_dir + '/a'
+      
+      assert_equal(cases_dir + '/a/src', s.source_path)
+      
+      clear_tm_env
+      
+      ENV['TM_PROJECT_DIRECTORY'] = cases_dir + '/b'
+      
+      assert_equal(cases_dir + '/b/source', s.source_path)
+      
+      clear_tm_env
+      
+      ENV['TM_PROJECT_DIRECTORY'] = cases_dir + '/c'
+      
+      assert_equal(cases_dir, s.source_path)
       
     end
     

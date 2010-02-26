@@ -167,8 +167,9 @@ The project directory relative path to the file to compile. Ideally this should
 be a [Project Dependent Variable](?project_dependent_variables)
 
 * `TM_FLEX_OUTPUT`  
-The project directory relative path of the swf file to create when you compile.
-Ideally this should be a [Project Dependent Variable](?project_dependent_variables).
+The project directory relative path of the swf or swc file to create when you
+compile. Depending on the target output the build task will appropriately choose
+to use `mxmlc` or `compc`. Ideally this should be a [Project Dependent Variable](?project_dependent_variables).
 
 * `TM_FLEX_BUILD_FILE`  
 The project directory relative path to the build file you wish to use to override
