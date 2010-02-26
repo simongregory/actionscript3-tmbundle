@@ -12,6 +12,6 @@ require BUNDLE_SUPPORT_LIB + '/fm/sdk'
 paths = ""
 FlexMate::SDK.sdk_dir_arr.each{ |e| paths << "* \`#{e}\`\n" }
 
-doc = IO.read(BUNDLE_SUPPORT_LIB+'/../../help.mdown')
+doc = IO.read(BUNDLE_SUPPORT_LIB+'/../../README.mdown')
 
-print doc.sub('${FLEX-PATH-LIST}', paths )
+print doc.sub('**This list only shows when this document is viewed via Bundles > ActionScript 3 > Help**', paths )

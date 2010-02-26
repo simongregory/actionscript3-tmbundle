@@ -25,7 +25,7 @@
 		<array>
 			<dict>
 				<key>comment</key>
-				<string>Colon seperated list of directories the bundle uses to try and locate the Flex SDK when it has not been explicitly defined by the user in TM_FLEX_PATH.</string>
+				<string>Colon separated list of directories the bundle uses to try and locate the Flex SDK when it has not been explicitly defined by the user in TM_FLEX_PATH.</string>
 				<key>name</key>
 				<string>TM_FLEX_SDK_SEARCH_PATHS</string>
 				<key>value</key>
@@ -33,7 +33,7 @@
 			</dict>
 			<dict>
 				<key>comment</key>
-				<string>Colon seperated list of directories within which the bundle may find source files.</string>
+				<string>Colon separated list of directories within which the bundle may find source files.</string>
 				<key>name</key>
 				<string>TM_AS3_USUAL_SRC_DIRS</string>
 				<key>value</key>
@@ -41,7 +41,7 @@
 			</dict>
 			<dict>
 				<key>comment</key>
-				<string>Pipe seperated list of Bundles to search when finding templates.</string>
+				<string>Pipe separated list of Bundles to search when finding templates.</string>
 				<key>name</key>
 				<string>TM_AS3_TEMPLATE_BUNDLES</string>
 				<key>value</key>
