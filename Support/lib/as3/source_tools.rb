@@ -35,6 +35,12 @@ module SourceTools
     best_paths = []
     package_paths = []
     
+    begin
+      TextMate.min_support(11850) #Actually we need > 11850 but I'm waiting for Allan to bump it up.
+    rescue SystemExit => e
+      TextMate.exit_discard
+    end
+    
     # Collect all .as and .mxml files with a filename that contains the search
     # term. When used outside a project this step is skipped.
     TextMate.each_text_file_in_project do |file|
@@ -53,7 +59,8 @@ module SourceTools
 
       end
 
-    end
+    end rescue TextMate.exit_show_html('Please upgrade TM Support to the most recent revision.
+    See the bundle README\'s <a href="http://github.com/simongregory/actionscript3-tmbundle">Known Issues</a>')
 
     { :exact_matches => best_paths, :partial_matches => package_paths }
 

@@ -216,6 +216,11 @@ SDK when it has not been explicitly defined by the user in `TM_FLEX_PATH`.
 * fsch doesn't accept escaped or quoted directory names properly, if they have 
 space it fails. The only solution is to use paths that don't contain spaces.
 
+* TextMate 1.5.9 (1589) broke all commands scanning the project for files. To fix
+the issue you need to upgrade your TextMate Support directory to the most recent 
+version. To do this checkout `http://svn.textmate.org/trunk/Support` to 
+`/Users/$USER/Library/Application Support/TextMate/Support` 
+
 # Support
 
  * [Issue tracker][issue_tracker]
