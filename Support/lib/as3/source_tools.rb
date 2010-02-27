@@ -36,7 +36,7 @@ module SourceTools
     package_paths = []
     
     begin
-      TextMate.min_support(11850) #Actually we need 11851 but I'm waiting for Allan to bump it up.
+      TextMate.min_support(11850) #Actually we need > 11850 but I'm waiting for Allan to bump it up.
     rescue SystemExit => e
       TextMate.exit_discard
     end
@@ -59,7 +59,8 @@ module SourceTools
 
       end
 
-    end
+    end rescue TextMate.exit_show_html('Please upgrade TM Support to the most recent revision.
+    See the bundle README\'s <a href="http://github.com/simongregory/actionscript3-tmbundle">Known Issues</a>')
 
     { :exact_matches => best_paths, :partial_matches => package_paths }
 
