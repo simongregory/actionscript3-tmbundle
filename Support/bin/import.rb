@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby -wKU
+
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/c_env'
+
+word   = ENV['TM_CURRENT_WORD']
+line   = ENV['TM_CURRENT_LINE']
+doc    = STDIN.read.strip
+import = SourceTools.find_package(word)
+cla    = import.split('.').pop()
+
+line_num = ENV['TM_LINE_NUMBER']
+line_idx = ENV['TM_LINE_INDEX']
+
+doc[line] = doc[line].gsub(word, cla)
+
+if ENV['TM_SCOPE'] =~ /source\.actionscript\.3\.embedded\.mxml/
+
+   #Quick hack for when we're editing mxml.
+   indent = /^\s+/.match(doc[line])[0] rescue ''
+   doc[line] = "#{indent}import #{import};\n" + doc[line]
+   print doc
+
+else
+
+  pkg = /^\s*package\b\s*([\w+\.]*)/
+  cls = /^\s*(public|final)\s+(final|public)?\s*\b(class|interface)\b/
+  mta = /^\s*\[(Style|Bindable|Event|Embed|SWF)/
+
+  pre, imps, post = [], [], []
+  a = pre
+  
+  doc.split("\n").each do |line|
+    a << line
+    if line =~ pkg
+      pkg = nil
+      a = imps
+    elsif line =~ cls || line =~ mta
+      cls = nil
+      a = post
+    end
+  end
+
+  irgx = /^\s*import\s+#{import.gsub('.', '\.')}(\s|;)/
+  safe = 0
+  indent = ""
+
+  imps.each_with_index do |line,index|
+    if line =~ irgx
+      TextMate.exit_insert_text(cla.sub(word,'')) if word != cla
+      TextMate.exit_show_tool_tip("#{word} already imported")
+    elsif line =~ /^(\s*)import\s+/
+      indent = $1
+      safe = index
+    end
+  end
+
+  imps[safe] = "#{imps[safe]}\n#{indent}import #{import};"
+
+  print pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n")
+
+end
+
+line_idx = (line_idx.to_i-word.length)+(import.split(".")[-1].length)+1
+
+pid = fork do
+  STDOUT.reopen(open('/dev/null'))
+  STDERR.reopen(open('/dev/null'))
+  TextMate.go_to(:line => line_num.to_i+1, :column => line_idx)
+end

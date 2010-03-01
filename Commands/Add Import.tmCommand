@@ -5,64 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/env ruby -wKU
-
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/c_env'
-
-word   = ENV['TM_CURRENT_WORD']
-line   = ENV['TM_CURRENT_LINE']
-doc    = STDIN.read.strip
-import = SourceTools.find_package(word)
-cla    = import.split('.').pop()
-
-line_num = ENV['TM_LINE_NUMBER']
-line_idx = ENV['TM_LINE_INDEX']
-
-doc[line] = doc[line].gsub(word, cla)
-
-pkg = /^\s*package\b\s*([\w+\.]*)/
-cls = /^\s*(public|final)\s+(final|public)?\s*\b(class|interface)\b/
-mta = /^\s*\[(Style|Bindable|Event|Embed|SWF)/
-
-pre, imps, post = [], [], []
-a = pre
-	
-doc.split("\n").each do |line|
-	a &lt;&lt; line
-	if line =~ pkg
-		pkg = nil
-		a = imps
-	elsif line =~ cls || line =~ mta
-		cls = nil
-		a = post
-	end
-end
-
-irgx = /^\s*import\s+#{import.gsub('.', '\.')}(\s|;)/
-safe = 0
-indent = ""
-
-imps.each_with_index do |line,index|
-	if line =~ irgx		
-		TextMate.exit_insert_text(cla.sub(word,'')) if word != cla
-		TextMate.exit_show_tool_tip("#{word} already imported")
-	elsif line =~ /^(\s*)import\s+/
-		indent = $1
-		safe = index
-	end
-end
-
-imps[safe] = "#{imps[safe]}\n#{indent}import #{import};"
-
-print pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n")
-
-line_idx = (line_idx.to_i-word.length)+(import.split(".")[-1].length)+1
-
-pid = fork do
-	STDOUT.reopen(open('/dev/null'))
-	STDERR.reopen(open('/dev/null'))
-	TextMate.go_to(:line =&gt; line_num.to_i+1, :column =&gt; line_idx)
-end
+	<string>import.rb
 </string>
 	<key>input</key>
 	<string>document</string>
@@ -73,7 +16,7 @@ end
 	<key>output</key>
 	<string>replaceDocument</string>
 	<key>scope</key>
-	<string>source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3, meta.interface.actionscript.3</string>
+	<string>source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3, meta.interface.actionscript.3, text.xml.mxml source.actionscript.3.embedded.mxml</string>
 	<key>uuid</key>
 	<string>B42093AC-0F65-4760-856C-23E51A54CD84</string>
 </dict>

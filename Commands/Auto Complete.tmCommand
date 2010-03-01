@@ -15,7 +15,7 @@
 	<key>output</key>
 	<string>discard</string>
 	<key>scope</key>
-	<string>source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3, source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3 meta.scope.following.dot.actionscript.3</string>
+	<string>source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3, source.actionscript.3 meta.package.actionscript.3 meta.class.actionscript.3 meta.scope.following.dot.actionscript.3, text.xml.mxml source.actionscript.3.embedded.mxml</string>
 	<key>uuid</key>
 	<string>9D7FFA75-08E0-45C4-B982-13EC187D167E</string>
 </dict>
