@@ -1,0 +1,4 @@
+<%= asdoc %><%= ns %> function ${1:<%= name %>}(${2:event:${3:Event}}):${4:void}
+{
+	$0${4/void$|(.+)/(?1:return null;)/}
+}
