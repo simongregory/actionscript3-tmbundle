@@ -17,8 +17,10 @@ class SnippetProvider
   attr_reader :interface
   attr_reader :i_get
   attr_reader :i_method
+  attr_reader :i_method_handler
   attr_reader :i_set
   attr_reader :method
+  attr_reader :method_handler
   attr_reader :namespace
   attr_reader :o_method
   attr_reader :property
@@ -29,21 +31,23 @@ class SnippetProvider
 
     bp = File.dirname(__FILE__)+'/model/'
 
-    @class      = bp+'class.erb'
-    @class_doc  = bp+'class_doc.erb'
-    @const      = bp+'const.erb'
-    @doc        = bp+'doc.erb'
-    @get        = bp+'get.erb'
-    @interface  = bp+'interface.erb'
-    @i_get      = bp+'i_get.erb'
-    @i_method   = bp+'i_method.erb'
-    @i_set      = bp+'i_set.erb'
-    @method     = bp+'method.erb'
-    @namespace  = bp+'namespace.erb'
-    @o_method   = bp+'o_method.erb'
-    @property   = bp+'property.erb'
-    @set        = bp+'set.erb'
-    @var        = bp+'var.erb'
+    @class            = bp+'class.erb'
+    @class_doc        = bp+'class_doc.erb'
+    @const            = bp+'const.erb'
+    @doc              = bp+'doc.erb'
+    @get              = bp+'get.erb'
+    @interface        = bp+'interface.erb'
+    @i_get            = bp+'i_get.erb'
+    @i_method         = bp+'i_method.erb'
+    @i_method_handler = bp+'i_method_handler.erb'
+    @i_set            = bp+'i_set.erb'
+    @method           = bp+'method.erb'
+    @method_handler   = bp+'method_handler.erb'
+    @namespace        = bp+'namespace.erb'
+    @o_method         = bp+'o_method.erb'
+    @property         = bp+'property.erb'
+    @set              = bp+'set.erb'
+    @var              = bp+'var.erb'
 
   end
 

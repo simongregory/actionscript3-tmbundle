@@ -106,7 +106,14 @@ By default this will open an Asdoc block. When invoked one a line directly prece
 
 **Target:** Current Word  
 **Key Equivalent:** ⌃H  
-Searches the help files for the selected word. 
+Searches the help files for the selected word.
+
+## Function
+
+**Target:** Current Word  
+**Key Equivalent:** ⇧↩
+Creates a method using the current word as the method name. Additionally if the
+current word starts with 'on' or 'handle', or ends with 'Handler' an event parameter is automatically injected into the method.
 
 ## Getter/Setter
 

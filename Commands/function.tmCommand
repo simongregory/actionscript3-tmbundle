@@ -13,8 +13,15 @@ sb = SnippetBuilder.new
 
 method_name = STDIN.read
 
-TextMate.exit_insert_snippet( sb.i_method(method_name) ) if ENV['TM_SCOPE'] =~ /interface/
-TextMate.exit_insert_snippet( sb.method(method_name) )
+is_handler = (method_name =~ /(\bon|\bhandle|Handler\b)/)
+
+if ENV['TM_SCOPE'] =~ /interface/
+	snip = is_handler ? sb.i_method_handler(method_name) : sb.i_method(method_name)
+else
+	snip = is_handler ? sb.method_handler(method_name) : sb.method(method_name)
+end
+
+TextMate.exit_insert_snippet(snip)
 </string>
 	<key>fallbackInput</key>
 	<string>word</string>
@@ -25,7 +32,7 @@ TextMate.exit_insert_snippet( sb.method(method_name) )
 	<key>name</key>
 	<string>function</string>
 	<key>output</key>
-	<string>discard</string>
+	<string>afterSelectedText</string>
 	<key>scope</key>
 	<string>source.actionscript.3 -comment</string>
 	<key>tabTrigger</key>

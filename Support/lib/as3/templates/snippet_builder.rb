@@ -59,6 +59,10 @@ class SnippetBuilder
     generate_method(name,ns,doc_tag,@t.o_method)
   end
 
+  def method_handler(name="name",ns="public",doc_tag="private")
+    generate_method(name,ns,doc_tag,@t.method_handler)
+  end
+
   def getter(name="name",ns="public",doc_tag="private")
     generate_method(name,ns,doc_tag,@t.get)
   end
@@ -77,6 +81,10 @@ class SnippetBuilder
 
   def i_method(name="name",ns="public",doc_tag="private")
     generate_method(name,ns,doc_tag,@t.i_method)
+  end 
+  
+  def i_method_handler(name="name",ns="public",doc_tag="private")
+    generate_method(name,ns,doc_tag,@t.i_method_handler)
   end
 
   def var(name="name",ns="public",doc_tag="private")
@@ -88,7 +96,7 @@ class SnippetBuilder
   end
 
   def const(name="name",ns="public",doc_tag="private")
-      generate_method(name,ns,doc_tag,@t.const)
+    generate_method(name,ns,doc_tag,@t.const)
   end
 
   def f_method(name="name",ns="final",doc_tag="private")
@@ -163,12 +171,14 @@ if __FILE__ == $0
   puts t.f_class
   puts t.method
   puts t.method('custom','protected','testing')
+  puts t.method_handler
   puts t.o_method
   puts t.getter
   puts t.setter
   puts t.i_getter
   puts t.i_setter
   puts t.i_method
+  puts t.i_method_handler
   puts t.var
   puts t.var('private')
   puts t.const
