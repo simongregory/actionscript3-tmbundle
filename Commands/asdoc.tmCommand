@@ -58,7 +58,7 @@ def generate_method_doc(sig)
 	  	tab_stop = count &lt; 10 ? "${#{count}}" : ''
 	  	puts " * @return #{sig[:returns]} #{tab_stop}"
   end
-	print " */\n"
+	print " */"
 end
 
 t = SnippetBuilder.new
