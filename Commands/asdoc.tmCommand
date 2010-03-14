@@ -49,8 +49,8 @@ def generate_method_doc(sig)
 		puts " * @private" if arg.length != 2
 		name = arg[0]
 		type = arg[1].sub(/=.*$/,'')
-		tab_stop = count &lt; 10 ? "${#{count}}" : ''
-		puts " * @param #{name} #{type} #{tab_stop}"
+		tab_stop = count &lt; 10 ? "${#{count}:#{type}}" : type
+		puts " * @param #{name} #{tab_stop}"
 		count += 1
 	}
 
