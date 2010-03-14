@@ -35,9 +35,15 @@ def generate_method_doc(sig)
 	args = (sig[:params]) ? sig[:params].split(',') : []
 	
 	puts "/**"
-	puts " * @private" if sig[:namespace] != 'public'
 	
-	count = 1
+	if args.empty? and sig[:namespace] != 'private'
+	 	tab_stop = "${1:description}"
+	    puts " * #{tab_stop}"
+		count = 2
+	else
+		count = 1
+	end
+	
 	args.each { |e|
 		arg =  e.split(':')
 		puts " * @private" if arg.length != 2
@@ -47,13 +53,9 @@ def generate_method_doc(sig)
 		puts " * @param #{name} #{type} #{tab_stop}"
 		count += 1
 	}
-	
-	if args.empty? and sig[:namespace] != 'private'
-	 	tab_stop = count &lt; 10 ? "${#{count}}" : ''
-	    puts " * #{tab_stop}"
-		count += 1
-	end
-	
+
+	puts " * @private" if sig[:namespace] != 'public'
+		
 	unless sig[:returns] == 'void'
 	  	tab_stop = count &lt; 10 ? "${#{count}}" : ''
 	  	puts " * @return #{sig[:returns]} #{tab_stop}"
