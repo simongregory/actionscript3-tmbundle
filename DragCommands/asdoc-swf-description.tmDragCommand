@@ -10,20 +10,27 @@
 require ENV["TM_BUNDLE_SUPPORT"]+"/lib/as3/parsers/swf"
 
 file = ENV["TM_DROPPED_FILE"]
-name = file.match(/([^\/]+)\.swf$/)[1]
-swf  = Swf.new(file)
 
-print &lt;&lt;SWF
+begin
+  
+  swf  = Swf.new(file)
+
+  print &lt;&lt;SWF
 /*
-filename	= "${1:#{name}.swf}"
-width		= "#{swf.width}"
-height		= "#{swf.height}"
-version		= "#{swf.version}"
-bgcolor		= "#{swf.bgcolor}"
-compressed	= "#{swf.zip}"
+filename   = "#{swf.file}"
+width      = "#{swf.width}"
+height     = "#{swf.height}"
+version    = "#{swf.version}"
+bgcolor    = "#{swf.bg_color}"
+compressed = "#{swf.zip}"
 */
 SWF
+  
+rescue Exception =&gt; e
 
+  print "/* Error #{e.to_s} */"
+
+end
 </string>
 	<key>draggedFileExtensions</key>
 	<array>
