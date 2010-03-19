@@ -1840,6 +1840,22 @@
 				</dict>
 			</array>
 		</dict>
+		<key>method-package</key>
+		<dict>
+			<key>name</key>
+			<string>meta.definition.method.package.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#method</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-block</string>
+				</dict>
+			</array>
+		</dict>
 		<key>method-parameters</key>
 		<dict>
 			<key>captures</key>
@@ -2047,6 +2063,10 @@
 				<dict>
 					<key>include</key>
 					<string>#class</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-package</string>
 				</dict>
 				<dict>
 					<key>include</key>
