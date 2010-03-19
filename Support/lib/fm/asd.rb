@@ -131,11 +131,11 @@ class LangReference
       out << "<p><ul>"
 
       @found.each { |e|
-        
-        if File.exist?(e[:href])
-          out << "<li><a title='#{e[:title]}' href='tm-file://#{e[:href]}'>#{e[:class]}</a></li>"
+        doc_file = e[:href].sub(/#.+$/,'')
+        if File.exist?(doc_file)
+          out << "<li><a title='#{e[:title]}' href='tm-file://#{e[:href]}'>#{e[:class]}</a></li>\n"
         else
-          out << "<li><span title='In search index but document is missing.'>#{e[:class]}</span></li>"
+          out << "<li><span title='In search index but document is missing.'>#{e[:class]}</span></li>\n"
         end
         
       }
