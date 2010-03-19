@@ -101,6 +101,25 @@ module FlexMate
       return false
     end
     
+    # Locate and return the air descriptor file associated with the current
+    # project.
+    #
+    def air_descriptor
+      fs = file_specs || ''
+      unless fs.empty?
+        ad = fs.sub(/\.(as|mxml)$/,'')
+        return "#{ad}-app.xml"
+      end
+      return nil
+    end
+    
+    # Boolean to indicate if we are compiling an air application.
+    #
+    def is_air
+      return true if File.exist? air_descriptor rescue return false
+      return false
+    end
+    
     # A list of classes found in the project.
     #
     def list_classes
@@ -312,8 +331,35 @@ if __FILE__ == $0
       
       assert_equal(false, s.is_swc)
       
+    end
+    
+    def test_is_air
       
-    end 
+      clear_tm_env
+      
+      s = FlexMate::Settings.new
+      
+      ENV['TM_PROJECT_DIRECTORY'] = cases_dir + '/a'
+      
+      assert_equal(false, s.is_air)
+      
+      ENV['TM_PROJECT_DIRECTORY'] = cases_dir + '/b'
+      
+      assert_equal(false, s.is_air)
+      
+      ENV['TM_PROJECT_DIRECTORY'] = cases_dir + '/c'
+      
+      assert_equal(false, s.is_air)
+      
+      ENV['TM_PROJECT_DIRECTORY'] = cases_dir + '/d'
+      
+      assert_equal(false, s.is_air)
+      
+      ENV['TM_PROJECT_DIRECTORY'] = cases_dir + '/e'
+      
+      assert_equal(true, s.is_air)
+      
+    end
     
     def test_source_path
       
@@ -339,7 +385,10 @@ if __FILE__ == $0
       
       ENV['TM_PROJECT_DIRECTORY'] = cases_dir + '/c'
       
-      assert_equal(cases_dir, s.source_path)
+      #We intentionally don't consider the root of the project as a src dir.
+      #TODO: Decide if we want it to be? Could be achieved by scanning root for
+      #      .as or .mxml files. 
+      assert_equal(nil, s.source_path)
       
     end
     
