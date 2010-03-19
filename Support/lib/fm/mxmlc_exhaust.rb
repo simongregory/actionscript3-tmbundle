@@ -15,6 +15,7 @@ class MxmlcExhaust
   CONFIGURATION_MATCH    = "configuration_match"
   ERROR_WARN_MATCH       = "error_warn_match"
   RECOMPILE_REASON_MATCH = "recompile_reason_match"
+  UNABLE_TO_OPEN_MATCH   = "unable_to_open_match"
 
   # Instance initialisation. Creates the regex objects once, and set's the
   # error counter to 0. One instance should be created per mxmlc compile
@@ -32,6 +33,7 @@ class MxmlcExhaust
     @config_file_regex    = /(^Loading configuration file )(.*)$/
     @recompile_file_regex = /(^Recompile: )(.*)$/
     @reason_file_regex    = /(^.*, )(.*,)(.*)$/
+    @unable_to_open_regex = /(^Error: unable to open).*/
 
   end
 
@@ -87,6 +89,14 @@ class MxmlcExhaust
         return out
       end
       
+      match = @unable_to_open_regex.match(str)
+      unless match === nil
+        @error_count += 1
+        @last_match = UNABLE_TO_OPEN_MATCH
+        out = "\n <h4>File does not exist</h4>\n #{out}"
+        return out
+      end
+
       match = @config_file_regex.match(str)
       unless match === nil
           out << "<br/>" if @last_match != CONFIGURATION_MATCH

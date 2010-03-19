@@ -1539,9 +1539,9 @@
 			<key>begin</key>
 			<string>(?x)
 			         ^\s*
-    			     ((override|static)\s+)?                                  # Optional override or static
+    			     ((override|static)\s+){0,2}                                  # Optional override or static
     			     (public|private|protected|internal|final|dynamic|\w+)\s+ # Namespace
-    			     ((static)\s+)?                                           # Optional static.
+    			     ((override|static)\s+){0,2}                                           # Optional static.
     			     (function)\s+
     			     (\s*\w+)                                                 # Method name.
     			     \s*(\()</string>
@@ -1642,9 +1642,9 @@
 					<key>begin</key>
 					<string>(?x)                                                               # Extended mode
 					         ^\s*                                                               # Start of line, optional whitespace
-    			             ((override|static)\s+)?                                            # Optional override
+    			             ((override|static)\s+){0,2}                                            # Optional override
     			             (public|private|protected|internal|final|dynamic|\w+)\s+           # namespace declaration
-    			             ((static)\s+)?                                                     # Optional static
+    			             ((static)\s+){0,2}                                                     # Optional static
     			             (function)\s*                                                      # function declaration
                              (set)\s+                                                           # set declaration
                              (\w+)\s*                                                           # getter name, optional whitespace
@@ -1745,11 +1745,11 @@
 					         ^\s*
     			             (
     			                 (override|static)\s+
-    			             )?
+    			             ){0,2}
     			             (public|private|protected|internal|static|final|dynamic|\w+)\s+
     			             (
-    			                 (static)\s+
-    			             )?
+    			                 (override|static)\s+
+    			             ){0,2}
     			             (function)
     			             \s*
                              (get)
@@ -1837,6 +1837,22 @@
 							<string>#wildcard</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>method-package</key>
+		<dict>
+			<key>name</key>
+			<string>meta.definition.method.package.actionscript.3</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#method</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-block</string>
 				</dict>
 			</array>
 		</dict>
@@ -2047,6 +2063,10 @@
 				<dict>
 					<key>include</key>
 					<string>#class</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#method-package</string>
 				</dict>
 				<dict>
 					<key>include</key>
