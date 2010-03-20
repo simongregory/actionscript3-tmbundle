@@ -10,12 +10,33 @@
 require ENV['TM_BUNDLE_SUPPORT']+'/lib/c_env'
 word = ENV['TM_CURRENT_WORD']
 
-p = PropertyInspector.capture
-w = ClassParser.new
+# identifiers never contain spaces
+if word.index(' ') != nil
+	TextMate.exit_show_tool_tip("The cursor must be at an identifier")
+end
 
-paths = w.path_list(STDIN.read.strip, p[:ref], word)
+chain = PropertyInspector.property_chain
+chain = chain.split('.')
+# fetch the last word in the property chain
+last = chain.pop()
 
-TextMate.exit_show_tool_tip("#{word} not resolved.") if paths.empty?
+# see if it is a complete word and non empty
+# this check might be redundant
+if word.index(last) != nil
+	chain.push(word)
+end
+
+# recreate property chain
+chain = chain.join('.')
+
+cp = ClassParser.new
+
+found = cp.path_list(STDIN.read.strip, chain, word)
+
+type = found[:type] rescue 'Unknown'
+paths = found[:paths] rescue []
+
+TextMate.exit_show_tool_tip("'#{word}' type is #{type}.") if paths.empty?
 	
 if paths.size == 1
 	target = paths[0]
@@ -25,7 +46,7 @@ else
 	target = paths[i]
 end
 
-TextMate.exit_show_tool_tip("Intrinsic Class") if target =~ /ActionScript 3.tmbundle/
+TextMate.exit_show_tool_tip("Intrinsic Class") if target =~ /\.tmbundle\//
 
 TextMate.exit_show_tool_tip("Current file") if ENV['TM_FILEPATH'] == "#{target}"
 
