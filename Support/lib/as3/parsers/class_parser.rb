@@ -1038,7 +1038,7 @@ class ClassParser
 	# Returns a list of class paths that satisfy reference or word.
 	#
 	def path_list(doc, reference, word)
-		
+
 		#Where the word and ref don't match and it 
 		#looks like a Class name switch to it.
 		if reference != word
@@ -1048,17 +1048,23 @@ class ClassParser
 		end
 		
 		type = find_type(doc, reference)
-		
-		return [] unless type
-		
-	  paths = imported_class_to_file_path(doc, type)
 
-		create_src_list()
+    return [] unless type
+
+    paths = imported_class_to_file_path(doc, type)
+    
+    #If we searched any superclasses their paths have been stored
+    @loaded_documents.each { |path| 
+      f = File.open(path,"r" ).read.strip
+      paths << imported_class_to_file_path(strip_comments(f), type)
+    }
+    
+    create_src_list()
 		existing_paths = []
 
 		@src_dirs.each do |d|
 
-			paths.each do |path|
+			paths.flatten.uniq.each do |path|
 
 				uri = d.chomp + "/" + path.chomp
 				as = "#{uri}.as"
@@ -1074,7 +1080,7 @@ class ClassParser
 
 		end
 
-		existing_paths.uniq
+    return { :paths => existing_paths.uniq, :type => type }
 
 	end
 
@@ -1092,7 +1098,7 @@ class ClassParser
 		if File.directory?(dir)
 			@completion_src = dir
 			@src_dirs = ""
-			create_src_list()			
+			create_src_list()
 		end
 	end
 	
