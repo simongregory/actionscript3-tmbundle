@@ -34,7 +34,8 @@
 # TODO's: - 'DETERMINE TYPE' NEEDS TO LOAD ALL INTERFACE EXTENDS.
 #         - Multiline static methods.
 #         - Check type of return statements.
-#         - Stoping local vars in other scopes from being picked up.
+#         - Stopping local vars in other scopes from being picked up.
+#         - Handle CONSTANTS (capitalised words are assumed to be classes)
 #
 class ClassParser
 	
@@ -175,7 +176,7 @@ class ClassParser
 
 			props << $1 if txt =~ type_regexp
 			
-			break if txt =~ @pri.methods				
+			break if txt =~ @pri.methods
 			break if txt =~ @constructor_regexp
 
 			ln -= 1
@@ -192,30 +193,30 @@ class ClassParser
 		method_refs.each do |meth|
 			method_multiline = /^\s*(override\s+)?(#{ns})\s+function\s+\b#{meth}\b\s*\(((?m:[^)]+))\)\s*:\s*(\w+)/
 			doc.scan( method_multiline )
-			if $2 != nil				
-				if $3 != nil					
+			if $2 != nil
+				if $3 != nil
 					params = $3.gsub(/(\s|\n)/,"")
 					@methods << "#{meth}(#{params}):#{$4}"
 				else
 					@methods << "#{meth}():#{$4}"
 				end
 			end
-		end		
+		end
 	end
 	
 	def store_multiline_interface_methods(doc,method_refs)
 		method_refs.each do |meth|
 			method_multiline = /^\s*function\s+\b#{meth}\b\s*\(((?m:[^)]+))\)\s*:\s*(\w+)/
 			doc.scan( method_multiline )
-			if $2 != nil				
-				if $1 != nil					
+			if $2 != nil
+				if $1 != nil
 					params = $1.gsub(/(\s|\n)/,"")
 					@methods << "#{meth}(#{params}):#{$2}"
 				else
 					@methods << "#{meth}():#{$2}"
 				end
 			end
-		end		
+		end
 	end
 
 	def store_public_and_protected_class_members(doc)
@@ -242,7 +243,7 @@ class ClassParser
 				end
 			 
 			elsif line =~ @pro.getsets
-				@getsets << $4.to_s
+				@getsets << $5.to_s
 			elsif line =~ @pro_stat.getsets
 				@static_methods << $4.to_s
 			elsif line =~ @pro_stat.methods
@@ -319,10 +320,10 @@ class ClassParser
 			    @getsets << $2.to_s
 			elsif line =~ @i_face.methods
 				if $5 != nil and $2 != nil
-					@methods << "#{$1.to_s}(#{$2.to_s}):#{$5.to_s}"					
+					@methods << "#{$1.to_s}(#{$2.to_s}):#{$5.to_s}"
 				else
 					method_scans << $1
-				end		
+				end
 			end
 			
 		end
@@ -527,8 +528,6 @@ class ClassParser
 	# paths is an array of relative class paths.
 	#
 	def load_class(paths)
-
-		#urls=[]
 
 		@src_dirs.each do |d|
 
@@ -862,7 +861,7 @@ class ClassParser
 	#
 	# Important to remember that we are searching in two directions
 	#
-	# 	* Horizontally along the property chain.
+	#   * Horizontally along the property chain.
 	#   * Vertically through the class the ancestry.
 	#
 	# doc is the current class document.
@@ -985,7 +984,6 @@ class ClassParser
 		@depth = 0
 		@type_depth = 0
 
-		#doc = load_includes(doc,"#{ENV['TM_FILEPATH']}")
 		doc = strip_comments(doc)
 		
 		# Super Instance Members.
@@ -1168,14 +1166,14 @@ class ClassParser
 	#
 	def events
 		return if @events.empty?
-		@events.uniq.sort		
+		@events.uniq.sort
 	end
 	
 	# List of effects described in the class meta-data.
 	#
 	def styles
 		return if @styles.empty?
-		@styles.uniq.sort		
+		@styles.uniq.sort
 	end
 	
 	# ===========
@@ -1235,7 +1233,7 @@ class AS3ClassRegex
 
 			@vars 	 = /^\s*(#{ns})\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
 			@methods = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\(([^)\n]*)(\)(\s*:\s*(\w+|\*))?)?/			
-			@getsets = /^\s*(override\s+)?(#{ns}\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
+			@getsets = /^\s*(override\s+)?((#{ns})\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
 			
 			# Class Meta-data.
 			@events = /\[\s*Event\s*\(\s*name\s*="(\w+)"\s*,\s*type\s*=\s*"([\w.]+)"\s*\)\s*\]/
@@ -1265,12 +1263,3 @@ class AS3InterfaceRegex
 		
 end
 
-# Value Object to describe ActionScript 3 class members.
-#
-# class AS3Member
-# 	attr_accessor :namespace
-# 	attr_accessor :name
-# 	attr_accessor :type
-# 	attr_accessor :parameters
-# 	attr_accessor :storage_type
-# end
