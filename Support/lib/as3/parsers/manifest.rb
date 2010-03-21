@@ -113,6 +113,9 @@ if __FILE__ == $0
       assert_equal('ApplicationProxy', c[1])
       assert_equal('InitialLoadProportions', c[2])
       assert_equal('LapTimes', c[3])
+      
+      #This failure needs fixing, it happends because the RaceData node is 
+      #multiline and the regex fails on multiline nodes.
       assert_equal('RaceData', c[4])
       
      end
