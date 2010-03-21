@@ -423,5 +423,4 @@ if __FILE__ == $0
 	#
 	#FlexMate.required_settings(s)
 
-
 end
