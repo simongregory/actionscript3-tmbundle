@@ -111,36 +111,8 @@ if __FILE__ == $0
 
   puts "\n--- All ActionScript 3 and Flex Templates"
   FlexMate::BundleTool.class_template_search(['ActionScript 3', 'Flex']).each { |t|
-    puts t['bundle'] + ' ' + t['title']
+    tmpl = t['bundle'] + ' ' + t['title'] rescue 'TEST ERROR'
+    puts tmpl
   }
-  
-  puts "\n\n--- Tests"
-  
-  require "test/unit"
-
-  class BundleToolTest < Test::Unit::TestCase
-    
-    def user
-      ENV['USER']
-    end
-    
-    def user_app_sup
-      "/Users/#{user}/Library/Application Support"
-    end
-    
-    def test_find_without_extension
-      assert_equal("#{user_app_sup}/TextMate/Bundles/Flex.tmbundle", FlexMate::BundleTool.find_bundle('Flex')[0])
-      assert_equal("#{user_app_sup}/TextMate/Bundles/ActionScript 3.tmbundle", FlexMate::BundleTool.find_bundle('ActionScript 3'))
-    end
-    
-    def test_find_with_extension
-      assert_equal("#{user_app_sup}/TextMate/Bundles/Flex.tmbundle", FlexMate::BundleTool.find_bundle('Flex.tmbundle')[0])
-      assert_equal("#{user_app_sup}/TextMate/Bundles/ActionScript 3.tmbundle", FlexMate::BundleTool.find_bundle('ActionScript 3.tmbundle'))      
-    end
-    
-    def test_templates
-    end
-      
-  end
 
 end
