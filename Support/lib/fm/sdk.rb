@@ -13,7 +13,9 @@ module FlexMate
       # the environmental variable TM_FLEX_SDK_SEARCH_PATHS. See the 'Settings'
       # bundle preference for the active list.
       #
-      FLEX_DIRS = [ "/Developer/SDKs/flex_sdk_3",
+      FLEX_DIRS = [ "/Developer/SDKs/flex_sdk_4",
+                    "/Developer/SDKs/flex_sdk_4.0.0",
+                    "/Developer/SDKs/flex_sdk_3",
                     "/Developer/SDKs/flex_sdk_3.4.0",
                     "/Developer/SDKs/flex_sdk_3.3.0",
                     "/Developer/SDKs/flex_sdk_3.2.0",
@@ -30,11 +32,11 @@ module FlexMate
                     "/Applications/Adobe Flash Builder Beta/sdks/3.4.0",
                     "/Applications/Adobe Flash Builder Beta/sdks/4.0.0",
                     "/Applications/Adobe Flex Builder 2/Flex SDK 2",
-										"/Adobe Flex Builder 3 Plug-in/sdks/3.4.0",
-										"/Adobe Flex Builder 3 Plug-in/sdks/3.3.0",
-										"/Adobe Flex Builder 3 Plug-in/sdks/3.2.0",
-										"/Adobe Flex Builder 3 Plug-in/sdks/3.1.0",
-										"/Adobe Flex Builder 3 Plug-in/sdks/3.0.0",
+                    "/Adobe Flex Builder 3 Plug-in/sdks/3.4.0",
+                    "/Adobe Flex Builder 3 Plug-in/sdks/3.3.0",
+                    "/Adobe Flex Builder 3 Plug-in/sdks/3.2.0",
+                    "/Adobe Flex Builder 3 Plug-in/sdks/3.1.0",
+                    "/Adobe Flex Builder 3 Plug-in/sdks/3.0.0",
                     "/Developer/Applications/Adobe Flex Builder 2/Flex SDK 2",
                     "/Developer/SDKs/flex_sdk_2",
                     "/Developer/SDKs/Flex",
@@ -107,6 +109,12 @@ module FlexMate
         end
 
       end
+      
+      # Returns the path to the flex-config.xml doc.
+      #
+      def flex_config
+        find_sdk + "/frameworks/flex-config.xml"
+      end
 
       # Search FLEX_DIRS list for the Flex SDK, if it exists then set it to the
       # the TM_FLEX_PATH variable. Returns 0 for success, 1 for failure.
@@ -150,10 +158,8 @@ module FlexMate
 
         require ENV['TM_SUPPORT_PATH'] + '/lib/textmate'
 
-        config = find_sdk + "/frameworks/flex-config.xml"
-
-        if File.exists?(config)
-          TextMate.go_to(:file => config)
+        if File.exists?(flex_config)
+          TextMate.go_to(:file => flex_config)
         else
           TextMate.exit_show_tool_tip('Unable to locate Flex SDK and it\'s associated flex-config.xml file.')
         end
@@ -176,26 +182,11 @@ end
 
 if __FILE__ == $0
 
-  puts "\nsdk_dir_list:"
-  puts FlexMate::SDK.sdk_dir_list
-
-  puts "\nsdk_dir_arr:"
-  puts FlexMate::SDK.sdk_dir_arr
-
-  puts "\ndir_check:"
-  puts FlexMate::SDK.dir_check.to_s
-
-  puts "\nfind_sdk:"
-  puts FlexMate::SDK.find_sdk.to_s
-
   #Doesn't work inline, not exactly sure why.
   #puts "\nsdk_on_path:"
   #puts FlexMate::SDK.on_path.to_s
 
-  puts "\nsrc:"
-  puts FlexMate::SDK.src
-
-  #FlexMate::SDK.open_flex_config
+  FlexMate::SDK.open_flex_config
 
   #FlexMate::SDK.open_mx_source
 
