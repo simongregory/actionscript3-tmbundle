@@ -33,18 +33,6 @@ class MockSettings
   end
 end
 
-class TestCompiler < Test::Unit::TestCase
-  def test_case_name
-    #flunk("TestCompiler needs Tests!")
-  end
-end 
-
-class TestFcshCompiler < Test::Unit::TestCase
-  def test_case_name
-    #flunk("TestFcshCompiler needs Tests!")
-  end
-end
-
 class TestMxmlcCommand < Test::Unit::TestCase
   def test_mxmlc_line
     s = MockSettings.new
@@ -95,3 +83,9 @@ class TestCompcCommand < Test::Unit::TestCase
     assert_equal('compc -source-path+=/a\\ b/pro\\ ject/additional_src -o=/a\\ b/pro\\ ject/bin/Test.swf flash/display/DisplayObject.as flash/display/CapsStyle.as flash/display/BlendMode.as', c.line)
   end  
 end
+
+# class TestCompiler < Test::Unit::TestCase
+# end
+
+# class TestFcshCompiler < Test::Unit::TestCase
+# end
