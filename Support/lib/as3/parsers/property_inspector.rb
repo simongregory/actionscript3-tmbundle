@@ -83,6 +83,7 @@ module PropertyInspector
             if bracket_contents.reverse.to_s =~ as_regexp
               found << $1
             end
+            bracket_contents = []
             break
 
           end
