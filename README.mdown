@@ -234,13 +234,13 @@ Christian Swinehart
 ChromaticRain  
 [Daniel Parnell][daniel_parnell]  
 [Gabriel Laet][gabriel_laet]  
-Jeremy Sachs   
+[Jeremy Sachs][jeremy_sachs]  
 [Joachim][joachim]  
 [Kristofer Joseph][kristoferjoseph]  
 [Lars van de Kerkhof][specialunderwear]  
 [Leo Soto][leo_soto]  
 [Lucas Dupin][lucasdupin]  
-Luke Daley  
+[Luke Daley][luke_daley]  
 [Mark Llobrera][mark_llobrera]  
 [Theo Hultberg][theo]  
 [Thomas Aylott][thomas_aylott]  
@@ -300,3 +300,5 @@ An exception is made for files in readable text which contain their own license 
 [lucasdupin]: http://github.com/lucasdupin
 [gabriel_laet]: http://github.com/gabriel-laet
 [leo_soto]: http://code.google.com/p/flex-compiler-shell-daemon/
+[jeremy_sachs]: http://www.rezmason.net/
+[luke_daley]: http://github.com/alkemist
