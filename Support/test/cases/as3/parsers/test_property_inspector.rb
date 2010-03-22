@@ -508,8 +508,20 @@ class TestPropertyInspector < Test::Unit::TestCase
 
       assert_equal 'BigOne.two.Three.Four', c[:ref]
       assert_equal false, c[:is_static]
-      assert_equal 'foo', c[:filter]
       assert_equal true, c[:insert_dot]
+
+      ENV['TM_CURRENT_LINE'] = <<-EOF
+      BigOne(one).two.(z as Three).(x as Four).five
+      EOF
+
+      ENV['TM_LINE_INDEX'] = '51'
+
+      c = PropertyInspector.capture
+
+      assert_equal 'BigOne.two.Three.Four', c[:ref]
+      assert_equal false, c[:is_static]
+      assert_equal true, c[:insert_dot]
+      assert_equal 'five', c[:filter]
 
     end
 
