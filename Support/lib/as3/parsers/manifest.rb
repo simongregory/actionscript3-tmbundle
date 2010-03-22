@@ -22,6 +22,10 @@
 
 # Utility class for working with ActionScript manifest files.
 #
+# Note: REXML has been avoided for speed reasons, but this means the xml 
+# handling is fragile. Specifically if the class and id attributes are not in
+# the expected order then it will break.
+#
 class Manifest
 
   def initialize(doc)
@@ -42,13 +46,14 @@ class Manifest
     
   def classes
 
-    rgx = /<component\s+id=["'](\w+)["']\s+class=["']([\w.]+)["']/
+    rgx = /<component(?m:[^\w]+)id=["'](\w+)["'](?m:[^\w]+)class=["']([\w.]+)["']/
+
     cls = []
-    @doc.each { |line|  cls << $1 if line =~ rgx }
+    @doc.scan(rgx) { |a,b| cls << a }
     cls
-    
+
   end
-  
+
   protected
   
   # Strips comments from the document.
