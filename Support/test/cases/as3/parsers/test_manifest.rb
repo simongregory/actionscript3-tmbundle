@@ -25,6 +25,9 @@ require "as3/parsers/manifest"
 
 class TestManifest < Test::Unit::TestCase
 
+  # Not going overboard here, manifests should be machine generated. If you want
+  # to break a node then reverse the id and class attributes.
+  #
   def example_manifest
     '<?xml version="1.0"?>
     <componentPackage>
@@ -42,6 +45,18 @@ class TestManifest < Test::Unit::TestCase
       <component id="RemoteServices" class="org.helvector.game.io.RemoteServices" />
       <component id="TrackingCallCommand" class="org.helvector.game.controller.TrackingCallCommand" />
       <component id="UserProxy" class="org.helvector.game.model.proxies.domain.UserProxy" />
+      <component 
+          
+          id="CarProxy" 
+          
+          class="org.helvector.game.model.proxies.domain.CarProxy"
+      
+      />
+      <component 
+          
+          id="WheelProxy" 
+          class="org.helvector.game.model.proxies.domain.WheelProxy"
+      ></component>
     </componentPackage>'
   end
 
@@ -58,6 +73,9 @@ class TestManifest < Test::Unit::TestCase
   found = m.find_class('ApplicationProxy')
   assert_equal('org.helvector.game.model.proxies.ApplicationProxy',found)
 
+  found = m.find_class('WheelProxy')
+  assert_equal('org.helvector.game.model.proxies.domain.WheelProxy',found)
+
   end
 
   def test_classes
@@ -65,14 +83,17 @@ class TestManifest < Test::Unit::TestCase
     m = Manifest.new(example_manifest)
     c = m.classes
 
-    assert_equal('ApplicationMediator', c[0])
-    assert_equal('ApplicationProxy', c[1])
-    assert_equal('InitialLoadProportions', c[2])
-    assert_equal('LapTimes', c[3])
-
-    #This failure needs fixing, it happends because the RaceData node is
-    #multiline and the regex fails on multiline nodes.
-    assert_equal('RaceData', c[4])
+    assert_equal('ApplicationMediator', c.shift)
+    assert_equal('ApplicationProxy', c.shift)
+    assert_equal('InitialLoadProportions', c.shift)
+    assert_equal('LapTimes', c.shift)
+    assert_equal('RaceData', c.shift)
+    assert_equal('RaceVO', c.shift)
+    assert_equal('RemoteServices', c.shift)
+    assert_equal('TrackingCallCommand', c.shift)
+    assert_equal('UserProxy', c.shift)
+    assert_equal('CarProxy', c.shift)
+    assert_equal('WheelProxy', c.shift)
 
   end
 
