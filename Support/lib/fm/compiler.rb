@@ -19,12 +19,12 @@ module FlexMate
       cmd = build_tool(s)
 
       TextMate.require_cmd(cmd.name)
-            
+      
       init_html(cmd)
       
       exhaust = get_exhaust
       
-      # This works... when, occastionally, using TextMate::Process fails. Memory allocation maybe?
+      # This works... when, occasionally, using TextMate::Process fails. Memory allocation maybe?
       #{}`#{cmd.line}`.each { |str| STDOUT << exhaust.line(str) }
 
       TextMate::Process.run(cmd.line) do |str|
@@ -146,7 +146,7 @@ class MxmlcCommand
   end
   
   def to_s
-    "-file-specs=#{file_specs}\n-o=#{e_sh o}"
+    "#{name} -file-specs=#{file_specs}\n-o=#{e_sh o}"
   end
 
 end
@@ -177,33 +177,15 @@ end
 
 # Object to encapsulate a amxmlc command and its arguments.
 #
-class AMxmlcCommand
-  
-  attr_reader :file_specs
-  attr_reader :o
-  attr_reader :name
+class AMxmlcCommand < MxmlcCommand
   
   def initialize(settings)
-
+    super(settings)
     #Note: If you open the amxmlc tool you find it's just a proxy to mxmlc.
     #      However using amxmlc with fcsh doesn't work (SDK 3.5) so it's worth 
     #      the risk of failure by being exposed to internal changes to amxmlc in
     #      future revisions.
     @name = 'mxmlc +configname=air'
-    @o = settings.flex_output
-    @file_specs = settings.file_specs
-  end
-
-  def line
-    "#{name} -file-specs=#{e_sh file_specs} -o=#{e_sh o}"
-  end
-
-  def file_specs_name
-    File.basename(file_specs)
-  end
-  
-  def to_s
-    "-file-specs=#{file_specs}\n-o=#{e_sh o}"
   end
 
 end

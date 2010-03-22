@@ -14,4 +14,5 @@ tests.flatten.each do |file|
   require file
 end
 
-#NOTE: Search for #flunk to expose unwritten tests.
+#NOTE: Search for #flunk to expose tests yet to be written.
+
