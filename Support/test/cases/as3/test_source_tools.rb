@@ -41,6 +41,10 @@ class TestSourceTools < Test::Unit::TestCase
     false
   end
 
+  def total_as_files
+    472
+  end
+  
   # =========
   # = Tests =
   # =========
@@ -225,7 +229,7 @@ class TestSourceTools < Test::Unit::TestCase
     c = SourceTools.list_all_class_files
 
     assert_equal(true, c.include?('Boolean.as'))
-    assert_equal(471, c.length)
+    assert_equal(total_as_files, c.length)
   end
 
   def test_list_all_classes
@@ -238,7 +242,7 @@ class TestSourceTools < Test::Unit::TestCase
     c = SourceTools.list_all_classes
 
     assert_equal(c.include?('Boolean'), true)
-    assert_equal(471, c.length)
+    assert_equal(total_as_files, c.length)
 
   end
 

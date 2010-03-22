@@ -82,7 +82,7 @@ class Swf
     
     raise "Wrong file type" unless @signature =~ /(C|F)WS/
     
-    @zip = (@signature =~ /^C/)
+    @zip = @signature =~ /^C/ ? true : false
     
     @version = @buffer.slice!(0).to_i
     
