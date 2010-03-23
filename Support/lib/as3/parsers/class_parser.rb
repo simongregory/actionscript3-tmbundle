@@ -121,7 +121,7 @@ class ClassParser
 		doc.each do |line|
 
 			if line =~ @pri.vars
-		  		@properties << $2.to_s
+		  		@properties << $3.to_s
 			elsif line =~ @pri.methods
 
 				# Based off the the $7 th match we can determine wheter or not the
@@ -137,8 +137,7 @@ class ClassParser
 				end
 
 			elsif line =~ @pri.getsets
-			    #@properties << $4.to_s
-				@getsets << $4.to_s
+				@getsets << $5.to_s
 			elsif line =~ @pri_stat.getsets
 			    @properties << $4.to_s
 			elsif line =~ @pri_stat.methods
@@ -231,7 +230,7 @@ class ClassParser
 			
 			if line =~ @pro.vars
 
-				@properties << $2.to_s
+				@properties << $3.to_s
 				
 			elsif line =~ @pro.methods
 				
@@ -286,9 +285,9 @@ class ClassParser
 			end
 
 			if line =~ @pub.vars
-				@properties << $2.to_s
+				@properties << $3.to_s
 			elsif line =~ @pub.getsets
-				@getsets << $4.to_s
+				@getsets << $5.to_s
 			elsif line =~ @pub.methods
 				if $7 != nil and $4 != nil
 					@methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
@@ -1237,7 +1236,7 @@ class AS3ClassRegex
 
 		else
 
-			@vars 	 = /^\s*(#{ns})\s+var\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
+			@vars    = /^\s*(#{ns})\s+(var|const)\s+\b(\w+)\b\s*:\s*((\w+)|\*)/
 			@methods = /^\s*(override\s+)?(#{ns})\s+function\s+\b([a-z]\w+)\b\s*\(([^)\n]*)(\)(\s*:\s*(\w+|\*))?)?/			
 			@getsets = /^\s*(override\s+)?((#{ns})\s+)?function\s+\b(get|set)\b\s+\b(\w+)\b\s*\(/
 			
