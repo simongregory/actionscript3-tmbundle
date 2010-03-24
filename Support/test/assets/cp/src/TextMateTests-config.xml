@@ -1,0 +1,44 @@
+<flex-config>
+
+	<benchmark>false</benchmark>
+	
+	<default-background-color>#FFFFFF</default-background-color>
+	
+	<compiler>
+		<incremental>true</incremental>
+		<optimize>true</optimize>
+		<keep-generated-actionscript>false</keep-generated-actionscript>
+		<warn-no-constructor>true</warn-no-constructor>
+		<warn-no-explicit-super-call-in-constructor>true</warn-no-explicit-super-call-in-constructor>
+      	<show-actionscript-warnings>true</show-actionscript-warnings>
+		<show-binding-warnings>true</show-binding-warnings>
+		<show-unused-type-selector-warnings>true</show-unused-type-selector-warnings>		
+		<debug>false</debug>
+
+		<!-- Example library linkage -->		
+
+		<!-- for swc's
+		<library-path append="true">
+			<path-element>../lib/bin/</path-element>			
+		</library-path>
+		-->
+		
+		<!-- for src
+		<source-path append="true">
+			<path-element>../lib/src/</path-element>
+		</source-path>
+		-->
+		
+	</compiler>
+	
+	<metadata>
+		<title>TextMateTests Application</title>
+		<description>TextMateTests Project</description>
+		<publisher>Made in TextMate</publisher>
+		<creator>Simon Gregory</creator>
+		<language>EN</language>
+	</metadata>
+	
+	<raw-metadata/>
+	
+</flex-config>

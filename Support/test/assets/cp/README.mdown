@@ -1,0 +1,7 @@
+Autocompletion and Syntax Highlighting Tests
+--------------------------------------------
+
+This source is used both to test various parts of the autocompletion system, and
+that Syntax highlighting is working as expected.
+
+See `test_class_parser.rb`

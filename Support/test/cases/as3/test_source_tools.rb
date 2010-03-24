@@ -42,7 +42,7 @@ class TestSourceTools < Test::Unit::TestCase
   end
 
   def total_as_files
-    472
+    493
   end
   
   # =========
