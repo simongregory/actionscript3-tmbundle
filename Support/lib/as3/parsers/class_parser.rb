@@ -3,7 +3,7 @@
 
 ################################################################################
 #
-#    Copyright 2009 Simon Gregory
+#    Copyright 2009-2010 Simon Gregory
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -120,6 +120,7 @@ class ClassParser
     log_append( "Adding local (ppp)" + @depth.to_s )
 
     method_scans = []
+    static_method_scans = []
 
     doc.each do |line|
 
@@ -142,9 +143,15 @@ class ClassParser
       elsif line =~ @pri.getsets
         @getsets << $5.to_s
       elsif line =~ @pri_stat.getsets
-        @properties << $4.to_s
+        @static_properties << $4.to_s
       elsif line =~ @pri_stat.methods
-        @static_methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
+
+        if $7 != nil and $4 != nil
+          @static_methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
+        else
+          static_method_scans << $3
+        end
+
       elsif line =~ @pri_stat.vars
         @static_properties << $4.to_s
       elsif line =~ @private_class_regexp
@@ -154,6 +161,7 @@ class ClassParser
     end
 
     store_multiline_methods(doc,method_scans,"private|protected|public")
+    store_multiline_static_methods(doc,static_method_scans,"static|private|protected|public")
 
     @depth += 1
 
@@ -193,7 +201,7 @@ class ClassParser
 
   def store_multiline_methods(doc,method_refs,ns)
     method_refs.each do |meth|
-      method_multiline = /^\s*(override\s+)?(#{ns})\s+function\s+\b#{meth}\s*\(((?m:[^)]+))\)\s*:\s*(\w+)/
+      method_multiline = /^\s*(override\s+)?(#{ns})\s+function\s+\b#{meth}\s*\(((?m:[^)]+))\)\s*:\s*((\w+|\*))/
       doc.scan( method_multiline )
       return_type = $4
       params = $3
@@ -208,9 +216,26 @@ class ClassParser
     end
   end
 
+  def store_multiline_static_methods(doc,method_refs,ns)
+    method_refs.each do |meth|
+      ml = /^\s*\b(#{ns})\b\s+\b(#{ns})\b\s+function\s+\b#{meth}\s*\(((?m:[^)]+))\)\s*:\s*((\w+|\*))/
+      doc.scan(ml)
+      return_type = $4
+      params = $3
+      if $2 != nil
+        if params != nil
+          params.gsub!(/(\s|\n)/,"")
+          @static_methods << "#{meth}(#{params}):#{return_type}"
+        else
+          @static_methods << "#{meth}():#{return_type}"
+        end
+      end
+    end
+  end
+
   def store_multiline_interface_methods(doc,method_refs)
     method_refs.each do |meth|
-      method_multiline = /^\s*function\s+\b#{meth}\b\s*\(((?m:[^)]+))\)\s*:\s*(\w+)/
+      method_multiline = /^\s*function\s+\b#{meth}\b\s*\(((?m:[^)]+))\)\s*:\s*((\w+|\*))/
       doc.scan( method_multiline )
       return_type = $2
       params = $1
@@ -232,6 +257,7 @@ class ClassParser
     log_append( "Adding ancestor (pp) " + @depth.to_s )
 
     method_scans = []
+    static_method_scans = []
 
     doc.each do |line|
 
@@ -251,9 +277,15 @@ class ClassParser
       elsif line =~ @pro.getsets
         @getsets << $5.to_s
       elsif line =~ @pro_stat.getsets
-        @static_methods << $4.to_s
+        @static_properties << $4.to_s
       elsif line =~ @pro_stat.methods
-        @static_methods << "#{$3.to_s}()"
+
+        if $7 != nil and $4 != nil
+          @static_methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
+        else
+          static_method_scans << $3
+        end
+
       elsif line =~ @pro_stat.vars
         @static_properties << $4.to_s
       elsif line =~ @private_class_regexp
@@ -264,6 +296,7 @@ class ClassParser
     end
 
     store_multiline_methods(doc,method_scans,"protected|public")
+    store_multiline_static_methods(doc,static_method_scans,"static|protected|public")
 
     @depth += 1
 
@@ -344,6 +377,8 @@ class ClassParser
 
     return if doc.nil?
 
+    static_method_scans = []
+
     doc.each do |line|
 
       if line =~ @pub_stat.vars
@@ -351,13 +386,18 @@ class ClassParser
       elsif line =~ @pub_stat.getsets
         @static_properties << $4.to_s
       elsif line =~ @pub_stat.methods
-        @static_methods << "#{$3.to_s}()"
+        if $7 != nil and $4 != nil
+          @static_methods << "#{$3.to_s}(#{$4.to_s}):#{$7.to_s}"
+        else
+          static_method_scans << $3
+        end
       elsif line =~ @private_class_regexp
         break
       end
 
     end
 
+    store_multiline_static_methods(doc,static_method_scans,"static|public")
   end
 
   # ====================

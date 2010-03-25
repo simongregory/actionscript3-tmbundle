@@ -569,12 +569,12 @@ class TestHelvectorStaticClass < Test::Unit::TestCase
     assert_static_method(c,'testPublicStaticFunction(param:*):void')
     assert_static_method(c,'testStaticPublicFunction():Event')
     assert_static_method(c,'testPrivateStaticFunction():void')
+    assert_static_method(c,'testStaticMultilineMethod(one:Number,two:String,three:int):Object')
+    assert_static_method(c,'testAltStaticMultilineMethod(one:Number=3,two:String="hello",three:int):*')
 
-    # TODO: properties (get|set) are pushed into the instance properties at the
-    # moment. This should really be into a static_properties list.
-    assert_property(c,'testPublicStaticAccessor')
-    assert_property(c,'testStaticPublicAccessor')
-    assert_property(c,'testPrivateStaticAccessor')
+    assert_static_property(c,'testPublicStaticAccessor')
+    assert_static_property(c,'testStaticPublicAccessor')
+    assert_static_property(c,'testPrivateStaticAccessor')
 
   end
 
@@ -586,6 +586,7 @@ class TestHelvectorStaticClass < Test::Unit::TestCase
 
     # methods in the interface
     assert_equal('Event', c.find_type(d,'testStaticPublicFunction'))
+    assert_equal('Object', c.find_type(d,'testStaticMultilineMethod'))
     assert_equal('Object', c.find_type(d,'testPublicStaticAccessor'))
     assert_equal('String', c.find_type(d,'TEST_PRIVATE_STATIC_CONST'))
     assert_equal('Number', c.find_type(d,'TEST_PUBLIC_STATIC_VAR'))
