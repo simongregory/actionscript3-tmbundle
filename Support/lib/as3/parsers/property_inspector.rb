@@ -3,7 +3,7 @@
 
 ################################################################################
 #
-#   Copyright 2009 Simon Gregory
+#   Copyright 2009-2010 Simon Gregory
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -102,18 +102,6 @@ module PropertyInspector
 
     found.reverse!
 
-    # Searches forward from the caret.
-    #i = li.to_i
-    #while i < la.length
-    #
-    #   current_letter = la[i]
-    #   break if current_letter =~ stop_match
-    #   break if current_letter == "("
-    #   found << current_letter
-    #   i += 1
-    #
-    #end
-
     # Search for casting.
     if found.empty?
       if bracket_contents.reverse.to_s =~ as_regexp
@@ -203,22 +191,19 @@ module PropertyInspector
     }
 
     return state if state[:ref] == nil
-    return state if state[:is_static] == true
 
     chain = state[:ref].split(".")
 
     # Do we need to filter output?
     unless ENV['TM_SCOPE'] =~ /following\.dot/
 
-      #if chain[0] != "this" and chain.size > 1
-      #if chain[0] == "this" and chain.size > 1
       if chain.size > 1
         state[:filter] = chain.pop()
         state[:ref] = chain.join(".")
         if state[:ref] == ''
           state[:ref] = "this"
         end
-      elsif chain.size == 1 and chain[0] != "this"
+      elsif chain.size == 1 and chain[0] != "this" and state[:is_static] != true
         state[:ref] = "this"
         state[:filter] = chain[0]
       end
