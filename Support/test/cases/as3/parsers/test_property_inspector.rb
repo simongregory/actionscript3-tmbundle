@@ -525,4 +525,20 @@ class TestPropertyInspector < Test::Unit::TestCase
 
     end
 
+    def test_static_capture
+
+      ENV['TM_SCOPE'] = 'source.actionscript.3'
+      ENV['TM_LINE_INDEX'] = '27'
+      ENV['TM_CURRENT_LINE'] = <<-EOF
+      StaticExample.WITH_PA
+      EOF
+
+      c = PropertyInspector.capture
+
+      assert_equal 'StaticExample', c[:ref]
+      assert_equal true, c[:is_static]
+      assert_equal 'WITH_PA', c[:filter]
+      assert_equal true, c[:insert_dot]
+
+    end
 end
