@@ -14,6 +14,16 @@ public class StaticTest {
 	public static function testPublicStaticFunction(param:*):void {}
 	static public function testStaticPublicFunction():Event{}
 
+	public static function testStaticMultilineMethod(one:Number,
+		two:String,
+		three:int): 		Object{}
+
+	static public function testAltStaticMultilineMethod(one:Number=3,
+	two:String="hello",
+	//
+three:int
+	/*    */):* {}
+
 	public static function get testPublicStaticAccessor():Object{}
 	public static function set testPublicStaticAccessor(value:Boolean):void{}
 

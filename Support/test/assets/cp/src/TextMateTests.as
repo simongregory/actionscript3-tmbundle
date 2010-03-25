@@ -11,6 +11,7 @@ import flash.events.Event;
 import flash.display.Sprite;
 
 import org.helvector.textmate.interface.ISimpleExtender;
+import org.helvector.textmate.static.StaticTest;
 
 /**
  *  @langversion ActionScript 3
@@ -51,7 +52,19 @@ public class TextMateTests extends Sprite
 		trace( "TextMateTests::initialize()" );
 
 		var b:ISimpleExtender = new Object();
+
+        //Manual completion tests
 		b.
+		b.simp
+		b.simpleEx
+		Event.
+		Event.RE
+        event.
+		stage.addE
+		stage.contextMenu
+
+
+
 	}
 
 	/**
