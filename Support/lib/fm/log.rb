@@ -8,7 +8,7 @@ module FlexMate
     class << self
 
       def log_file
-				"#{ENV['HOME']}/Library/Logs/TextMate\\ ActionScript\\ 3.log"
+        "#{ENV['HOME']}/Library/Logs/TextMate\ ActionScript\ 3.log"
       end
 
       # Initilialise/clear the log.
@@ -36,11 +36,4 @@ module FlexMate
 
   end
 
-end
-
-if __FILE__ == $0
-
-  FlexMate::Log.puts("Test Text")
-  `open -a TextMate #{FlexMate::Log.log_file}`
-  
 end
