@@ -1,17 +1,18 @@
 #!/usr/bin/env ruby -wKU
 # encoding: utf-8
 
+require 'xmlrpc/client'
+
+require ENV['TM_SUPPORT_PATH'] + '/lib/escape'
+require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
+
+require 'fc/fcshd_server'
+
 module FCSHD
 
 BUN_SUP = ENV['TM_BUNDLE_SUPPORT']
 
-require 'xmlrpc/client'
 #require 'Logger'
-require ENV['TM_SUPPORT_PATH'] + '/lib/escape'
-require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
-
-require ENV['TM_BUNDLE_SUPPORT'] + '/bin/fcshd_server'
-
 # @logger = Logger.new('/tmp/fcshd/gui.log')
 # @logger.level = Logger::DEBUG
 
@@ -27,8 +28,8 @@ def self.generate_view
 		
 		puts html_head(:window_title => "ActionScript 3", :page_title => "fcshd", :sub_title => "__" );
 
-		puts	"<link rel='stylesheet' href='file://#{e_url(BUN_SUP)}/css/fcshd.css' type='text/css' charset='utf-8' media='screen'>"
-		puts  "<script src='file://#{e_url(BUN_SUP)}/js/fcshd.js' type='text/javascript' charset='utf-8'></script>"
+		puts "<link rel='stylesheet' href='file://#{e_url(BUN_SUP)}/css/fcshd.css' type='text/css' charset='utf-8' media='screen'>"
+		puts "<script src='file://#{e_url(BUN_SUP)}/js/fcshd.js' type='text/javascript' charset='utf-8'></script>"
 		puts "<div id='script-path'>#{BUN_SUP}/bin/</div>"
 		puts "
 		<h2><div id='status'>Checking daemon status</div></h2>
@@ -39,6 +40,7 @@ def self.generate_view
 		
 		compiler_state = FCSHD_SERVER.running ? "up" : "down"
 		puts '<script type="text/javascript" charset="utf-8">setState("'+compiler_state+'")</script>'
+		
 end
 
 def self.stop_server
@@ -84,22 +86,3 @@ def self.close_window
 end
 
 end
-
-def run
-  if ARGV[0] == "-success" 
-    FCSHD.success
-  elsif ARGV[0] == "-fail"
-      FCSHD.fail
-    elsif ARGV[0] == "-status"
-      FCSHD.status
-    elsif ARGV[0] == "-start"
-      FCSHD.start_server
-    elsif ARGV[0] == "-stop"
-      FCSHD.stop_server
-    elsif ARGV[0] == "-view"
-      FCSHD.generate_view
-  else
-    "No command given"
-  end
-end
-run

@@ -30,7 +30,7 @@ class MxmlcExhaust
     @input = []
 
     @error_and_warn_regex = /(\/.*?)(\(([0-9]+)\)|):.*(Error|Warning):\s*(.*)$/
-    @config_file_regex    = /(^Loading configuration file )(.*)$/
+    @config_file_regex    = /(^\s*Loading configuration file )(.*)$/
     @recompile_file_regex = /(^Recompile: )(.*)$/
     @reason_file_regex    = /(^.*, )(.*,)(.*)$/
     @unable_to_open_regex = /(^Error: unable to open).*/
@@ -57,6 +57,18 @@ class MxmlcExhaust
     output << "<br/>Build complete, #{ @error_count.to_s } #{err} occured."
     print output if print_output
     output
+  end
+  
+  def raw(id='z')
+    output = ""
+    output << '<br/><div class="raw_out_#{id}"><span class="showhide">'
+    output << "<a href=\"javascript:hideElement('raw_out_#{id}')\" id='raw_out_#{id}_h' style='display: none;'>&#x25BC; Hide Raw Output</a>"
+    output << "<a href=\"javascript:showElement('raw_out_#{id}')\" id='raw_out_#{id}_s' style=''>&#x25B6; Show Raw Output</a>"
+    output << '</span></div>'
+    output << '<div class="inner" id="raw_out_'+id+'_b" style="display: none;"><br/>'
+    output << "<pre><code>#{input.to_s}</code></pre><br/></div>"
+    print output if print_output
+    output    
   end
   
   protected

@@ -31,14 +31,8 @@ module FlexMate
         STDOUT << exhaust.line(str)
       end
 
+      STDOUT << exhaust.print_raw
       STDOUT << exhaust.complete
-      
-      STDOUT << '<br/><br/><div class="raw_out"><span class="showhide">'
-      STDOUT << "<a href=\"javascript:hideElement('raw_out')\" id='raw_out_h' style='display: none;'>&#x25BC; Hide Raw Output</a>"
-      STDOUT << "<a href=\"javascript:showElement('raw_out')\" id='raw_out_s' style=''>&#x25B6; Show Raw Output</a>"
-      STDOUT << '</span></div>'
-      STDOUT << '<div class="inner" id="raw_out_b" style="display: none;"><br/>'
-      STDOUT << "<code>#{exhaust.input.to_s}</code><br/>"      
       
       html_footer
 
@@ -121,6 +115,52 @@ module FlexMate
     
   end
 
+  class FcshdCompiler < Compiler
+    def initialize
+      super
+    end
+    
+    # Run mxmlc using the fcshd to compile.
+    #
+    def build
+      
+      TextMate.require_cmd('fcsh')
+      
+      s = FlexMate::Settings.new
+      
+      ENV['TM_FLEX_FILE_SPECS'] = s.file_specs
+      ENV['TM_FLEX_OUTPUT'] = s.flex_output
+      
+      #WARN: Accessing s.flex_output after this point will fail. This is because 
+      #      settings expects TM_FLEX_OUTPUT to be relative to the project root
+      #      + we've just set it to a full path.
+      FlexMate.required_settings({ :files => ['TM_FLEX_FILE_SPECS'],
+                                   :evars => ['TM_FLEX_OUTPUT'] })
+      
+      cmd = build_tool(s)
+      
+      #Make sure there are no spaces for fcsh to trip up on.
+      FlexMate.check_valid_paths([cmd.file_specs,cmd.o])
+      
+      FCSHD.generate_view
+
+      exhaust = get_exhaust
+      
+      STDOUT << "<h3>Compiling, #{cmd.file_specs_name}</h3>"
+
+      FCSHD_SERVER.build(cmd.line).each_line do |ln|
+        STDOUT << exhaust.line(ln)
+      end
+
+      STDOUT << exhaust.raw
+      STDOUT << exhaust.complete
+      
+      html_footer
+      
+    end
+    
+  end
+  
 end
 
 # Object to encapsulate a mxmlc command and its arguments.

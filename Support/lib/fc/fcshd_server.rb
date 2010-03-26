@@ -8,6 +8,7 @@ require 'fileutils'
 #Running as daemon
 require 'rubygems'
 require 'daemons'
+require 'logger'
 
 module FCSHD_SERVER
   

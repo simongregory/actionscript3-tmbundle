@@ -2,12 +2,6 @@
 # encoding: utf-8
 
 require 'yaml'
-require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
-require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
-
-require ENV['TM_BUNDLE_SUPPORT'] + '/bin/fcshd_server'
-require ENV['TM_BUNDLE_SUPPORT'] + '/bin/fcshd'
-require ENV['TM_BUNDLE_SUPPORT'] + '/lib/fm/mxmlc_exhaust'
 
 module AS3Project
 
@@ -206,27 +200,20 @@ module AS3Project
         mxmlc_applications.each do |app|
           
             printf('<h3>Compiling %s</h3>', app["klass"])
-            raw_output = []
+
             puts "<pre>"
             result = FCSHD_SERVER.build(app["mxmlc"])
             result.each_line do |line|
-              raw_output << line
               mxmlc_parser.line line
             end
             puts "</pre>"
-            mxmlc_parser.complete
-            
+
             id = app["klass"].gsub(/[\/.]/,'_').downcase
-            
-            puts '<br/><br/><div class="raw_out_#{id}"><span class="showhide">'
-            puts "<a href=\"javascript:hideElement('raw_out_#{id}')\" id='raw_out_#{id}_h' style='display: none;'>&#x25BC; Hide Raw Output</a>"
-            puts "<a href=\"javascript:showElement('raw_out_#{id}')\" id='raw_out_#{id}_s' style=''>&#x25B6; Show Raw Output</a>"
-            puts '</span></div>'
-            puts '<div class="inner" id="raw_out_'+id+'_b" style="display: none;"><br/>'
-            puts "<pre><code>#{raw_output.to_s}</code></pre><br/></div>"
+            mxmlc_parser.raw(id)
+            mxmlc_parser.complete
 
         end
-
+        
         if mxmlc_parser.error_count <= 0
           FCSHD.success
 
@@ -238,7 +225,8 @@ module AS3Project
         else
           FCSHD.fail
         end
-
+        
+        html_footer
         return 0;
     end
 

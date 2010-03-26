@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby -wKU
+# encoding: utf-8
+
+# Interface for the FCSHD, this proxys calls into the daemon.
+#
+#
+
+require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
+
+require 'fc/fcshd'
+
+def run
+  if ARGV[0] == "-success" 
+    FCSHD.success
+  elsif ARGV[0] == "-fail"
+    FCSHD.fail
+  elsif ARGV[0] == "-status"
+    FCSHD.status
+  elsif ARGV[0] == "-start"
+    FCSHD.start_server
+  elsif ARGV[0] == "-stop"
+    FCSHD.stop_server
+  elsif ARGV[0] == "-view"
+    FCSHD.generate_view
+  else
+    "No command given"
+  end
+end
+
+run
+
+if __FILE__ == $0
+  ARGV[0] = "-start"
+  run
+end

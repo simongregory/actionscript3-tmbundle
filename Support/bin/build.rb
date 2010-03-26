@@ -21,8 +21,9 @@ if File.file?(custom)
 
   if custom =~ /\.y(a)?ml$/
 
-    require ENV['TM_BUNDLE_SUPPORT'] + '/bin/fcshd.rb'
-    require ENV['TM_BUNDLE_SUPPORT'] + '/bin/as3project.rb'
+    require 'fc/fcshd'
+    require 'fm/as3project'
+    require 'fm/mxmlc_exhaust'
 
     #Require being in a project
     FlexMate.require_tmproj
@@ -33,7 +34,7 @@ if File.file?(custom)
     #Generate the beautiful header
     FCSHD.generate_view
 
-    #Eun the compiler and print filtered error messages
+    #Run the compiler and print filtered error messages
     FCSHD_SERVER.start_server if not FCSHD_SERVER.running
     AS3Project.compile
     
@@ -51,11 +52,22 @@ elsif ENV['TM_PROJECT_DIRECTORY'] && (ENV['TM_FLEX_USE_FCSH'] == 'true')
   #Requires are needed by FlexMate.required_settings + check_valid_paths
   require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
   require ENV['TM_SUPPORT_PATH'] + '/lib/tm/htmloutput'
-
-  c = FlexMate::FcshCompiler.new
-  c.build
   
-  TextMate.exit_discard
+  # >>> Start FCSHD Test
+  require 'fc/fcshd'
+  require 'fm/as3project'
+  require 'fm/mxmlc_exhaust'
+  
+  STDOUT.sync = true
+  
+  c = FlexMate::FcshdCompiler.new
+  c.build
+  # <<< END FCSHD Test
+    
+  # Original Fcsh code - uses Terminal.app
+  #c = FlexMate::FcshCompiler.new
+  #c.build
+  #TextMate.exit_discard
   
 else
   

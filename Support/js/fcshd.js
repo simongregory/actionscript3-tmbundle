@@ -47,8 +47,8 @@ function refreshStatus()
 {
     var scriptElt = document.getElementById('script-path')
     var scriptPath = scriptElt.firstChild.nodeValue
-	console.log( scriptPath + "fcshd.rb");
-    TextMate.system('echo `"' + scriptPath + 'fcshd.rb" -status`', 
+	console.log( scriptPath + "fcshd");
+    TextMate.system('echo `"' + scriptPath + 'fcshd" -status`', 
 	    function(e) {
 			console.log(e.outputString);
 	        if (e.outputString.match("Running"))
@@ -80,7 +80,7 @@ function toggleClick()
 			setState('stopping');
         	console.log('stopping');
 
-			TextMate.system('"' + scriptPath + 'fcshd.rb" -stop', 
+			TextMate.system('"' + scriptPath + 'fcshd" -stop', 
         		function(e) {
         		    console.log('stdout: ' + e.outputString)
         		    console.log('stderr: ' + e.errorString)
@@ -100,8 +100,8 @@ function toggleClick()
 			console.log('launching')
 			setState('launching')
 	
-			console.log('"' + scriptPath + 'fcshd.rb" -start');
-			TextMate.system('"' + scriptPath + 'fcshd.rb" -start', 
+			console.log('"' + scriptPath + 'fcshd" -start');
+			TextMate.system('"' + scriptPath + 'fcshd" -start', 
 				function(e) {
 
 					console.log('stdout: ' + e.outputString)
