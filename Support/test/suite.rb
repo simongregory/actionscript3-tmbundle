@@ -3,6 +3,13 @@
 
 require 'test/unit'
 
+# NOTE: The tests need to pick up the relevant tm ruby lib files from the
+# TextMate support directory so invoke the suite from within TM using Apple-R
+# (and have the Ruby bundle enabled).
+#
+# Individual test can be targeted in the same way, just open the file and use
+# Apple-R, or Apple-Shift-R.
+
 cases = File.dirname(__FILE__) + "/cases"
 
 tests =  Dir["#{cases}/test_*.rb"]
