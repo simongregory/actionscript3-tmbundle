@@ -6,9 +6,9 @@ require "fm/log"
 
 class TestLog < Test::Unit::TestCase
   def test_log_location
-    assert_equal("#{ENV['HOME']}/Library/Logs/TextMate\\ ActionScript\\ 3.log", FlexMate::Log.log_file)
+    assert_equal("#{ENV['HOME']}/Library/Logs/TextMate\ ActionScript\ 3.log", FlexMate::Log.log_file)
   end
-  
+
   def test_log_write
     log_msg = "Unit Test Test Text"
     FlexMate::Log.puts(log_msg)
