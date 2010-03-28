@@ -10,6 +10,19 @@ require 'rubygems'
 require 'daemons'
 require 'logger'
 
+# Useful URLs for debugging via your web browser.
+# http://localhost:6924/info
+# http://localhost:6924/exit
+# http://localhost:6924/status
+#
+# Notes: I removed all the exit calls on the s.mount_proc blocks - to what seems
+# like no detrimental effect because they were being caught as an error by the 
+# Webrick::HTTPServer (see the webrick_log_file).
+#
+# Zombies suck so I figured usig Daemons.daemonize(:mulitple => false) would be 
+# a safer option but it appears to leave 'variable @controller_argv not initialized'
+# errors in the system.log file.
+#
 module FCSHD_SERVER
   
   class << self
@@ -17,29 +30,33 @@ module FCSHD_SERVER
     PORT = 6924
     HOST = "localhost"
 
-    ASSIGNED_REGEXP = /^ fcsh:.*(\d+).*/
-
+    ASSIGNED_REGEXP = /^ fcsh:.*(\d+).*/ 
+    
     def log_file
       "#{ENV['HOME']}/Library/Logs/TextMate\ FCSHD.log"
+    end
+    
+    def webrick_log_file
+      "#{ENV['HOME']}/Library/Logs/TextMate\ Webrick\ FCSHD.log"
     end
 
     #remembering wich swfs we asked for compiling
     def start_server
       
-      Daemons.daemonize
+      Daemons.daemonize(:mulitple => false) 
       
       @commands = Hash.new if @commands.nil?
       
       log = Logger.new(log_file)
-      log.debug("Initializing server")
-      # 
-    	fcsh = IO.popen("#{ENV['TM_FLEX_PATH']}/bin/fcsh  2>&1", "w+")
+      log.info("Initializing server")
+      
+    	fcsh = ::IO.popen("#{ENV['TM_FLEX_PATH']}/bin/fcsh  2>&1", "w+")
     	read_to_prompt(fcsh)
 
     	#Creating the HTTP Server  
     	s = WEBrick::HTTPServer.new(
     		:Port => PORT,
-    		:Logger => WEBrick::Log.new(nil, WEBrick::BasicLog::WARN),
+    		:Logger => WEBrick::Log.new(webrick_log_file, WEBrick::BasicLog::DEBUG), #WARN
     		:AccessLog => []
     	)
 
@@ -71,31 +88,53 @@ module FCSHD_SERVER
 
     	s.mount_proc("/exit"){|req, res|
     	  log.debug("shutting down")
-    		s.shutdown
-    		fcsh.close
-    		exit
+        s.shutdown
+        fcsh.puts "quit"
+        sleep 0.2
+        fcsh.close
     	}
     	
     	s.mount_proc("/status"){|req, res|
     	  log.debug("getting status")
     		res.body = "UP"
-    		exit
     	}
+    	 
+      s.mount_proc("/info"){|req, res|
+        log.debug("getting info")
+        fcsh.puts 'info'
+        output = read_to_prompt(fcsh)
+        res.body = output
+        res['Content-Type'] = "text/html"
+      }
 
     	trap("INT"){
-    		s.shutdown 
+    		s.shutdown
     		fcsh.close
     	}
 
-    	#Starting webrick
-    	puts "\nStarting Webrick at http://#{HOST}:#{PORT}"
-    	s.start
+      #Starting webrick
+      log.info("Starting Webrick at http://#{HOST}:#{PORT}")
+      
+      begin
+        
+        s.start
+        
+      rescue Exception => e
+        
+        #Do not show error if we're trying to start the server more than once
+        if e.message =~ /Address already in use/ < 0
+          log.debug(e.message)
+        else
+          log.debug(e)
+        end
+        
+      end
+      
+      log.info("Closed Webrick at http://#{HOST}:#{PORT}")
 
-    	# #Do not show error if we're trying to start the server more than once
-    	# if e.message =~ /Address already in use/ < 0
-    	#   puts e.message
-    	# end
-
+      #cleanly quit the daemon.
+      exit
+      
     end
 
     #Helper method to read output
@@ -121,8 +160,11 @@ module FCSHD_SERVER
     end
     
     def stop_server
+      #If you're seeing an error in the system log this could explain why...
+      #http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-core/2578
+      #I resolved by changing 'resp, date = http.get...' to 'resp = http.get...'
       http = Net::HTTP.new(HOST, PORT)
-      resp, date = http.get('/exit')
+      resp = http.get('/exit')
       resp.body
     end
     
@@ -133,11 +175,13 @@ module FCSHD_SERVER
           return true
         }
       rescue => e
-        # puts "Error #{e}"
+        puts "Error #{e}" unless e.message =~ /Connection refused - connect\(2\)/ #msql connection problem... apparently.
+        return false
       end
       
       return false
     end
     
   end
+  
 end

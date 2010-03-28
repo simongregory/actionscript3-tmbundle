@@ -146,17 +146,32 @@ module FlexMate
 
       exhaust = get_exhaust
       
-      STDOUT << "<h3>Compiling, #{cmd.file_specs_name}</h3>"
+      if not FCSHD_SERVER.running
+        
+        #start_server is going to detach this process so we won't hear back from 
+        #it until the daemon closes. So warn the user they need to build again..
+        
+        puts "<h3>Starting FCSHD</h3>"
+        puts "<p>I'm not yet clever enough to start the server <b>and</b> then build.</p>"
+        puts "<p>Please <a id='refresh' href='javascript:refreshStatus()' title='Check daemon status'>Check Status</a> then build again once the server has started.</p>"
+        
+        html_footer
+        
+        FCSHD.start_server
+        
+      else
+        
+        STDOUT << "<h3>Compiling, #{cmd.file_specs_name}</h3>"
 
-      FCSHD_SERVER.build(cmd.line).each_line do |ln|
-        STDOUT << exhaust.line(ln)
+        FCSHD_SERVER.build(cmd.line).each_line do |ln|
+          STDOUT << exhaust.line(ln)
+        end
+
+        STDOUT << exhaust.raw
+        STDOUT << exhaust.complete
+        html_footer
       end
 
-      STDOUT << exhaust.raw
-      STDOUT << exhaust.complete
-      
-      html_footer
-      
     end
     
   end
