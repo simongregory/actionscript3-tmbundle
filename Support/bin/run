@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby -wKU
+# encoding: utf-8
+
+require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
+
+require 'fm/run'
+
+FlexMate::Run.new.now
