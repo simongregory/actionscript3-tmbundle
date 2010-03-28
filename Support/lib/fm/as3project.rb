@@ -184,7 +184,7 @@ module AS3Project
 
       if build_file.has_key?("asdoc")
          print("<h2>Running ASDoc...</h2><pre>")
-         system("#{ENV["TM_FLEX_PATH"]}/bi  n/asdoc -output #{asdocs_output} #{asdocs_source_path} #{mxmlc_library_path} #{mxmlc_source_path} #{asdocs_exclude_classes} -warnings=false -window-title '#{asdocs_title}' -main-title '#{asdocs_title}' -footer '#{asdocs_footer}'")
+         system("#{ENV["TM_FLEX_PATH"]}/bin/asdoc -output #{asdocs_output} #{asdocs_source_path} #{mxmlc_library_path} #{mxmlc_source_path} #{asdocs_exclude_classes} -warnings=false -window-title '#{asdocs_title}' -main-title '#{asdocs_title}' -footer '#{asdocs_footer}'")
          print "</pre>"
          print "<strong>Done!</strong>"
        else
