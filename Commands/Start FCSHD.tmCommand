@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>fcshd -start</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>~@b</string>
+	<key>name</key>
+	<string>Start FCSHD</string>
+	<key>output</key>
+	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml, text.xml.flex-config</string>
+	<key>uuid</key>
+	<string>4DC79E14-283B-491A-9FCB-1CDC490A218A</string>
+</dict>
+</plist>

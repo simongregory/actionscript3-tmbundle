@@ -11,7 +11,7 @@
 # If you wish to use FCSH, and benifit from it's caching, then set an env var TM_FLEX_USE_FCSH to anything.
 # I'd also recommend that you set the command Output (below) to 'Discard'
 
-build.rb
+build
 </string>
 	<key>input</key>
 	<string>none</string>
