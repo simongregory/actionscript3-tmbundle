@@ -17,27 +17,12 @@ require 'as3/source_tools'
 
 #Check for custom build files and execute them where they exist.
 custom = "#{ENV['TM_PROJECT_DIRECTORY']}/#{ENV['TM_FLEX_BUILD_FILE']}"
+
 if File.file?(custom)
 
   if custom =~ /\.y(a)?ml$/
-
-    require 'fc/fcshd'
-    require 'fm/as3project'
-    require 'fm/mxmlc_exhaust'
-
-    #Require being in a project
-    FlexMate.require_tmproj
-
-    #Add flex to path
-    FlexMate::SDK.add_flex_bin_to_path
-
-    #Generate the beautiful header
-    FCSHD.generate_view
-
-    #Run the compiler and print filtered error messages
-    FCSHD_SERVER.start_server if not FCSHD_SERVER.running
-    AS3Project.compile
-    
+    require 'fm/yaml_tool'
+    FlexMate::YamlTool.build
   elsif File.executable?(custom)
     TextMate::Process.run(custom) do |str|
       STDOUT << str
@@ -61,7 +46,8 @@ elsif ENV['TM_PROJECT_DIRECTORY'] && (ENV['TM_FLEX_USE_FCSH'] == 'true')
   STDOUT.sync = true
   
   c = FlexMate::FcshdCompiler.new
-  c.build
+  c.build 
+  
   # <<< END FCSHD Test
     
   # Original Fcsh code - uses Terminal.app
