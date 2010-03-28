@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-require 'webrick'
-require 'net/http'
-require 'fileutils'
-
-#Running as daemon
 require 'rubygems'
+
 require 'daemons'
+require 'fileutils'
 require 'logger'
+require 'net/http'
+require 'webrick'
 
 # Useful URLs for debugging via your web browser.
 # http://localhost:6924/info
@@ -22,6 +21,9 @@ require 'logger'
 # Zombies suck so I figured usig Daemons.daemonize(:mulitple => false) would be 
 # a safer option but it appears to leave 'variable @controller_argv not initialized'
 # errors in the system.log file.
+#
+# TODO: Streaming results, possibly using TCPSocket if http.request_post doesn't
+# do the trick
 #
 module FCSHD_SERVER
   
@@ -89,7 +91,7 @@ module FCSHD_SERVER
     	s.mount_proc("/exit"){|req, res|
     	  log.debug("shutting down")
         s.shutdown
-        fcsh.puts "quit"
+        fcsh.puts "quit" #TODO: Check that this is really necessary.
         sleep 0.2
         fcsh.close
     	}
@@ -153,10 +155,19 @@ module FCSHD_SERVER
     end
     
     def build(what)
-      # puts arg
       http = Net::HTTP.new(HOST, PORT)
-      resp, date = http.post('/build', what)
-      resp.body
+      http.read_timeout = 120
+      #resp, date = http.post('/build', what)
+      #resp.body
+      
+      rsp = ""
+      http.request_post('/build', what) {|response|
+        response.read_body do |str|
+          #STDOUT << "#{str}<br/>"
+          rsp << str
+        end
+      }
+      rsp
     end
     
     def stop_server
