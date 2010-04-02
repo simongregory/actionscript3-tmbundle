@@ -6,7 +6,7 @@
 	<string>nop</string>
 	<key>command</key>
 	<string># Breakpoints are specified as /*&gt;BP&lt;*/
-breakpoints.rb</string>
+breakpoints</string>
 	<key>input</key>
 	<string>document</string>
 	<key>keyEquivalent</key>
