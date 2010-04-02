@@ -10,20 +10,15 @@ require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
 require 'fc/fcshd'
 
 def run
-  if ARGV[0] == "-success" 
-    FCSHD.success
-  elsif ARGV[0] == "-fail"
-    FCSHD.fail
-  elsif ARGV[0] == "-status"
-    FCSHD.status
-  elsif ARGV[0] == "-start"
-    FCSHD.start_server
-  elsif ARGV[0] == "-stop"
-    FCSHD.stop_server
-  elsif ARGV[0] == "-view"
-    FCSHD.generate_view
-  else
-    "No command given"
+  case ARGV[0].to_s
+  when "-fail" then FCSHD.fail
+  when "-start" then FCSHD.start_server
+  when "-status" then FCSHD.status
+  when "-stop" then FCSHD.stop_server
+  when "-success" then FCSHD.success
+  when "-view" then FCSHD.generate_view
+  when "" then "No command given"
+  else "Unknown command given"
   end
 end
 
