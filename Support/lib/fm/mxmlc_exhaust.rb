@@ -145,6 +145,8 @@ class MxmlcExhaust
         @error_count += 1
       elsif str =~ /^\s*$/
         out << "<!-- empty -->"
+      elsif str =~ /Nothing has changed since the last compile\. Skip\.\.\./
+        out << "<br/>#{str}"
       elsif str =~ /^(Copyright|Version|Adobe)/
          out << "#{str}<br/>"
       end

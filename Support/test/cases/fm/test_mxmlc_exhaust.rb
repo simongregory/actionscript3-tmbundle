@@ -38,6 +38,10 @@ class TestMxmlcExhaust < Test::Unit::TestCase
       {
         :in => "Copyright (c) 2004-2007 Adobe Systems, Inc. All rights reserved.",
         :out => "Copyright (c) 2004-2007 Adobe Systems, Inc. All rights reserved.<br/>"
+      },
+      {
+        :in => "Nothing has changed since the last compile. Skip...",
+        :out => "<br/>Nothing has changed since the last compile. Skip..."
       }
       # Added the following after getting problematic output when compiling the RobotLegs helvector gallery, but couldn't work out what the problem was.
       #,{
