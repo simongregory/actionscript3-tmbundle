@@ -22,11 +22,14 @@ module FlexMate
         #Generate the beautiful header
         FCSHD.generate_view
 
-        #Run the compiler and print filtered error messages
-        FCSHD_SERVER.start_server if not FCSHD_SERVER.running
+        #Update status if needed
+        FCSHD.set_status 'launching' if not FCSHD_SERVER.running
 
-        #Start the magic
-        AS3Project.compile
+        # run the compiler and print filtered error messages
+        FCSHD_SERVER.start_server do
+          FCSHD.set_status 'up'
+          AS3Project.compile
+        end
 
       end
 

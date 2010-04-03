@@ -24,7 +24,7 @@ def self.status
 	end
 end
 
-def self.generate_view
+def self.generate_view(compiler_state=nil)
 		
 		puts html_head(:window_title => "ActionScript 3", :page_title => "fcshd", :sub_title => "__" );
 
@@ -37,16 +37,19 @@ def self.generate_view
 		  <a id='refresh' href='javascript:refreshStatus()' title='Check daemon status'>Check Status</a><br/>
 		  <a id='toggle' href='javascript:toggleClick();'>Toggle State</a><br/>
 		</div>"
-		
-		compiler_state = FCSHD_SERVER.running ? "up" : "down"
-		puts '<script type="text/javascript" charset="utf-8">setState("'+compiler_state+'")</script>'
-		
+
+    compiler_state = FCSHD_SERVER.running ? "up" : "down" if compiler_state.nil?
+    set_status(compiler_state)
+end
+
+def self.set_status(compiler_state='unknown')
+  puts '<script type="text/javascript" charset="utf-8">setState("'+compiler_state+'")</script>'
 end
 
 def self.stop_server
 	return unless FCSHD_SERVER.running
 	FCSHD_SERVER.stop_server
-	sleep 0.5
+	sleep 1
 	status
 end
 

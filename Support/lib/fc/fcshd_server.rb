@@ -45,97 +45,116 @@ module FCSHD_SERVER
     #remembering wich swfs we asked for compiling
     def start_server
       
-      Daemons.daemonize(:mulitple => false) 
+      Daemons.call(:multiple => false) {
       
-      @commands = Hash.new if @commands.nil?
+        @commands = Hash.new if @commands.nil?
       
-      log = Logger.new(log_file)
-      log.info("Initializing server")
+        log = Logger.new(log_file)
+        log.info("Initializing server")
       
-    	fcsh = ::IO.popen("#{ENV['TM_FLEX_PATH']}/bin/fcsh  2>&1", "w+")
-    	read_to_prompt(fcsh)
+      	fcsh = ::IO.popen("#{ENV['TM_FLEX_PATH']}/bin/fcsh  2>&1", "w+")
+      	read_to_prompt(fcsh)
 
-    	#Creating the HTTP Server  
-    	s = WEBrick::HTTPServer.new(
-    		:Port => PORT,
-    		:Logger => WEBrick::Log.new(webrick_log_file, WEBrick::BasicLog::DEBUG), #WARN
-    		:AccessLog => []
-    	)
+      	#Creating the HTTP Server  
+      	s = WEBrick::HTTPServer.new(
+      		:Port => PORT,
+      		:Logger => WEBrick::Log.new(webrick_log_file, WEBrick::BasicLog::DEBUG), #WARN
+      		:AccessLog => []
+      	)
 
-    	#giving it an action
-    	s.mount_proc("/build"){|req, res|
+      	#giving it an action
+      	s.mount_proc("/build"){|req, res|
 
-    		#response variable
-    		output = ""
+      		#response variable
+      		output = ""
     		
-    		#Searching for an id for this command
-    		if @commands.has_key?(req.body)
-    			# Exists, incremental
-    			fcsh.puts "compile #{@commands[req.body]}"
-    			output = read_to_prompt(fcsh)
-    		else
-    			# Does not exist, compile for the first time
-    			fcsh.puts req.body
-    			output = read_to_prompt(fcsh)
-    			match = output.scan(ASSIGNED_REGEXP)
-    			@commands[req.body] = match[0][0]
-    		end
+      		#Searching for an id for this command
+      		if @commands.has_key?(req.body)
+      			# Exists, incremental
+      			fcsh.puts "compile #{@commands[req.body]}"
+      			output = read_to_prompt(fcsh)
+      		else
+      			# Does not exist, compile for the first time
+      			fcsh.puts req.body
+      			output = read_to_prompt(fcsh)
+      			match = output.scan(ASSIGNED_REGEXP)
+      			@commands[req.body] = match[0][0]
+      		end
     		
-    		log.debug("asked: #{req.body}")
-    		log.debug("output: #{output}")
+      		log.debug("asked: #{req.body}")
+      		log.debug("output: #{output}")
 
-    		res.body = output
-    		res['Content-Type'] = "text/html"
-    	}
+      		res.body = output
+      		res['Content-Type'] = "text/html"
+      	}
 
-    	s.mount_proc("/exit"){|req, res|
-    	  log.debug("shutting down")
-        s.shutdown
-        fcsh.puts "quit" #TODO: Check that this is really necessary.
-        sleep 0.2
-        fcsh.close
-    	}
+      	s.mount_proc("/exit"){|req, res|
+      	  log.debug("shutting down")
+          s.shutdown
+          fcsh.puts "quit" #TODO: Check that this is really necessary.
+          sleep 0.2
+          fcsh.close
+          exit
+      	}
     	
-    	s.mount_proc("/status"){|req, res|
-    	  log.debug("getting status")
-    		res.body = "UP"
-    	}
+      	s.mount_proc("/status"){|req, res|
+          begin
+            fcsh.puts("info 0")
+            output = read_to_prompt(fcsh)
+            res.body = "UP"
+          rescue Exception => e
+            res.body = "DOWN"
+          end
+          log.debug("getting status #{res.body}")
+          exit
+      	}
     	 
-      s.mount_proc("/info"){|req, res|
-        log.debug("getting info")
-        fcsh.puts 'info'
-        output = read_to_prompt(fcsh)
-        res.body = output
-        res['Content-Type'] = "text/html"
-      }
+        s.mount_proc("/info"){|req, res|
+          log.debug("getting info")
+          fcsh.puts 'info'
+          output = read_to_prompt(fcsh)
+          res.body = output
+          res['Content-Type'] = "text/html"
+          exit
+        }
 
-    	trap("INT"){
-    		s.shutdown
-    		fcsh.close
-    	}
+      	trap("INT"){
+      		s.shutdown
+      		fcsh.close
+      	}
 
-      #Starting webrick
-      log.info("Starting Webrick at http://#{HOST}:#{PORT}")
+        #Starting webrick
+        log.info("Starting Webrick at http://#{HOST}:#{PORT}")
       
-      begin
+        begin
         
-        s.start
+          s.start
         
-      rescue Exception => e
+        rescue Exception => e
         
-        #Do not show error if we're trying to start the server more than once
-        if e.message =~ /Address already in use/ < 0
-          log.debug(e.message)
-        else
-          log.debug(e)
+          #Do not show error if we're trying to start the server more than once
+          if e.message =~ /Address already in use/ < 0
+            log.debug(e.message)
+          else
+            log.debug(e)
+          end
+        
         end
-        
+      
+      } if not running
+      
+      
+      if block_given?
+        while not running
+          sleep 3
+        end
+        yield
       end
       
-      log.info("Closed Webrick at http://#{HOST}:#{PORT}")
+      #log.info("Closed Webrick at http://#{HOST}:#{PORT}")
 
       #cleanly quit the daemon.
-      exit
+      #exit
       
     end
 
@@ -182,14 +201,12 @@ module FCSHD_SERVER
     def running
       begin
         http = Net::HTTP.new(HOST, PORT)
-        resp, date = http.get('/status', nil) {
-          return true
-        }
+        resp = http.get('/status', nil)
+        return true if resp.body == "UP"
       rescue => e
         puts "Error #{e}" unless e.message =~ /Connection refused - connect\(2\)/ #msql connection problem... apparently.
         return false
       end
-      
       return false
     end
     
