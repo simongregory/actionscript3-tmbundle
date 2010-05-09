@@ -1,37 +1,41 @@
-document.title = "Flex shell daemon status"
+//document.title = "Flex shell daemon status"
 
 function setState(newState)
 {
-    console.log('state -> ' + newState)
+    console.log('state -> ' + newState);
 
-    var statusMsg = ""
-    var linkMsg = ""
+    var statusMsg = "";
+    var linkMsg = "";
     switch (newState)
     {
         case "up":
-        	statusMsg = "Daemon is running"
-        	linkMsg = "Stop"
+        	statusMsg = "Daemon is running";
+        	linkMsg = "Stop";
         break
 
         case "down":
-        	statusMsg = "Daemon is down"
-        	linkMsg = "Start"
+        	statusMsg = "Daemon is down";
+        	linkMsg = "Start";
         break
 
         case "launching":
-        	statusMsg = "Launching..."
+        	statusMsg = "Launching...";
         break
 
 		case "stopping":
-			statusMsg = "Daemon is stopping..."
+			statusMsg = "Daemon is stopping...";
 		break;
 
 		case "starting":
-			statusMsg = "Daemon is starting..."
+			statusMsg = "Daemon is starting...";
 		break;
+
+        case "working":
+        	statusMsg = "Working...";
+        break;
 		
         case "unknown":
-        	statusMsg = "Unknown..."
+        	statusMsg = "Unknown...";
         break;
 
     }
@@ -45,20 +49,20 @@ function setState(newState)
 
 function refreshStatus()
 {
-    var scriptElt = document.getElementById('script-path')
-    var scriptPath = scriptElt.firstChild.nodeValue
+    setState('working');
+	var scriptElt = document.getElementById('script-path')
+    var scriptPath = scriptElt.firstChild.nodeValue;
 	console.log( scriptPath + "fcshd");
     TextMate.system('echo `"' + scriptPath + 'fcshd" -status`', 
 	    function(e) {
 			console.log(e.outputString);
 	        if (e.outputString.match("Running"))
 			{
-	            setState('up')
-
+	            setState('up');
 	        }
 			else if (e.outputString.match("Stopped"))
 			{
-	            setState('down')
+	            setState('down');
 	        } 
 			else
 			{
@@ -82,53 +86,54 @@ function toggleClick()
 
 			TextMate.system('"' + scriptPath + 'fcshd" -stop', 
         		function(e) {
-        		    console.log('stdout: ' + e.outputString)
-        		    console.log('stderr: ' + e.errorString)
+        		    console.log('stdout: ' + e.outputString);
+        		    console.log('stderr: ' + e.errorString);
         		    if (e.outputString.match("Stopped"))
 					{
-        		        setState('down')
+        		        setState('down');
         		    } 
 					else
 					{
-        		        console.log('but no match: "' + e.outputString + '" vs "STOPPED"')
+        		        console.log('but no match: "' + e.outputString + '" vs "STOPPED"');
         		    }
         		});
         break;
 
         case 'down':
 
-			console.log('launching')
-			setState('launching')
+			console.log('launching');
+			setState('launching');
 	
 			console.log('"' + scriptPath + 'fcshd" -start');
+			
 			TextMate.system('"' + scriptPath + 'fcshd" -start', 
 				function(e) {
 
-					console.log('stdout: ' + e.outputString)
-					console.log('stderr: ' + e.errorString)
+					console.log('stdout: ' + e.outputString);
+					console.log('stderr: ' + e.errorString);
 	
 					if (e.outputString.match("Running"))
 					{
-						setState('up')
+						setState('up');
 					} 
 					else if (e.outputString.match("Stopped"))
 					{
-						setState('down')
+						setState('down');
 					}
 					else
 					{
-						setState('unknown')
+						setState('unknown');
 					}
 				})
 	
 		break;
  
 		case 'launching':
-			console.log('launching')
+			console.log('launching');
 		break;
 
 		case 'unknown':
-			console.log('unknown')
+			console.log('unknown');
 		break;
 		
 	}
