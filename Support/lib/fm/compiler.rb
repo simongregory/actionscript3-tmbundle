@@ -31,7 +31,7 @@ module FlexMate
         STDOUT << exhaust.line(str)
       end
 
-      STDOUT << exhaust.print_raw
+      STDOUT << exhaust.raw
       STDOUT << exhaust.complete
       
       html_footer
@@ -142,7 +142,7 @@ module FlexMate
       #Make sure there are no spaces for fcsh to trip up on.
       FlexMate.check_valid_paths([cmd.file_specs,cmd.o])
       
-      FCSHD.generate_view
+      FCSHD.generate_view('Fcshd Compiler')
 
       exhaust = get_exhaust
       
@@ -231,11 +231,22 @@ class AMxmlcCommand < MxmlcCommand
   
   def initialize(settings)
     super(settings)
+  end 
+  
+  def line
     #Note: If you open the amxmlc tool you find it's just a proxy to mxmlc.
     #      However using amxmlc with fcsh doesn't work (SDK 3.5) so it's worth 
     #      the risk of failure by being exposed to internal changes to amxmlc in
-    #      future revisions.
-    @name = 'mxmlc +configname=air'
+    #      future revisions.    
+    "#{name} +configname=air -file-specs=#{e_sh file_specs}"
+  end
+
+  def file_specs_name
+    File.basename(file_specs)
+  end
+  
+  def to_s
+    "#{name} +configname=air -file-specs=#{file_specs}"
   end
 
 end
