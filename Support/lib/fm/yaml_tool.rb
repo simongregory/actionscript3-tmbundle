@@ -20,7 +20,7 @@ module FlexMate
         FlexMate::SDK.add_flex_bin_to_path
 
         #Generate the beautiful header
-        FCSHD.generate_view
+        FCSHD.generate_view('Yaml Tool')
 
         #Update status if needed
         FCSHD.set_status 'launching' if not FCSHD_SERVER.running
@@ -37,7 +37,6 @@ module FlexMate
       end
 
       def run
-
       end
 
     end
