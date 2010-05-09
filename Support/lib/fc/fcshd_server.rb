@@ -52,52 +52,48 @@ module FCSHD_SERVER
         log = Logger.new(log_file)
         log.info("Initializing server")
       
-      	fcsh = ::IO.popen("#{ENV['TM_FLEX_PATH']}/bin/fcsh  2>&1", "w+")
-      	read_to_prompt(fcsh)
+        fcsh = ::IO.popen("#{ENV['TM_FLEX_PATH']}/bin/fcsh  2>&1", "w+")
+        read_to_prompt(fcsh)
 
-      	#Creating the HTTP Server  
-      	s = WEBrick::HTTPServer.new(
-      		:Port => PORT,
-      		:Logger => WEBrick::Log.new(webrick_log_file, WEBrick::BasicLog::DEBUG), #WARN
-      		:AccessLog => []
-      	)
+        #Creating the HTTP Server  
+        s = WEBrick::HTTPServer.new(
+          :Port => PORT,
+          :Logger => WEBrick::Log.new(webrick_log_file, WEBrick::BasicLog::DEBUG), #WARN
+          :AccessLog => []
+        )
 
-      	#giving it an action
-      	s.mount_proc("/build"){|req, res|
+        #giving it an action
+        s.mount_proc("/build"){|req, res|
+          
+          res['Content-Type'] = "text/html"
+          res.body = ""
+          
+          #Searching for an id for this command
+          if @commands.has_key?(req.body)
+            # Exists, incremental
+            fcsh.puts "compile #{@commands[req.body]}"
+            res.body << read_to_prompt(fcsh)
+          else
+            # Does not exist, compile for the first time
+            fcsh.puts req.body
+            res.body << read_to_prompt(fcsh)
+            match = res.body.scan(ASSIGNED_REGEXP)
+            @commands[req.body] = match[0][0]
+          end
+          
+          log.debug("asked: #{req.body}")
+          log.debug("output: #{res.body}")
+          
+        }
 
-      		#response variable
-      		output = ""
-    		
-      		#Searching for an id for this command
-      		if @commands.has_key?(req.body)
-      			# Exists, incremental
-      			fcsh.puts "compile #{@commands[req.body]}"
-      			output = read_to_prompt(fcsh)
-      		else
-      			# Does not exist, compile for the first time
-      			fcsh.puts req.body
-      			output = read_to_prompt(fcsh)
-      			match = output.scan(ASSIGNED_REGEXP)
-      			@commands[req.body] = match[0][0]
-      		end
-    		
-      		log.debug("asked: #{req.body}")
-      		log.debug("output: #{output}")
-
-      		res.body = output
-      		res['Content-Type'] = "text/html"
-      	}
-
-      	s.mount_proc("/exit"){|req, res|
-      	  log.debug("shutting down")
+        s.mount_proc("/exit"){|req, res|
+          log.debug("shutting down")
           s.shutdown
-          fcsh.puts "quit" #TODO: Check that this is really necessary.
-          sleep 0.2
           fcsh.close
           exit
-      	}
-    	
-      	s.mount_proc("/status"){|req, res|
+        }
+
+        s.mount_proc("/status"){|req, res|
           begin
             fcsh.puts("info 0")
             output = read_to_prompt(fcsh)
@@ -107,8 +103,8 @@ module FCSHD_SERVER
           end
           log.debug("getting status #{res.body}")
           exit
-      	}
-    	 
+        }
+
         s.mount_proc("/info"){|req, res|
           log.debug("getting info")
           fcsh.puts 'info'
@@ -118,10 +114,10 @@ module FCSHD_SERVER
           exit
         }
 
-      	trap("INT"){
-      		s.shutdown
-      		fcsh.close
-      	}
+        trap("INT"){
+          s.shutdown
+          fcsh.close
+        }
 
         #Starting webrick
         log.info("Starting Webrick at http://#{HOST}:#{PORT}")
@@ -131,16 +127,16 @@ module FCSHD_SERVER
           s.start
         
         rescue Exception => e
-        
+
           #Do not show error if we're trying to start the server more than once
           if e.message =~ /Address already in use/ < 0
             log.debug(e.message)
           else
             log.debug(e)
           end
-        
+
         end
-      
+
       } if not running
       
       
@@ -150,29 +146,9 @@ module FCSHD_SERVER
         end
         yield
       end
-      
-      #log.info("Closed Webrick at http://#{HOST}:#{PORT}")
 
-      #cleanly quit the daemon.
-      #exit
-      
     end
 
-    #Helper method to read output
-    def read_to_prompt(f)
-    	f.flush
-    	output = ""
-    	while chunk = f.read(1)
-    		STDOUT.write chunk
-    		output << chunk
-    		if output =~ /^\(fcsh\)/
-    			break
-    		end
-    	end
-    	STDOUT.write ">"
-    	output
-    end
-    
     def build(what)
       http = Net::HTTP.new(HOST, PORT)
       http.read_timeout = 120
@@ -182,13 +158,12 @@ module FCSHD_SERVER
       rsp = ""
       http.request_post('/build', what) {|response|
         response.read_body do |str|
-          #STDOUT << "#{str}<br/>"
           rsp << str
         end
       }
       rsp
     end
-    
+
     def stop_server
       #If you're seeing an error in the system log this could explain why...
       #http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-core/2578
@@ -197,7 +172,7 @@ module FCSHD_SERVER
       resp = http.get('/exit')
       resp.body
     end
-    
+
     def running
       begin
         http = Net::HTTP.new(HOST, PORT)
@@ -208,6 +183,19 @@ module FCSHD_SERVER
         return false
       end
       return false
+    end
+    
+    protected
+    
+    #Helper method to read output
+    def read_to_prompt(f)
+      f.flush
+      output = ""
+      while chunk = f.read(1)
+        output << chunk
+        break if output =~ /^\(fcsh\)/
+      end
+      output
     end
     
   end

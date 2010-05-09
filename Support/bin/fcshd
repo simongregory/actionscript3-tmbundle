@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby -wKU
 # encoding: utf-8
 
-# Interface for the FCSHD, this proxys calls into the daemon.
-#
+# Interface for the FCSHD, this proxies calls into the daemon.
 #
 
 require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
@@ -12,7 +11,7 @@ require 'fc/fcshd'
 def run
   case ARGV[0].to_s
   when "-fail" then FCSHD.fail
-  when "-start" then FCSHD.start_server
+  when "-start" then FCSHD.start_server { FCSH.set_status 'Running' }
   when "-status" then FCSHD.status
   when "-stop" then FCSHD.stop_server
   when "-success" then FCSHD.success
@@ -28,4 +27,4 @@ run
 # if __FILE__ == $0
 #   ARGV[0] = "-start"
 #   run
-# end
+#end

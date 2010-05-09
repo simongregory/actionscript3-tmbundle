@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>fcshd -start</string>
+	<string>fcshd -view</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>

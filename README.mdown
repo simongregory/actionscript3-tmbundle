@@ -21,6 +21,7 @@ be found here first - but won't be guaranteed to make it into the official bundl
 
 'master' differences:
 
+ * FCSH build integrated into TM. 
  * Tidy command.
  * FDB Support
     * Set breakpoints using  `/*>BP<*/`
@@ -200,9 +201,10 @@ To have code banners inserted into the class templates set the value of this
 variable to anything.
 
 * `TM_FLEX_USE_FCSH`  
-Set this property to anything if you wish to compile using fcsh. This will give
-you the added benefit of compiler caching and should be noticeably faster, 
-especially on larger projects.
+To compile using fcsh via the Terminal.app set this property to anything. To use
+a custom TextMate integrated server for fcsh then set it to 'fcshd'. Either
+option will give you the added benefit of compiler caching and should be 
+noticeably faster, especially on larger projects.
 
 * `TM_FLEX_BACKGROUND_TERMINAL`  
 If you are compiling using fcsh and the terminal setting this to anything will

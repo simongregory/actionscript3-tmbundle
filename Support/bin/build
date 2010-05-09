@@ -23,8 +23,12 @@ if ARGV[0] == "-and-run"
   
 end
 
+#Store for later..
+use_fcsh = ENV['TM_FLEX_USE_FCSH'] || nil
+proj_dir = ENV['TM_PROJECT_DIRECTORY'] || ''
 #Check for custom build files and execute them where they exist.
-custom = "#{ENV['TM_PROJECT_DIRECTORY']}/#{ENV['TM_FLEX_BUILD_FILE']}"
+
+custom = "#{proj_dir}/#{ENV['TM_FLEX_BUILD_FILE']}"
 
 if File.file?(custom)
 
@@ -40,28 +44,27 @@ if File.file?(custom)
   end
   TextMate.exit_show_html
 
-elsif ENV['TM_PROJECT_DIRECTORY'] && (ENV['TM_FLEX_USE_FCSH'] == 'true')
+elsif ENV['TM_PROJECT_DIRECTORY'] && (use_fcsh != nil)
 
   #Requires are needed by FlexMate.required_settings + check_valid_paths
   require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
   require ENV['TM_SUPPORT_PATH'] + '/lib/tm/htmloutput'
 
-  # >>> Start FCSHD Test
   require 'fc/fcshd'
   require 'fm/as3project'
   require 'fm/mxmlc_exhaust'
 
   STDOUT.sync = true
-
-  c = FlexMate::FcshdCompiler.new
-  c.build
-
-  # <<< END FCSHD Test
-
-  # Original Fcsh code - uses Terminal.app
-  #c = FlexMate::FcshCompiler.new
-  #c.build
-  #TextMate.exit_discard
+  
+  if use_fcsh == 'fcshd'
+    c = FlexMate::FcshdCompiler.new
+    c.build
+  else
+    # Use fcsh via the Terminal.app
+    c = FlexMate::FcshCompiler.new
+    c.build
+    TextMate.exit_discard
+  end
 
 else
 
