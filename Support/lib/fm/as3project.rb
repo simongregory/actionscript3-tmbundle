@@ -180,7 +180,7 @@ module AS3Project
       require 'find'
       require 'pathname'
 
-      puts html_head(:window_title => "ActionScript 3", :page_title => "ASDocs", :sub_title => "__" );
+      puts html_head(:window_title => "ActionScript 3", :page_title => "ASDocs", :sub_title => "Yaml Tool" );
 
       if build_file.has_key?("asdoc")
          print("<h2>Running ASDoc...</h2><pre>")
