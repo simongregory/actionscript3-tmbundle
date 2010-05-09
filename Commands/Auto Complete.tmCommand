@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>complete</string>
+	<string>"$TM_BUNDLE_SUPPORT/bin/complete"</string>
 	<key>input</key>
 	<string>document</string>
 	<key>keyEquivalent</key>
