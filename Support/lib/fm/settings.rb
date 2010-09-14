@@ -178,6 +178,69 @@ module FlexMate
 
   end
   
+  class TestSettings < Settings
+    
+    def file_specs
+
+      proj_dir = proj_root
+      file_specs = ENV['TM_FLEX_TEST_FILE_SPECS']
+      
+      return file_specs if file_specs && File.exist?(file_specs)
+
+      if proj_dir && file_specs
+        file_specs = proj_dir + '/' + file_specs
+        return file_specs if File.exist?(file_specs)
+      end
+      
+      if proj_dir
+        file_specs = guess_test_file_specs(proj_dir)
+        return file_specs unless file_specs.nil?
+      end
+
+      file_specs = ENV['TM_FILEPATH']
+
+    end
+    
+    def flex_output
+      proj_root + '/' + ENV['TM_FLEX_TEST_OUTPUT']
+    end
+    
+    protected
+    
+    # Where we have Project Directory but no TM_FLEX_FILE_SPECS set take a look
+    # inside the src/ dir and see if we can work out which file should be
+    # compiled.
+    #
+    def guess_test_file_specs(proj_dir)
+
+      src_dir = ""
+      fs = []
+
+      ['test',''].each do |d|
+
+        src_dir = d.empty? ? proj_dir : proj_dir + '/' + d
+
+        if File.exist?(src_dir)
+
+          Dir.foreach(src_dir) do |f|
+            fs << src_dir + '/' + f if f =~ /\.(as|mxml)$/
+          end
+
+        end
+
+      end
+      
+      #TODO: Where multiple matches are found, should we
+      #
+      #   * Default to the first in the list.
+      #   * Present a list of files to compile to the user to choose from.
+      #   * Check TM_FILEPATH to see if it's sat in src or test and compile accordingly.
+      #
+      return fs[0] unless fs[0] == nil
+    
+    end
+  end
+  
 end
 
 # if __FILE__ == $0

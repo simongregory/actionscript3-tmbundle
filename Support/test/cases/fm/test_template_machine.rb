@@ -161,6 +161,7 @@ class TestTemplateMachine < Test::Unit::TestCase
   end
 
   def test_banners_and_docs
+    ENV['TM_ORGANIZATION_NAME'] = 'Brian Potter'
     p = ActionScript3TemplateMachine.new
     p.bans = true
     p.docs = true
@@ -168,6 +169,7 @@ class TestTemplateMachine < Test::Unit::TestCase
   end
 
   def test_banners_only
+    ENV['TM_ORGANIZATION_NAME'] = 'Brian Potter'
     p = ActionScript3TemplateMachine.new
     p.bans = true
     assert_equal(eg_no_docs, p.process(example_class))
