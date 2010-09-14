@@ -380,6 +380,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#omit-trace-statements</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#services</string>
 				</dict>
 				<dict>
@@ -2326,6 +2330,30 @@
 					<key>include</key>
 					<string>#namespace</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#etc</string>
+				</dict>
+			</array>
+		</dict>
+		<key>omit-trace-statements</key>
+		<dict>
+			<key>begin</key>
+			<string>&lt;omit-trace-statements&gt;</string>
+			<key>captures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>meta.tag.xml.flex-config.compiler.omit-trace-statements</string>
+				</dict>
+			</dict>
+			<key>contentName</key>
+			<string>meta.scope.flex-config.compiler.omit-trace-statements</string>
+			<key>end</key>
+			<string>&lt;/omit-trace-statements&gt;</string>
+			<key>patterns</key>
+			<array>
 				<dict>
 					<key>include</key>
 					<string>#etc</string>
