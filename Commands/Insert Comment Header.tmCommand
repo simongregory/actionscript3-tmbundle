@@ -8,13 +8,14 @@
 	<string>#!/usr/bin/env ruby -wKU
 
 copyright_holder = ENV['TM_ORGANIZATION_NAME'] || ENV['TM_FULLNAME']
+copyright_rights = ENV['TM_COPYRIGHT_RIGHTS'] || ' All Rights Reserved.'
 
 s = "/"
 
 puts "//AS3" + s * 75
-puts "// "
-puts "// Copyright " + `date "+%Y"`.chop + " " + copyright_holder + "."
-puts "// "
+puts "//"
+puts "// Copyright " + `date "+%Y"`.chop + " " + copyright_holder + "." + copyright_rights
+puts "//"
 puts s * 80</string>
 	<key>input</key>
 	<string>none</string>

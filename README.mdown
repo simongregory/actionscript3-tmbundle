@@ -190,6 +190,9 @@ execute to override default run behaviour (triggered by  ⌘R).
 * `TM_ORGANIZATION_NAME`  
 Name used in copyright notices in most templates.
 
+* `TM_COPYRIGHT_RIGHTS`
+The copyright rights statement. Defaults to 'All rights reserved.' when not set.
+
 * `TM_ASDOC_GENERATION`  
 If you would like asdoc blocks automatically inserted when using commands,
 snippets, and templates then enable this variable and set this value to anything.
