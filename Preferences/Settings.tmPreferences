@@ -37,7 +37,7 @@
 				<key>name</key>
 				<string>TM_AS3_USUAL_SRC_DIRS</string>
 				<key>value</key>
-				<string>src:source:test:lib:AS3Lib</string>
+				<string>src:source:test:lib:AS3Lib:main</string>
 			</dict>
 			<dict>
 				<key>comment</key>
@@ -45,7 +45,7 @@
 				<key>name</key>
 				<string>TM_AS3_TEMPLATE_BUNDLES</string>
 				<key>value</key>
-				<string>ActionScript 3|Flex|ActionScript 3 PureMVC|ActionScript 3 Springseed|ActionScript 3 Robotlegs</string>
+				<string>ActionScript 3|Flex|ActionScript 3 PureMVC|ActionScript 3 Springseed|ActionScript 3 Robotlegs|FlexUnit</string>
 			</dict>
 		</array>
 	</dict>
