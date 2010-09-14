@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#! /usr/bin/env ruby
+# encoding: utf-8
+
+require ENV['TM_SUPPORT_PATH'] + '/lib/ui'
+require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
+regexp = ENV['TM_SCOPE'] =~ /source.actionscript.3/ ? /(.+)\.as$/ : /(.+)\.mxml$/
+ 
+skins_path = ENV['TM_FLEX_PATH'] + '/frameworks/projects/spark/src/spark/skins/spark'
+
+skins = []
+
+Dir.foreach(skins_path) do |f|
+	if f =~ regexp
+		skins &lt;&lt; { 'title' =&gt; $1, 'data' =&gt; skins_path+'/'+f }
+	end	
+end
+
+selected = TextMate::UI.menu(skins)
+
+TextMate.exit_insert_text("skin") if selected == nil
+
+skin = IO.read("#{selected['data']}")
+
+TextMate.exit_insert_text(skin)
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>name</key>
+	<string>Skin</string>
+	<key>output</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>text.xml.mxml, source.actionscript.3</string>
+	<key>tabTrigger</key>
+	<string>skin</string>
+	<key>uuid</key>
+	<string>5B32841F-9D2C-4594-8495-F820D31146EF</string>
+</dict>
+</plist>
