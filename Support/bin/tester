@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+#NOTE: This file is deliberately named tester because 'test' fails.
+
+require ENV['TM_SUPPORT_PATH'] + '/lib/escape'
+require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
+require ENV['TM_SUPPORT_PATH'] + '/lib/textmate'
+require ENV['TM_SUPPORT_PATH'] + '/lib/tm/process'
+
+require File.expand_path(File.dirname(__FILE__)) + '/../lib/add_lib'
+
+require 'find'
+require 'fm/flex_mate'
+require 'fm/sdk'
+require 'fm/compiler'
+require 'fm/settings'
+require 'as3/source_tools'
+
+STDOUT.sync = true
+
+c = FlexMate::TestCompiler.new
+c.build
+
+#TODO: Get the html window to show immediately.
+TextMate.exit_show_html
