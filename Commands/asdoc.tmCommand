@@ -19,6 +19,7 @@ class_regexp = /\b(class|interface)\b/
 constructor_regexp = /public\s+function\s+([A-Z]\w+)\s*\(.*\)\s*$/
 override_regexp = /override.*function.*\(/
 method_regex = /(public|private|protected|static|\s)+function\s+(\w+)\s*\(/
+meta_data_regex = /\[.+\] *$/
 
 def scan_for_method(doc,name)
 	m_rgx = /^(static|override|\s)*(public|private|protected)(static|\s)+function\s+\b#{name}\b\s*\(((?m:[^)]*))\)\s*:\s*(\w+)/
@@ -36,7 +37,7 @@ def generate_method_doc(sig)
 	
 	puts "/**"
 	
-	if args.empty? and sig[:namespace] != 'private'
+	if sig[:namespace] != 'private'
 	 	tab_stop = "${1:description}"
 	    puts " * #{tab_stop}"
 		count = 2
@@ -64,6 +65,11 @@ def generate_method_doc(sig)
 end
 
 t = SnippetBuilder.new
+
+while next_line =~ meta_data_regex
+	line_number += 1
+	next_line = doc_a[line_number].to_s
+end
 
 if next_line =~ class_regexp
 	print t.class_doc().chomp
