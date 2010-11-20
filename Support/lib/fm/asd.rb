@@ -102,7 +102,7 @@ class LangReference
 
     IO.readlines(@toc).each do |line|
       if line =~ @exact_rgx
-        m = $1 
+        m = $1
         p = cp(m)
         @found << { :href => "#{@path}/#{m}", :hit => 'exact', :title => p, :class => p.split('.').pop()}
       elsif line =~ @partial_rgx
@@ -115,10 +115,10 @@ class LangReference
     out = ""
 
     if @found.size == 1
-      
+
       fp = @found[0][:href]
-      
-      if File.exist?(fp)
+
+      if File.exist?(fp.sub(/#.*/,''))
         out << "<b>#{word}</b> Found, redirecting..."
         out << "<meta http-equiv='refresh' content='0; tm-file://#{fp}'>"
       else
@@ -137,7 +137,7 @@ class LangReference
         else
           out << "<li><span title='In search index but document is missing.'>#{e[:class]}</span></li>\n"
         end
-        
+
       }
 
       out << "</ul></p>"
@@ -180,7 +180,7 @@ class FlexLangReference < LangReference
     super
     @name     = 'Flex SDK'
     @path     = ENV['TM_FLEX_PATH'] + '/docs/langref'
-    #         This covers the odd case where the user has built the docs using the 
+    #         This covers the odd case where the user has built the docs using the
     #         tasks provided with the SDK.
     @path     = ENV['TM_FLEX_PATH'] + '/asdoc-output' unless File.directory?(@path)
     @toc      = ENV['TM_BUNDLE_SUPPORT'] + '/data/doc_dictionary.xml'
