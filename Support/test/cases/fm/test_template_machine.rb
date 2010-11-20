@@ -9,6 +9,7 @@ class TestTemplateMachine < Test::Unit::TestCase
     ENV['TM_NEW_FILE'] = "example/path/to/src/org/helvector/Test.as"
     ENV['TM_FULLNAME'] = "Brian Potter"
     ENV['TM_YEAR'] = "2010"
+    ENV.delete('TM_ORGANIZATION_NAME')
   end
 
   def example_class
