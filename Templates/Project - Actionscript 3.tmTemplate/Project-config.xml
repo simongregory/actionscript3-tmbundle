@@ -1,6 +1,7 @@
 <flex-config>
 	<benchmark>false</benchmark>
 	<default-background-color>#FFFFFF</default-background-color>
+	<static-link-runtime-shared-libraries>true</static-link-runtime-shared-libraries>
 	<compiler>
 		<incremental>true</incremental>
 		<optimize>true</optimize>
