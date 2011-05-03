@@ -1888,7 +1888,7 @@
 			</dict>
 			<key>match</key>
 			<string>(?x)
-					 (\w+)          # paramater name
+					 (\$?\w+)       # paramater name
 					 \s*(\:)\s*     # type seperator
 					 (
 						(\w+)
