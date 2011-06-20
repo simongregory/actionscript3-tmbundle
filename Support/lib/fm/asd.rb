@@ -61,8 +61,8 @@ module FlexMate
       # Link to index online version of the documentation.
       #
       def online_docs(word)
-        "<a title=\"Search Adobe Livedocs for #{word}\"
-            href=\"http://livedocs.adobe.com/cfusion/search/index.cfm?loc=en_US&termPrefix=site%3Alivedocs.macromedia.com%2Fflex%2F201++&term=site%3Alivedocs.macromedia.com%2Fflex%2F201++%22#{word}%22&area=&search_text=#{word}&action=Search\">Search Livedocs</a>"
+        "<a title=\"Search Adobe for #{word}\"
+            href=\"http://community.adobe.com/help/search.html?q=#{word}&x=0&y=0&lbl=flex_product_adobelr&site=communityhelp_platform_aslr&hl=en_US&self=1&area=0\">Search Livedocs</a>"
       end
 
       # Converts < and & to html entities.
