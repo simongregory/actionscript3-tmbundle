@@ -24,7 +24,6 @@
 			<string>B6FCC22E-E524-4C0B-8869-972AB3FB1492</string>
 			<string>B42093AC-0F65-4760-856C-23E51A54CD84</string>
 			<string>373CDD32-464D-4911-9B0D-4AF4F79C71AF</string>
-			<string>4F449605-8342-4D87-A0F0-F2013EC6FCFF</string>
 			<string>------------------------------------</string>
 			<string>45379A16-14A8-42D8-9F2B-0AE11724360E</string>
 			<string>6DBEF3A7-0EF3-4B92-A54F-5CA621C79AD0</string>
@@ -99,9 +98,6 @@
 					<string>------------------------------------</string>
 					<string>33712CB3-7897-4B93-821E-F35F8FD13BA2</string>
 					<string>------------------------------------</string>
-					<string>2DEA65C8-942D-47DF-A70D-7F924FE978AB</string>
-					<string>F8A7270B-8899-46EF-8729-D0A5AA9C82F8</string>
-					<string>061F388D-1ECE-4947-AE3B-504D6DB84FBE</string>
 				</array>
 				<key>name</key>
 				<string>Debug</string>
@@ -115,6 +111,7 @@
 					<string>CA4C97D5-48C1-4BEC-9F29-9C2C36E0D344</string>
 					<string>0AB04B4F-63E5-4D2D-8D61-01FCA939D0FC</string>
 					<string>5928BBEE-6950-41EA-9A9D-79DE58FF0D5B</string>
+					<string>370FE59F-1FF2-42A3-9679-BB6C31BE9A6F</string>
 					<string>997A416B-40F3-4BDB-B33A-6B8D9C9220EC</string>
 				</array>
 				<key>name</key>
