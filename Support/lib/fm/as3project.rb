@@ -2,6 +2,8 @@
 # encoding: utf-8
 
 require 'yaml'
+require 'digest/md5'
+require 'fileutils'
 
 module AS3Project
 
@@ -240,6 +242,83 @@ module AS3Project
           end
         end
     end
+    
+    def self.library_path_list
+      dirs = `ls "$TM_PROJECT_DIRECTORY/lib" 2>/dev/null`.split("\n")
+      libs = ['lib']
+      dirs.each { |d| libs << "lib/#{d}" }
+      libs
+    end
+    
+    def self.dump_path_list
+      list = []
+      #Loop through library, searching for SWC paths
+      library_path_list.each do |p|
+
+        #Where to unpack
+        lib_path = File.join(tmp_swc_dir, p.gsub("/","_"))
+        #Unpack files in this folder
+        Dir.entries(lib_path).delete_if{|d| not d =~ /\.swc/}.each do |entry|
+          list << File.join(lib_path, entry, "classes")
+        end
+      end
+        #@logger.debug("list: #{list}")
+        list
+    end
+
+    # Unpack all swc in the library path
+    # searching for possible classes
+    def self.dump_swcs
+
+      project = "#{ENV['TM_PROJECT_DIRECTORY']}"
+
+      #Loop through library, searching for SWC paths
+      library_path_list.each do |p|
+
+        #Where to unpack
+        lib_path = File.join(tmp_swc_dir, p.gsub("/","_"))
+
+        # @logger.debug("swc path: #{p} will be unpacked into: #{lib_path}")
+
+        #Create a directory in the temp folder for holding the unpacked files
+        FileUtils.mkdir_p lib_path unless File.directory? lib_path
+
+        #Unpack files in this folder
+        Dir.entries(File.join(project, p)).delete_if{|d| not d =~ /\.swc/}.each do |entry|
+
+          #Full path to file
+          swc_path = File.join(project, p, entry)
+          extraction_path = File.join lib_path, entry
+
+          #Checking if file changed
+          stamp = File.stat(swc_path).mtime.to_i.to_s
+          
+          #checking if the file needs to be extracted
+          if !File.exists? File.join(extraction_path, stamp)
+            #removing old entries
+            `rm -rf #{extraction_path}`
+            #swc found, time to unzip it
+            `unzip #{swc_path} -d #{extraction_path}`
+            #create file to avoid extracting the same swc when not needed
+            `touch #{File.join(extraction_path, stamp)}`
+            #extract classes
+            class_path = "#{File.expand_path(ENV['TM_FLEX_PATH']).gsub(' ', '\\ ')}/lib/swfutils.jar:#{ENV["TM_BUNDLE_SUPPORT"].gsub(' ', '\\ ')}/bin/definitiondumper"
+            result = `java -cp #{class_path} Main #{extraction_path}/library.swf #{File.join(extraction_path, "classes")}`
+          end
+        end
+      end
+    end
+    
+    #SWC working folder
+    def self.tmp_swc_dir
+
+      #Create unique dir per project
+      dir = "/tmp/tmas3/swcs" + Digest::MD5.hexdigest("#{ENV['TM_PROJECT_DIRECTORY']}")
+      FileUtils.mkdir_p dir unless File.directory? dir
+      dir 
+
+    end
+    
 
 end
 

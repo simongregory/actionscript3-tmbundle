@@ -12,6 +12,7 @@ require ENV['TM_SUPPORT_PATH'] + '/lib/ui'
 require 'fm/flex_mate'
 require 'fm/log'
 require 'fm/sdk'
+require 'fm/as3project'
 
 require 'as3/completions_list'
 require 'as3/parsers/class_parser'

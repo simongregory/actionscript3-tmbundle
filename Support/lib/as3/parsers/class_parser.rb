@@ -3,7 +3,7 @@
 
 ################################################################################
 #
-#    Copyright 2009-2010 Simon Gregory
+#    Copyright 2009-2011 Simon Gregory & Lucas Dupin
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -553,6 +553,12 @@ class ClassParser
     unless add_src_dir("#{cs}/frameworks/flex_3")
       fx = FlexMate::SDK.src
       add_src_dir(fx) unless fx.nil?
+    end
+
+    # SWC definitions
+    AS3Project.dump_swcs
+    AS3Project.dump_path_list.each do |p|
+      add_src_dir(p);
     end
 
     #log_append( "src_dirs " + @src_dirs )
