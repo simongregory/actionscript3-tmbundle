@@ -252,7 +252,8 @@ Chris Jenkins
 Christian Swinehart  
 ChromaticRain  
 [Daniel Parnell][daniel_parnell]  
-[Gabriel Laet][gabriel_laet]  
+[Gabriel Laet][gabriel_laet]
+[Jeremy Ruppel][jeremy_ruppel]  
 [Jeremy Sachs][jeremy_sachs]  
 [Joachim][joachim]  
 [Kristofer Joseph][kristoferjoseph]  
@@ -309,15 +310,17 @@ An exception is made for files in readable text which contain their own license 
 [flex_docs_zip]: http://www.adobe.com/go/flex_documentation_zip
 [flash_player_archive]: http://www.adobe.com/go/tn_14266
 
-[thomas_aylott]: http://subtlegradient.com/
-[theo]: http://blog.iconara.net/2007/02/23/textmate-flex-tips/
-[mark_llobrera]: http://www.dirtystylus.com/blog/
-[joachim]: http://www.4d.be/
 [daniel_parnell]: http://blog.danielparnell.com/?p=22
-[specialunderwear]: http://github.com/specialunderwear
-[kristoferjoseph]: http://github.com/kristoferjoseph
-[lucasdupin]: http://github.com/lucasdupin
 [gabriel_laet]: http://github.com/gabriel-laet
-[leo_soto]: http://code.google.com/p/flex-compiler-shell-daemon/
+[jeremy_ruppel]: http://github.com/jeremyruppel
 [jeremy_sachs]: http://www.rezmason.net/
+[joachim]: http://www.4d.be/
+[kristoferjoseph]: http://github.com/kristoferjoseph
+[leo_soto]: http://code.google.com/p/flex-compiler-shell-daemon/
+[lucasdupin]: http://github.com/lucasdupin
 [luke_daley]: http://github.com/alkemist
+[mark_llobrera]: http://www.dirtystylus.com/blog/
+[specialunderwear]: http://github.com/specialunderwear
+[theo]: http://blog.iconara.net/2007/02/23/textmate-flex-tips/
+[thomas_aylott]: http://subtlegradient.com/
+
