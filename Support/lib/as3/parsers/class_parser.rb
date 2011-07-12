@@ -548,12 +548,8 @@ class ClassParser
     add_src_dir("#{cs}/frameworks/flash_ide")
     add_src_dir("#{cs}/frameworks/flash_cs3")
 
-    # Where we have access to the compressed flex 3 files use them,
-    # otherwise go looking for the sdk.
-    unless add_src_dir("#{cs}/frameworks/flex_3")
-      fx = FlexMate::SDK.src
-      add_src_dir(fx) unless fx.nil?
-    end
+    # Ask the SDK for all the src paths it can find.
+    FlexMate::SDK.completion_src_paths.each { |p| add_src_dir(p) }
 
     # SWC definitions
     AS3Project.dump_swcs

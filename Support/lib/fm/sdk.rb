@@ -42,7 +42,9 @@ module FlexMate
       ]
 
       SDK_SRC_PATHS = [ "/frameworks/source/mx/",
-                        "/frameworks/projects/framework/src"
+                        "/frameworks/projects/framework/src",
+                        "/frameworks/projects/osmf/src",
+                        "/frameworks/projects/spark/src"
       ]
 
       # Return the first Flex SDK directory found in the list.
@@ -103,6 +105,21 @@ module FlexMate
           }
         end
 
+      end
+      
+      # Collects a series of paths from which the autcompletion mechanism can inspect for 
+      # completions
+      #
+      def completion_src_paths
+        sdk_path = find_sdk
+        found = []
+        unless sdk_path == nil
+          SDK_SRC_PATHS.each { |sp|
+            p = sdk_path+sp
+            found << p if File.directory? p
+          }
+        end
+        found
       end
       
       # Returns the path to the flex-config.xml doc.
