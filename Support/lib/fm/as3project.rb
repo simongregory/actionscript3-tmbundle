@@ -245,6 +245,7 @@ module AS3Project
     
     def self.library_path_list
       dirs = `ls "$TM_PROJECT_DIRECTORY/lib" 2>/dev/null`.split("\n")
+      dirs << `ls "$TM_PROJECT_DIRECTORY/libs" 2>/dev/null`.split("\n")
       libs = ['lib']
       dirs.each { |d| libs << "lib/#{d}" }
       libs
