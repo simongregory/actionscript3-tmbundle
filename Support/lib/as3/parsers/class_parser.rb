@@ -36,6 +36,7 @@
 #         - Check type of return statements.
 #         - Stopping local vars in other scopes from being picked up.
 #         - Handle CONSTANTS (capitalised words are assumed to be classes)
+#         - Handle 'internal' namespace
 #
 class ClassParser
 
@@ -50,11 +51,11 @@ class ClassParser
 
     @pub = AS3ClassRegex.new("public")
     @pro = AS3ClassRegex.new("protected|public")
-    @pri = AS3ClassRegex.new("private|protected|public")
+    @pri = AS3ClassRegex.new("private|internal|protected|public")
 
     @pub_stat = AS3ClassRegex.new("public|static")
     @pro_stat = AS3ClassRegex.new("protected|public|static")
-    @pri_stat = AS3ClassRegex.new("private|protected|public|static")
+    @pri_stat = AS3ClassRegex.new("private|internal|protected|public|static")
 
     @i_face = AS3InterfaceRegex.new()
 
@@ -160,8 +161,8 @@ class ClassParser
 
     end
 
-    store_multiline_methods(doc,method_scans,"private|protected|public")
-    store_multiline_static_methods(doc,static_method_scans,"static|private|protected|public")
+    store_multiline_methods(doc,method_scans,"private|internal|protected|public")
+    store_multiline_static_methods(doc,static_method_scans,"static|private|internal|protected|public")
 
     @depth += 1
 
@@ -732,7 +733,7 @@ class ClassParser
     #       can only be a public property.
 
     namespace = "protected|public"
-    namespace = "private|protected|public" if @type_depth == 0
+    namespace = "private|internal|protected|public" if @type_depth == 0
     namespace = "" if is_interface(doc)
 
     # Variables and Constants
