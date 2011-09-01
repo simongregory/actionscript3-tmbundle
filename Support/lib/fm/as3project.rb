@@ -244,10 +244,17 @@ module AS3Project
     end
     
     def self.library_path_list
-      dirs = `ls "$TM_PROJECT_DIRECTORY/lib" 2>/dev/null`.split("\n")
-      dirs << `ls "$TM_PROJECT_DIRECTORY/libs" 2>/dev/null`.split("\n")
       libs = ['lib']
+      
+      dirs = `ls "$TM_PROJECT_DIRECTORY/lib" 2>/dev/null`.split("\n") rescue []
       dirs.each { |d| libs << "lib/#{d}" }
+      
+      dirs = `ls "$TM_PROJECT_DIRECTORY/libs" 2>/dev/null`.split("\n") rescue []
+      dirs.each { |d| libs << "libs/#{d}" }
+
+      dirs = `ls "$TM_PROJECT_DIRECTORY/libs/bin" 2>/dev/null`.split("\n") rescue []
+      dirs.each { |d| libs << "libs/bin/#{d}" }
+      
       libs
     end
     
@@ -255,6 +262,8 @@ module AS3Project
       list = []
       #Loop through library, searching for SWC paths
       library_path_list.each do |p|
+        
+        next unless File.exist? p
 
         #Where to unpack
         lib_path = File.join(tmp_swc_dir, p.gsub("/","_"))
@@ -276,9 +285,11 @@ module AS3Project
       #Loop through library, searching for SWC paths
       library_path_list.each do |p|
 
+        next unless File.exist? p
+        
         #Where to unpack
         lib_path = File.join(tmp_swc_dir, p.gsub("/","_"))
-
+        
         # @logger.debug("swc path: #{p} will be unpacked into: #{lib_path}")
 
         #Create a directory in the temp folder for holding the unpacked files
