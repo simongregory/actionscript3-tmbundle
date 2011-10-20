@@ -24,7 +24,7 @@ class TestTemplateMachine < Test::Unit::TestCase
     /**
      * @author ${TM_FULLNAME}
      */
-    public class ${TM_NEW_FILE_BASENAME} extends Object
+    public class ${TM_NEW_FILE_BASENAME}
     {
 
       //--------------------------------------
@@ -58,7 +58,7 @@ class TestTemplateMachine < Test::Unit::TestCase
     /**
      * @author Brian Potter
      */
-    public class Test extends Object
+    public class Test
     {
 
       //--------------------------------------
@@ -83,7 +83,7 @@ class TestTemplateMachine < Test::Unit::TestCase
     "    package org.helvector
     {
 
-    public class Test extends Object
+    public class Test
     {
 
       public function Test()
@@ -104,7 +104,7 @@ class TestTemplateMachine < Test::Unit::TestCase
     /**
      * @author Brian Potter
      */
-    public class Test extends Object
+    public class Test
     {
 
       /**
@@ -131,7 +131,7 @@ class TestTemplateMachine < Test::Unit::TestCase
     package org.helvector
     {
 
-    public class Test extends Object
+    public class Test
     {
 
       //--------------------------------------

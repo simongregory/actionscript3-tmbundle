@@ -37,7 +37,7 @@ class TemplateMachine
   # Year string formatted eg '2000'.
   #
   def year
-    `date "+%Y"`.chop
+    ENV['TM_YEAR'] || `date "+%Y"`.chop
   end
 
   # Date string formatted eg '20.01.2000'.
