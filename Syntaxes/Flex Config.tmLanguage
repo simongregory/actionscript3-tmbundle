@@ -2279,7 +2279,7 @@
 		<key>namespace</key>
 		<dict>
 			<key>begin</key>
-			<string>&lt;namespace&gt;</string>
+			<string>&lt;namespace( append="true")?&gt;</string>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
