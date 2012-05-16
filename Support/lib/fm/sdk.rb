@@ -79,8 +79,8 @@ module FlexMate
         if user_path
           return user_path if File.directory? user_path
         end
-        
-        # Beware when using a shebang in a TextMate command as .textmate_init 
+
+        # Beware when using a shebang in a TextMate command as .textmate_init
         # won't be sourced and the `which fcsh` *may* be unreliable.
         user_path = `which fcsh`
         unless user_path.empty?
@@ -106,8 +106,8 @@ module FlexMate
         end
 
       end
-      
-      # Collects a series of paths from which the autcompletion mechanism can inspect for 
+
+      # Collects a series of paths from which the autcompletion mechanism can inspect for
       # completions
       #
       def completion_src_paths
@@ -121,7 +121,7 @@ module FlexMate
         end
         found
       end
-      
+
       # Returns the path to the flex-config.xml doc.
       #
       def flex_config

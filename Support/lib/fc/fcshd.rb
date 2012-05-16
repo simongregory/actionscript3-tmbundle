@@ -25,7 +25,7 @@ module FCSHD
     def generate_view(subtitle='__')
 
       puts html_head(:window_title => "ActionScript 3",
-                     :page_title => "fcshd", 
+                     :page_title => "fcshd",
                      :sub_title => subtitle );
 
       puts "<link rel='stylesheet' href='file://#{e_url(BUN_SUP)}/css/fcshd.css' type='text/css' charset='utf-8' media='screen'>"

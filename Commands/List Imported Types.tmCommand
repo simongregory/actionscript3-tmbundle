@@ -19,7 +19,7 @@ import_regexp = /^\s*import\s+.*\.(\w+)/
 imports = []
 doc.each do |line|
 	if line =~ import_regexp
-  		imports &lt;&lt; $1.to_s
+    imports &lt;&lt; $1.to_s
 	end
 end
 
@@ -30,7 +30,8 @@ selected_index = TextMate::UI.menu(imports)
 out = ":"
 out += imports[selected_index] if selected_index != nil
 
-TextMate.exit_insert_text(out)</string>
+TextMate.exit_insert_text(out)
+</string>
 	<key>input</key>
 	<string>document</string>
 	<key>name</key>

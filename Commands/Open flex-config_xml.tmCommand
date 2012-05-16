@@ -5,9 +5,11 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string># This command passes the script to Ruby via a heredoc, rather than using a shebang.
+	<string>#!/bin/bash
+source "$TM_SUPPORT_PATH/lib/bash_init.sh" # might not be necessary
+# This command passes the script to Ruby via a heredoc, rather than using a shebang.
 # The reason for this is so that .textmate_init is sourced, which allows the SDK class
-# pick up the flex sdk if the user has added it's bin to their $PATH. 
+# pick up the flex sdk if the user has added it's bin to their $PATH.
 
 ruby &lt;&lt;-'RUBY'
 

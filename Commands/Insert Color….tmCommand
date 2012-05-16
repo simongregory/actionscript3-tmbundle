@@ -20,18 +20,18 @@ end
 color = TextMate::UI.request_color(color)
 
 unless color == nil
-	
+
 	color.upcase!
-	if color.length == 3 
-	  color.gsub!(/(.)(.)(.)/,'\1\1\2\2\3\3')
+	if color.length == 3
+    color.gsub!(/(.)(.)(.)/,'\1\1\2\2\3\3')
 	end
 	color.gsub!(/^#?/,'0x')
 	print color
 
-else 
+else
 
 	TextMate.exit_discard()
-	
+
 end
 </string>
 	<key>fallbackInput</key>

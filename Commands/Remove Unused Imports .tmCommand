@@ -9,7 +9,7 @@
 
 # Please be aware of the following TODO's with this command:
 #
-# Detect if the import classs reference is within a comment block and if so comment the import out. 
+# Detect if the import classs reference is within a comment block and if so comment the import out.
 # Wildcarded.* packages are not checked.
 # Documents containing more than one class will not work.
 
@@ -26,7 +26,7 @@ file_without_comments.gsub!(single_line_comments,'')
 # Collect all imported classes.
 found_imports = []
 file_without_comments.scan(/\bimport\s+.*\.(\w+?);/).each do | imported_class |
-	found_imports &lt;&lt; { 'class' =&gt; imported_class.to_s, 'count' =&gt; 0 } 
+	found_imports &lt;&lt; { 'class' =&gt; imported_class.to_s, 'count' =&gt; 0 }
 end
 
 # Scan the document and usage count for each Import.
@@ -40,10 +40,10 @@ end
 to_remove = []
 found_imports.each do |import|
 	if import['count'] == 1
-	   to_remove &lt;&lt; import['class']+"\n"
-	   current_file = current_file.reject do |ln|
-	       /\bimport\b.*\.#{import['class']};/ =~ ln
-       end
+    to_remove &lt;&lt; import['class']+"\n"
+    current_file = current_file.reject do |ln|
+	    /\bimport\b.*\.#{import['class']};/ =~ ln
+    end
 	end
 end
 
@@ -52,8 +52,8 @@ end
 if to_remove.empty?
 	TextMate.exit_show_tool_tip "All Imports appear to be referenced.\nwild.card.* packages are not checked.\nReference repetitions (ie in comments) will not be removed."
 else
-    TextMate.exit_replace_document current_file	
-end 
+  TextMate.exit_replace_document current_file
+end
 </string>
 	<key>input</key>
 	<string>document</string>

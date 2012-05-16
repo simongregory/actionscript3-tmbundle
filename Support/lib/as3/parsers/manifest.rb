@@ -22,7 +22,7 @@
 
 # Utility class for working with ActionScript manifest files.
 #
-# Note: REXML has been avoided for speed reasons, but this means the xml 
+# Note: REXML has been avoided for speed reasons, but this means the xml
 # handling is fragile. Specifically if the class and id attributes are not in
 # the expected order then it will break.
 #
@@ -31,19 +31,19 @@ class Manifest
   def initialize(doc)
     @doc = strip_comments(doc)
   end
-  
+
   def find_class(id)
-    
+
     rgx = /<component\s+id=["'](#{id})["']\s+class=["']([\w.]+)["']/
     res = []
     res = @doc.scan(rgx)
 
     return nil if res.empty?
-    
+
     res[0][1]
-    
+
   end
-    
+
   def classes
 
     rgx = /<component(?m:[^\w]+)id=["'](\w+)["'](?m:[^\w]+)class=["']([\w.]+)["']/
@@ -55,21 +55,17 @@ class Manifest
   end
 
   protected
-  
+
   # Strips comments from the document.
 	#
 	def strip_comments(doc)
 
 		multiline_comments = /<!--(?:.|([\r\n]))*?-->/
 		doc.gsub!(multiline_comments,'')
-		
+
 		single_line_comments = /<!--.*-->/
 		return doc.gsub(single_line_comments,'')
 
 	end
-  
-end
 
-# if __FILE__ == $0
-# 
-# end
+end

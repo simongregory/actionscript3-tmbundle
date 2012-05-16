@@ -28,7 +28,7 @@ else
 
   pre, imps, post = [], [], []
   a = pre
-  
+
   doc.split("\n").each do |line|
     a << line
     if line =~ pkg

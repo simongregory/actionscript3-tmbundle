@@ -17,7 +17,7 @@ if type_match =~ current_line
 	prop = $1
 else
 	TextMate.exit_insert_text( "new\t" );
-end 
+end
 
 c = ClassParser.new
 class_type = c.find_type(STDIN.read.strip,prop)
@@ -45,7 +45,8 @@ else
 	snip = "new ${1:#{class_type}}($2);$0"
 end
 
-TextMate.exit_insert_snippet( snip )</string>
+TextMate.exit_insert_snippet( snip )
+</string>
 	<key>fallbackInput</key>
 	<string>word</string>
 	<key>input</key>

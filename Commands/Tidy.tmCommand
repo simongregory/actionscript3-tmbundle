@@ -7,7 +7,7 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-# Formats ActionScript 3 Documents according 
+# Formats ActionScript 3 Documents according
 # to the Flex Programming coding conventions.
 
 #STDIN.readlines.to_s.gsub(/\n(^\s*\n)+/, "\n\n")
@@ -15,7 +15,7 @@ doc = STDIN.read
 
 remove_leading_tab=false
 if doc =~ /^\s+public\s+(class|interface)/x
-	remove_leading_tab=true
+  remove_leading_tab=true
 end
 
 # one line of whitespace only.
@@ -25,80 +25,80 @@ last_line_empty=false;
 this_line_empty=false;
 
 doc.each do |line|
-  
-	if remove_leading_tab
-		line = line.sub(/^\t/,"")
-	end
 
-	remove_leading_tab = false if line =~ /^class/
-	
-	if line =~ /^\s*$/
-		this_line_empty=true
-	else
-		this_line_empty=false;
-	end
+  if remove_leading_tab
+    line = line.sub(/^\t/,"")
+  end
 
-	# Move any bracket.
-	if line =~ /(^\s*)(\b.*)\{\s*$/
-		line = "#{$1+$2}\n#{$1}{"
-	end
-    
-	# Asdoc.
-	line = line.sub( /\t\*/, "\t *" )
-	line = line.sub( /\*\*\//, "\*\/" )
-	line = line.sub( /\t\t\*/, "\t\t *" )
-	
-	# Method Return Statements.
-	line = line.sub( /\)\s+:\s+\b/, "):" )
-	
-	# Method calls
-	line = line.sub( /\b\s*\(\s*\)/, "()" )
-	
-	if line =~ /function/
-		line = line.sub( /\b\s*\(\s*/, "(")
-		line = line.sub( /\b\s*\)/, ")")
-	end
- 
-	# Variable Declarations.
-	line = line.gsub( /\s*:\s*/, ":" )
-    
-	# Tighten ,'s
-	line = line.gsub( /\b\s+,/, "," )
-    
-	# Tighten Imports
-	line = line.sub(/^\s*import/, "import")
-    
-	# Strip whitespace from EOL
-	line = line.sub(/\s+$/,"")
-    
-	# if's
-	line = line.sub( /if\s*\(/, "if (" )
- 
-	# move bracket after if and switch   
-	if line =~ /((^\s*)(if|switch|catch)\s\(.*\))\s*\{/
-		line = "#{$1}\n#{$2}\{"
-	end
+  remove_leading_tab = false if line =~ /^class/
 
-	# trys {
-	if line =~ /(^\s*)try\s*(\{.*$)/
-		line = "#{$1}try\n#{$1}#{$2}"
-	end
- 
-	# move bracket preceeding else or catch
-	if line =~ /(^\s*)\}\s*(else|catch)(.*)$/
-		line = "#{$1}\}\n#{$1}#{$2}#{$3}" 
-	end
+  if line =~ /^\s*$/
+    this_line_empty=true
+  else
+    this_line_empty=false;
+  end
 
-	# move bracket after else
-	#if line =~ /(^\s*)else\s*\{/
-	#  line = line.sub "#{$1}else\n#{$1}\{"
-	#end
-	
-	unless last_line_empty and this_line_empty 
-		puts line
-	end
-	
-	last_line_empty = this_line_empty
+  # Move any bracket.
+  if line =~ /(^\s*)(\b.*)\{\s*$/
+    line = "#{$1+$2}\n#{$1}{"
+  end
+
+  # Asdoc.
+  line = line.sub( /\t\*/, "\t *" )
+  line = line.sub( /\*\*\//, "\*\/" )
+  line = line.sub( /\t\t\*/, "\t\t *" )
+
+  # Method Return Statements.
+  line = line.sub( /\)\s+:\s+\b/, "):" )
+
+  # Method calls
+  line = line.sub( /\b\s*\(\s*\)/, "()" )
+
+  if line =~ /function/
+    line = line.sub( /\b\s*\(\s*/, "(")
+    line = line.sub( /\b\s*\)/, ")")
+  end
+
+  # Variable Declarations.
+  line = line.gsub( /\s*:\s*/, ":" )
+
+  # Tighten ,'s
+  line = line.gsub( /\b\s+,/, "," )
+
+  # Tighten Imports
+  line = line.sub(/^\s*import/, "import")
+
+  # Strip whitespace from EOL
+  line = line.sub(/\s+$/,"")
+
+  # if's
+  line = line.sub( /if\s*\(/, "if (" )
+
+  # move bracket after if and switch
+  if line =~ /((^\s*)(if|switch|catch)\s\(.*\))\s*\{/
+    line = "#{$1}\n#{$2}\{"
+  end
+
+  # trys {
+  if line =~ /(^\s*)try\s*(\{.*$)/
+    line = "#{$1}try\n#{$1}#{$2}"
+  end
+
+  # move bracket preceeding else or catch
+  if line =~ /(^\s*)\}\s*(else|catch)(.*)$/
+    line = "#{$1}\}\n#{$1}#{$2}#{$3}"
+  end
+
+  # move bracket after else
+  #if line =~ /(^\s*)else\s*\{/
+  #  line = line.sub "#{$1}else\n#{$1}\{"
+  #end
+
+  unless last_line_empty and this_line_empty
+    puts line
+  end
+
+  last_line_empty = this_line_empty
 
 end
 

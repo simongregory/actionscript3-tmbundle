@@ -15,10 +15,10 @@ require 'webrick'
 # http://localhost:6924/status
 #
 # Notes: I removed all the exit calls on the s.mount_proc blocks - to what seems
-# like no detrimental effect because they were being caught as an error by the 
+# like no detrimental effect because they were being caught as an error by the
 # Webrick::HTTPServer (see the webrick_log_file).
 #
-# Zombies suck so I figured usig Daemons.daemonize(:mulitple => false) would be 
+# Zombies suck so I figured usig Daemons.daemonize(:mulitple => false) would be
 # a safer option but it appears to leave 'variable @controller_argv not initialized'
 # errors in the system.log file.
 #
@@ -26,36 +26,36 @@ require 'webrick'
 # do the trick
 #
 module FCSHD_SERVER
-  
+
   class << self
-    
+
     PORT = 6924
     HOST = "localhost"
 
-    ASSIGNED_REGEXP = /^ fcsh:.*(\d+).*/ 
-    
+    ASSIGNED_REGEXP = /^ fcsh:.*(\d+).*/
+
     def log_file
       "#{ENV['HOME']}/Library/Logs/TextMate\ FCSHD.log"
     end
-    
+
     def webrick_log_file
       "#{ENV['HOME']}/Library/Logs/TextMate\ Webrick\ FCSHD.log"
     end
 
     #remembering wich swfs we asked for compiling
     def start_server
-      
+
       Daemons.call(:multiple => false) {
-      
+
         @commands = Hash.new if @commands.nil?
-      
+
         log = Logger.new(log_file)
         log.info("Initializing server")
-      
+
         fcsh = ::IO.popen("#{ENV['TM_FLEX_PATH']}/bin/fcsh  2>&1", "w+")
         read_to_prompt(fcsh)
 
-        #Creating the HTTP Server  
+        #Creating the HTTP Server
         s = WEBrick::HTTPServer.new(
           :Port => PORT,
           :Logger => WEBrick::Log.new(webrick_log_file, WEBrick::BasicLog::DEBUG), #WARN
@@ -64,10 +64,10 @@ module FCSHD_SERVER
 
         #giving it an action
         s.mount_proc("/build"){|req, res|
-          
+
           res['Content-Type'] = "text/html"
           res.body = ""
-          
+
           #Searching for an id for this command
           if @commands.has_key?(req.body)
             # Exists, incremental
@@ -80,10 +80,10 @@ module FCSHD_SERVER
             match = res.body.scan(ASSIGNED_REGEXP)
             @commands[req.body] = match[0][0]
           end
-          
+
           log.debug("asked: #{req.body}")
           log.debug("output: #{res.body}")
-          
+
         }
 
         s.mount_proc("/exit"){|req, res|
@@ -121,11 +121,11 @@ module FCSHD_SERVER
 
         #Starting webrick
         log.info("Starting Webrick at http://#{HOST}:#{PORT}")
-      
+
         begin
-        
+
           s.start
-        
+
         rescue Exception => e
 
           #Do not show error if we're trying to start the server more than once
@@ -138,8 +138,8 @@ module FCSHD_SERVER
         end
 
       } if not running
-      
-      
+
+
       if block_given?
         while not running
           sleep 3
@@ -154,7 +154,7 @@ module FCSHD_SERVER
       http.read_timeout = 120
       #resp, date = http.post('/build', what)
       #resp.body
-      
+
       rsp = ""
       http.request_post('/build', what) {|response|
         response.read_body do |str|
@@ -184,9 +184,9 @@ module FCSHD_SERVER
       end
       return false
     end
-    
+
     protected
-    
+
     #Helper method to read output
     def read_to_prompt(f)
       f.flush
@@ -197,7 +197,7 @@ module FCSHD_SERVER
       end
       output
     end
-    
+
   end
-  
+
 end

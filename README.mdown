@@ -15,13 +15,13 @@ Features:
 ## sg Branch
 
 My work in progress branch of the bundle, the version I use on a day to day basis
-whilst developing. Essentially it slims down the 'master' branch and adds a 
-little alpha and beta flavour. Maintenance, tweaks and feature improvements will 
+whilst developing. Essentially it slims down the 'master' branch and adds a
+little alpha and beta flavour. Maintenance, tweaks and feature improvements will
 be found here first - but won't be guaranteed to make it into the official bundle.
 
 'master' differences:
 
- * FCSH build integrated into TM. 
+ * FCSH build integrated into TM.
  * Tidy command.
  * FDB Support
     * Set breakpoints using  `/*>BP<*/`
@@ -64,7 +64,7 @@ and configuration commands will fail.
 
 Documentation is not included with the SDK so has to be installed separately for
 the documentation command to work. You can download it from [this page][flex_docs],
-or directly as a [zip file][flex_docs_zip]. Once downloaded please rename the 
+or directly as a [zip file][flex_docs_zip]. Once downloaded please rename the
 unzipped directory `docs` and place it in your Flex SDK directory.
 
 ## Flash Player
@@ -162,12 +162,12 @@ Attempts to open or execute `TM_FLEX_RUN_FILE`, `TM_FLEX_OUTPUT`, `TM_PROJECT_DI
 
 # Configuration Options
 
-These environment variables allow you to define or customise the behaviour of 
+These environment variables allow you to define or customise the behaviour of
 certain commands. For help on setting them up please see [TextMate help](?environment_variables).
 To view the defaults for certain variable look at **TextMate > Bundles > ActionScript 3 > Settings**.
 
 * `TM_FLEX_PATH`  
-The path to your Flex SDK installation directory. If it is not in one of the 
+The path to your Flex SDK installation directory. If it is not in one of the
 default locations (see Installation section).
 
 * `TM_FLEX_FILE_SPECS`  
@@ -206,7 +206,7 @@ variable to anything.
 * `TM_FLEX_USE_FCSH`  
 To compile using fcsh via the Terminal.app set this property to anything. To use
 a custom TextMate integrated server for fcsh then set it to 'fcshd'. Either
-option will give you the added benefit of compiler caching and should be 
+option will give you the added benefit of compiler caching and should be
 noticeably faster, especially on larger projects.
 
 * `TM_FLEX_BACKGROUND_TERMINAL`  
@@ -220,18 +220,18 @@ Colon separated list of directories within which the bundle may find source file
 Pipe separated list of Bundles to search when finding templates.
 
 * `TM_FLEX_SDK_SEARCH_PATHS`
-Colon separated list of directories the bundle uses to try and locate the Flex 
+Colon separated list of directories the bundle uses to try and locate the Flex
 SDK when it has not been explicitly defined by the user in `TM_FLEX_PATH`.
 
 # Known Issues
 
-* fsch doesn't accept escaped or quoted directory names properly, if they have 
+* fsch doesn't accept escaped or quoted directory names properly, if they have
 space it fails. The only solution is to use paths that don't contain spaces.
 
 * TextMate 1.5.9 (1589) broke all commands scanning the project for files. To fix
-the issue you need to upgrade your TextMate Support directory to the most recent 
-version. To do this checkout `http://svn.textmate.org/trunk/Support` to 
-`/Users/$USER/Library/Application Support/TextMate/Support` 
+the issue you need to upgrade your TextMate Support directory to the most recent
+version. To do this checkout `http://svn.textmate.org/trunk/Support` to
+`/Users/$USER/Library/Application Support/TextMate/Support`
 
 # Support
 

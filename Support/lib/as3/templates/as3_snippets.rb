@@ -4,10 +4,10 @@
 # UI for public, protected, private and static snippets.
 #
 module AS3Snippets
-  
+
   require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
   require ENV['TM_SUPPORT_PATH'] + '/lib/ui'
-  
+
   class << self
 
     # Collects and returns all snippets that belong to public, protected

@@ -10,7 +10,7 @@
 catch (e:Error)
 {
 	$2
-} 
+}
 finally
 {
 	$3

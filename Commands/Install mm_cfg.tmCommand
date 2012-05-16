@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string># The following lines have been removed as it does not appear to be possible to customise the location of the flashlog.txt file anymore.
+	<string>#!/bin/bash
+source "$TM_SUPPORT_PATH/lib/bash_init.sh" # might not be necessary
+# The following lines have been removed as it does not appear to be possible to customise the location of the flashlog.txt file anymore.
 # See: http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&amp;file=security2_117_44.html
 #
 # START_UP_DISK=`exec osascript &lt;&lt;EOF
-# 	tell app "SystemUIServer"
-# 	   	activate	    
-# 		set startUpDisk to path to startup disk as string
-# 	end tell
+#   tell app "SystemUIServer"
+#     activate
+#     set startUpDisk to path to startup disk as string
+#   end tell
 # EOF`
 #
 # TraceOutputFileName=${START_UP_DISK}Users:Shared:flashlog.txt
@@ -24,8 +26,8 @@ TM_MMCFG_PATH="/Library/Application Support/Macromedia/mm.cfg"
 
 if [ ! -f "$TM_MMCFG_PATH" ]; then
 
-echo "ErrorReportingEnable=1 
-TraceOutputFileEnable=1 
+echo "ErrorReportingEnable=1
+TraceOutputFileEnable=1
 MaxWarnings=0
 PolicyFileLog=1
 PolicyFileLogAppend=1" &gt;"$TM_MMCFG_PATH"

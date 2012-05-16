@@ -3,64 +3,64 @@
 global TerminalWindowTitle
 
 on run argv
-	
-	set CommandPath to item 1 of argv --"fdb"
-	set CommandArguments to item 2 of argv
-	set BreakPointList to item 3 of argv
-	
-	set TerminalWindowTitle to "TextMate fdb"
-	
-	set CommandTab to my find_tab_by_title(TerminalWindowTitle)
-	
-	if CommandTab is missing value then
-		
-		--Start the compile process
-		tell application "Terminal"
-			
-			set CommandTab to do script "clear"
-			delay 1
-			do script CommandPath in CommandTab
-			delay 2
-			do script CommandArguments in CommandTab
-			set custom title of CommandTab to TerminalWindowTitle
-			
-		end tell
-		
-	else
-		--Run the compile again
-		tell application "Terminal"
-			try
-				do script BreakPointList in CommandTab
-			end try
-		end tell
-	end if
-	
+
+  set CommandPath to item 1 of argv --"fdb"
+  set CommandArguments to item 2 of argv
+  set BreakPointList to item 3 of argv
+
+  set TerminalWindowTitle to "TextMate fdb"
+
+  set CommandTab to my find_tab_by_title(TerminalWindowTitle)
+
+  if CommandTab is missing value then
+
+    --Start the compile process
+    tell application "Terminal"
+
+      set CommandTab to do script "clear"
+      delay 1
+      do script CommandPath in CommandTab
+      delay 2
+      do script CommandArguments in CommandTab
+      set custom title of CommandTab to TerminalWindowTitle
+
+    end tell
+
+  else
+    --Run the compile again
+    tell application "Terminal"
+      try
+        do script BreakPointList in CommandTab
+      end try
+    end tell
+  end if
+
 end run
 
 on find_tab_by_title(TheTabTitle)
-	
-	-- Find the window/tab that has this custom title.
-	
-	tell application "Terminal"
-		set MyWindowCount to count of windows
-		repeat with MyWindowIndex from 1 to MyWindowCount
-			set MyWindow to window MyWindowIndex
-			try
-				set MyTabCount to count of tabs of MyWindow
-			on error
-				set MyTabCount to 0 -- a non-Terminal window?
-			end try
-			repeat with MyTabIndex from 1 to MyTabCount
-				set MyTab to tab MyTabIndex of MyWindow
-				set MyTabTitle to custom title of MyTab
-				
-				if MyTabTitle is TheTabTitle then
-					return MyTab
-				end if
-				
-			end repeat
-		end repeat
-	end tell
-	
-	return missing value
+
+  -- Find the window/tab that has this custom title.
+
+  tell application "Terminal"
+    set MyWindowCount to count of windows
+    repeat with MyWindowIndex from 1 to MyWindowCount
+      set MyWindow to window MyWindowIndex
+      try
+        set MyTabCount to count of tabs of MyWindow
+      on error
+        set MyTabCount to 0 -- a non-Terminal window?
+      end try
+      repeat with MyTabIndex from 1 to MyTabCount
+        set MyTab to tab MyTabIndex of MyWindow
+        set MyTabTitle to custom title of MyTab
+
+        if MyTabTitle is TheTabTitle then
+          return MyTab
+        end if
+
+      end repeat
+    end repeat
+  end tell
+
+  return missing value
 end find_tab_by_title

@@ -1,56 +1,56 @@
-#!/usr/bin/osascript
+~#!/usr/bin/osascript
 
 global FCSHWindowTitle
 
 on run argv
-	
-	set FCSHWindowTitle to "TextMate fcsh"
-	
-	set FCSHTab to my find_tab_by_title(FCSHWindowTitle)
-	
-	if FCSHTab is missing value then
 
-		return "fcsh terminal window not found."
-		
-	else
-		
-		tell app "Terminal"
-			--set FCSHOutput to tty of FCSHTab			
-			--set FCSHOutput to contents of FCSHTab
-			--set FCSHOutput to processes of FCSHTab
-			set FCSHOutput to history of FCSHTab
-		end tell		
-		
-		return FCSHOutput
-		
-	end if
-	
+  set FCSHWindowTitle to "TextMate fcsh"
+
+  set FCSHTab to my find_tab_by_title(FCSHWindowTitle)
+
+  if FCSHTab is missing value then
+
+    return "fcsh terminal window not found."
+
+  else
+
+    tell app "Terminal"
+      --set FCSHOutput to tty of FCSHTab
+      --set FCSHOutput to contents of FCSHTab
+      --set FCSHOutput to processes of FCSHTab
+      set FCSHOutput to history of FCSHTab
+    end tell
+
+    return FCSHOutput
+
+  end if
+
 end run
 
 on find_tab_by_title(TheTabTitle)
-	
-	-- Find the window/tab that has this custom title.
-	
-	tell application "Terminal"
-		set MyWindowCount to count of windows
-		repeat with MyWindowIndex from 1 to MyWindowCount
-			set MyWindow to window MyWindowIndex
-			try
-				set MyTabCount to count of tabs of MyWindow
-			on error
-				set MyTabCount to 0 -- a non-Terminal window?
-			end try
-			repeat with MyTabIndex from 1 to MyTabCount
-				set MyTab to tab MyTabIndex of MyWindow
-				set MyTabTitle to custom title of MyTab
-				
-				if MyTabTitle is TheTabTitle then
-					return MyTab
-				end if
-				
-			end repeat
-		end repeat
-	end tell
-	
-	return missing value
+
+  -- Find the window/tab that has this custom title.
+
+  tell application "Terminal"
+    set MyWindowCount to count of windows
+    repeat with MyWindowIndex from 1 to MyWindowCount
+      set MyWindow to window MyWindowIndex
+      try
+        set MyTabCount to count of tabs of MyWindow
+      on error
+        set MyTabCount to 0 -- a non-Terminal window?
+      end try
+      repeat with MyTabIndex from 1 to MyTabCount
+        set MyTab to tab MyTabIndex of MyWindow
+        set MyTabTitle to custom title of MyTab
+
+        if MyTabTitle is TheTabTitle then
+          return MyTab
+        end if
+
+      end repeat
+    end repeat
+  end tell
+
+  return missing value
 end find_tab_by_title

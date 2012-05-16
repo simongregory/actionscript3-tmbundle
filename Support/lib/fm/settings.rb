@@ -2,13 +2,13 @@
 # encoding: utf-8
 
 module FlexMate
-  
+
   # Utility methods for collecting ActionScript 3/Flex specific environmental
   # settings.
   #
   class Settings
-    
-    # By default the bundle assumes that the env variable TM_PROJECT_DIRECTORY 
+
+    # By default the bundle assumes that the env variable TM_PROJECT_DIRECTORY
     # points to the root directory of the flex/actionscript project. However TM
     # sets the value based on the closest file to the root of the filesystem. To
     # combat this, and enable users to collect files from places outside of the
@@ -20,21 +20,21 @@ module FlexMate
 
       proj_file = ENV['TM_PROJECT_FILEPATH'] || ''
       proj_dir = ENV['TM_PROJECT_DIRECTORY'] || ''
-      
+
       return File.dirname(proj_file) unless proj_file.empty?
       return proj_dir unless proj_dir.empty?
       return ''
-      
+
     end
-    
+
     # Inspects the available environmental variables and gathers the settings
     # necessary for the compiler to run.
     #
     def file_specs
-      
+
       proj_dir = proj_root
       file_specs = ENV['TM_FLEX_FILE_SPECS']
-      
+
       return file_specs if file_specs && File.exist?(file_specs)
 
       if proj_dir && file_specs
@@ -57,19 +57,19 @@ module FlexMate
     def flex_output
 
       flex_output = ENV['TM_FLEX_OUTPUT']
-      
+
       proj_dir = proj_root
-      
+
       # As this could be called more than once, and the value of TM_FLEX_OUTPUT
       # stands a chance of being set in between, we need to make sure that we
       # dont unecessarily prepend the proj_dir.
       if flex_output && proj_dir
-        return flex_output if flex_output.include? proj_dir 
+        return flex_output if flex_output.include? proj_dir
         return proj_dir + '/' + flex_output
       end
 
       fx_out = file_specs.sub(/\.(mxml|as)/, ".swf")
-      
+
       if !proj_dir.empty? && File.exist?( proj_dir.to_s + '/bin' )
         #match src backwards from the end of line. This covers us in these
         #cases foo/src/bar/src/class.
@@ -93,14 +93,14 @@ module FlexMate
       end
       return nil
     end
-    
+
     # Boolean to indicate if we are compiling a swc instead of a swf.
     #
     def is_swc
       return true if flex_output =~ /\.swc/ rescue false
       return false
     end
-    
+
     # Locate and return the air descriptor file associated with the current
     # project.
     #
@@ -112,14 +112,14 @@ module FlexMate
       end
       return nil
     end
-    
+
     # Boolean to indicate if we are compiling an air application.
     #
     def is_air
       return true if File.exist? air_descriptor rescue return false
       return false
     end
-    
+
     # A list of classes found in the project.
     #
     def list_classes
@@ -130,14 +130,14 @@ module FlexMate
     #
     def source_path
       pr = proj_root
-      SourceTools.common_src_dirs.each do |d| 
+      SourceTools.common_src_dirs.each do |d|
         return "#{pr}/#{d}" if File.directory?("#{pr}/#{d}")
       end
       nil
     end
-    
+
     protected
-    
+
     # Where we have Project Directory but no TM_FLEX_FILE_SPECS set take a look
     # inside the src/ dir and see if we can work out which file should be
     # compiled.
@@ -145,10 +145,10 @@ module FlexMate
     def guess_file_specs(proj_dir)
 
       possible_src_dirs = SourceTools.common_src_dirs
-      
+
       #Additionally check the root of the project
       possible_src_dirs.push('')
-      
+
       src_dir = ""
       fs = []
 
@@ -177,21 +177,21 @@ module FlexMate
     end
 
   end
-  
+
   class TestSettings < Settings
-    
+
     def file_specs
 
       proj_dir = proj_root
       file_specs = ENV['TM_FLEX_TEST_FILE_SPECS']
-      
+
       return file_specs if file_specs && File.exist?(file_specs)
 
       if proj_dir && file_specs
         file_specs = proj_dir + '/' + file_specs
         return file_specs if File.exist?(file_specs)
       end
-      
+
       if proj_dir
         file_specs = guess_test_file_specs(proj_dir)
         return file_specs unless file_specs.nil?
@@ -200,13 +200,13 @@ module FlexMate
       file_specs = ENV['TM_FILEPATH']
 
     end
-    
+
     def flex_output
       proj_root + '/' + ENV['TM_FLEX_TEST_OUTPUT']
     end
-    
+
     protected
-    
+
     # Where we have Project Directory but no TM_FLEX_FILE_SPECS set take a look
     # inside the src/ dir and see if we can work out which file should be
     # compiled.
@@ -229,7 +229,7 @@ module FlexMate
         end
 
       end
-      
+
       #TODO: Where multiple matches are found, should we
       #
       #   * Default to the first in the list.
@@ -237,12 +237,8 @@ module FlexMate
       #   * Check TM_FILEPATH to see if it's sat in src or test and compile accordingly.
       #
       return fs[0] unless fs[0] == nil
-    
+
     end
   end
-  
-end
 
-# if __FILE__ == $0
-#   
-# end
+end

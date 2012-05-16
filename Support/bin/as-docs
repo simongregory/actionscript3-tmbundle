@@ -10,7 +10,7 @@ require ENV['TM_BUNDLE_SUPPORT'] + '/lib/fm/asd'
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/fm/sdk'
 
 if scope =~ /text\.xml\.flex-config/
-	TextMate.exit_show_tool_tip FlexConfigDoc.new.find(scope)
+  TextMate.exit_show_tool_tip FlexConfigDoc.new.find(scope)
 end
 
 FlexMate::SDK.set_tm_flex_path

@@ -200,7 +200,7 @@ module AS3Project
         mxmlc_parser.print_output = true
 
         mxmlc_applications.each do |app|
-          
+
             printf('<h3>Compiling %s</h3>', app["klass"])
 
             puts "<pre>"
@@ -215,7 +215,7 @@ module AS3Project
             mxmlc_parser.complete
 
         end
-        
+
         if mxmlc_parser.error_count <= 0
           FCSHD.success
 
@@ -227,7 +227,7 @@ module AS3Project
         else
           FCSHD.fail
         end
-        
+
         html_footer
         return 0;
     end
@@ -242,27 +242,27 @@ module AS3Project
           end
         end
     end
-    
+
     def self.library_path_list
       libs = ['lib']
-      
+
       dirs = `ls "$TM_PROJECT_DIRECTORY/lib" 2>/dev/null`.split("\n") rescue []
       dirs.each { |d| libs << "lib/#{d}" }
-      
+
       dirs = `ls "$TM_PROJECT_DIRECTORY/libs" 2>/dev/null`.split("\n") rescue []
       dirs.each { |d| libs << "libs/#{d}" }
 
       dirs = `ls "$TM_PROJECT_DIRECTORY/libs/bin" 2>/dev/null`.split("\n") rescue []
       dirs.each { |d| libs << "libs/bin/#{d}" }
-      
+
       libs
     end
-    
+
     def self.dump_path_list
       list = []
       #Loop through library, searching for SWC paths
       library_path_list.each do |p|
-        
+
         next unless File.exist? p
 
         #Where to unpack
@@ -286,10 +286,10 @@ module AS3Project
       library_path_list.each do |p|
 
         next unless File.exist? p
-        
+
         #Where to unpack
         lib_path = File.join(tmp_swc_dir, p.gsub("/","_"))
-        
+
         # @logger.debug("swc path: #{p} will be unpacked into: #{lib_path}")
 
         #Create a directory in the temp folder for holding the unpacked files
@@ -304,7 +304,7 @@ module AS3Project
 
           #Checking if file changed
           stamp = File.stat(swc_path).mtime.to_i.to_s
-          
+
           #checking if the file needs to be extracted
           if !File.exists? File.join(extraction_path, stamp)
             #removing old entries
@@ -320,17 +320,17 @@ module AS3Project
         end
       end
     end
-    
+
     #SWC working folder
     def self.tmp_swc_dir
 
       #Create unique dir per project
       dir = "/tmp/tmas3/swcs" + Digest::MD5.hexdigest("#{ENV['TM_PROJECT_DIRECTORY']}")
       FileUtils.mkdir_p dir unless File.directory? dir
-      dir 
+      dir
 
     end
-    
+
 
 end
 

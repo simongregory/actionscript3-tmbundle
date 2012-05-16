@@ -11,7 +11,7 @@
 require ENV['TM_SUPPORT_PATH'] + '/lib/ui'
 require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes'
 regexp = ENV['TM_SCOPE'] =~ /source.actionscript.3/ ? /(.+)\.as$/ : /(.+)\.mxml$/
- 
+
 skins_path = ENV['TM_FLEX_PATH'] + '/frameworks/projects/spark/src/spark/skins/spark'
 
 skins = []
@@ -19,7 +19,7 @@ skins = []
 Dir.foreach(skins_path) do |f|
 	if f =~ regexp
 		skins &lt;&lt; { 'title' =&gt; $1, 'data' =&gt; skins_path+'/'+f }
-	end	
+	end
 end
 
 selected = TextMate::UI.menu(skins)

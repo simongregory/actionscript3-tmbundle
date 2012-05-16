@@ -10,7 +10,7 @@ class MxmlcExhaust
   attr_reader :error_count
   attr_reader :line_count
   attr_reader :input
-  
+
   # Constants to track switches in matches (to prettify output).
   CONFIGURATION_MATCH    = "configuration_match"
   ERROR_WARN_MATCH       = "error_warn_match"
@@ -22,11 +22,11 @@ class MxmlcExhaust
   # otherwise the error counter will be inaccurate.
   #
   def initialize()
-    
+
     @line_count = 0
     @error_count = 0
     @last_match = ""
-    @print_output = false 
+    @print_output = false
     @input = []
 
     @error_and_warn_regex = /(\/.*?)(\(([0-9]+)\)|):.*(Error|Warning):\s*(.*)$/
@@ -58,7 +58,7 @@ class MxmlcExhaust
     print output if print_output
     output
   end
-  
+
   def raw(id='z')
     output = ""
     output << '<br/><div class="raw_out_#{id}"><span class="showhide">'
@@ -68,16 +68,16 @@ class MxmlcExhaust
     output << '<div class="inner" id="raw_out_'+id+'_b" style="display: none;"><br/>'
     output << "<pre><code>#{input.to_s}</code></pre><br/></div>"
     print output if print_output
-    output    
+    output
   end
-  
+
   protected
-  
+
   def parse_line(str)
     @line_count += 1
     match = @error_and_warn_regex.match(str)
     out = ""
-    
+
     begin
 
       unless match === nil
@@ -100,7 +100,7 @@ class MxmlcExhaust
         @last_match = ERROR_WARN_MATCH
         return out
       end
-      
+
       match = @unable_to_open_regex.match(str)
       unless match === nil
         @error_count += 1
@@ -159,13 +159,10 @@ class MxmlcExhaust
         @error_count += 1
 
     end
-    
+
     out
-    
+
   end
 
 end
 
-# if __FILE__ == $0
-#     
-# end
