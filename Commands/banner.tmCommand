@@ -20,7 +20,7 @@ banner_wrapper = "//" + wrap_char * 39
 all_banners = [
 
 { 'title' =&gt; 'Accessors', 'data' =&gt; "// ${1:ACCESSORS}" },
-{ 'title' =&gt; 'Class Constants', 'data' =&gt; '// ${1:CLASS CONSTANTS}'}, 
+{ 'title' =&gt; 'Class Constants', 'data' =&gt; '// ${1:CLASS CONSTANTS}'},
 { 'title' =&gt; 'Constructor', 'data' =&gt; '// ${1:CONSTRUCTOR}' },
 { 'title' =&gt; 'Event Handlers', 'data' =&gt; '// ${1:EVENT HANDLERS}' },
 { 'title' =&gt; 'Getter/Setters', 'data' =&gt; "// ${1:GETTER / SETTERS}" },
@@ -51,7 +51,8 @@ plist = { 'menuItems' =&gt; banners }.to_plist
 res = OSX::PropertyList::load(`#{e_sh DIALOG} -up #{e_sh plist}`)
 
 TextMate.exit_discard() unless res.has_key? 'selectedMenuItem'
-TextMate.exit_insert_snippet( banner_wrapper + "\n" + res['selectedMenuItem']['data'] + "\n" + banner_wrapper + "$0" )</string>
+TextMate.exit_insert_snippet( banner_wrapper + "\n" + res['selectedMenuItem']['data'] + "\n" + banner_wrapper + "$0" )
+</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>

@@ -5,7 +5,10 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>complete.rb</string>
+	<string>#!/bin/bash
+source "$TM_SUPPORT_PATH/lib/bash_init.sh" # might not be necessary
+complete.rb
+</string>
 	<key>input</key>
 	<string>document</string>
 	<key>keyEquivalent</key>

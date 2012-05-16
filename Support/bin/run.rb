@@ -21,7 +21,7 @@ proj_default  = proj ? "#{proj}/deploy/index.html" : ""
 proj_flex_out = proj ? "#{proj}/#{flex_out}" : ""
 
 def run(uri)
-  
+
   if File.executable?(uri)
     puts "<h2>Executing</h2><pre>#{File.basename(uri)}</pre>"
     cmd = e_sh(uri)
@@ -29,11 +29,11 @@ def run(uri)
     puts "<h2>Opening...</h2><pre>#{File.basename(uri)}</pre>"
     cmd = "open #{e_sh(uri)}"
   end
-  
+
   TextMate::Process.run(cmd) do |str|
     STDOUT << str
   end
-  
+
 end
 
 puts html_head( :window_title => "ActionScript 3 Run Command",
@@ -46,16 +46,16 @@ elsif File.exist?(proj_run_file)
 elsif File.exist?(proj_default)
   run(proj_default)
 elsif File.file?(proj_flex_out)
-  run(proj_flex_out)  
+  run(proj_flex_out)
 else
 
   s= FlexMate::Settings.new
   swf = s.flex_output
-  
+
   if s.is_swc
     puts "<h2>Warning</h2><p>SWC files won't run!</p>"
   elsif File.exist?(swf)
-    run(swf) 
+    run(swf)
   else
     puts "<h2>Error</h2><p>No file found to run.</p>"
   end

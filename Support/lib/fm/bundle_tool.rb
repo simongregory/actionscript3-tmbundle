@@ -72,7 +72,7 @@ module FlexMate
         }
 
         found.pop if found.last['title'] == '---'
-        
+
         found
       end
 

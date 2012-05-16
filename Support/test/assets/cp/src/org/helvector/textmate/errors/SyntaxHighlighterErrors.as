@@ -7,7 +7,7 @@
 package org.helvector.textmate.controllers {
 
 /**
- *  Deliberately contains errors that should be caaught by the syntax highlighter.
+ *  Deliberately contains errors that should be caught by the syntax highlighter.
  */
 public class ErrorHighlighter sdfs extends Object ,
  										   Cheese
@@ -39,4 +39,3 @@ public class ErrorHighlighter sdfs extends Object ,
 }
 
 }
-

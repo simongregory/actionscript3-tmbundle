@@ -13,7 +13,6 @@ t = SnippetBuilder.new
 
 TextMate.exit_insert_snippet( t.f_method ) if ENV['TM_SCOPE'] =~ /meta\.class/
 TextMate.exit_insert_snippet( t.f_class )
-
 </string>
 	<key>fallbackInput</key>
 	<string>word</string>

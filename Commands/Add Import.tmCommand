@@ -26,16 +26,16 @@ mta = /^\s*\[(Style|Bindable|Event|Embed|SWF)/
 
 pre, imps, post = [], [], []
 a = pre
-	
+
 doc.split("\n").each do |line|
-	a &lt;&lt; line
-	if line =~ pkg
-		pkg = nil
-		a = imps
-	elsif line =~ cls || line =~ mta
-		cls = nil
-		a = post
-	end
+  a &lt;&lt; line
+  if line =~ pkg
+    pkg = nil
+    a = imps
+  elsif line =~ cls || line =~ mta
+    cls = nil
+    a = post
+  end
 end
 
 irgx = /^\s*import\s+#{import.gsub('.', '\.')}(\s|;)/
@@ -43,13 +43,13 @@ safe = 0
 indent = ""
 
 imps.each_with_index do |line,index|
-	if line =~ irgx		
-		TextMate.exit_insert_text(cla.sub(word,'')) if word != cla
-		TextMate.exit_show_tool_tip("#{word} already imported")
-	elsif line =~ /^(\s*)import\s+/
-		indent = $1
-		safe = index
-	end
+  if line =~ irgx
+    TextMate.exit_insert_text(cla.sub(word,'')) if word != cla
+    TextMate.exit_show_tool_tip("#{word} already imported")
+  elsif line =~ /^(\s*)import\s+/
+    indent = $1
+    safe = index
+  end
 end
 
 imps[safe] = "#{imps[safe]}\n#{indent}import #{import};"
@@ -59,9 +59,9 @@ print pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n")
 line_idx = (line_idx.to_i-word.length)+(import.split(".")[-1].length)+1
 
 pid = fork do
-	STDOUT.reopen(open('/dev/null'))
-	STDERR.reopen(open('/dev/null'))
-	TextMate.go_to(:line =&gt; line_num.to_i+1, :column =&gt; line_idx)
+  STDOUT.reopen(open('/dev/null'))
+  STDERR.reopen(open('/dev/null'))
+  TextMate.go_to(:line =&gt; line_num.to_i+1, :column =&gt; line_idx)
 end
 </string>
 	<key>input</key>

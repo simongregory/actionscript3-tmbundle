@@ -40,9 +40,9 @@ class MxmlDoc
     @super_class = @source.root.name
     @super_namespace = @source.root.namespace
     @properties = []
-    
+
     parse_namespaces
-    
+
     @script = ""
 
     add_members(@source.root)
@@ -57,23 +57,23 @@ class MxmlDoc
     s << "Script:\n#{@script}"
     s.to_s
   end
-  
+
   def get_namespace_with_prefix(id)
     @namespaces.find { |ns| (ns[:prefix] == id) }
   end
-  
-  # Boolean indicating wether or not the document has a default namesapce 
+
+  # Boolean indicating wether or not the document has a default namesapce
   # specified.
   #
   def using_default_namespace
     return true if get_namespace_with_prefix('')
     false
   end
-  
+
   def default_namespace_uri
     get_namespace_with_prefix('')[:name]
   end
-  
+
   protected
 
   # Currently adds all properties found in the XML portion of the document. This
@@ -92,32 +92,32 @@ class MxmlDoc
     }
 
   end
-  
+
   # Lists all the namespaces defined in the root node of doc.
   #
   def parse_namespaces
-    
+
     @namespaces = []
-    
+
     @source.root.namespaces.each { |ns|
       pf = ( ns[0]  == 'xmlns' ) ? '' : ns[0]
       nm = ns[1]
       @namespaces << { :prefix => pf, :name => nm, }
     }
-    
+
     #ns_regexp = /xmlns:?(\w+)?=([\'\"])([\w.*\/:]+)([\'\"])/
     #ns = []
-    #doc.each { |line| 
+    #doc.each { |line|
     #  if line =~ ns_regexp
     #    ns << { :prefix => "#{$1}", :name => $2, }
     #    puts $1
     #  end
     #}
-    
+
     # @namespaces = ns.uniq
-    
+
   end
-  
+
 end
 
 # Class member token.
@@ -141,7 +141,3 @@ class MemberToken
   end
 
 end
-
-# if __FILE__ == $0
-#   
-# end

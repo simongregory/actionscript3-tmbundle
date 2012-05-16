@@ -18,11 +18,9 @@ path = path.gsub( "/", ".")
 path = " "+ path if path != ""
 
 print "package${1:#{path}}
-{	
+{
 \$0
 }"
-
-
 </string>
 	<key>input</key>
 	<string>none</string>

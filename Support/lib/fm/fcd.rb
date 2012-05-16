@@ -25,7 +25,3 @@ class FlexConfigDoc
     return 'No documentation found.'
   end
 end
-
-if __FILE__ == $0
-
-end

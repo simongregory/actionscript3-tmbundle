@@ -22,29 +22,29 @@ if File.file?(custom)
       STDOUT << str
     end
   else
-    puts "WARNING: #{custom} not executable."  
+    puts "WARNING: #{custom} not executable."
   end
   TextMate.exit_show_html
 end
-  
+
 if ENV['TM_PROJECT_DIRECTORY'] && (ENV['TM_FLEX_USE_FCSH'] == 'true')
-  
+
   #Requires are needed by FlexMate.required_settings + check_valid_paths
   require ENV['TM_SUPPORT_PATH'] + '/lib/web_preview'
   require ENV['TM_SUPPORT_PATH'] + '/lib/tm/htmloutput'
 
   c = FlexMate::FcshCompiler.new
   c.build
-  
+
   TextMate.exit_discard
-  
+
 else
-  
+
   STDOUT.sync = true
 
   c = FlexMate::Compiler.new
   c.build
-  
+
   #TODO: Get the html window to show immediately.
   TextMate.exit_show_html
 

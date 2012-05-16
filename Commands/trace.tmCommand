@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>beforeRunningCommand</key>
@@ -9,45 +9,51 @@
 
 line_number = ENV['TM_LINE_NUMBER'].to_i-1
 class_name = File.basename(ENV['TM_FILENAME'],".as")
-doc = STDIN.read.split("\n")
+doc = STDIN.readlines
 
-constructor_regexp = /\bfunction\b\s+(\w+)\s*\(.*\)(\s+)?$/
-function_regexp = /\bfunction\b\s+(\w+)\s*\(.*\).*\b\w+/
-accessor_regexp = /\bfunction\b\s+(get|set)\s+(\w+)\s*\(.*\).*\b\w+/
+regexps = [ /\bfunction\b\s+(\w+)\s*\(.*\)(\s+)?$/,
+            /\bfunction\b\s+[gs]et\s+(\w+)\s*\(.*\).*\b\w+/,
+            /\bfunction\b\s+(\w+)\s*\(.*\).*\b\w+/ ]
 
 method_name = ""
 
 while line_number &gt; 0
-	
-    txt = doc[line_number].to_s
 
-    m = function_regexp.match(txt) 
-    method_name = m[1] unless m == nil
+  txt = doc[line_number].to_s
 
-    m = accessor_regexp.match(txt)
-    method_name = m[1] + " " + m[2] unless m == nil
-
-    m = constructor_regexp.match(txt)
-    method_name = m[1] unless m == nil
-    
+  regexps.each { |regex|
+    m = regex.match(txt)
+    method_name = m[1] rescue ""
     break if method_name != ""
-    
-    line_number -= 1
-    
+  }
+
+  break if method_name != ""
+
+  line_number -= 1
+
 end
 
-print 'trace("' + class_name + '::' + method_name + '()"${1/.+/, /}$1);$0'</string>
+#print 'trace("' + class_name + '::' + method_name + '()"${1/.+/, /}$1);$0'
+print 'trace("' + class_name + '::' + method_name + '()", $1);$0'</string>
 	<key>input</key>
 	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>name</key>
 	<string>trace</string>
-	<key>output</key>
-	<string>insertAsSnippet</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>snippet</string>
+	<key>outputLocation</key>
+	<string>replaceSelection</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>trace</string>
 	<key>uuid</key>
 	<string>5928BBEE-6950-41EA-9A9D-79DE58FF0D5B</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>
