@@ -12,12 +12,13 @@ Features:
  * Class and Component Templates.
  * Shortcut's to open Super Class, Code Behind and Import file.
 
-## sg Branch
+## tm2 Branch
 
-My work in progress branch of the bundle, the version I use on a day to day basis
-whilst developing. Essentially it slims down the 'master' branch and adds a
-little alpha and beta flavour. Maintenance, tweaks and feature improvements will
-be found here first - but won't be guaranteed to make it into the official bundle.
+A work in progress branch of the bundle that superceedes the sg branch for TM2.
+This is the version I use on a day to day basis whilst developing. Essentially
+it slims down the 'master' branch and adds a little alpha and beta flavour.
+Maintenance, tweaks and feature improvements will be found here first - but
+won't be guaranteed to make it into the official bundle.
 
 'master' differences:
 
