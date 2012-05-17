@@ -39,11 +39,11 @@ paths = found[:paths] rescue []
 TextMate.exit_show_tool_tip("'#{word}' type is #{type}.") if paths.empty?
 
 if paths.size == 1
-	target = paths[0]
+  target = paths[0]
 else
-	i = TextMate::UI.menu(paths)
-	TextMate.exit_discard() if i == nil
-	target = paths[i]
+  i = TextMate::UI.menu(paths)
+  TextMate.exit_discard() if i == nil
+  target = paths[i]
 end
 
 TextMate.exit_show_tool_tip("Intrinsic Class") if target =~ /\.tmbundle\//
@@ -54,15 +54,23 @@ TextMate.go_to :file =&gt; "#{target}"
 </string>
 	<key>input</key>
 	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>keyEquivalent</key>
 	<string>@D</string>
 	<key>name</key>
 	<string>Open...</string>
-	<key>output</key>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
 	<string>discard</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>uuid</key>
 	<string>B6FCC22E-E524-4C0B-8869-972AB3FB1492</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>

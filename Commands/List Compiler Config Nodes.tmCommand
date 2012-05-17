@@ -20,27 +20,35 @@ TextMate.exit_insert_snippet "&lt;flex-config&gt;\n\t$0\n&lt;/flex-config&gt;" i
 choices = []
 
 conf.elements.each("#{scope}/*") { |child|
-	choices &lt;&lt; child.name()
+  choices &lt;&lt; child.name()
 }
 
 TextMate::UI.complete(choices.uniq, :extra_chars =&gt; '-') do |choice|
-	n = choice['display']
-	"&gt;$0&lt;/#{n}&gt;"
+  n = choice['display']
+  "&gt;$0&lt;/#{n}&gt;"
 end
 
 print '&lt;'
 </string>
 	<key>input</key>
 	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>name</key>
 	<string>Compiler Config Nodes</string>
-	<key>output</key>
-	<string>afterSelectedText</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>atCaret</string>
 	<key>scope</key>
 	<string>text.xml.flex-config</string>
 	<key>tabTrigger</key>
 	<string>&lt;</string>
 	<key>uuid</key>
 	<string>B8C7BF5A-F748-4534-A5E9-C849BF38EEDA</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>

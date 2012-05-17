@@ -39,33 +39,41 @@ end
 # Remove import lines with only one reference.
 to_remove = []
 found_imports.each do |import|
-	if import['count'] == 1
+  if import['count'] == 1
     to_remove &lt;&lt; import['class']+"\n"
     current_file = current_file.reject do |ln|
-	    /\bimport\b.*\.#{import['class']};/ =~ ln
+      /\bimport\b.*\.#{import['class']};/ =~ ln
     end
-	end
+  end
 end
 
 # TODO: Remove duplicate imports.
 
 if to_remove.empty?
-	TextMate.exit_show_tool_tip "All Imports appear to be referenced.\nwild.card.* packages are not checked.\nReference repetitions (ie in comments) will not be removed."
+  TextMate.exit_show_tool_tip "All Imports appear to be referenced.\nwild.card.* packages are not checked.\nReference repetitions (ie in comments) will not be removed."
 else
   TextMate.exit_replace_document current_file
 end
 </string>
 	<key>input</key>
 	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>keyEquivalent</key>
 	<string>^I</string>
 	<key>name</key>
 	<string>Remove Unused Imports </string>
-	<key>output</key>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
 	<string>discard</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>uuid</key>
 	<string>373CDD32-464D-4911-9B0D-4AF4F79C71AF</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>
