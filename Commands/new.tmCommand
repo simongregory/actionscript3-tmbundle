@@ -23,13 +23,12 @@ c = ClassParser.new
 class_type = c.find_type(STDIN.read.strip,prop)
 class_type = "ClassInstance" if class_type == nil
 
-# The adobe code conventions advise the use of these.
 short_hand = {
-    'Array' =&gt; '[$1]',
-    'Object' =&gt; '{$1}',
-    'String' =&gt; '"$1"',
-    'RegExp' =&gt; '/$1/',
-    'XML' =&gt; '&lt;xml/&gt;;',
+  'Array' =&gt; '[$1]',
+  'Object' =&gt; '{$1}',
+  'String' =&gt; '"$1"',
+  'RegExp' =&gt; '/$1/',
+  'XML' =&gt; '&lt;xml/&gt;;',
 	'Vector' =&gt; 'Vector.&lt;$1&gt;($2);'
 }
 
@@ -51,9 +50,15 @@ TextMate.exit_insert_snippet( snip )
 	<string>word</string>
 	<key>input</key>
 	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>name</key>
 	<string>new</string>
-	<key>output</key>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
 	<string>discard</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
@@ -61,5 +66,7 @@ TextMate.exit_insert_snippet( snip )
 	<string>new</string>
 	<key>uuid</key>
 	<string>46DA2BE6-AAF8-4785-8EDA-2C5F9A39F211</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>
