@@ -7,24 +7,47 @@
 	<key>command</key>
 	<string>#!/usr/bin/env ruby -wKU
 
-require ENV['TM_BUNDLE_SUPPORT']+'/lib/snip_env'
+require ENV['TM_BUNDLE_SUPPORT']+'/lib/add_lib'
+require 'as3/source_tools'
 
-t  = SnippetBuilder.new
-ns = ENV['TM_SCOPE'] =~ /meta\.package/ ? 'public' : 'internal'
+path = ENV['TM_DIRECTORY'] ||= ''
+file = ENV['TM_FILENAME'] ||= 'Classname'
 
-TextMate.exit_insert_snippet( t.class(nil,ns) )
+package = SourceTools.package(path)
+name = SourceTools.class(file)
+
+print "package ${2:#{package}}
+{
+
+public class ${3:#{name}}
+{
+${1:    public function $3($4)
+    {
+        ${5:super()}
+    \\}}$0
+}
+}
+"
 </string>
 	<key>input</key>
 	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>name</key>
 	<string>class</string>
-	<key>output</key>
-	<string>discard</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>snippet</string>
+	<key>outputLocation</key>
+	<string>atCaret</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>class</string>
 	<key>uuid</key>
 	<string>7F2CED83-3918-4980-9C7E-5868E8438177</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>
