@@ -10,14 +10,10 @@
 require ENV['TM_BUNDLE_SUPPORT']+'/lib/add_lib'
 require 'as3/source_tools'
 
-dir = ENV['TM_DIRECTORY']
-path = dir ? dir : ""
-path = SourceTools.truncate_to_src(path)
-path = path.gsub( "/", ".")
+path = ENV['TM_DIRECTORY'] ||= ''
+package = SourceTools.package(path)
 
-path = " "+ path if path != ""
-
-print "package${1:#{path}}
+print "package ${1:#{package}}
 {
 \$0
 }"
@@ -26,15 +22,23 @@ print "package${1:#{path}}
 </string>
 	<key>input</key>
 	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>name</key>
 	<string>package</string>
-	<key>output</key>
-	<string>insertAsSnippet</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>snippet</string>
+	<key>outputLocation</key>
+	<string>replaceSelection</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>package</string>
 	<key>uuid</key>
 	<string>3B521F0F-E01A-49E6-9D6A-43D697D8B5E0</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>
