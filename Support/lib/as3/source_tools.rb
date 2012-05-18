@@ -123,7 +123,7 @@ module SourceTools
   #
   def self.truncate_to_src(path)
     common_src_dirs.each do |remove|
-      path.gsub!( /^.*\b#{remove}\b(\/|$)/, '' )
+      path = path.gsub( /^.*\b#{remove}\b(\/|$)/, '' )
     end
     path
   end
