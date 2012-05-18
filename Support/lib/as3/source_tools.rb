@@ -12,17 +12,14 @@ module SourceTools
   # See 'Settings' bundle preference to override defaults.
   #
   def self.common_src_dir_list
-    src_dirs = ENV['TM_AS3_USUAL_SRC_DIRS']
-    src_dirs = "src:lib:source:test" if src_dirs == nil
-    src_dirs
+    ENV['TM_AS3_USUAL_SRC_DIRS'] ||= "src:lib:source:test"
   end
 
   # Returns an array of directory names that are commonly used
   # as the root directory for source files.
   #
   def self.common_src_dirs
-    src_dirs_matches = common_src_dir_list.split(":")
-    src_dirs_matches
+    common_src_dir_list.split(":")
   end
 
   # Loads all paths found within the current project that have a filename which
@@ -85,7 +82,7 @@ module SourceTools
         if $2
           path = $2.gsub('package.html#', '').gsub('/', '.')
         else
-            path = $1.gsub('/', '.')
+          path = $1.gsub('/', '.')
         end
 
         if path =~ /(^|\.)#{word}$/
@@ -126,9 +123,20 @@ module SourceTools
   #
   def self.truncate_to_src(path)
     common_src_dirs.each do |remove|
-      path = path.gsub( /^.*\b#{remove}\b(\/|$)/, '' );
+      path.gsub!( /^.*\b#{remove}\b(\/|$)/, '' )
     end
     path
+  end
+
+  # Takes the path and makes an educated guess as to what the matching
+  # ActionScript package will be.
+  #
+  def self.package(path='')
+    self.truncate_to_src(path).gsub( "/", ".")
+  end
+
+  def self.class(path='')
+    File.basename(path,'.as')
   end
 
   # Finds, and where sucessful returns, the package path for the specified
@@ -238,12 +246,9 @@ module SourceTools
   end
 
   def self.list_all_classes
-    cf = list_all_class_files
-    c = []
-    cf.each { |e| c << e.gsub('/','.').sub(/.(as|mxml)$/,'') }
-    c
+    list_all_class_files.map { |f| f.gsub('/','.').sub(/.(as|mxml)$/,'') }
   end
-  
+
   # Loads all paths found in the catalogs of swcs within this project
   # that contain the requested word
   # @author jeremy.ruppel
@@ -261,10 +266,10 @@ module SourceTools
       # SG: Fail quietly if nokigiri + rubyzip are missing.
       #
       #     Install with
-      #         `sudo gem install nokogiri`
-      #         `sudo gem install rubyzip`
+      #         `gem install nokogiri`
+      #         `gem install rubyzip`
       #
-      #     Additionally make sure ruby can be found on TM's PATH var in prefs 
+      #     Additionally make sure ruby can be found on TM's PATH var in prefs
       #     for me this meant adding '/usr/local/bin' as I have a custom install.
       #
       FlexMate::Log.puts("WARN: swc search not used, requires failed. Try:\n\tgem install rubyzip\n\tgem install nokogiri")
@@ -304,6 +309,3 @@ module SourceTools
 
 end
 
-# if __FILE__ == $0
-#
-# end

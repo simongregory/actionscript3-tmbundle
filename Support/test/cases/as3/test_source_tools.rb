@@ -44,7 +44,7 @@ class TestSourceTools < Test::Unit::TestCase
   def total_as_files
     493
   end
-  
+
   # =========
   # = Tests =
   # =========
@@ -111,7 +111,7 @@ class TestSourceTools < Test::Unit::TestCase
 
     r = SourceTools.search_bundle_paths('Mov')
 
-    assert_equal('flash.display.MovieClip|mx.core.MovieClipAsset|mx.core.MovieClipLoaderAsset|mx.effects.Move|mx.effects.effectClasses.MoveInstance|mx.events.MoveEvent', r[:partial_matches].join('|'))
+    assert_equal('flash.display.MovieClip|mx.core.MovieClipAsset|mx.core.MovieClipLoaderAsset|mx.effects.Move|mx.effects.effectClasses.MoveInstance|mx.events.MoveEvent|flashx.textLayout.operations.MoveChildrenOperation|spark.effects.Move|spark.effects.Move3D', r[:partial_matches].join('|'))
     assert_equal('', r[:exact_matches].to_s)
 
     r = SourceTools.search_bundle_paths('MovieClip')
@@ -131,7 +131,7 @@ class TestSourceTools < Test::Unit::TestCase
 
     r = SourceTools.search_bundle_paths('E')
 
-    assert_equal(23, r[:partial_matches].length)
+    assert_equal(32, r[:partial_matches].length)
     assert_equal('', r[:exact_matches].to_s)
 
   end
@@ -144,7 +144,7 @@ class TestSourceTools < Test::Unit::TestCase
 
     r = SourceTools.search_all_paths('Mov')
 
-    assert_equal('flash.display.MovieClip|mx.core.MovieClipAsset|mx.core.MovieClipLoaderAsset|mx.effects.Move|mx.effects.effectClasses.MoveInstance|mx.events.MoveEvent', r[:partial_matches].join('|'))
+    assert_equal('flash.display.MovieClip|mx.core.MovieClipAsset|mx.core.MovieClipLoaderAsset|mx.effects.Move|mx.effects.effectClasses.MoveInstance|mx.events.MoveEvent|flashx.textLayout.operations.MoveChildrenOperation|spark.effects.Move|spark.effects.Move3D', r[:partial_matches].join('|'))
     assert_equal('', r[:exact_matches].to_s)
 
     r = SourceTools.search_all_paths('MovieClip')
@@ -164,7 +164,7 @@ class TestSourceTools < Test::Unit::TestCase
 
     r = SourceTools.search_all_paths('E')
 
-    assert_equal(26, r[:partial_matches].length)
+    assert_equal(35, r[:partial_matches].length)
     assert_equal('', r[:exact_matches].to_s)
 
   end
@@ -181,6 +181,19 @@ class TestSourceTools < Test::Unit::TestCase
     p = '/a/b/source/org/helvector/io'
     assert_equal('org/helvector/io', SourceTools.truncate_to_src(p))
 
+  end
+
+  def test_creates_package_name
+    clean_env
+
+    p = 'a/b/src/com'
+    assert_equal('com', SourceTools.package(p))
+
+    p = '/a/b/source/c/src/test/org/helvector/io'
+    assert_equal('org.helvector.io', SourceTools.package(p))
+
+    p = '/a/b/source/org/helvector/io'
+    assert_equal('org.helvector.io', SourceTools.package(p))
   end
 
   def test_find_package
