@@ -56,7 +56,7 @@ else
 
   imps[safe] = "#{imps[safe]}\n#{indent}import #{import};"
 
-  print pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n")
+  puts pre.join("\n")+"\n"+imps.join("\n")+"\n"+post.join("\n")
 
 end
 
