@@ -104,7 +104,7 @@ module SourceTools
 
     pp = search_project_paths(word)
     bp = search_bundle_paths(word)
-    
+
     # @author jeremy.ruppel
     # @since 07 May 2010
     sp = search_swc_paths(word)
@@ -272,7 +272,7 @@ module SourceTools
       #     Additionally make sure ruby can be found on TM's PATH var in prefs
       #     for me this meant adding '/usr/local/bin' as I have a custom install.
       #
-      FlexMate::Log.puts("WARN: swc search not used, requires failed. Try:\n\tgem install rubyzip\n\tgem install nokogiri")
+      FlexMate::Log.puts("WARN: swc search not used, requires failed. Try:\n\tgem install rubyzip\n\tgem install nokogiri\nFailed with: #{e}\nRuby version: #{RUBY_VERSION}")
       return { :exact_matches => [], :partial_matches => [] }
 
     end
