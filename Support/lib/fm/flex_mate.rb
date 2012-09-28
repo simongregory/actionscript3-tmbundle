@@ -123,7 +123,7 @@ module FlexMate
     # Returns html link to configuration help.
     #
     def configuration_help
-      "Configuration help can be found <a href='tm-file://#{e_url(ENV['TM_SUPPORT_PATH'])}/html/help.html#conf'>here.</a>"
+      "Configuration help can be found <a href='file://#{e_url(ENV['TM_SUPPORT_PATH'])}/html/help.html#conf'>here.</a>"
     end
 
     # As many of the commands only work from a project scope this runs a check

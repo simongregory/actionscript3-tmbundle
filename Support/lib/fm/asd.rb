@@ -120,7 +120,7 @@ class LangReference
 
       if File.exist?(fp)
         out << "<b>#{word}</b> Found, redirecting..."
-        out << "<meta http-equiv='refresh' content='0; tm-file://#{fp}'>"
+        out << "<meta http-equiv='refresh' content='0; file://#{fp}'>"
       else
         out << "<b>#{word}</b> was found in search index but the corresponding documentation file is missing."
       end
@@ -133,7 +133,7 @@ class LangReference
       @found.each { |e|
         doc_file = e[:href].sub(/#.+$/,'')
         if File.exist?(doc_file)
-          out << "<li><a title='#{e[:title]}' href='tm-file://#{e[:href]}'>#{e[:class]}</a></li>\n"
+          out << "<li><a title='#{e[:title]}' href='file://#{e[:href]}'>#{e[:class]}</a></li>\n"
         else
           out << "<li><span title='In search index but document is missing.'>#{e[:class]}</span></li>\n"
         end
@@ -184,7 +184,7 @@ class FlexLangReference < LangReference
     #         tasks provided with the SDK.
     @path     = ENV['TM_FLEX_PATH'] + '/asdoc-output' unless File.directory?(@path)
     @toc      = ENV['TM_BUNDLE_SUPPORT'] + '/data/doc_dictionary.xml'
-    @lang_ref = "<a href='tm-file://#{@path}/index.html'" +
+    @lang_ref = "<a href='file://#{@path}/index.html'" +
                 "title = '#{@name} - Flex Language Reference Index'>Flex&trade; Language Reference</a>"
   end
 
@@ -197,7 +197,7 @@ class FlashCS3LangReference < LangReference
     @name     = 'Flash CS3'
     @path     = '/Library/Application Support/Adobe/Flash CS3/en/Configuration/HelpPanel/help/ActionScriptLangRefV3'
     @toc      = "#{@path}/help_toc.xml"
-    @lang_ref = "<a href='tm-file://#{@path}index.html'"+
+    @lang_ref = "<a href='file://#{@path}index.html'"+
                 "title = '#{@name} - ActionScript 3.0 Language and Components Reference Index'>#{@name} ActionScript 3.0 Language Reference</a>"
   end
 
@@ -217,7 +217,7 @@ class FlashCS4LangReference < LangReference
     @name     = 'Flash CS4'
     @path     = '/Library/Application Support/Adobe/Help/en_US/AS3LCR/Flash_10.0'
     @toc      = "#{@path}/helpmap.txt"
-    @lang_ref = "<a href='tm-file://#{@path}/index.html'"+
+    @lang_ref = "<a href='file://#{@path}/index.html'"+
                 "title = '#{@name} - ActionScript 3.0 Language and Components Reference Index'>#{@name} ActionScript 3.0 Language Reference</a>"
   end
 
