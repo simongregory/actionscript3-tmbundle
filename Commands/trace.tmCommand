@@ -36,19 +36,28 @@ while line_number &gt; 0
 
 end
 
-print 'trace("' + class_name + '::' + method_name + '()"${1/.+/, /}$1);$0'
+print 'trace("' + class_name + '::' + method_name + '()"$1);$0'
+#print 'trace("' + class_name + '::' + method_name + '()"${1/.+/, /}$1);$0'
 </string>
 	<key>input</key>
 	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
 	<key>name</key>
 	<string>trace</string>
-	<key>output</key>
-	<string>insertAsSnippet</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>snippet</string>
+	<key>outputLocation</key>
+	<string>replaceSelection</string>
 	<key>scope</key>
 	<string>source.actionscript.3</string>
 	<key>tabTrigger</key>
 	<string>trace</string>
 	<key>uuid</key>
 	<string>5928BBEE-6950-41EA-9A9D-79DE58FF0D5B</string>
+	<key>version</key>
+	<integer>2</integer>
 </dict>
 </plist>
