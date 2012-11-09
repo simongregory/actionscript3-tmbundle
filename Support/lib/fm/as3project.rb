@@ -14,7 +14,7 @@ module AS3Project
     @build_yaml = nil
 
     def self.build_file
-        if !@build_yaml:
+        if !@build_yaml
             build_file_path = ENV['TM_FLEX_BUILD']
 
             if !build_file_path and not @project.nil?
