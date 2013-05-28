@@ -271,7 +271,7 @@ If not otherwise specified (see below), files in this project fall under the fol
 
 An exception is made for files in readable text which contain their own license information, or files where an accompanying file exists (in the same directory) with a “-license” suffix added to the base-name name of the original file, and an extension of txt, html, or similar.
 
-[bundle_zip]: http://github.com/simongregory/actionscript3.tmbundle/zipball/master
+[bundle_zip]: http://github.com/simongregory/actionscript3-tmbundle/zipball/master
 [issue_tracker]: http://github.com/simongregory/actionscript3.tmbundle/issues
 [repo]: http://github.com/simongregory/actionscript3.tmbundle/
 [repo_master]: http://github.com/simongregory/actionscript3.tmbundle/tree/master
