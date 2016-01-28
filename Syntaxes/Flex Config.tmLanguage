@@ -7,10 +7,6 @@
 			  Please post to the TM list if you spot anything thats missing.</string>
 	<key>firstLineMatch</key>
 	<string>flex-config</string>
-	<key>foldingStartMarker</key>
-	<string>^\s*(&lt;[^!?%/](?!.+?(/&gt;|&lt;/.+?&gt;))|&lt;[!%]--(?!.+?--%?&gt;)|&lt;%[!]?(?!.+?%&gt;))</string>
-	<key>foldingStopMarker</key>
-	<string>^\s*(&lt;/[^&gt;]+&gt;|[/%]&gt;|--&gt;)\s*$</string>
 	<key>keyEquivalent</key>
 	<string>^~X</string>
 	<key>name</key>
