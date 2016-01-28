@@ -9,7 +9,7 @@
 # The reason for this is so that .textmate_init is sourced, which allows the SDK class
 # pick up the flex sdk if the user has added it's bin to their $PATH. 
 
-ruby &lt;&lt;-'RUBY'
+ruby18 &lt;&lt;-'RUBY'
 
   require ENV['TM_BUNDLE_SUPPORT']+'/lib/fm/sdk'
   FlexMate::SDK.open_flex_config

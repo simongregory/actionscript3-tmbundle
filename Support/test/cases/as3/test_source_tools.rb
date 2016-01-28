@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -wKU
+#!/usr/bin/env ruby18 -wKU
 # encoding: utf-8
 
 # Boolean to control whether or not UI Dialog boxes are presented during testing.

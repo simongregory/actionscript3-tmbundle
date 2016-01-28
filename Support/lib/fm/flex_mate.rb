@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -wKU
+#!/usr/bin/env ruby18 -wKU
 # encoding: utf-8
 
 # Utility module which collects together common tasks used by commands within the

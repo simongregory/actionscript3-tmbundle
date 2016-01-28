@@ -5,7 +5,7 @@
 	<key>beforeRunningCommand</key>
 	<string>nop</string>
 	<key>command</key>
-	<string>#!/usr/bin/env ruby
+	<string>#!/usr/bin/env ruby18
 
 line_number = ENV['TM_LINE_NUMBER'].to_i-1
 class_name = File.basename(ENV['TM_FILENAME'],".as")
