@@ -11,8 +11,6 @@ html_header "ActionScript 3 Bundle Help" "ActionScript 3"
 html_footer</string>
 	<key>input</key>
 	<string>none</string>
-	<key>keyEquivalent</key>
-	<string></string>
 	<key>name</key>
 	<string>Help</string>
 	<key>output</key>

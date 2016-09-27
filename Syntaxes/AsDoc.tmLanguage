@@ -6,10 +6,6 @@
 	<array>
 		<string>asdoc</string>
 	</array>
-	<key>foldingStartMarker</key>
-	<string>/\*\*</string>
-	<key>foldingStopMarker</key>
-	<string>\*/</string>
 	<key>name</key>
 	<string>AsDoc</string>
 	<key>patterns</key>

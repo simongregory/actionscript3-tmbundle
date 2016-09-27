@@ -10,10 +10,6 @@
 	</array>
 	<key>firstLineMatch</key>
 	<string>\bAS3\b</string>
-	<key>foldingStartMarker</key>
-	<string>\{\s*$</string>
-	<key>foldingStopMarker</key>
-	<string>^\s*\}</string>
 	<key>keyEquivalent</key>
 	<string>^~A</string>
 	<key>name</key>

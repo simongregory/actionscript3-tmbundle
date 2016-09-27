@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby18
 # encoding: utf-8
 
 require ENV['TM_SUPPORT_PATH'] + '/lib/escape'
